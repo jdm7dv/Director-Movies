@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0042)http://brennan.young.net/Edu/Invadir7.html -->
+<HTML><HEAD><TITLE>Invadir 7 - Messages between Objects</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir6.html">Back to Lesson 
+6</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir8.html">Forward to Lesson 
+8</A></H6>
+<P><B>Lesson 7 - Messages between Objects</B></P>
+<P>Great going so far, although we really want the<TT> shoot </TT>message to 
+come from somewhere other than the message window. Remember the message window 
+will not be there in the finished product. We also need something easy for the 
+user so that they can shoot quickly. We could use the mouse button, but I'd 
+rather not because if you click outside Director accidentally the movie will 
+stop running and you'll bring some other application to the front. This is 
+irritating (believe me) so it might be better to use the keyboard.</P>
+<P>We could get the bullet to check the keyboard when it is not shooting but it 
+might be conceptually better for the cannon to do this and for the<TT> shoot 
+</TT>message to come from the cannon. We also want the invader to be able to 
+shoot bullets. We can now apply what we now know about properties and the 
+beginsprite message to the cannon script:</P><PRE>property mySprite, bullet
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+  set bullet to 2
+
+end
+
+on exitFrame me
+
+  set stagewidth to the width of the rect of the stage
+
+  if the mouseH &gt; 0 and the mouseH &lt; stagewidth then
+
+    set the locH of sprite mySprite to the mouseH
+
+  end if
+
+  if the shiftDown then
+
+    shoot sprite bullet
+
+  end if
+
+end</PRE>
+<P>When you run the movie you will find that pressing the shift key on the 
+keyboard launches a bullet from the cannon. When the bullet disappears from the 
+screen it is ready to be shot again. Notice that it is the cannon which monitors 
+the state of the shift key (use of non 'modifier' keys is more complicated) and 
+sends a message to the sprite specified by its<TT> bullet </TT>property. Now we 
+have to turn out attention to collisions between the bullet and its targets so 
+that the invaders can be hit by the bullet.</P>
+<P>Director provides several convenient features for collisions and 
+intersections. We are going to use the easiest and most accurate. Let's look 
+again at the exitframe handler of the bullet script.</P><PRE>on exitFrame me
+
+  if shooting then
+
+    set myV to the locV of sprite mySprite
+
+    if myV &lt; 0 then
+
+      set shooting to false
+      set the locV of sprite mysprite to -999
+      return
+
+    end if
+
+    set the locV of sprite mySprite to myV - 1
+
+  end if
+
+end</PRE>
+<P>After the first test (<TT>shooting</TT>) has proved true, we therefore know 
+that the bullet is moving. It is at this moment that we test whether the bullet 
+has moved offstage, and it is therefore at this moment that we test for 
+collisions. For now we'll test for collisions with only the first of our 
+invaders, the one in channel 3.</P><PRE>on exitFrame me
+
+  if shooting then
+
+    set myV to the locV of sprite mySprite
+
+    if myV &lt; 0 then
+
+      set shooting to false
+      set the locV of sprite mysprite to -999
+      return
+
+    end if
+
+
+    if sprite mysprite intersects 3 then
+
+      hit sprite 3
+
+    end if
+
+    set the locV of sprite mySprite to myV - 1
+
+  end if
+
+end</PRE>
+<P>Once again, we are using a custom message,<TT> hit </TT>, addressed to sprite 
+3, but if we run the movie now, a collision between the bullet and the invader 
+in sprite channel 3 will produce an error, 'handler not defined'. This is 
+because the script attached to sprite 3 has no way of handling the message. </P>
+<P>There are ways of avoiding the error without adding an extra handler to the 
+invader script, but in this case the error message indicates our next step. We 
+need to get the invader to respond to the<TT> hit </TT>message by adding the 
+necessary handler. Here is how the invader script will look just after we have 
+added the skeleton for the new<TT> hit </TT>handler:</P><PRE>property mySprite, hdirection, stagewidth
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+  set hdirection to 1
+  set stagewidth to the width of the rect of the stage
+
+end
+
+on exitFrame me
+
+  set myH to the locH of sprite mySprite
+
+  if myH &lt; 0 then
+
+    set hdirection to 1
+
+  end if
+
+  if myH &gt; stagewidth then
+
+    set hdirection to -1
+
+  end if
+
+  set the locH of sprite mySprite to myH + hdirection
+
+end
+
+on hit me
+
+   
+end</PRE>
+<P>...and if all we wanted was to avoid the 'handler not defined' error, this 
+would do just fine, only we want the invader to stop doing what it was doing and 
+die. This requires something similar to the state variable<TT> shooting </TT>in 
+the bullet script. We could add a property called<TT> alive </TT>so that the 
+invader only moved from side to side if<TT> alive </TT>were true. This is how 
+the script would look if we did this.</P><PRE>property mySprite, hdirection, stagewidth, alive
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+  set hdirection to 1
+  set stagewidth to the width of the rect of the stage
+  set alive to true
+
+end
+
+on exitFrame me
+
+  if not alive then 
+
+    return 
+
+  end if 
+
+  set myH to the locH of sprite mySprite 
+
+  if myH &lt; 0 then 
+
+    set hdirection to 1 
+
+  end if 
+
+  if myH &gt; stagewidth then 
+    set hdirection to -1 
+  end if 
+
+  set the locH of sprite mySprite to myH + hdirection 
+end 
+
+on hit me 
+  set alive to false 
+  set the locH of sprite mySprite to -999 
+end</PRE>
+<P>Later we will modify this so that the invader will run a little animation 
+while it is dying. This means that simple alive and not alive will not be 
+adequate to describe the different kinds of behevior we want from the 
+invader.</P>
+<P>Now at last we have some gameplay. Run the movie and try and shoot at sprite 
+3. If you are successful, sprite 3 should disappear. This is fine, but what 
+about the other invaders?</P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir8.html">Forward to 
+Lesson 8</A></H5></BODY></HTML>

@@ -1,0 +1,524 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0054)http://www.director-online.com/buildArticle.cfm?id=470 -->
+<HTML><HEAD><TITLE>A Director Online article</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<SCRIPT language=JavaScript>
+    <!--
+    function MM_openBrWindow(theURL,winName,features) { //v1.2
+      window.open(theURL,winName,features);
+    }
+    //-->
+</SCRIPT>
+
+<META content="MSHTML 5.50.4030.2400" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#31427b aLink=#425294 link=#425294 bgColor=#ffffff>
+<P><BR>
+<TABLE height=25 cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#cecece>
+    <TD><A 
+      onmouseover="window.status='Get the direct URL for this article'; return true" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=470','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/generateURL.cfm?id=470"><IMG 
+      height=25 alt="Get the direct URL for this article" 
+      src="buildArticle_files/articleURL.gif" width=87 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Visit the Using Director article archive'; return true" 
+      href="http://www.director-online.com/archive.cfm?pSection=Using%20Director"><IMG 
+      height=25 alt="Visit the Using Director article archive" 
+      src="buildArticle_files/archives.gif" width=66 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Check out other articles by Glenn Mitchell'; return true" 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=20"><IMG 
+      height=25 alt="Check out other articles by Glenn Mitchell" 
+      src="buildArticle_files/author.gif" width=56 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Mail this article to a friend'; return true" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=470','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      href="http://www.director-online.com/emailArticle.cfm?id=470"><IMG 
+      height=25 alt="Mail this article to a friend" 
+      src="buildArticle_files/mailArticle.gif" width=83 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar"><IMG 
+      height=25 alt="Sign in to your myDOUG page" 
+      src="buildArticle_files/signIn.gif" width=63 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true" 
+      href="http://209.112.84.34/Forums/index.cfm?cfapp=2"><IMG height=25 
+      alt="Discuss this article on DOUGthreads" 
+      src="buildArticle_files/discussArticle.gif" width=105 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='What do these buttons do?'; return true" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/help.html"><IMG height=25 
+      alt="What do these buttons do?" src="buildArticle_files/help.gif" width=25 
+      border=0></A> </TD></TR></TBODY></TABLE>
+<P><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" size=+2><B>Using 
+Director</B></FONT><BR><FONT 
+face="Verdana, Arial, Geneva, Helvetica, sans-serif" color=#cc0000 
+size=+1><B>Simulating turbulent particle behavior with Lingo</B></FONT> 
+<P><FONT size=-1>by <A href="mailto:g.mitchell@eclipsegroup.com.au">Glenn 
+Mitchell</A> </FONT>
+<P>
+<TABLE cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>
+      <P align=center><A target=_blank 
+      href="http://www.director-online.com/howTo/UD_articles/UD99/example1.htm"><IMG 
+      height=109 alt="" src="buildArticle_files/banner.gif" width=532 
+      border=0></A> 
+      <P>A sample movie is available for download in <A 
+      href="http://www.director-online.com/howTo/UD_articles/UD99/UD99.hqx">Mac</A> 
+      or <A 
+      href="http://www.director-online.com/howTo/UD_articles/UD99/UD99.zip">PC</A> 
+      format 
+      <P>The beauty and hypnotic effects of turbulent systems are everywhere. 
+      The bubbles that form in a gin and tonic, a flurry of snow blown past the 
+      window and the smoke from a cigarette as it curls above the ashtray. Damn 
+      you mother nature! Two days into a much anticipated two-week snowboarding 
+      holiday, I now find myself with a broken collarbone and plenty of spare 
+      time to finally write this article. 
+      <P>While still a very long way from creating an immersive environment, the 
+      technique described here may help bring a small glimpse of (pseudo) real 
+      world behaviors onto the screen. 
+      <P>This article describes how to simulate a turbulent response in a group 
+      of sprites. To relieve stress on both the CPU and the developer's brain, 
+      I've left the textbook I found in the bookshelf and recreated all of the 
+      mathematics, not to accurately create a turbulent system but simply to 
+      make it all look nice. 
+      <P>Producing the turbulence effect can be broken down into three main 
+      calculations: 
+      <P>
+      <OL>
+        <LI>Tracking the mouse location and calculating the direction of 
+        movement and velocity. 
+        <LI>Calculating the distance of each sprite from the mouse location - 
+        this will determine the degree to which the sprite is affected. The 
+        further away the mouse movement, the smaller the influence on the 
+        sprite. 
+        <LI>Using the results from the above, we calculate the new position of 
+        the sprite. To introduce a swirling "turbulent" behavior, an imparted 
+        spin is added. The swirl is created by the mouse passing to one side of 
+        a particle and an 'angular velocity' is induced, the radius of the swirl 
+        is proportional to the angular velocity, increasing as the spin is 
+        imparted and collapsing back again as the particle slows. </LI></OL>
+      <P>Okay, that's basically it, let's take a look at the code... 
+      <P>Before we get to steps 1, 2 or 3 from above, there's a whole bunch of 
+      variables to declare and initialize. I'll do this in the script channel 
+      when entering the first frame. 
+      <P><PRE><FONT color=#cc0000>-- declare and set variables
+
+on enterFrame
+
+  global mlocx, mlocy  -- old mouse location data 
+  global mlocxnew, mlocynew  -- new mouse location data 
+  global xvel, yvel, vel  -- mouse velocity data
+
+  global xo, yo  -- original x,y position of the sprite   
+  global x, y  -- current x,y position of the sprite 
+  global a  -- frictional coefficient 
+  global rn  -- radius of the 'swirl' 
+  global dx, dy  -- linear displacement of sprite 
+  global dxt, dyt  -- total displacement of sprite 
+  global angn  -- the current angle within the 'swirl' 
+  global angdelt  -- the radial velocity of the 'swirl' 
+  global rot  -- the rotational influence on the sprite
+
+  -- declare arrays
+
+  put [] into angn 
+  put [] into xo 
+  put [] into yo 
+  put [] into x 
+  put [] into y 
+  put [] into rn 
+  put [] into dxt 
+  put [] into dyt 
+  put [] into dx 
+  put [] into dy 
+  put [] into angdelt 
+  put [] into rot
+
+  repeat with count = 1 to 110 
+  
+  -- loop through channel numbers to setup 
+  -- arrays of sprite values
+
+    setAt angn, count, 0 
+    setAt rn, count, 0 
+    setAt dxt, count, 0 
+    setAt dyt, count, 0 
+    setAt dx, count, 0.0001 
+    setAt dy, count, 0.0001 
+    setAt angdelt, count, 0 
+    setAt rot, count, 0
+
+    -- set the initial coordinates to the sprite 
+    -- locations in frame 1
+
+    setAt xo, count, the loch of sprite count 
+    setAt yo, count, the locv of sprite count 
+    setAt x, count, the loch of sprite count 
+    setAt y, count, the locv of sprite count
+
+  end repeat
+
+  put 0.0001 into xvel 
+  put 0.0001 into yvel 
+  put 0.0001 into vel 
+  put the mouseh into mlocxnew 
+  put the mousev into mlocynew 
+  put 0.95 into a
+
+  put the mouseh into mlocx 
+  put the mousev into mlocy
+
+end</FONT></PRE>
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Tracking the mouse movements</FONT></H4>
+      <P><IMG height=200 alt="" hspace=4 src="buildArticle_files/diagram_1.gif" 
+      width=200 align=left vspace=4 border=0> Knowing the previous and current 
+      mouse locations, we can calculate the x, y and total velocities of the 
+      mouse. 
+      <P>Firstly we move the 'current' mouse location data (mlocxnew,mlocynew) 
+      into the 'previous' mouse location variable(mlocx,mlocy)as we are about to 
+      get the updated mouse location (mouseh,mousev)and store it in 
+      (mlocxnew,mlocynew). 
+      <P>Using Pythagoras, we know that the hypotenuse in a right-angled 
+      triangle is equal to the squareroot of the sum of the other two sides 
+      squared. 
+      <P><PRE><FONT color=#cc0000>power(vel,2)=(power(xvel,2) + power(yvel,2))</FONT></PRE>
+      <P>Taking the squareroot of both sides gives us the following. 
+      <P><PRE><FONT color=#cc0000>vel = sqrt(power(xvel,2) + power(yvel,2))</FONT></PRE>
+      <P>where: xvel = mlocxnew - mlocx and yvel = mlocynew - mlocy 
+      <P><PRE><FONT color=#cc0000>vel = sqrt(power(xvel,2) + power(yvel,2))</FONT></PRE>
+      <P>Therefore: 
+      <P><PRE><FONT color=#cc0000>put (mlocxnew - mlocx) into xvel 
+put (mlocynew - mlocy) into yvel 
+put sqrt(power(xvel,2) + power(yvel,2)) into vel</FONT></PRE>
+      <P>For simplicity I'm doing all this in a frame script 'on exitFrame' and 
+      looping here with a 'go the frame' 
+      <P>When you have other things happening in the score, you can attach this 
+      as a behavior to one of the sprites and just stretch it along the score 
+      with the other particle sprites. 
+      <P>If you are doing this and you need to wait in a particular frame, the 
+      'exitFrame' will not get passed during the wait, use a looping 'go the 
+      frame' instead. Also watch out for transitions and other places where the 
+      playback head will stop or slow. 
+      <P><PRE><FONT color=#cc0000>-- calculate the mouse velocity
+
+on exitFrame
+
+  global mlocx, mlocy, mlocxnew, mlocynew, xvel, yvel, vel
+
+  -- Put the old mouse position into mloc[x,y] 
+  put mlocxnew into mlocx 
+  put mlocynew into mlocy
+
+  -- Put the new mouse position into mloc[x,y]new 
+  put the mouseh into mlocxnew 
+  put the mousev into mlocynew
+
+  -- Put the distance traveled by the mouse on 
+  -- each axis into [x,y]vel 
+  put (mlocxnew - mlocx) into xvel 
+  put (mlocynew - mlocy) into yvel
+
+  -- Put the distance as a straight line into 
+  -- vel (pythagoras theorem)   
+  put sqrt(power(xvel,2) + power(yvel,2)) into vel
+
+  go the frame
+
+end</FONT></PRE>
+      <P>Okay, the following script is attached to each of the particles and 
+      will calculate how the location of the sprite is affected by the mouse 
+      movement. This is done using an 'on exitFrame'. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Calculating the sprite movement</FONT></H4>
+      <P><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      size=-1><B>Calculation of infOnSprite</B></FONT> 
+      <P><IMG height=200 alt="" src="buildArticle_files/diagram_2.gif" width=200 
+      border=0> 
+      <P>Using Pythagoras again, we first calculate 'infOnSprite'; this is the 
+      distance of the sprite from the mouse and is used to adjust the degree to 
+      which the sprite is affected by the mouse velocity. (As the mouse gets 
+      further away from the sprite, the influence it has on the sprite is 
+      decreased.) 
+      <P><PRE><FONT color=#cc0000>power(infOnSprite,2)=(power(a,2) + power(b,2))</FONT></PRE>
+      <P>Taking the squareroot of both sides gives us the following. 
+      <P><PRE><FONT color=#cc0000>infOnSprite = sqrt(power(a,2) + power(b,2))</FONT></PRE>
+      <P>where: a = x - mlocxnew and b = y - mlocynew 
+      <P><PRE><FONT color=#cc0000>vel = sqrt(power(a,2) + power(b,2))</FONT></PRE>
+      <P>Therefore: 
+      <P><PRE><FONT color=#cc0000>set infOnSprite to ((sqrt(power((getAt(x,spnum)- ¬
+  mlocxnew),2)  + power((mlocynew - ¬
+  getAt(y,spnum)),2))+5))</FONT></PRE>
+      <P><B>Note:</B> 
+      <P>'infOnSprite' is increased by adding 5 in this equation. This prevents 
+      the effect on the sprite from becoming too great; remember, these are 
+      inversely proportional and if 'infOnSprite' is allowed to get too small 
+      the imparted effect on the sprite will be too great. 
+      <P>'spnum' is the sprite number of the particle and is used to index the 
+      arrays. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Calculation of Linear Displacement </FONT></H4>
+      <P><IMG height=200 alt="" hspace=4 src="buildArticle_files/diagram_3.gif" 
+      width=200 align=left vspace=4 border=0> The basic effect of the mouse on a 
+      sprite is to impart a linear velocity'dx,dy' that is in the same direction 
+      as the mouse velocity'xvel,yvel' but reduced based on the 
+      'infOnSprite'value. This linear velocity is cumulative, that is the 
+      velocity vectors 'dx,dy'of a sprite are continually added to. If this were 
+      not the case, the sprites would only move when the mouse was moving and 
+      only in that same direction. We need to simulate inertia. 
+      <P>On the other hand, having the sprites being added to continually would 
+      leave the sprites whizzing around, and this would appear unnatural (unless 
+      you're in a frictionless environment) so we incorporate a frictional 
+      coefficient 'a' which will gradually slow the sprites. (This was declared 
+      in the initial variable declarations as 0.95) 
+      <P>Therefore: 
+      <P><PRE><FONT color=#cc0000>setAt dx,spnum, ((0.5*xvel/infOnSprite)+(getAt(dx,spnum)*a)) 
+setAt dy,spnum, ((0.5*yvel/infOnSprite)+(getAt(dy,spnum)*a))</FONT></PRE>
+      <P><B>Note:</B> 
+      <P>I have multiplied'xvel'and'xvel'by 0.5 (effectively halving the 
+      calculated displacement; this was just a personal choice as I felt that 
+      this displacement was initially too great). 
+      <P>The displacement velocities 'dx,dy' are at a rate "per frame". 
+      <P>It is only the previously calculated velocities 'dx,dy' that are 
+      multiplied by frictional coefficient 'a'. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Calculation of Rotational Effect</FONT></H4>
+      <P><IMG height=200 alt="" hspace=4 src="buildArticle_files/diagram_4.gif" 
+      width=200 align=left vspace=4 border=0> The linear displacement is pretty 
+      cool, but to get the swirling effect, we also need to calculate the degree 
+      of spin that is imparted on the sprite. 
+      <P>The rate of rotation or 'angular velocity' in another cumulative value, 
+      continually added to or subtracted from as the influence changes. It too 
+      is gradually decreased by the frictional co-efficient'a'. 
+      <P>As the angular velocity increases, the radius is increased causing the 
+      sprite to spiral out from the point of origin and then collapse back in 
+      again as the rate decays. The calculated angular velocity 'rot' is also 
+      inversely proportional to 'infOnSprite', decreasing as the distance from 
+      the mouse increases. 
+      <P>To calculate the direction of the imparted spin, firstly we determine 
+      whether the mouse is above or below the sprite (mlocy &lt; or &gt; y). 
+      <P>If the mouse is above the sprite (mlocy &lt; y) then 
+      '(0.2/infOnSprite)*vel' is used, if the mouse is below the sprite then the 
+      value will be negative '(-0.2/infOnSprite)*vel' 
+      <P>(Once again, the 0.2 is a personal choice for the degree of effect the 
+      mouse has). 
+      <P>This is fine if the mouse is moving to the left (mlocxnew &lt; mlocx) 
+      but if the mouse is moving to the right, then 'rot' needs to be negated. 
+      (-1 *getAt (rot,spnum)) 
+      <P>'rot' is the new effect on the angular velocity; it is now added to the 
+      compound angular velocity'angdelt'. As with the linear velocities, these 
+      angular velocities are also in a "per frame" timebase. 
+      <P><PRE><FONT color=#cc0000>setAt angdelt, spnum, (getAt (angdelt, spnum) + ¬
+  getAt (rot, spnum))</FONT></PRE>
+      <P>The actual angle within the rotation is kept in variable 'angn', this 
+      is now updated by adding the updated radial velocity 'angdelt'. 
+      <P><PRE><FONT color=#cc0000>setAt angn, spnum, (getAt (angdelt, spnum) + ¬
+  getAt (angn, spnum))</FONT></PRE>
+      <P>The radius of the swirl 'rn'is now calculated, it is directly 
+      proportional to the angular velocity 'angdelt'. 
+      <P><PRE><FONT color=#cc0000>setAt rn, spnum, (getAt (angdelt, spnum) * 30)</FONT></PRE>
+      <P>(again, the factor of 30 is a personal choice) 
+      <P>If the radius is less than 1 pixel then we can set the rotational 
+      variables to zero as they're not really doing much at all. 
+      <P><PRE><FONT color=#cc0000>if abs(getAt (rn, spnum)) &lt; 1 then     
+  setAt angn, spnum, 0     
+  setAt angdelt, spnum, 0
+end if</FONT></PRE>
+      <P>As mentioned, the angular velocity 'angdelt' is also decayed by the 
+      frictional coefficient 'a', we'll do that now. 
+      <P><PRE><FONT color=#cc0000>setAt angdelt, spnum, (getAt (angdelt, spnum) * a)</FONT></PRE>
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Adding it all up</FONT></H4>
+      <P>Well, we've now got new values for the linear displacement and the new 
+      angle and radius for the simulated swirl. We can put it all together. 
+      <P>Firstly we add displacement 'dx,dy' to 'dxt,dyt' (the total linear 
+      displacement from the sprite's origin) 
+      <P><PRE><FONT color=#cc0000>setAt dxt, spnum, (getAt (dxt, spnum) + getAt (dx, spnum)) 
+setAt dyt, spnum, (getAt (dyt, spnum) + getAt (dy, spnum))</FONT></PRE>
+      <P>To calculate the x and y offsets from the swirl, we use sine and cosine 
+      functions of the angle multiplied by the radius. 
+      <P>The y offset due to the 'swirl' 
+      <P><PRE><FONT color=#cc0000>(cos(getAt (angn, spnum)) * getAt (rn, spnum)</FONT></PRE>
+      <P>The x offset due to the 'swirl' 
+      <P><PRE><FONT color=#cc0000>(sin(getAt (angn, spnum)) * getAt (rn, spnum)</FONT></PRE>
+      <P>The total linear displacements from the sprite's origin 'dxt,dyt' are 
+      now added to the sprites origin 'xo,yo' and also the x,y offsets from the 
+      swirl. 
+      <P><PRE><FONT color=#cc0000>setAt y, spnum, ((cos(getAt(angn, spnum)) * ¬
+  getAt(rn, spnum)) +getAt(yo,  spnum) +getAt(dyt, spnum) *a) 
+setAt x, spnum, ((sin(getAt(angn, spnum)) *getAt(rn, spnum)) + ¬
+  getAt(xo,  spnum) +getAt(dxt, spnum) *a)</FONT></PRE>
+      <P>The above sets variables 'x' and 'y' which are the new coordinates of 
+      the sprite on the stage. All we need to do now is update the sprites 
+      position. 
+      <P><PRE><FONT color=#cc0000>set the loch of sprite spnum to getAt (x, spnum) 
+set the locv of sprite spnum to getAt (y, spnum)</FONT></PRE>
+      <P>Here's the whole sprite script with minimal comments: <PRE><FONT color=#cc0000>-- calculate sprite displacement
+
+on exitframe me
+
+  global mLocX, mLocY 
+  global mLocXNew, mlocynew 
+  global xvel, yvel
+  global vel
+  global xo, yo
+  global x, y
+  global r
+  global a
+  global rn
+  global dxt, dyt
+  global dx, dy
+  global angn 
+  global angdelt
+  global rot 
+  global spnum
+
+  put the spriteNum of me into spnum
+
+  set infOnSprite to ((sqrt(power((getAt(x,spnum) - ¬
+    mlocxnew), 2) + power((mlocynew - ¬
+    getAt(y,spnum)),2)) +5))
+
+  -- set up the linear displacement 
+  setAt dx,spnum, ((0.5*xvel/infOnSprite) + ¬
+    (getAt(dx,spnum)*a)) 
+  setAt dy,spnum, ((0.5*yvel/infOnSprite) + ¬
+    (getAt(dy,spnum)*a)) 
+
+  -- rotational influence calc if the mouse 
+  -- is moving to the left
+  if mlocy &lt; getAt(y,spnum) then setAt rot,spnum, ¬
+    ((0.2/infOnSprite)*vel) 
+  if mlocy &gt; getAt(y,spnum) then setAt rot,spnum,¬
+    ((-0.2/infOnSprite)*vel) 
+
+  -- if the mouse movement is to the right
+  if mlocxnew &gt; mlocx then setAt rot,spnum, (-1 * ¬
+    getAt (rot,spnum)) 
+
+  -- left nor right
+  if mlocxnew = mlocx then setAt rot,spnum,0 
+
+  -- calculate new angular velocity
+  setAt angdelt, spnum, (getAt (angdelt, spnum) + ¬
+    getAt (rot, spnum)) 
+
+  -- set the new angle
+  setAt angn, spnum, (getAt (angdelt, spnum) + ¬
+    getAt (angn, spnum)) 
+
+
+  -- calculate the radius of the swirl
+  setAt rn, spnum, (getAt (angdelt, spnum) * 30) 
+  
+  -- work out the radius from the rate of rotation
+  if abs(getAt (rn, spnum)) &lt; 1 then
+    setAt angn, spnum, 0
+    setAt angdelt, spnum, 0 
+  end if
+  
+  -- Decay the rate of rotation due to friction 'a'
+  setAt angdelt, spnum, (getAt (angdelt, spnum) * a) 
+
+  -- Add displacement influence
+  setAt dxt, spnum, (getAt (dxt, spnum) + getAt ¬
+    (dx, spnum))
+  setAt dyt, spnum, (getAt (dyt, spnum) + getAt ¬
+    (dy, spnum))
+
+  -- calculate new x,y position of the sprite
+  setAt y, spnum, ((cos(getAt (angn, spnum)) * ¬
+    getAt (rn, spnum)) +  getAt (yo, spnum) + ¬
+    getAt (dyt, spnum) *a)
+    
+  setAt x, spnum, ((sin(getAt (angn, spnum)) * ¬
+    getAt (rn, spnum)) +  getAt (xo, spnum) + ¬
+    getAt (dxt, spnum) *a) 
+
+  -- update the position of the sprite
+  set the loch of sprite spnum to getAt (x, spnum)
+  set the locv of sprite spnum to getAt (y, spnum)
+  
+end exitframe</FONT></PRE>
+      <P>Wow, That's it! 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Some other Ideas</FONT></H4>
+      <P>One of the initialized variables has not really been used much in the 
+      code: the original sprite locations ('xo,yo'). We can use these 
+      coordinates to produce a kind of elasticity whereby the particles will be 
+      drawn back to their original positions. This works well in this <A 
+      target=_blank 
+      href="http://www.director-online.com/howTo/UD_articles/UD99/text.htm">example</A> 
+      where cast members are text characters building a string. To produce this 
+      effect, we are subtracting a percentage of the displacement from the newly 
+      calculated position. 
+      <P>By setting up a number of coordinate arrays, the particles can be made 
+      to swarm into a pre-determined arrangement triggered by some other factor. 
+      See this <A target=_blank 
+      href="http://www.director-online.com/howTo/UD_articles/UD99/rollover.htm">rollover 
+      triggered example</A>. 
+      <P>In another variation, we can add other effectors to the particle 
+      locations. In <A target=_blank 
+      href="http://www.director-online.com/howTo/UD_articles/UD99/microcos.htm">this 
+      example</A>, we have a number of sine waves combining to produce a fluid 
+      drifting effect. Here the particles drift around naturally in simulated 
+      eddies and currents and can also be 'stirred up' into a frenzy. 
+      <P>Well, that's about it, have fun, be creative. Show me what you get up 
+      to! 
+      <P>Of course if you come up with an optimized process for all this, I'd 
+      love to see it! - as I said, I'm not a mathematician or 'hardcore' 
+      programmer, so there's bound to be more than a few rough edges. 
+  </P></TD></TR></TBODY></TABLE>
+<P>
+<TABLE height=25 cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#cecece>
+    <TD><A 
+      onmouseover="window.status='Get the direct URL for this article'; return true" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=470','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/generateURL.cfm?id=470"><IMG 
+      height=25 alt="Get the direct URL for this article" 
+      src="buildArticle_files/articleURL.gif" width=87 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Visit the Using Director article archive'; return true" 
+      href="http://www.director-online.com/archive.cfm?pSection=Using%20Director"><IMG 
+      height=25 alt="Visit the Using Director article archive" 
+      src="buildArticle_files/archives.gif" width=66 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Check out other articles by Glenn Mitchell'; return true" 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=20"><IMG 
+      height=25 alt="Check out other articles by Glenn Mitchell" 
+      src="buildArticle_files/author.gif" width=56 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Mail this article to a friend'; return true" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=470','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      href="http://www.director-online.com/emailArticle.cfm?id=470"><IMG 
+      height=25 alt="Mail this article to a friend" 
+      src="buildArticle_files/mailArticle.gif" width=83 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar"><IMG 
+      height=25 alt="Sign in to your myDOUG page" 
+      src="buildArticle_files/signIn.gif" width=63 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true" 
+      href="http://209.112.84.34/Forums/index.cfm?cfapp=2"><IMG height=25 
+      alt="Discuss this article on DOUGthreads" 
+      src="buildArticle_files/discussArticle.gif" width=105 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='What do these buttons do?'; return true" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/help.html"><IMG height=25 
+      alt="What do these buttons do?" src="buildArticle_files/help.gif" width=25 
+      border=0></A> </TD></TR></TBODY></TABLE>
+<P> </P></BODY></HTML>

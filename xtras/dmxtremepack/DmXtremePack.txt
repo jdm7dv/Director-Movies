@@ -1,0 +1,72 @@
+README FILE
+
+
+
+         DmXtremePack®  v 1.5
+       Xtra for Director 6® , Director 7® and Authorware 5®
+
+
+THE SOFTWARE IS PROVIDED "AS IS" AND WITHOUT EXPRESS OR 
+IMPLIED WARRANTIES OF ANY KIND, INCLUDING BUT NOT LIMITED TO, 
+IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR 
+PURPOSE, AND ALL SUCH OTHER WARRANTIES ARE EXPRESSLY DISCLAIMED.
+IN NO EVENT WILL DEDALOMEDIA INTERACTIVE S.R.L. 
+BE LIABLE TO YOU OR ANY OTHER PARTY FOR ANY LOST PROFITS, 
+LOST SAVINGS OR OTHER INDIRECT, SPECIAL, INCIDENTAL, OR
+CONSEQUENTIAL DAMAGES EVEN IF DEDALOMEDIA INTERACTIVE S.R.L. 
+HAS BEEN  ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.  
+IN NO EVENT DEDALOMEDIA INTERACTIVE S.R.L. LIABILITY
+EXCEED THE FEE PAID FOR THE SOFTWARE
+
+
+-------------------------------------------------------
+
+1. Product Information
+
+	Runs in 15, 16, 24 and 32 bpp screen modes.
+	Control for 'Duration' and 'Use Entire Stage/Change Area Only'.
+
+	DmXtremePack® is a shareware product.
+        This means you can use freely redistributable versions
+        as long as you want without registration,
+        but use of the registered version requires purchasing it.
+        
+	****************************************************************
+	* Movies created with the unregistred version function only in *
+        * authoring mode.                                              *
+	****************************************************************
+
+	Please contact us for more information.
+
+2. System Requirements
+
+	DmXtremePack® is compatible with Windows 95®, Windows 98® and Windows NT4®,
+        16 MB of RAM and a Pentium CPU (An MMX processor are recommended for 
+	good performance). 
+
+        DmXtremePack® is compatible with Mac OS and Power Mac
+
+	For updated information, please consult our web site at
+        http://www.dmtools.com
+
+3. Setup
+
+	Installation is easy. Just copy the file 
+        DmXtremePack.x32 into your Director Xtras folder, and the use it 
+	as all other built-in transition.
+
+
+4. Technical Support
+
+	DEDALOMEDIA INTERACTIVE S.R.L. 
+	B.go Padova 170
+	35013 - Cittadella - Padova - Italy
+
+        TEL     ++39-049-9414411
+	FAX 	++39-049-9414430
+
+	WWW 	- http://www.dmtools.com
+	E-mail	- salesdm@dmtools.com
+
+Xtra, Director and Lingo are trademarks of Macromedia, Inc.
+Windows and Windows 95 are trademarks of Microsoft, Inc.

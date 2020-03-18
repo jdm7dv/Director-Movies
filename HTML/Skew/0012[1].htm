@@ -1,0 +1,179 @@
+<html>
+
+<head>
+<title>8/30/99 - Allowing Users to Skew an Image</title>
+<script LANGUAGE="JavaScript">
+ <!--
+ if (top.location.href.indexOf("index.htm") == -1) {	
+theurl = location.href.toString();
+ theurl + "^2";
+ top.location.href = newframe;	
+}
+ // --> 
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0"><center>
+
+
+
+<h1 align="center"><font color="#008000">Allowing Users to Skew an Image</font></h1>
+
+<p align="center"><b>The Question:</b></p>
+
+<p align="left">I am setting up a simple page layout program for elementary school
+students where the kids can move items around on the screen, place text, and learn how to
+set up a simple page layout for newspaper or magazine print.&nbsp; I want to allow them to
+scale or distort images and text for effects as well.&nbsp; I can get this to work in
+Director, but not in authoring mode.&nbsp; Is this possible?</p>
+
+<hr align="center">
+
+<p align="center"><b>The Answer</b></p>
+
+<p align="left">Actually, with Director 7 this is not so hard to do.&nbsp; Most people
+have seen the great 3d effects Director can accomplish with the new quad property, but
+there are other useful applications for it as well.&nbsp; Many people get overwhelmed at
+first by the math involved for using Quads to fake 3d, but the basic concept need not be
+so daunting.&nbsp; All a quad is is a list of four points on a rectangular bounding box.
+&nbsp; They are as follows...</p>
+
+<p align="left">1 - Top Left<br>
+2 - Top Right<br>
+3 - Bottom Right<br>
+4 - Bottom Left</p>
+
+<p align="left">So by moving around the bounding rectangle in a clockwise motion we are
+building a list of those points that can be read and set through director.&nbsp; To see a
+sprites quad property just type...</p>
+
+<p align="left">put sprite(1).quad</p>
+
+<p align="left">into the message window.&nbsp; So how will this help us?&nbsp; Well, in
+most programs like Freehand, Illustrator, or Page Maker you can click on an image then
+pull these points around.&nbsp; For this we will need 2 main elements.&nbsp; One or more
+sprites to be objects and then 4 &quot;targets&quot;, one for each corner.&nbsp; For
+simplicity sake we can set up one behavior that can be dropped on both, and then we simply
+pick whether this is a point or an editable object.&nbsp; In the beginSprite handler we
+use the &quot;mod&quot; function to automatically set the points.&nbsp; Using mod is the
+equivalent of dividing a number by another over and over until you get a remainder. &nbsp;
+The result is that remainder.&nbsp; For example, 3 mod 2 would return 1.&nbsp; 3 mod 3
+would return 0. If all the target points are placed in the score in sequence, then the
+behavior applied to each, we can use the spriteNum along with the mod function to get the
+number of the point that the sprite will represent.</p>
+
+<p align="left">So now what.&nbsp; Well, we also set a beginSprite handler for the object
+that defines its quad.&nbsp; When ever we click on that object we want to have that sprite
+to become &quot;active&quot; and all 4 handles to jump into place.&nbsp; Then we can grab
+a handle and move it and that will send a message to the object to update it's quad.
+&nbsp; When we are done we can click on the background (also holding the same script) and
+we can move all 4 handle sprites back off the stage.&nbsp; Take a look at the code below
+and notice how each handler has different conditions depending on whether we have set it
+as a point, an object, or a background.</p>
+
+<table border="1" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td width="100%">--Copyright 1999 Chuck Neal<br>
+    --chuck@mediamacros.com<br>
+    --If you find this code helpful, send me an e-mail and let me know. :-)<p>property
+    whichItem, spriteNum, whichPoint, quadList<br>
+    <br>
+    global activeSprite<br>
+    <br>
+    on getPropertyDescriptionList me<br>
+    &nbsp; p_list = [:]<br>
+    &nbsp; p_list.addProp(#whichItem, [#format : #symbol, #comment : &quot;Control point or
+    object?&quot;, #default : #point, #range : [#point, #object, #background]])<br>
+    &nbsp; return p_list<br>
+    end<br>
+    <br>
+    on editQuad me<br>
+    &nbsp; if whichItem = #point then<br>
+    &nbsp;&nbsp;&nbsp; sprite(spriteNum).loc = sprite(activeSprite).quad[whichPoint]<br>
+    &nbsp; end if<br>
+    end<br>
+    <br>
+    on hidePoints me<br>
+    &nbsp; if whichItem = #point then<br>
+    &nbsp;&nbsp;&nbsp; sprite(spriteNum).loc = point(-1000, -1000)<br>
+    &nbsp; end if<br>
+    end<br>
+    <br>
+    on mouseDown me<br>
+    &nbsp; if whichItem = #point then<br>
+    &nbsp;&nbsp;&nbsp; repeat while the stillDown<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sprite(spriteNum).loc = the mouseLoc<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sendSprite(activeSprite, #rescaleQuad, whichPoint,
+    sprite(spriteNum).loc)<br>
+    &nbsp;&nbsp;&nbsp; end repeat<br>
+    &nbsp; end if<br>
+    end<br>
+    <br>
+    on beginSprite me<br>
+    &nbsp; if whichItem = #point then<br>
+    &nbsp;&nbsp;&nbsp; whichPoint = (spriteNum mod 4) + 1<br>
+    &nbsp;&nbsp;&nbsp; sprite(spriteNum).loc = point(-1000,-1000)<br>
+    &nbsp; else<br>
+    &nbsp;&nbsp;&nbsp; quadList = sprite(spriteNum).quad<br>
+    &nbsp; end if<br>
+    end<br>
+    <br>
+    on rescaleQuad me, whatHandle, whatPoint<br>
+    &nbsp; quadList.setAt(whatHandle, whatPoint)<br>
+    &nbsp; sprite(spriteNum).quad = quadList<br>
+    &nbsp; updateStage<br>
+    end<br>
+    <br>
+    on mouseUp me<br>
+    &nbsp; if whichItem = #object then<br>
+    &nbsp;&nbsp;&nbsp; activeSprite = spriteNum<br>
+    &nbsp;&nbsp;&nbsp; sendAllSprites(#editQuad)<br>
+    &nbsp; else if whichItem = #background then <br>
+    &nbsp;&nbsp;&nbsp; sendAllSprites(#hidePoints)<br>
+    &nbsp; end if<br>
+    end<br>
+    <br>
+    on getBehaviorDescription me<br>
+    &nbsp; return &quot;For this behavior you will need 4 small &quot; &amp; quote &amp;
+    &quot;handle&quot; &amp; quote &amp; &quot; sprites and at least one image, text, or shape
+    sprite. Drop the behavior on the points, the object and on a background sprite. When you
+    click an object the handles will jump into place and dragging them will skew and scale the
+    image. Click the background the hide the handles off screen.&quot;<br>
+    end</td>
+  </tr>
+</table>
+
+<p align="left">The current active sprite is tracked via a global variable and the rest is
+kept in local properties.&nbsp; Through the use of sendSprite and sendAllSprites, each
+element can &quot;talk&quot; to the others and copy properties from one to another. &nbsp;
+Try it out below...</p>
+
+<p align="center">
+<object CLASSID="clsid:166B1BCA-3F9C-11CF-8075-444553540000"
+CODEBASE="http://active.macromedia.com/director/cabs/sw.cab#version=7,0,0,0" WIDTH="400"
+HEIGHT="300">
+  <param name="SRC" value="0012-files/0012.dcr">
+  <param name="BGCOLOR" value="#CCCCCC">
+  <param name="swLiveConnect" value="FALSE">
+  <param name="AutoStart" value="TRUE"><embed SRC="0012-files/0012.dcr" WIDTH="400" HEIGHT="300"
+PLUGINSPAGE="http://www.macromedia.com/shockwave/" BGCOLOR="#CCCCCC" swLiveConnect="FALSE"
+AutoStart="TRUE"> <noembed>You need <A HREF = 'http://www.macromedia.com/shockwave/'>ShockWave</A> to view this movie.</noembed>
+</object>
+</p>
+
+<p align="left">Want to see the source code?&nbsp; Get it <a href="0012-files/0012.dir">here</a>.
+&nbsp; How can you take this to the next step?&nbsp; Well, what about making it 8 handles
+so you can skew sides rather than just points. Add more editing tools, or rotate it back
+into 3d space.&nbsp; Play with it and see what you come up with.</p>
+
+<p align="center">As usual, you can also find all of these behaviors/scripts in the <a
+href="/search.shtml">behavior database.</a></p>
+
+
+<p align="center"><a href="/howto.shtml">Return to the article list</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/howdosub.shtml">Submit a Question</a></p>
+<p align=center><small>MediaMacros Copyright 1999 <a href="mailto:chuck@mediamacros.com">Chuck
+Neal</a></small></p>
+</body>
+</html>
+

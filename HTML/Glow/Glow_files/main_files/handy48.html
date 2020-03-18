@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy48.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 48</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#ff0000 vLink=#770000>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG border=0 height=31 src="handy48_files/handyman.gif" 
+      width=213> 
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG align=bottom border=0 height=9 
+            src="handy48_files/archiveDivLine.gif" width=440></TD>
+          <TD rowSpan=2 vAlign=top width=55><A 
+            href="http://www.director-online.com/howTo/archive/Handyman_Archive.html"><IMG 
+            align=bottom border=0 height=28 src="handy48_files/archiveDiv.gif" 
+            width=55></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440><FONT size=2></FONT>
+            <P><FONT color=#cc0000><B><FONT 
+            face="Arial, Helvetica, sans-serif">Dear Multimedia 
+            Handyman</FONT></B></FONT> </P>
+            <P>HELP! I need to have a graphic in the middle of the screen and 
+            script it so that when the mouse gets closer, a sound starts to fade 
+            in, incrementally, and a new graphic begins to glow over it, 
+            incrementally. 
+            <P>Signed, 
+            <P><A href="mailto:rbmm@onramp.com">Help!</A> 
+            <P>Dear Help, 
+            <P>Remember you high school geometry lesson about calculating the 
+            hypoteneus of a right triangle? Time for a review. Let's say that 
+            you have a triangle where sides X and Y are at a 90 degree angle. To 
+            calculate the length of the third side (Z), this is the formula. 
+            <P>X<SUP>2</SUP> + Y<SUP>2</SUP> = Z<SUP>2</SUP> 
+            <P>It's fairly easy to postulate that side Z is always longer than 
+            either side X or Y. 
+            <P>Now, let's apply this to your problem. Imagine a right triangle 
+            where the ends of the long side (Z) are defined by the loc of your 
+            sprite and the mouseLoc. Side X is the horizontal distance between 
+            the locH of your sprite and the mouseH, and side Y is the vertical 
+            distance beween the locV of your sprite and the mouseV. Now, the 
+            formula above can be modified as follows: <PRE><FONT color=#cc0000> 
+set x = the mouseH - the locH of sprite whatever
+set y = the mouseV - the locV of sprite whatever 
+x<SUP>2</SUP> + y<SUP>2</SUP> = the distance<SUP>2</SUP> 
+</FONT></PRE>
+            <P>That's the concept. Since length should never be negative, when 
+            we write the Lingo, we'll use the absolute value property to set the 
+            x and y values. Also, I tend to use more descriptive variables for x 
+            and y; in this case I'll used hInc and vInc for "horizontal/vertical 
+            Increment". 
+            <P>The next step will be to correlate the distance to 1) the volume 
+            of a sound channel, and 2) the blend of the sprite (the glowing 
+            sprite). The volume of sound has a range from 0 to 255, and since we 
+            want the sound to increase as the mouse approaches, we could simply 
+            set the volume equal to 255 minus the distance. To give you a little 
+            more control, I'll create a "fade" property. We'll multiply the 
+            distance by the fade property so that the sound fades over a shorter 
+            distance. (The higher the fade value, the faster the fade.) 
+            <P>Finally, you'll need to set the ink effect for your glowing 
+            sprite to BLEND. Then in the behavior, we'll set the blend to 
+            correlate to the sound volume. Blend has a range from 1 to 100, so 
+            to correlate it to the volume's range of 256 steps, we'll set the 
+            blend of sprite to the volume/256. 
+            <P>
+            <OBJECT classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 
+            codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,0,0 
+            height=240 width=320><PARAM NAME="SRC" VALUE="../other/soundFade.dcr">
+                                            <embed src="../other/soundFade.dcr" 
+            pluginspage="http://www.macromedia.com/shockwave/download/" 
+            width="320" height="240"></embed>              </OBJECT>
+            <P>Here's the behavior, which you should apply to the sprite which 
+            will be "glowing". <PRE><FONT color=#cc0000>
+-- distanceFader Behavior 
+-- copyright © 1998 ZZP Online, LLC
+
+property pMyLocH
+property pMyLocV
+property pFade
+property pSoundChannel
+property pMySprite
+
+on getPropertyDescriptionList me
+  set pdlist to [:]
+  set the floatPrecision to 1
+  addprop pdlist, #pFade, [#comment:"Rate of fade", ¬
+    #format:#float, #default:3.0]
+  addprop pdlist, #pSoundChannel, [#comment:"Which ¬
+    sound channel?", #format:#integer, #default:1]
+  return pdlist
+end getPropertyDescriptionList
+
+on beginSprite me
+  set pMySprite = the spriteNum of me
+  set pMyLocH =  the locH of sprite pMySprite
+  set pMyLocV = the locV of sprite pMySprite
+  set the blend of sprite pMySprite to 0
+end
+
+on exitframe me
+  set hInc = abs(the mouseH  - pMyLocH)
+  set vInc = abs(the mouseV - pMyLocV)
+  -- Pythagorem's theorem
+  set distance = sqrt((hInc * hInc) + (vInc * vInc))
+  set the volume of sound pSoundChannel = 255 - ¬
+    (distance * pFade)
+  set the blend of sprite pMySprite = the volume of ¬
+   sound pSoundChannel/2.56
+end
+</FONT></PRE>
+            <P>Good luck with your project. </P></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD><BR><FONT size=2>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A 
+      href="http://www.director-online.com/help_central/Display.html" 
+      target=display>Help Central</A> section of DOUG.</FONT> 
+</TD></TR></TBODY></TABLE></BODY></HTML>

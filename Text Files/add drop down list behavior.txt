@@ -1,0 +1,22 @@
+property startText, choiceList, whatDo, spriteNum
+
+on getPropertyDescriptionList me
+  return [#startText : [#format : #string, #default : "DefaultText", #comment : "Default text in drop-box."], #choiceList : [#format : #string, #comment : "List of choices separated by (;)", #default : "Choice 1;Choice 2;Choice 3"]]
+end 
+
+on beginSprite me
+  the itemDelimiter = ";"
+  repeat with x = 1 to choiceList.item.count
+    addItem(sprite spriteNum, choiceList.item[x])
+  end repeat
+(sprite spriteNum).text = startText
+end
+ 
+on getBehaviorDescription me
+  describe = "Combo box startUp script.  Requires the MS Forms Combo Box Active X." & return & "Drop this behavior on a Microsoft ComboBox ActiveX sprite.  This will build and populate the dropdown list.  To retrieve the property just get the text of sprite X property for the ActiveX Sprite."
+  return describe
+end
+ 
+
+ 
+

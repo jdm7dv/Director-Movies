@@ -1,0 +1,257 @@
+<html>
+
+<head>
+<title>7/5/99 - Making Multiple Animated Buttons</title>
+<script LANGUAGE="JavaScript">
+ <!--
+ if (top.location.href.indexOf("index.htm") == -1) {	
+theurl = location.href.toString();
+newframe = "http://www.mediamacros.com/index.htm?" + theurl + "^2";
+ top.location.href = newframe;	
+}
+ // --> 
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0"><center>
+
+
+<h1 align="center"><font color="#008000">Making Multiple Animated Buttons</font></h1>
+
+<p align="center"><b>The Question:</b></p>
+
+<p align="left">I know how to make a standard rollover, but I want to make fancier,
+animated buttons.&nbsp; I tried making a repeat loop, but then only one button responds
+and nothing else can happen for a while.&nbsp; How can I have them all going at once?</p>
+
+<hr align="center">
+
+<p align="center"><b>The Answer</b></p>
+
+<p align="left">You can really jazz up a simple projects with a little animation.&nbsp; A
+moving button is almost always more interesting than a standard 2 or 3 state one, but can
+pose a problem with how to make it work.&nbsp; Film loops are an option, but if the user
+rolls out during the animation it snaps back and is noticeably rough.&nbsp; You can use
+repeat loops, but then you block out any other lingo while the loop is running.&nbsp; This
+is a perfect opportunity to use the actorList and the on stepFrame handler.&nbsp; You
+could do something similar with an exitFrame handler and a global list, but Director's
+actor list and stepFrame handlers are optimized for speed and efficiency.</p>
+
+<p align="left">Before we start coding, we need to decide what our button will
+&quot;do&quot;.&nbsp; For this example I have a simple block that rises for 15 frames and
+then goes back down over the next 15.&nbsp; Since the motion is the same I can re-use the
+same 15 cast members for both.&nbsp; After rendering the images and importing I need to
+make sure the naming us in a useful form.&nbsp; I chose to simply use a &quot;prefix&quot;
+followed by a number.&nbsp; Each graphic will be named &quot;Button&quot; and a number
+like so...Button1, Button2, Button3, etc.</p>
+
+<p align="left">Now, we can rename all of these, or we can let lingo do it for us. &nbsp;
+Here is a simple script I wrote for renaming sequential frames for lingo controlled
+animations...</p>
+
+<table border="1" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td width="100%"><font FACE="Courier" COLOR="#0000c8">on</font><font FACE="Courier">
+    rename whatCast, startMember, endMember, startNum, prefix<br>
+    &nbsp; theOffset = startMember - startNum<br>
+    &nbsp; <font FACE="Courier" COLOR="#0000c8">repeat with</font> x = startMember<font
+    FACE="Courier" COLOR="#0000c8"> to</font> endMember<br>
+    &nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#008000">member</font>(x, whatCast).<font
+    FACE="Courier" COLOR="#008000">name</font> = prefix &amp;<font FACE="Courier"
+    COLOR="#008000"> string</font>(x - theOffset)<br>
+    &nbsp; </font><font FACE="Courier" COLOR="#0000c8">end repeat<br>
+    end<p>on</font><font FACE="Courier" COLOR="#008000"> getBehaviorDescription</font><font
+    FACE="Courier" COLOR="#0000c8"> me<br>
+    &nbsp; return<font FACE="Courier" COLOR="#808080"> &quot;Call this to rename a rang of
+    castmember with a prefix and sequential numbers. I.E. Member1, Member2, Member3,
+    etc.&quot;<br>
+    </font>end</font></td>
+  </tr>
+</table>
+
+<p>Now we are ready to start coding.&nbsp; The basic idea is to allow our mouseEnter and
+mouseLeave handlers to tell the button what action or &quot;state&quot; it is to perform.
+&nbsp; From that the stepFrame handler checks this variable and then does the appropriate
+action each time the play head moves.&nbsp; Doing this we can have a virtually unlimited
+number of buttons going at once.&nbsp; To speed up things we only add items to the actor
+list when necessary and only if they are not already in the list.&nbsp; This is important
+to keep the action from executing itself twice per frame.&nbsp; We also need to remove it
+when it is no longer needed to free up memory, but be careful nit to do this inside the
+stepFrame handler, as it can cause errors at runtime.&nbsp; (Another words, don't edit the
+actorList while lingo is using it.)</p>
+
+<p>Here is the basic handler.&nbsp; Notice how the mouseEnter and mouseLeave handlers only
+change the &quot;state&quot; property.&nbsp; Everything else is done in the stepFrame
+handler and the enterFrame handler does the &quot;cleanup&quot; of unneeded instances of
+the script.</p>
+
+<table border="1" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td width="100%"><font FACE="Courier" COLOR="#0000c8">property</font><font FACE="Courier">
+    prefix, startMember, endMember,</font><font FACE="Courier" COLOR="#008000"> spriteNum</font><font
+    FACE="Courier">, currentNum, state</font><p><font FACE="Courier" COLOR="#0000c8">on</font><font
+    FACE="Courier" COLOR="#008000"> getPropertyDescriptionList</font><font FACE="Courier"
+    COLOR="#0000c8"> me<br>
+    </font><font FACE="Courier"><font color="#0000c8">&nbsp; </font>p_list = []<br>
+    &nbsp; </font><font FACE="Courier" COLOR="#008000">addProp</font><font FACE="Courier">
+    p_list,</font><font FACE="Courier" COLOR="#008000"> #</font><font FACE="Courier">prefix, [</font><font
+    FACE="Courier" COLOR="#008000">#format</font><font FACE="Courier"> </font><font
+    FACE="Courier" COLOR="#008000">#string</font><font FACE="Courier">,</font><font
+    FACE="Courier" COLOR="#008000"> #default</font><font FACE="Courier"> </font><font
+    FACE="Courier" COLOR="#808080">&quot;button&quot;</font><font FACE="Courier">,</font><font
+    FACE="Courier" COLOR="#008000"> #comment</font><font FACE="Courier"> </font><font
+    FACE="Courier" COLOR="#808080">&quot;Prefix for graphic names&quot;</font><font
+    FACE="Courier">]<br>
+    &nbsp; </font><font FACE="Courier" COLOR="#008000">addProp</font><font FACE="Courier">
+    p_list,</font><font FACE="Courier" COLOR="#008000"> #</font><font FACE="Courier">startMember,
+    [</font><font FACE="Courier" COLOR="#008000">#format</font><font FACE="Courier"> </font><font
+    FACE="Courier" COLOR="#008000">#integer</font><font FACE="Courier">,</font><font
+    FACE="Courier" COLOR="#008000"> #default</font><font FACE="Courier"> </font><font
+    FACE="Courier" COLOR="#808080">0</font><font FACE="Courier">,</font><font FACE="Courier"
+    COLOR="#008000"> #range</font><font FACE="Courier"> [</font><font FACE="Courier"
+    COLOR="#008000">#min</font><font FACE="Courier"> </font><font FACE="Courier"
+    COLOR="#808080">0</font><font FACE="Courier">,</font><font FACE="Courier" COLOR="#008000">
+    #max</font><font FACE="Courier"> </font><font FACE="Courier" COLOR="#808080">25</font><font
+    FACE="Courier">],</font><font FACE="Courier" COLOR="#008000"> #comment</font><font
+    FACE="Courier"> </font><font FACE="Courier" COLOR="#808080">&quot;Start frame number&quot;</font><font
+    FACE="Courier">]<br>
+    &nbsp; </font><font FACE="Courier" COLOR="#008000">addProp</font><font FACE="Courier">
+    p_list,</font><font FACE="Courier" COLOR="#008000"> #</font><font FACE="Courier">endMember,
+    [</font><font FACE="Courier" COLOR="#008000">#format</font><font FACE="Courier"> </font><font
+    FACE="Courier" COLOR="#008000">#integer</font><font FACE="Courier">,</font><font
+    FACE="Courier" COLOR="#008000"> #default</font><font FACE="Courier"> </font><font
+    FACE="Courier" COLOR="#808080">0</font><font FACE="Courier">,</font><font FACE="Courier"
+    COLOR="#008000"> #range</font><font FACE="Courier"> [</font><font FACE="Courier"
+    COLOR="#008000">#min</font><font FACE="Courier"> </font><font FACE="Courier"
+    COLOR="#808080">0</font><font FACE="Courier">,</font><font FACE="Courier" COLOR="#008000">
+    #max</font><font FACE="Courier"> </font><font FACE="Courier" COLOR="#808080">25</font><font
+    FACE="Courier">],</font><font FACE="Courier" COLOR="#008000"> #comment</font><font
+    FACE="Courier"> </font><font FACE="Courier" COLOR="#808080">&quot;End frame number&quot;</font><font
+    FACE="Courier">]<br>
+    &nbsp; </font><font FACE="Courier" COLOR="#0000c8">return</font><font FACE="Courier">
+    p_list<br>
+    </font><font FACE="Courier" COLOR="#0000c8">end</font></p>
+    <font FACE="Courier" COLOR="#0000c8"><p>on</font><font FACE="Courier" COLOR="#008000">
+    beginSprite</font><font FACE="Courier" COLOR="#0000c8"> me<br>
+    </font><font FACE="Courier"><font color="#0000c8">&nbsp; </font>currentNum = startMember<br>
+    &nbsp; state =<font FACE="Courier" COLOR="#808080"> 0</font> <br>
+    <font color="#0000c8">e</font><font FACE="Courier" COLOR="#0000c8">nd</font></p>
+    </font><font FACE="Courier" COLOR="#0000c8"><p>on</font><font FACE="Courier"
+    COLOR="#008000"> mouseEnter</font><font FACE="Courier" COLOR="#0000c8"> me<br>
+    &nbsp; </font><font face="Courier" color="#c80000">--add to the actorList if not already
+    there<br>
+    &nbsp; </font><font FACE="Courier" COLOR="#0000c8">if</font><font FACE="Courier"
+    COLOR="#008000"> getOne</font><font FACE="Courier">(</font><font FACE="Courier"
+    COLOR="#0000c8">the</font><font FACE="Courier" COLOR="#008000"> actorList</font><font
+    FACE="Courier">,</font><font FACE="Courier" COLOR="#0000c8"> me</font><font FACE="Courier">)
+    =</font><font FACE="Courier" COLOR="#808080"> 0</font><font FACE="Courier" COLOR="#0000c8">
+    then</font><font FACE="Courier" COLOR="#008000"> add</font><font FACE="Courier"
+    COLOR="#0000c8"> the</font><font FACE="Courier" COLOR="#008000"> actorList</font><font
+    FACE="Courier">,</font><font FACE="Courier" COLOR="#0000c8"> me<br>
+    </font><font FACE="Courier"><font color="#0000c8">&nbsp; </font>state =</font><font
+    FACE="Courier" COLOR="#808080"> 1</font><font FACE="Courier"> </font><font FACE="Courier"
+    COLOR="#c80000">--Go up<br>
+    </font><font FACE="Courier" COLOR="#0000c8">end</font><font FACE="Courier"></p>
+    </font><font FACE="Courier" COLOR="#0000c8"><p>on</font><font FACE="Courier"
+    COLOR="#008000"> mouseLeave</font><font FACE="Courier" COLOR="#0000c8"> me<br>
+    </font><font FACE="Courier"><font color="#0000c8">&nbsp; </font>state =</font><font
+    FACE="Courier" COLOR="#808080"> 2</font><font FACE="Courier"> </font><font FACE="Courier"
+    COLOR="#c80000">--Go down<br>
+    </font><font FACE="Courier" COLOR="#0000c8">end</font><font FACE="Courier"></p>
+    </font><font FACE="Courier" COLOR="#0000c8"><p>on</font><font FACE="Courier"
+    COLOR="#008000"> stepFrame</font><font FACE="Courier" COLOR="#0000c8"> me<br>
+    &nbsp; case<font FACE="Courier"> state</font> of<br>
+    &nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#808080">0</font><font FACE="Courier">,</font><font
+    FACE="Courier" COLOR="#808080"> 3</font> :<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nothing<br>
+    </font><font FACE="Courier" COLOR="#008000">&nbsp;&nbsp;&nbsp; </font><font FACE="Courier"
+    COLOR="#0000c8"><font FACE="Courier" COLOR="#808080">1</font> :<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#c80000">--go up<br>
+    </font></font><font FACE="Courier" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    currentNum = currentNum +</font><font FACE="Courier" COLOR="#0000c8"><font FACE="Courier"
+    COLOR="#808080"> 1</font> <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if<font FACE="Courier"> currentNum &gt; endMember</font>
+    then currentNum = endMember<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#008000">sprite</font><font
+    FACE="Courier">(</font><font FACE="Courier" COLOR="#008000">spriteNum</font><font
+    FACE="Courier">).</font><font FACE="Courier" COLOR="#008000">member</font><font
+    FACE="Courier"> = prefix &amp;</font><font FACE="Courier" COLOR="#008000"> string</font>(currentNum)<br>
+    &nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#808080">2</font> :<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#c80000">--go down</font><br>
+    </font><font FACE="Courier" COLOR="#c80000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font
+    FACE="Courier" COLOR="#0000c8">currentNum = currentNum - 1<br>
+    </font><font face="Courier" color="#808080">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font
+    FACE="Courier" COLOR="#0000c8">if<font FACE="Courier"> currentNum &lt; startMember</font>
+    then currentNum = startMember<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#008000">sprite</font><font
+    FACE="Courier">(</font><font FACE="Courier" COLOR="#008000">spriteNum</font><font
+    FACE="Courier">).</font><font FACE="Courier" COLOR="#008000">member</font><font
+    FACE="Courier"> = prefix &amp;</font><font FACE="Courier" COLOR="#008000"> string</font>(currentNum)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --check to see if the item is done<br>
+    </font><font face="Courier" color="#c80000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font
+    FACE="Courier" COLOR="#0000c8">if<font FACE="Courier"> currentNum = startMember</font> and
+    the<font FACE="Courier" COLOR="#008000"> rollover</font><font FACE="Courier"> &lt;&gt;</font><font
+    FACE="Courier" COLOR="#008000"> spriteNum</font> then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font FACE="Courier" color="#FF0000">--remove
+    from the actorList on next enterFrame</font><font face="Courier" color="#c80000"><br>
+    </font><font FACE="Courier"><font color="#c80000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font>&nbsp;
+    state =</font><font face="Courier" color="#808080"> 3<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font FACE="Courier" COLOR="#0000c8">end if<br>
+    &nbsp; end case<br>
+    end</p>
+    <p>on</font><font FACE="Courier" COLOR="#008000"> exitFrame</font><font FACE="Courier"
+    COLOR="#0000c8"> me<br>
+    &nbsp; if<font FACE="Courier"> state =</font><font face="Courier" color="#808080"> 3</font>
+    then<br>
+    &nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#008000">deleteOne</font> the<font
+    FACE="Courier" COLOR="#008000"> actorList</font><font FACE="Courier">,</font> me<br>
+    &nbsp;&nbsp;&nbsp; state = 0<br>
+    </font><font face="Courier" color="#808080">&nbsp; </font><font FACE="Courier"
+    COLOR="#0000c8">end if<br>
+    end</p>
+    <p>on</font><font FACE="Courier" COLOR="#008000"> getBehaviorDescription</font><font
+    FACE="Courier" COLOR="#0000c8"> me<br>
+    &nbsp; return &quot;This behavior will animate a button using numbered cast members with a
+    set prefix when the mouse rolls over it and moves back off. It is important to not skip
+    any frames and that no extra zeros are used in the names. (I.E. do not use 001, use
+    1).&quot;<br>
+    end</font></td>
+  </tr>
+</table>
+
+<p>Drop it on the sprite and it will prompt you for the prefix of the cast member names,
+the start frame and the end frame (of the animation).&nbsp; Give it a frame to initialize
+the beginSprite handler in authoring mode (start on frame 2 or later for it to work
+properly in authoring mode.&nbsp; If you start on frame 1 then the beginSprite handler
+will not run, causing errors.&nbsp; This won;t happen in a projector.)&nbsp;&nbsp; Here is
+an &quot;overkill&quot; example of the script in action...</p>
+
+<p>&nbsp;</p>
+
+<p align="center">
+<object CLASSID="clsid:166B1BCA-3F9C-11CF-8075-444553540000"
+CODEBASE="http://active.macromedia.com/director/cabs/sw.cab#version=7,0,0,0" WIDTH="320"
+HEIGHT="240">
+  <param name="SRC" value="0004-files/animButton.dcr">
+  <param name="BGCOLOR" value="#CCCCCC">
+  <param name="swLiveConnect" value="FALSE">
+  <param name="AutoStart" value="TRUE"><embed SRC="0004-files/animButton.dcr" WIDTH="320" HEIGHT="240"
+PLUGINSPAGE="http://www.macromedia.com/shockwave/" BGCOLOR="#CCCCCC" swLiveConnect="FALSE"
+AutoStart="TRUE"> <noembed>You need <A HREF = 'http://www.macromedia.com/shockwave/'>ShockWave</A> to view this movie.</noembed>
+</object>
+</p>
+
+<p>&nbsp;</p>
+
+<p>Play with it and see what else you can add.&nbsp; Using additional &quot;states&quot;
+you can have it play a different animation when the mouse leaves, have a click animation,
+etc.&nbsp; Play with it and see what you can come up with.</p>
+
+<p>As usual, you can also find all of these behaviors/scripts in the <a
+href="/search.shtml">behavior database.</a></p><p align="center"><a href="/howto.shtml">Return to the article list</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/howdosub.shtml">Submit a Question</a></p>
+<p align=center><small>MediaMacros Copyright 1999 <a href="mailto:chuck@mediamacros.com">Chuck
+Neal</a></small></p>
+</body>
+</html>
+

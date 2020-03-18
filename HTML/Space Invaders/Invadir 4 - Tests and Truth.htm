@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0042)http://brennan.young.net/Edu/Invadir4.html -->
+<HTML><HEAD><TITLE>Invadir 4 - Tests and Truth</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir3.html">Back to Lesson 
+3</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir5.html">Forward to Lesson 
+5</A></H6>
+<P><B>Lesson 4 - Tests and Truth</B></P>
+<P>You may have noticed that moving the mouse too far to the left and right will 
+make the cannon disappear off the screen. This will be especially evident if 
+your stage size is smaller than your monitor resolution.</P>
+<P>Fortunately, it is possible to keep the cannon on the stage, but still follow 
+the mouse. This is achieved by using one of the fundamental programming 
+concepts, <B>the truth test</B>.</P>
+<P>All programming languages, and all human languages have some concept of True 
+and False. Computers are built up from this basic distinction. This binary 
+opposition is often seen as the values 1 and 0. Lingo is no exception, and it 
+uses the word<B><TT> </TT></B><TT>if </TT>to test whether something is true. 
+What we really want is something like this...</P>
+<H3>if the mouse is within the stage...</H3>
+<P>Positions on the stage are described as points relative to the TOP LEFT of 
+the stage window.</P>
+<P>The left of the stage is 0 pixels horizontally, the right of the stage is 
+variable, but will very likely be 480 pixels from the left. Because I don't know 
+how wide your stage is, and <B>because you might change it at any time</B>, I am 
+going to refer to it's width as</P><PRE>the width of the rect of the stage</PRE>
+<P>...which gives the correct value no matter how big your stage is. Notice how 
+this is a slightly more sophisticated reference to the property of an object. 
+The stage is a <B>window</B>, and all windows have a <B>rect</B> property which 
+describes the rectangular size and positioning of the window on the screen. All 
+rects have a <B>width</B> property, the width of that rectangular area measured 
+in pixels.</P>
+<P>Now go back to your cannon script and modify it as follows...</P><PRE>on exitFrame me
+
+  set mySprite to the spritenum of me
+  set stagewidth to the width of the rect of the stage
+
+  if the mouseH &gt; 0 and the mouseH &lt; stagewidth then
+    set the locH of sprite mySprite to the mouseH
+  end if
+
+end</PRE>
+<P>You may recognise the &gt; and &lt; characters from mathematics. They mean 
+<B>greater than...</B> and <B>less than..</B>. respectively and are often used 
+in tests of this sort. Whatever is between<TT> if </TT>and<TT> then </TT>must be 
+either<TT> true </TT>or<TT> false.</TT> If it is true, the instructions in the 
+lines after then will be executed. If not, nothing will happen in this case.</P>
+<P>Notice also the word<TT> and</TT>. This means that both conditions have to be 
+true for the whole test to be true. In human language we might say something 
+like</P>
+<P>if you have worked through this tutorial <B>and</B> understood it...</P>
+<P>So you can see that logical concepts like 'if' and 'and' are deeply woven 
+into our language, it is a part of communicating and being intelligent beings 
+that we understand basic logical thinking. Other human logical words which are 
+very important, appearing in some form in all programming languages (and even 
+some graphics applications), are <B>or</B> and <B>not</B>. See if you can 
+identify or articulate the logic behind some human sentences which use the words 
+<B>and</B>, <B>not</B>, <B>or</B> and <B>if</B>. I can guarantee you will find 
+the idea of true and false in there somewhere. Two other words strongly related 
+to this are <B>else</B> and <B>otherwise</B>. These will appear later.</P>
+<P>After describing what we want to happen if the horizontal position of the 
+mouse is within the area of the stage we have added<TT> end if </TT>on a 
+seperate line, which means that I have finished describing what will happen if 
+the conditions are met.</P>
+<P>Director will usually typographically indent lingo which is at the same 
+'depth' of test so that it is easy to see if you have forgotten an <B>end if</B> 
+or a <B>then</B>. If all your code suddenly shuffles up to the left hand side of 
+the script window, you have probably forgotten something like an<TT> end if 
+</TT>or a<TT> then</TT>, you may even have too many<TT> end if'</TT>s!</P>
+<P>Take care to write</P>
+<P><TT>if...then </TT>on the <B>same</B> line, the contingent instructions on 
+seperate consecutive lines and<TT> end if </TT>on a seperate line afterwards. 
+There are ways of deviating from this pattern which often cause problems so I 
+will not discuss them here.</P>
+<P>When you run your movie again, you will find that no matter where your mouse 
+is, the cannon will stay on the stage.</P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir5.html">Forward to 
+Lesson 5</A></H5></BODY></HTML>

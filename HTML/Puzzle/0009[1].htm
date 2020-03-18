@@ -1,0 +1,260 @@
+<html>
+
+<head>
+<title>8/9/99 - Puzzling!</title>
+<script LANGUAGE="JavaScript">
+ <!--
+ if (top.location.href.indexOf("index.htm") == -1) {	
+theurl = location.href.toString();
++ theurl + "^2";
+ top.location.href = newframe;	
+}
+ // --> 
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0"><center>
+
+
+
+<h1 align="center"><font color="#008000">Puzzling!</font></h1>
+
+<p align="center"><b>The Question:</b></p>
+
+<p align="left">I am trying to create a puzzle where I can assemble the pieces and move
+completed chunks around.&nbsp; How can I do this with lingo?&nbsp;&nbsp; </p>
+
+<hr align="center">
+
+<p align="center"><b>The Answer</b></p>
+
+<p align="left">Ah, puzzles.&nbsp; The first thing most people love to do with Director is
+create games, and it is a great tool for this.&nbsp; The thing that gets a lot of people
+is that a puzzle appears simple, but there are a few layers of programming that must go
+into this.&nbsp; It isn't especially hard, but you need to plan it out carefully from the
+beginning.&nbsp; To make the system work there are three main areas we need to look at:</p>
+
+<ol>
+  <li><p align="left">We need to be able to move &quot;groups&quot; of pieces</p>
+  </li>
+  <li><p align="left">We need to be able to know if a piece is dropped close to one of the
+    pieces it connects to</p>
+  </li>
+  <li><p align="left">We need to test if the puzzle is complete</p>
+  </li>
+</ol>
+
+<p align="left">So where do we start?&nbsp; For this example I am using a simple
+rectangular puzzle that is broken down on a grid pattern, with a slight tab for overlap.
+&nbsp; This allows us to just let lingo check where pieces intersect.&nbsp; The most
+valuable lingo command for something like this is the sendAllSprites command.&nbsp; This
+command is basically like running a loop that gets each sprite to execute a piece of code,
+but it happens much faster.&nbsp; The other nice thing is that if the sprite does not have
+that script attached to it, the command is ignored.&nbsp; This way we can have one
+behavior on all the pieces and each can tell all the others to check and do things.&nbsp; </p>
+
+<p align="left">When we start off the puzzle will be in one piece.&nbsp; Since everything
+is in place we can do a number of things.&nbsp; The beginSprite handler can record the
+location of the piece, its locZ (height in 3d space), and give it a group number.&nbsp;
+The group is how we know when a sprite is connected to other sprites.&nbsp; When 2 sprites
+&quot;lock&quot; together we set their group numbers the same.&nbsp; Then when we click on
+a sprite we can start a loop that moves them all together.&nbsp; We also need to get a
+list of all the sprites that are touching the current sprite.&nbsp; We can not execute
+this in the beginSprite handler as all of the sprites will not respond.&nbsp; (On sprite
+1's beginSprite handler, 2,3,4, etc. do not yet exist on the stage).&nbsp; So how do we do
+this?&nbsp; For simplicity we can set a property in the beginSprite handler telling it
+that it has not initialized yet.&nbsp; On the exitFrame handler it checks this property
+and runs the initialization script the first time it exits the frame, then resets the
+variable so the loop will not happen again.</p>
+
+<p align="left">So now what?&nbsp; Well, once we know all this, we can turn the box upside
+down and throw everything out on the table!&nbsp; You will see below that there is a
+command called shuffle.&nbsp; This takes the pieces size and the stage size and picks a
+random place inside the stage to drop the piece.&nbsp; Now the fun starts.&nbsp; We don't
+want to set the sprites to moveable as it is harder to track them.&nbsp; We only want them
+to move when we let them.&nbsp; This way we can make everything move together using one
+handler.&nbsp; Every time the sprite is clicked a loop starts that runs until the mouse is
+released.&nbsp; In this loop we do a sendAllSprites call that tells every sprite to check
+its group number, and if they match, move the same amount as the mouse.&nbsp; Then when we
+let go we tell all the sprites to gather a list of all the sprites they can connect to and
+send them back.&nbsp; With this list we use the sendSprite command to send each sprite in
+the list a command to see if they are the same amount of space away from their original
+location as our clicked piece.&nbsp; If so we change the group and lock them.&nbsp; For
+ease of use I have also added a number of pixels that the user can be within and the
+pieces will snap together, as well as using the locZ to put the clicked piece above the
+other pieces.&nbsp; Below is the code...</p>
+
+<table border="1" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td width="100%"><font FACE="Courier"><font color="#000000">property spriteNum,
+    origonalLoc, group, lockSpritesList, baseMove, initialized</font><p><font color="#000000">global
+    topZ, allPieces, tollerance, amDone</font></p>
+    <p><font color="#000000">on beginSprite me<br>
+    &nbsp; if<font FACE="Courier"> amDone = void</font> then<font FACE="Courier"> amDone =</font>
+    false<br>
+    &nbsp; if<font FACE="Courier"> tollerance = void</font> then<font FACE="Courier">
+    tollerance = 5</font><br>
+    &nbsp; if<font FACE="Courier"> allPieces = void</font> then<font FACE="Courier"> allPieces
+    = 0</font><br>
+    &nbsp; <font FACE="Courier">allPieces = allPieces + 1</font><br>
+    &nbsp; <font FACE="Courier">topZ = sprite(spriteNum).locZ</font><br>
+    &nbsp; origonalLoc = sprite(spriteNum).loc<br>
+    <font FACE="Courier">&nbsp; group = spriteNum</font> <br>
+    &nbsp; baseMove =<font FACE="Courier"> sprite(spriteNum).loc</font> <br>
+    &nbsp; initialized = false<br>
+    end</font></p>
+    </font><p><font FACE="Courier"></font><font color="#000000" FACE="Courier">on mouseDown me<br>
+    &nbsp; if amDone = false then<br>
+    &nbsp;&nbsp;&nbsp; topZ = topZ + 1<br>
+    &nbsp;&nbsp;&nbsp; sendAllSprites(#pullUp, group) <br>
+    &nbsp;&nbsp;&nbsp; startClick = the mouseLoc<br>
+    &nbsp;&nbsp;&nbsp; sendAllSprites(#getBase)<br>
+    &nbsp;&nbsp;&nbsp; repeat while the stilldown<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sendAllSprites(#moveMe, group, (the mouseLoc - startClick))<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; updateStage <br>
+    &nbsp;&nbsp;&nbsp; end repeat&nbsp; <br>
+    &nbsp;&nbsp;&nbsp; --see if it &quot;locked&quot; with another bordering sprite<br>
+    &nbsp;&nbsp;&nbsp; searchList = []<br>
+    &nbsp;&nbsp;&nbsp; --get a searchList<br>
+    &nbsp;&nbsp;&nbsp; sendAllSprites(#checkGroup, group, searchList)<br>
+    &nbsp;&nbsp;&nbsp; returnList = []<br>
+    &nbsp;&nbsp;&nbsp; --check the locking location of all touching sprites<br>
+    &nbsp;&nbsp;&nbsp; repeat with x = 1 to searchList.count<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sendSprite(searchList[x], #checkLock, group, origonalLoc -
+    sprite(spriteNum).loc, returnList)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if returnList &lt;&gt; [] then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sendAllSprites(#lockGroup, group,
+    returnList[1][1], returnList[1][2])<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit repeat<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end if<br>
+    &nbsp;&nbsp;&nbsp; end repeat<br>
+    &nbsp;&nbsp;&nbsp; updateStage<br>
+    &nbsp;&nbsp;&nbsp; winList = []<br>
+    &nbsp;&nbsp;&nbsp; sendAllSprites(#checkWin, winList, group)<br>
+    &nbsp;&nbsp;&nbsp; if winList.count = 0 then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --all true, winner<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; amDone = true<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; go &quot;win&quot;<br>
+    &nbsp;&nbsp;&nbsp; end if <br>
+    &nbsp; end if <br>
+    end</font></p><p>
+    <font FACE="Courier"></font><font color="#000000" FACE="Courier">on exitFrame me<br>
+    &nbsp; if initialized = false then<br>
+    &nbsp;&nbsp;&nbsp; lockList = []<br>
+    &nbsp;&nbsp;&nbsp; sendAllSPrites(#getConnected, spriteNum, lockList)<br>
+    &nbsp;&nbsp;&nbsp; lockSpritesList = lockList<br>
+    &nbsp;&nbsp;&nbsp; initialized = true<br>
+    &nbsp; end if<br>
+    end</font></p>
+    <p><font color="#000000" FACE="Courier">on getConnected me, whatSprite, lockList<br>
+    &nbsp; if sprite(spriteNum).intersects(whatSprite) and whatSprite &lt;&gt; spriteNum then<br>
+    &nbsp; lockList.add(spritenum)<br>
+    end if<br>
+    end</font></p>
+    <p><font color="#000000" FACE="Courier">on shuffle me <br>
+    &nbsp; okW = the stageRight - the stageLeft - sprite(spriteNum).width<br>
+    &nbsp; okH = the stageBottom - the stageTop - sprite(spriteNum).height <br>
+    &nbsp; randomH = random(okW)<br>
+    &nbsp; randomV = random(okH)<br>
+    &nbsp; sprite(spriteNum).rect = rect(randomH, randomV, randomH + sprite(spriteNum).width,
+    randomV + sprite(spriteNum).height)<br>
+    end</font></p>
+    <p><font color="#000000" FACE="Courier">on pullUp me, whatGroup<br>
+    &nbsp; if whatGroup = group then<br>
+    &nbsp;&nbsp;&nbsp; sprite(spriteNum).locZ = topZ<br>
+    &nbsp; end if<br>
+    end</font></p>
+    <p><font color="#000000" FACE="Courier">on getBase me<br>
+    &nbsp; baseMove = sprite(spriteNum).loc<br>
+    end</font></p>
+    <p><font color="#000000" FACE="Courier">on checkGroup me, theGroup, searchList<br>
+    &nbsp; if theGroup = group then<br>
+    &nbsp;&nbsp;&nbsp; if lockSpritesList.count &gt; 0 then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; repeat with x = 1 to lockSpritesList.count<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if searchList.getOne(lockSpritesList[x]) = 0
+    then searchList.add(lockSpritesList[x])<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end repeat<br>
+    &nbsp;&nbsp;&nbsp; end if<br>
+    &nbsp; end if<br>
+    end</font></p>
+    <p><font color="#000000" FACE="Courier">on lockGroup me, whatGroup, newGroup, newOffset <br>
+    &nbsp; if group = whatGroup then<br>
+    &nbsp;&nbsp;&nbsp; group = newGroup <br>
+    &nbsp;&nbsp;&nbsp; sprite(spriteNum).loc = origonalLoc - newOffset<br>
+    &nbsp; end if<br>
+    end</font></p>
+    <p><font color="#000000" FACE="Courier">on moveMe me, whatGroup, whereMove<br>
+    &nbsp; if group = whatGroup then<br>
+    &nbsp;&nbsp;&nbsp; sprite(spriteNum).loc = sprite(spriteNum).baseMove + whereMove<br>
+    &nbsp; end if<br>
+    end</font></p>
+    <font FACE="Courier"><p><font color="#000000">on dropDown me, howMany<br>
+    &nbsp; sprite(spriteNum).locZ = sprite(SpriteNum).locZ - howMany<br>
+    end</font></p>
+    </font><p><font FACE="Courier"></font><font color="#000000" FACE="Courier">on checkLock me, whatGroup, whatOffset,
+    returnList<br>
+    &nbsp; --if already linked no reason to run<br>
+    &nbsp; if whatGroup &lt;&gt; group then<br>
+    &nbsp;&nbsp;&nbsp; myOffset = origonalLoc - sprite(spriteNum).loc<br>
+    &nbsp;&nbsp;&nbsp; compareOffset = (myOffset - whatOffset) <br>
+    &nbsp;&nbsp;&nbsp; if abs(compareOffset.locH) &lt;= tollerance and abs(compareOffset.locV)
+    &lt;= tollerance then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --it is &quot;snapable&quot;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; returnList.add([group, myOffset])<br>
+    &nbsp;&nbsp;&nbsp; end if<br>
+    &nbsp; </font><font FACE="Courier"><font color="#000000"><font FACE="Courier">end if<br>
+    end</font></font></font></p>
+    <p><font color="#000000" FACE="Courier">on checkWin me, winList, whatGroup<br>
+    &nbsp; if group &lt;&gt; whatGroup then<br>
+    &nbsp;&nbsp;&nbsp; winList.add(spriteNum)<br>
+    &nbsp; end if<br>
+    end</font></td>
+  </tr>
+</table>
+
+<p align="left">This may look like a lot at first, but basically all that we have done is
+taken each command out as a separate handler and allowed it to be accessible through a
+sendSprite or sendAllSprites command.&nbsp; From here we make our pieces, set them to
+background transparent (matte will not work as no pixels actually overlap), and make a
+marker called &quot;win&quot; to go to when all pieces match.&nbsp; Put the assembled
+puzzle on the stage, drop on the behavior, and let it go.&nbsp; To mix them up just issue
+the following command...</p>
+
+<p align="left">sendAllSprites(#shuffle)</p>
+
+<p align="left">That's it!&nbsp; Here is an example of the finished script inaction.
+&nbsp; All that was added were the two buttons, an exitFrame handler to issue the shuffle
+command, and a basic &quot;go to the frame&quot; script.</p>
+
+  <p align="center"> <object CLASSID="clsid:166B1BCA-3F9C-11CF-8075-444553540000"
+CODEBASE="http://active.macromedia.com/director/cabs/sw.cab#version=7,0,0,0" WIDTH="400"
+HEIGHT="300">
+      <param name="SRC" value="puzzle%5B1%5D.dir">
+      <param name="BGCOLOR" value="#CCCCCC">
+      <param name="swLiveConnect" value="FALSE">
+      <param name="AutoStart" value="TRUE">
+      <embed SRC="puzzle%5B1%5D.dir" WIDTH="320" HEIGHT="240"
+PLUGINSPAGE="http://www.macromedia.com/shockwave/" BGCOLOR="#CCCCCC" swLiveConnect="FALSE"
+AutoStart="TRUE">
+      </embed> <noembed>You need <A HREF = 'http://www.macromedia.com/shockwave/'>ShockWave</A> 
+      to view this movie.</noembed> 
+    </object> </p>
+<p>Download a sample of this project <a href="0009-files/puzzleexample.dir">here.</a></p>
+
+<p align="left">Want to make it more complicated?&nbsp; You could set up a list of sprites
+not to lock in the initial checking process, adapt it to odd shaped puzzles, use lists
+rather than the original location to link items, and add some sounds.&nbsp; The sky is the
+limit.&nbsp; Happy coding.</p>
+
+<p align="center">As usual, you can also find all of these behaviors/scripts in the <a
+href="/search.shtml">behavior database.</a></p>
+
+
+
+<p align="center"><a href="/howto.shtml">Return to the article list</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/howdosub.shtml">Submit a Question</a></p>
+<p align=center><small>MediaMacros Copyright 1999 <a href="mailto:chuck@mediamacros.com">Chuck
+Neal</a></small></p>
+
+</center></body></html>
+

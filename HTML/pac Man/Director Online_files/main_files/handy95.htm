@@ -1,0 +1,395 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy95.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 95</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#770000 aLink=#ff0000 link=#ff0000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=31 src="handy95_files/handyman.gif" width=213 
+      border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG height=9 
+            src="handy95_files/archiveDivLine.gif" width=440 align=bottom 
+            border=0></TD>
+          <TD vAlign=top width=55 rowSpan=2><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+            height=28 src="handy95_files/archiveDiv.gif" width=55 align=bottom 
+            border=0></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <P><B><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Dear 
+            Multimedia Handyman</FONT></B> 
+</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD><BR>
+      <P>In a game I am making I need 3 sprites to move around on their own 
+      while being bound by a maze similar to how the ghosts move around in 
+      Pac-man. Could you please show me how to do this. I heard a behavior could 
+      be easily made to allow this to happen. Thanks for your help! 
+      <P>Al <WALKNGZERO@AOL.COM>
+      <P>Dear Al, 
+      <P>There are a lot of variants on exactly how these ghosts might behave. 
+      I'm going to keep the behavior general and random, rather than dictate any 
+      particular biases that these free-roaming sprites might favor. 
+      <P>I spent a bit of time pondering the best approach for something like 
+      this. And I'm not sure I've got the <B>best</B> solution, so I'll share my 
+      thoughts and let you explore the options. I started out by considering 
+      whether the sprites should virtually "see" the walls of the maze -- and 
+      quickly decided no. You'll want to construct the maze as a single graphic 
+      in a single sprite channel, so there would be no way for the sprite to 
+      sense and react to a wall (unless you got really nutty and started doing 
+      some kind of a getPixel routine.) 
+      <P>So, if the sprites can't see the walls, how do they know what to do? I 
+      think they should be on "auto-pilot"... moving along in one direction 
+      until they are told to go a different direction. One possibility for 
+      implementing this would be an object -- kind of an omnipotent manager 
+      which keeps track of the maze, where the walls are and where the sprites 
+      are. This might work, but I'm averse to this omnipotent manager concept. 
+      I'd much rather have the intelligence dispersed and independent. 
+      <P>I hit upon this idea of "road sensors" -- imagine driving down the road 
+      in your car. When you come to an intersection, a sensor buried under the 
+      pavement signals your car which way to go and it responds. I like this 
+      idea, so the next question is where is the intelligence? Does the road 
+      sensor think about which direction you came from, and then decide which 
+      way you should go? I think not -- it seems more intuitive that the car 
+      would already know which way it is moving, so all it needs is to know the 
+      options and then it can decide (in my demo, the "decision" is completely 
+      random.) 
+      <P>Let's apply this concept to Director in this sequence of events. 
+      <P>
+      <OL>
+        <LI>When the "maze mover" sprite first appears, it adds its own 
+        spriteNum to a global list called gMoverList. 
+        <LI>The maze mover sprite has been assigned an initial direction for 
+        motion, and sets out at a predetermined rate (10 pixels/frame) in the 
+        predetermined direction. 
+        <LI>Sensors are placed throughout the maze at every intersection and 
+        "doorway". Each sensor "knows" its particular options for egress: 
+        northExit, southExit, eastExit and westExit. 
+        <LI>On each enterFrame, these sensors check to see if any of the sprites 
+        in the gMoverList happen to be on top of it. 
+        <LI>If a mover sprite is over a sensor, the sensor sends a message to 
+        the mover sprite telling it to change direction -- and telling it which 
+        directions are possible options. 
+        <LI>The mover sprite gets the message to change direction and chooses a 
+        new direction from the options presented. </LI></OL>
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=400 height=360><PARAM NAME="SRC" VALUE="../other/handy95.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed src="../other/handy95.dcr"
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="400" height="360" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>In this demo, I've chosen to make my "road sensors" visible, but they 
+      could easily be buried below a maze graphic. I just wanted you to see all 
+      of the decision points. I've also left the pink grid lines in to emphasize 
+      the point that you've really got to get everything lined up perfectly -- 
+      at least in my approach. The way I did it, the road sensors check to see 
+      if the maze mover sprite shares the same loc -- which means that the 
+      sensors must be a precise number of pixels apart, and the maze movers must 
+      move in evenly divisable increments. 
+      <P>Here's the road sensor behavior. <PRE><FONT color=#cc0000>
+--Road Sensor maze behavior
+--copyright © 1999, ZZP Online, LLC
+-- free use for DOUG readers
+
+property spriteNum, pNorthExit, pSouthExit, pEastExit
+property pWestExit, pMyLoc, pOptions
+
+global gMoverList
+
+<B>on getPropertyDescriptionList</B>
+
+  pList = [:]
+  addProp pList, #pNorthExit, [#comment: "North Exit?", ¬
+    #format: #boolean, #default:0]
+  addProp pList, #pSouthExit, [#comment: "South Exit?", ¬
+    #format: #boolean, #default:0]
+  addProp pList, #pEastExit, [#comment: "East Exit?", ¬
+    #format: #boolean, #default:0]
+  addProp pList, #pWestExit, [#comment: "West Exit?", ¬
+    #format: #boolean, #default:0]
+  return pList  
+  
+end getPropertyDescriptionList
+
+<B>on beginSprite me</B>
+
+  pMyLoc = sprite(spriteNum).loc
+  optionString = ""
+  if pNorthExit then put "n" after optionString
+  if pSouthExit then put "s" after optionString
+  if pEastExit then put "e" after optionString
+  if pWestExit then put "w" after optionString
+  pOptions = symbol(optionString)
+  
+end beginSprite
+
+<B>on enterFrame me</B>
+
+  repeat with testSprite in gMoverList
+    testLoc = sprite(testSprite).loc
+    if testLoc = pMyloc then
+      sendSprite(testSprite, #changeDir, pOptions)
+      put "changeDir" &amp;&amp; pOptions
+    end if
+  end repeat
+  
+end exitFrame</FONT></PRE>
+      <P>To apply this behavior, you simply indicate whether a maze mover (when 
+      on top of this sensor) could exit to the north, south, east, and/or west. 
+      Based on your input, it creates a value for the pOptions property: 
+      example, #nsw signifies that the maze mover could proceed from this sensor 
+      to the north, south, or west. Again, this sensor behavior simply sends a 
+      message to the maze mover telling it what the options are. 
+      <P><IMG height=149 alt="" src="handy95_files/handy95.gif" width=282 
+      border=0> 
+      <P>The behavior for the maze mover sprites is considerably longer, but 
+      don't get freaked out. It's not all that complicated. Most of the code is 
+      focused on the logic of picking a new direction to go. It's tedious and 
+      repetitive, and I don't know of a quicker way. Please let me know if 
+      anyone can think of a cleaner approach. (NOTE: a reader <B>did</B> 
+      contribute an alternative approach. See at bottom.) <PRE><FONT color=#cc0000>
+-- Maze Mover behavior
+-- copyright © 1999, ZZP Online, LLC
+-- free use for DOUG readers 
+
+property spriteNum, pSpeed, pMyDirection, pVdir, pHdir
+global gMoverList
+
+<B>on getPropertyDescriptionList</B>
+
+  pList = [:]
+  dirList = [#north, #south, #east, #west]
+  addProp pList, #pSpeed, [#comment: "Speed (a factor of 40):", ¬
+    #format: #integer, #default: 10]
+  addProp pList, #pMyDirection, [#comment: "Initial Direction:", ¬
+    #format:#symbol, #default:#north, #range: dirList]
+  return pList
+  
+end getPropertyDescriptionList
+
+<B>on beginSprite me</B>
+
+  add gMoverList, spriteNum
+  
+  if voidP(gMoverList) then
+    gMoverList = []
+  end if
+  
+  pHDir = 0
+  pVDir = 0
+  
+  case pMyDirection of
+    #north: pVDir = -1
+    #south: pVDir = 1
+    #east: pHDir = 1
+    #west: pHDir = -1
+  end case
+  
+end beginSprite
+
+<B>on exitFrame me</B>
+
+  sprite(spriteNum).flipH = not sprite(spriteNum).flipH
+  sprite(spriteNum).locH = sprite(spriteNum).locH + (pSpeed * pHDir)
+  sprite(spriteNum).locV = sprite(spriteNum).locV + (pSpeed * pVDir)
+  
+end exitFrame
+
+<B>on changeDir me, options </B>
+
+  put pMyDirection &amp;&amp; "before"
+  
+  case pMyDirection of
+  
+    #south:
+    
+      case options of
+      
+        #ne: pMyDirection = #east
+        #nw: pMyDirection = #west
+        #new:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #east
+            2: pMyDirection = #west
+          end case
+        #nse:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #east
+            2: pMyDirection = #south
+          end case
+        #nsw:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #west
+            2: pMyDirection = #south
+          end case
+      end case
+      
+    #north:
+    
+      case options of
+      
+        #se: pMyDirection = #east
+        #sw: pMyDirection = #west
+        #sew:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #east
+            2: pMyDirection = #west
+          end case
+        #nse:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #east
+            2: pMyDirection = #north
+          end case
+        #nsw:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #west
+            2: pMyDirection = #north
+          end case
+      end case
+      
+    #west:
+    
+      case options of
+        #ne: pMyDirection = #north
+        #se: pMyDirection = #south
+        #new:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #north
+            2: pMyDirection = #west
+          end case
+        #sew:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #west
+            2: pMyDirection = #south
+          end case
+        #nse:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #north
+            2: pMyDirection = #south
+          end case
+      end case
+      
+    #east:
+    
+      case options of
+      
+        #sw: pMyDirection = #south
+        #nw: pMyDirection = #north
+        #sew:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #east
+            2: pMyDirection = #south
+          end case
+        #new:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #east
+            2: pMyDirection = #north
+          end case
+        #nsw:
+          pickOne = random(2)
+          case pickOne of
+            1: pMyDirection = #north
+            2: pMyDirection = #south
+          end case
+          
+      end case
+      
+  end case
+  
+  put pMyDirection &amp;&amp; "now"
+  
+  pHDir = 0
+  pVDir = 0
+  
+  case pMyDirection of
+    #north: pVDir = -1
+    #south: pVDir = 1
+    #east: pHDir = 1
+    #west: pHDir = -1
+  end case
+  
+end changeDir</FONT></PRE>
+      <P>The downside of this approach is that there are a lot of sensors in 
+      even this small maze. And every enterFrame, each of these sensors is 
+      checking to see if every sprite in gMoverList happens to be on top of it. 
+      In most instances, this will not be the case. One alternative approach 
+      would be to have each of the maze movers check through a list of sensors, 
+      but this is the same number of calculations, so it doesn't really save us 
+      anything. 
+      <P>Download the sample movie (in <A 
+      href="http://www.director-online.com/howTo/other/handy95.hqx">Mac</A> or 
+      <A href="http://www.director-online.com/howTo/other/handy95.zip">PC</A> 
+      format) and spend some time playing with it and dissecting the code -- 
+      which is intended as a jumpstart, not a final solution. There's lots of 
+      room for variation and improvement... so get creative. Good luck with your 
+      game. 
+      <P>P.S. Thanks to <A href="mailto:nick.potter@caribiner.com.hk">Nick 
+      Potter</A> who sent me his comments and this shorter approach to the 
+      changeDir handler in the Maze Mover behavior. <PRE><FONT color=#cc0000>
+<B>on changeDir me, options</B>
+  
+  pPossible = string(options)
+  
+  -- First work out the direction in reverse
+  vIgnore = [ [#north, #south, #east, #west], ["s","n","w","e"] ]
+  vBackwards = getAt(vIgnore[2],getpos(vIgnore[1],pMyDirection))
+  
+  -- Then remove it form the list of options
+  vBackLoc = offset(vBackwards, pPossible)
+  
+  -- Fix to stop them sticking when they first start
+  if vBackLoc &gt; 0 then
+    delete char vBackLoc of pPossible
+  end if
+  
+  -- And now pick a new direction the the remaining options
+  vNewDirLoc = random(length(pPossible))
+  vNewDir = char vNewDirLoc of pPossible
+  
+  -- Finally send the sprite on its way
+  pHDir = 0
+  pVDir = 0
+  
+  case vNewDir of
+    "n" :
+      pMyDirection = #north
+      pVDir = -1
+    "s":
+      pMyDirection = #south
+      pVDir = 1
+    "e":  
+      pMyDirection = #east
+      pHDir = 1
+    "w": 
+      pMyDirection = #west
+      pHDir = -1
+  end case
+  
+end changeDir</FONT></PRE>
+      <P><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A target=display 
+      href="http://www.director-online.com/help_central/Display.html">Help 
+      Central</A> section of DOUG.</FONT> </P></TD></TR></TBODY></TABLE></BODY></HTML>

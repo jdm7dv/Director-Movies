@@ -1,0 +1,708 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0054)http://www.director-online.com/buildArticle.cfm?id=317 -->
+<HTML><HEAD><TITLE>A Director Online article</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<SCRIPT language=JavaScript>
+    <!--
+    function MM_openBrWindow(theURL,winName,features) { //v1.2
+      window.open(theURL,winName,features);
+    }
+    //-->
+</SCRIPT>
+
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#31427b aLink=#425294 link=#425294 bgColor=#ffffff>
+<P><BR>
+<TABLE height=25 cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#cecece>
+    <TD><A 
+      onmouseover="window.status='Get the direct URL for this article'; return true" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=317','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/generateURL.cfm?id=317"><IMG 
+      height=25 alt="Get the direct URL for this article" 
+      src="buildArticle_files/articleURL.gif" width=87 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Visit the Using Director article archive'; return true" 
+      href="http://www.director-online.com/archive.cfm?pSection=Using%20Director"><IMG 
+      height=25 alt="Visit the Using Director article archive" 
+      src="buildArticle_files/archives.gif" width=66 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Check out other articles by Zac Belado'; return true" 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=40"><IMG 
+      height=25 alt="Check out other articles by Zac Belado" 
+      src="buildArticle_files/author.gif" width=56 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Mail this article to a friend'; return true" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=317','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      href="http://www.director-online.com/emailArticle.cfm?id=317"><IMG 
+      height=25 alt="Mail this article to a friend" 
+      src="buildArticle_files/mailArticle.gif" width=83 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar"><IMG 
+      height=25 alt="Sign in to your myDOUG page" 
+      src="buildArticle_files/signIn.gif" width=63 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true" 
+      href="http://www.developernation.com/Forums/index.cfm?cfapp=2"><IMG 
+      height=25 alt="Discuss this article on DOUGthreads" 
+      src="buildArticle_files/discussArticle.gif" width=105 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='What do these buttons do?'; return true" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/help.html"><IMG height=25 
+      alt="What do these buttons do?" src="buildArticle_files/help.gif" width=25 
+      border=0></A> </TD></TR></TBODY></TABLE>
+<P><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" size=+2><B>Using 
+Director</B></FONT><BR><FONT 
+face="Verdana, Arial, Geneva, Helvetica, sans-serif" color=#cc0000 
+size=+1><B>Integrating with Cold Fusion</B></FONT> 
+<P><FONT size=-1>by <A href="mailto:zac@director-online.com">Zac Belado</A> 
+</FONT>
+<P>
+<TABLE cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>
+      <P>Shockwave is, perhaps, one of the most misunderstood technologies on 
+      the Web. This is primarily because most people's experience of Shockwave 
+      has been the games and eyecandy that get featured on Shockwave enabled 
+      sites and the Shockwave Site of the Day. People see games and they assume, 
+      incorrectly, that Shockwave isn't capable of creating "mature" web 
+      applications. 
+      <P>One of Shockwave's often overlooked strengths is the ability to provide 
+      interfaces to server side database applications. Shockwave is ideal for 
+      creating interfaces to database applications because of the unique 
+      advantages that it has. 
+      <UL>
+        <LI>Allows the creation of clean, attractive interfaces 
+        <LI>Transparent interface to multiple data sources 
+        <LI>Client side processing of data 
+        <LI>Simple and consistent user experience </LI></UL>
+      <P>Consider the following example. 
+      <P>
+      <BLOCKQUOTE><I>Company X wants to provide a web based display of their 
+        products. Visitors to their web-site will be able to view a list of 
+        product categories, select a product category to view the individual 
+        products and then select a specific product in order to view its 
+        details. </I></BLOCKQUOTE>
+      <P>Typically this would mean that the user would be presented with 3 
+      different web pages (which would also mean three different browser 
+      refreshes). The web and application server would be required to generate 
+      and format three different sets of data and the user would have to 
+      continually jump between pages if they wanted to browse different 
+      categories or products. 
+      <P>A much simpler solution is to package all this functionality into a 
+      single Shockwave application. To show why this is more effective, let's 
+      create a small Shockwave application that will interact with the databases 
+      that drive this website. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>The Plan</FONT></H4>
+      <P>Our Shockwave app will do the following 
+      <UL>
+        <LI>Generate a distinct list of authors 
+        <LI>When an author is selected, generate a list of articles they have 
+        written 
+        <LI>Allow the user to view the description or short "blurb" for each 
+        article 
+        <LI>View the article in a new browser window </LI></UL>
+      <P>Additionally it will keep each level of data persistent on the screen 
+      so that the user can easily navigate through the data without requiring 
+      additional database queries. 
+      <P><IMG height=384 alt="" src="buildArticle_files/UD67_UI.gif" width=484 
+      border=0> 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>The man behind the curtain</FONT></H4>
+      <P>Director Online uses Allaire's <A target=_blank 
+      href="http://www.coldfusion.com/">Cold Fusion</A> to generate the dynamic 
+      content on the site. Cold Fusion is a server side application that uses a 
+      set of custom tags (called CFML which is similar to HTML) to create 
+      database queries and then return the data that the server gets from the 
+      database. 
+      <P>A very simple example is <PRE>&lt;CFQUERY NAME="getAuthor" DATASOURCE="aDataBaseName"&gt;
+SELECT DISTINCT authorName
+FROM thisDatbase
+&lt;/CFQUERY&gt;
+
+&lt;cfoutput query="getAuthor"&gt;
+#authorName#
+&lt;/cfoutput&gt;</PRE>
+      <P>This code queries a database for all the distinct author names and then 
+      displays them all. (A good introduction to SQL the language that drives 
+      Cold Fusion and many other database systems can be found at <A 
+      target=_blank 
+      href="http://www.geocities.com/ResearchTriangle/Node/9672/sqltut.html">http://www.geocities.com/ResearchTriangle/Node/9672/sqltut.html</A>). 
+      A version of this page that will return a list of the authors who have 
+      written for DOUG is <A target=_blank 
+      href="http://www.director-online.com/test/getAuthor.cfm">here</A>. Take a 
+      second to examine the format in which the data gets returned in the 
+      browser window and also to view the page's source to see how the Cold 
+      Fusion server returns the data. The data as viewed in the browser window 
+      is a mess but the source code simply has each author's name on a separate 
+      line. 
+      <P>Unless you provide HTML code to format the data the Cold Fusion server 
+      will simply return the values stored in the database. This is somewhat 
+      useless if you want to create attractive web pages, but is great if you 
+      just want the data. All we need to know, in order to program our Shockwave 
+      app, is the format that the data is going to be returned. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Talking to the Cold Fusion server</FONT></H4>
+      <P>In order to get the data from the Cold Fusion server our Shockwave app 
+      is going to make getNetText calls to CFML pages (Cold Fusion Markup 
+      Language) that will request the data from the server. There are, in simple 
+      terms, two ways to communicate with a Cold Fusion server. Either by 
+      requesting a page that is self-contained (it needs no other data to 
+      process its calls to the database) or by passing data to the server in the 
+      URL of the page we are requesting which the page will then use to create a 
+      unique database query. An example of the former is <PRE><A target=_blank href="http://www.director-online.com/test/getAuthor.cfm">http://www.director-online.com/test/getAuthor.cfm</A></PRE>
+      <P>and an example of the latter is <PRE><A target=_blank href="http://www.director-online.com/test/generateAuthorDetails.cfm?name=Zac">
+http://www.director-online.com/test/generateAuthorDetails.cfm?name=Zac</A></PRE>
+      <P>In the first example the user will be presented with whatever data the 
+      page is coded to prepare. In the second case the URL provides the server 
+      with additional information, in this case the name of the author, which it 
+      then uses to modify its database query. Cold Fusion uses standard URL 
+      encoding schemes, so you add additional parameters to the URL by 
+      separating them with an ampersand. You can also send data to a Cold Fusion 
+      server using web page form elements (as you would with a traditional Perl 
+      CGI) but that format isn't applicable to our Shockwave application. 
+      <P>In our specification we have indicated that we will need three distinct 
+      Cold Fusion pages: a self contained page that will just return a distinct 
+      list of authors, a page to return all the articles written by a particular 
+      author and a final page to return either a description or short blurb for 
+      a distinct article. All that we need to write our Shockwave app is the 
+      format of the URLs and the format in which the data is returned by the 
+      Cold Fusion server. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>URLs</FONT></H4>
+      <P>The three URLs are 
+      <P>getAuthor.cfm [<A target=_blank 
+      href="http://www.director-online.com/test/getAuthor.cfm">sample</A>]<BR>This 
+      page returns a list of the authors 
+      <P>generateAuthorDetails.cfm?name=&lt;author name&gt; [<A target=_blank 
+      href="http://www.director-online.com/test/generateAuthorDetails.cfm?name=Zac">sample</A>]<BR>This 
+      page requires a name to be provided and then returns the data for each 
+      article written by that author. 
+      <P>getBlurb.cfm?id=&lt;article id&gt;&amp;type=&lt;type of blurb&gt; [<A 
+      target=_blank 
+      href="http://www.director-online.com/test/getBlurb.cfm?id=21&amp;type=small">sample</A>]<BR>This 
+      final page requires an article ID number (which is supplied by 
+      generateAuthorDetails.cfm) and an optional type to differentiate between 
+      full and small article blurbs. 
+      <P>All the URLs have to be properly encoded (all the special characters 
+      have to be hex encoded) or the server will generate an error. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Data format</FONT></H4>
+      <P>Each page will return data in the following formats 
+      <P>getAuthor.cfm<BR>&lt;author name&gt; 
+      <P>generateAuthorDetails.cfm<BR>&lt;title&gt;, &lt;article ID&gt; 
+      <P>getBlurb.cfm<BR>&lt;description&gt; 
+      <P><B>Note</B>: I use Director's default text delimiter (the comma) in 
+      these pages because I know that none of the data in the Director Online 
+      article database contains commas. It is probably much safer to use a less 
+      common delimiter in order to avoid a situation where data getting returned 
+      from the database contains commas. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Writing code</FONT></H4>
+      <P>So now that we know what pages to call and what the data is going to 
+      look like, it's time to start writing some code. The first thing we are 
+      going to need is an autonomous object that will make the getNetText calls, 
+      wait for the Cold Fusion server to return the data and then send the 
+      results off to be processed. You could handle this process by using repeat 
+      loops or exitFrame checks to see if the netID was done, but it is much 
+      simpler to create an object, task it to wait for the netID, and then 
+      forget it. 
+      <P>The object will need to have 4 properties: the netID of the getNetText 
+      call it makes, the name of the field that will be the target for the text 
+      that gets returned from the Cold Fusion server, the URL it needs to call 
+      and a boolean value to determine whether the data should be either placed 
+      in the field or if it needs to be recorded into an internal results list 
+      (more on this later). <PRE><FONT color=#cc0000>property pNetId, pFieldName, pURL, pRecordData
+
+<B>on new me, aURL, fieldName, aBoolean</B>
+  
+  -- by default assume that we don't want 
+  -- to record the data
+  if voidP(aBoolean) then aBoolean = FALSE
+  
+  -- store the data we were passed
+  pURL= aURL
+  precordData = aBoolean
+  pFieldName = fieldName
+  
+  -- clear out the results field just to be sure
+  member (pFieldName).text = ""
+  
+  -- send off for the data and record the netID
+  getCFMData me 
+  
+  -- pop the object into the actorlist
+  add (the actorlist, me)
+ 
+end</FONT></PRE>
+      <P>Notice that the object doesn't have a "return me" statement. Since the 
+      object is to be autonomous (it doesn't need to have any other handler or 
+      method in the movie refer to it) we don't need to record a reference to 
+      the object anywhere. Instead, the object enters a reference to itself to 
+      the actorList. This way the code gets called every frame without having to 
+      have any external references to the object. <PRE><FONT color=#cc0000><B>on getCFMData me</B> 
+  
+  -- turn the load loop animation on
+  toggleLoadLoop True
+  
+  -- send off for the data
+  getNetText pURL
+  
+  -- record the id of this process for further testing
+  set pNetId = getLatestNetId()
+  
+end </FONT></PRE>
+      <P>The object takes the URL it was provided and uses it in a getNetText 
+      call and then records the netID of that process for later reference. <PRE><FONT color=#cc0000><B>on stepFrame me</B>
+ 
+  -- if the process isn't finished then just 
+  -- skip the rest of the code
+  if not netDone(pNetId) then return
+  
+  -- if we're done then hand off the results to process them
+  
+  -- check for an error first
+  if netError (pNetId) = "" OR netError (pNetId) = "OK" then
+
+    processResults netTextResult (pNetId), pFieldName, ¬
+      pRecordData
+    
+  else
+    alert netError (pNetId)
+  end if
+  
+  -- when done, delete myself from the actorlist
+  deleteOne( the actorList, me)
+  
+end </FONT></PRE>
+      <P>Then every frame, the object will check to see if the getNextText call 
+      has returned any results, check for an error and then pass the resulting 
+      data off to be processed if there wasn't an error. As a final act it 
+      deletes itself from the actorList. 
+      <P>Now we have a large amount of text and need to process it. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>What do I do with all this text?</FONT></H4>
+      <P>Unlike a browser, Shockwave will not simply ignore that white space 
+      around the data that the Cold Fusion server produces. So if the browser 
+      shows <PRE>Al Hospers Alan Levine Andrew White</PRE>
+      <P>The source for the page will look like <PRE>
+
+
+
+
+Al Hospers
+
+Alan Levine
+
+Andrew White</PRE>
+      <P>Notice the white space that preceeeds the data. 
+      <P>The Cold Fusion server will take the CFML code and, for security 
+      reasons, delete it from the page that it creates and returns to the 
+      browser. So for every line of CFML tags you have you will get a resulting 
+      blank line in the page the server returns. As well, depending on the page 
+      you will also get stray spaces and/or tab characters that have been 
+      inserted by your HTML editor. Cold Fusion Studio, the application that 
+      most developers use to create Cold Fusion pages, uses either tabs or 
+      spaces to indent lines and these characters sometimes appear on lines that 
+      appear to be blank. 
+      <P>As well, spaces and extraneous characters can sometimes be added 
+      accidentally to the database during data entry and also due to a small bug 
+      in the Access database engine. All of these extra characters need to be 
+      removed from the data before we add it to a field for the user to view. 
+      This process can be aided by using the Trim tag in Cold Fusion to strip 
+      any extra characters from the data returned by the database. <PRE>&lt;cfoutput query="getBlurb"&gt;
+#Trim(displaytext)#
+&lt;/cfoutput&gt;</PRE>
+      <P>But this still won't take care of all the extraneous characters that 
+      can appear in a CFML file so we will also need to clean up the data that 
+      we are going to display before we present it to the user in our Shockwave 
+      application. 
+      <P>An added complication is that, in some cases, we want to display all 
+      the data, but in another (when we get the details of the author's 
+      articles) we want to store some data for later reference and just display 
+      a title. In order to facilitate this we will store a boolean value in our 
+      object and then use that to decide whether we want to simply process and 
+      display the data or process it, parse it and then display only a portion 
+      of it. <PRE><FONT color=#cc0000>global resultsList, currentID
+
+<B>on processResults thisText, thisFieldName, recordData</B>
+  
+  -- if not provided we do not record the data 
+  -- retrieved from the CFML page
+  if voidP (recordData) then recordData = FALSE
+  
+  -- clear the text fields
+  member("tempText").text = ""
+  member(thisFieldName).text = ""
+  
+  -- reset the global results list if 
+  -- we are recording data
+  if recordData then
+    set resultsList = []
+  end if
+  
+  -- find out how many lines are in the 
+  -- results we got back
+  thisLimit = thisText.line.count
+  linesAdded = FALSE
+  
+  -- now process each line of the results 
+  -- of the CFM call
+  repeat with index = 1 to thisLimit
+    
+    -- get the nth line
+    thisLine = thisText.line[index]
+    
+    -- don't add blank lines
+    if thisLine &lt;&gt; "" then
+      
+      -- if we want to record the data then there 
+      -- will be subsequent items in the line
+      if recordData then
+
+        thisTitle = thisLine.item[1]
+        thisID = integer(thisLine.item[2])
+        
+        -- put them in a list
+        thisList = [thisTitle, thisID]
+        
+        -- append this list to the global resuls list
+        append resultsList, thisList
+
+      else
+        -- if we aren't recording the data then 
+        -- just grab all of it
+        thisTitle = thisLine
+      end if
+      
+      -- trim the line
+      thisTitle = Trim(thisTitle)
+      
+      -- add the line to our offscreen text field as long as it 
+      -- isn't a line with only a carriage return or blank
+      if charToNum(thisTitle.char[1]) &lt;&gt; 13 AND ¬
+        thisTitle.chars.count &lt;&gt; 0 then
+        linesAdded = TRUE
+        member ("tempText").text = member ("tempText").text &amp; ¬
+          thisTitle &amp; RETURN
+      end if
+      
+    end if
+    
+  end repeat
+  
+  -- test to see if the results were blank
+  
+  if linesAdded then
+    -- now display the results
+    member (thisFieldName).text = member("tempText").text
+    
+  else
+    member (thisFieldName).text = "No data available"
+  end if
+  
+  toggleLoadLoop False
+
+  -- make sure that the field is at the top 
+  -- of the displayed text
+  member(thisFieldName).scrollTop = 0
+  
+end</FONT></PRE>
+      <P>This handler takes the text (and display details) from the object and 
+      then steps through each line of text. It strips any preceding and trailing 
+      extra characters (the Trim function) and then checks to make sure that the 
+      line isn't blank or just a carriage return (ASCII value 13). If the line 
+      passes all these tests, then it is added to a temporary field. Once all 
+      the lines have been processed then the text is copied from the temporary 
+      field into our target field. 
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Putting it together</FONT></H4>
+      <P>So all we need to do is string these disparate pieces of code together. 
+
+      <P><IMG height=271 alt="" src="buildArticle_files/UD67_process.gif" 
+      width=330 border=0> 
+      <P>The process we want to follow has three steps 
+      <OL>
+        <LI>Generate a URL via a user initiated event (clicking on a name or 
+        article) or during the startMovie handler 
+        <LI>Create an object to make a getNetText call using the URL and wait 
+        for the results 
+        <LI>Process the results and display them in a field </LI></OL>
+      <P>So to start things off, the startMovie handler will create an instance 
+      of the object that will get a list of all the authors who have written for 
+      DOUG. <PRE><FONT color=#cc0000>set thisURL = "http://www.director-online.com/test/getAuthor.cfm"
+set thisObj = new (script "cfmRetreive", thisURL, "authors")</FONT></PRE>
+      <P>The Cold Fusion page we want to call is self contained and doesn't need 
+      to have any extra data provided to it in so we can just pass the object 
+      the full URL to the page (with no parameters in the URL). The results of 
+      this call will be displayed in the "authors" field. 
+      <P>Once the data is in the author field the user can double click on a 
+      name and we will then call to a second page to get all the articles 
+      written by that author. Since an author's name is only ever entered in the 
+      database if they have written an article for DOUG there is no reason to do 
+      any error checking on the results of this second call. We know there will 
+      be at least one article. So we can attach a small script to the "author" 
+      field. <PRE><FONT color=#cc0000><B>on mouseUp</B>
+  
+  -- only load an author if the user double clicked
+  if the doubleClick then
+    
+    -- get the author name
+    thisAuthor = member("authors").text.line[the mouseLine]
+    
+    -- if the author isn't a blank line then proceed
+    if thisAuthor &lt;&gt; "" then
+      
+      -- now URL encode the spaces in the name
+      thisAuthor = URLencode (thisAuthor)
+      
+      -- clear the article displays
+      toggleArticleDisplay False
+      
+      -- generate the url and pass it off to an instance 
+      -- of the CFMRetreive object
+      thisURL = "http://www.director-online.com/test/¬
+        generateAuthordetails.cfm?name=" &amp; thisAuthor
+      thisObj = new (script "cfmRetreive", thisURL, ¬
+        "CGIResults", TRUE)
+      
+    end if
+    
+  end if
+  
+end</FONT></PRE>
+      <P>In this case the URL we generate has a parameter, the author's name, 
+      added to it. This parameter will be used by the Cold Fusion page to create 
+      a database query that will retrieve the details of all the articles 
+      written by that author. <PRE>&lt;CFQUERY NAME="getArticles" DATASOURCE="aDataSource"&gt;
+SELECT title, ID
+FROM articleTable
+WHERE author LIKE '%#Trim(URL.name)#%'
+&lt;/CFQUERY&gt;
+
+&lt;cfoutput query="getArticles"&gt;
+#Trim(title)#, http://www.director-online.com/accessArticle.cfm?id=#ID#, #ID#
+&lt;/cfoutput&gt;</PRE>
+      <P>The Cold Fusion code will take the author's name from the URL and 
+      substitute it in the SQL query. So if the user double clicked on Alan 
+      Levine's name the SQL query would look like <PRE>SELECT title. ID
+FROM articleTable
+WHERE aAuthor LIKE '%Alan Levine%'</PRE>
+      <P>And in Alan's case the Cold Fusion server would return <PRE>Education and clocks, 3 
+How to do storyboards in Director., 93 
+Perl or How I learned to stop fearing and love CGIs, 94 
+A memory space of one's own, 95 
+Random numbers, 96 
+Hey Browser it's Me! Shockwave? Hello?, 295 </PRE>
+      <P>This would then, in turn, be passed to the processResults function. 
+      Notice that, in this case, the call to the CFMRetreive object also 
+      includes the TRUE value for the pRecordData property. This means that when 
+      we call the processResults function it will record the values for each 
+      article in the global resultsList but only display the article names in 
+      the CGIResults field. 
+      <P>The final step is to allow the user to view further data about the 
+      article (either the small or full description) or view the article. This 
+      is a two-step process. The user has to select an article and then select 
+      an option to view either a small blurb, a full blurb or to open the 
+      article in a new browser window. So when the suer double clicks on an 
+      article title we will store the article ID we got from our previous CFML 
+      page in a global variable and display three buttons, one for each option, 
+      and allow the user to select one of them if they wish. 
+      <P>The details for each article were stored in the global list resultsList 
+      in the order in which they are displayed so its a simple matter to take 
+      the mouseLine value and use that to retreive the data we want from the 
+      global resultsList. <PRE><FONT color=#cc0000>global resultsList, currentID
+
+<B>on mousedown</B>
+  
+  if the doubleClick then
+    
+    thisLine = the mouseLine
+    
+    -- check to make sure that the user isn't 
+    -- clicking on blank lines
+    if member("CGIResults").line[thisLine] &lt;&gt; "" then
+      
+      -- clear the display and turn the sprites 
+      -- for the buttons on
+      toggleArticleDisplay
+      
+      -- display the title and store the article ID
+      member ("title").text = resultsList[thisLine][1]
+      currentID = resultsList[thisLine][2]
+      
+    end if
+    
+  end if
+  
+end</FONT></PRE>
+      <P>Once we have the article ID stored we can then call that value up if 
+      the user decides that they want more information about a particular 
+      article. We can facilitate this by adding a small piece of code to the 
+      "blurb" button. <PRE><FONT color=#cc0000>global currentID
+
+<B>on mouseUp</B>
+  
+  -- check to make sure that an article 
+  -- has been selected
+  if currentID = 0 then
+    
+    alert "No article selected"
+    
+  else
+    
+    -- generate the URL for this article 
+    -- and pass it on to the object
+    thisURL = "http://www.director-online.com/test/getBlurb.cfm?id=" ¬
+      &amp; currentID &amp;"&amp;type=small"
+    thisObj = new (script "cfmRetreive", thisURL, "blurb", FALSE)
+
+  end if
+  
+end</FONT></PRE>
+      <P>This script uses the ID number we generated when the user 
+      double-clicked on an article title and then adds a "type" parameter to 
+      tell the CFML page what type of description we want to retrieve. In this 
+      case it is the small description. The code for the button that retrieves 
+      the full description is exactly the same except that it has a type value 
+      of "large". Not that it is really necessary. The Cold fusion code is 
+      written in such a way that it only actually checks if the type is "small". 
+      Since there are only two values we can safely do this. Either the user 
+      wants a small description or a full description. If it isn't small... <PRE>&lt;cfparam name="URL.type" default="small"&gt;
+
+&lt;cfif URL.type is "small"&gt;
+
+    &lt;CFQUERY NAME="getBlurb" DATASOURCE="aDataSource"&gt;
+    SELECT blurb as displayText
+    FROM articles
+    WHERE articleID = #URL.id#
+    &lt;/CFQUERY&gt;
+
+&lt;cfelse&gt;
+
+    &lt;CFQUERY NAME="getBlurb" DATASOURCE=" aDataSource "&gt;
+    SELECT description as displayText
+    FROM articles
+    WHERE articleID = #URL.id#
+    &lt;/CFQUERY&gt;
+
+&lt;/cfif&gt;
+
+&lt;cfoutput query="getBlurb"&gt;
+#Trim(displaytext)#
+&lt;/cfoutput&gt;</PRE>
+      <P>The Cold Fusion page will take the ID and type and return the 
+      appropriate text, which we will display for the user after cleaning it up. 
+      If the user wants to view the article then it's a simple matter of taking 
+      the article ID we stored previously and using it to create a URL to that 
+      article. We then make a new gotoNetPage call but target a new window. <PRE><FONT color=#cc0000>global currentID
+
+<B>on mouseUp</B>
+  
+  -- check to make sure that an article 
+  -- has been selected
+  if currentID = 0 then
+    alert "No article selected"
+  else
+    
+    -- generate the URL to the article and use 
+    -- a gotoNetPage command to browse it
+    thisURL = "http://www.director-online.com/¬
+      accessArticle.cfm?id=" &amp; currentID
+    gotoNetPage thisURL, "_blank"
+    
+  end if
+  
+end</FONT></PRE>
+      <H4><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+      color=#cc0000>Summary</FONT></H4>
+      <P>Shockwave provides a very convenient way to encapsulate a wide range of 
+      functionality into a single application. Not only does this allow you to 
+      provide a more attractive interface for the user but also a "deeper" 
+      interface. With a Shockwave front-end to your database applications you 
+      can keep data persistent with no extra effort. No need for cookies or 
+      complicated Java applets. 
+      <P>While this article dealt with Cold Fusion there is no reason why you 
+      couldn't use Shockwave as a front-end for ASP or PHP pages. In fact, Alan 
+      Levine wrote an article that details some of the issues involved with <A 
+      href="http://www.director-online.com/buildArticle.cfm?id=94">integrating 
+      Perl and Shockwave</A>. 
+      <P>Check out the code in action... 
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=480 height=360><PARAM NAME="SRC" VALUE="howTo/other/UD67.dcr">
+      <embed src="howTo/other/UD67.dcr" 
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="480" height="360"></embed> </OBJECT>
+      <P>And if you want you can download a sample movie (in <A 
+      href="http://www.director-online.com/howTo/other/UD67.hqx">Mac</A> or <A 
+      href="http://www.director-online.com/howTo/other/UD67.zip">PC</A> format) 
+      to test the code yourself. This sample movie is in Director 7 format. 
+    </P></TD></TR></TBODY></TABLE>
+<P>
+<TABLE width=500>
+  <TBODY>
+  <TR>
+    <TD><FONT size=-1>Zac Belado is a programmer, web developer and 
+      rehabilitated ex-designer based in Vancouver, British Columbia. He is the 
+      developer and technical editor for Director Online, the primary web 
+      resource for users of Macromedia Director. 
+      <P>He has been involved in multimedia and web-based development, producing 
+      work for clients such as Levi Straus, Motorola and Adobe Systems. As well, 
+      he has written for the Macromedia Users Journal and been a featured 
+      speaker at the Macromedia Users Convention. When not doing web-related 
+      work he writes poetry which can be found in <A target=_blank 
+      href="http://www.developernation.com/ambiguities">the usual places</A>. 
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<P>
+<TABLE height=25 cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#cecece>
+    <TD><A 
+      onmouseover="window.status='Get the direct URL for this article'; return true" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=317','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/generateURL.cfm?id=317"><IMG 
+      height=25 alt="Get the direct URL for this article" 
+      src="buildArticle_files/articleURL.gif" width=87 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Visit the Using Director article archive'; return true" 
+      href="http://www.director-online.com/archive.cfm?pSection=Using%20Director"><IMG 
+      height=25 alt="Visit the Using Director article archive" 
+      src="buildArticle_files/archives.gif" width=66 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Check out other articles by Zac Belado'; return true" 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=40"><IMG 
+      height=25 alt="Check out other articles by Zac Belado" 
+      src="buildArticle_files/author.gif" width=56 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Mail this article to a friend'; return true" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=317','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      href="http://www.director-online.com/emailArticle.cfm?id=317"><IMG 
+      height=25 alt="Mail this article to a friend" 
+      src="buildArticle_files/mailArticle.gif" width=83 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar"><IMG 
+      height=25 alt="Sign in to your myDOUG page" 
+      src="buildArticle_files/signIn.gif" width=63 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true" 
+      href="http://www.developernation.com/Forums/index.cfm?cfapp=2"><IMG 
+      height=25 alt="Discuss this article on DOUGthreads" 
+      src="buildArticle_files/discussArticle.gif" width=105 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='What do these buttons do?'; return true" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/help.html"><IMG height=25 
+      alt="What do these buttons do?" src="buildArticle_files/help.gif" width=25 
+      border=0></A> </TD></TR></TBODY></TABLE>
+<P> </P></BODY></HTML>

@@ -1,0 +1,335 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir17.html -->
+<HTML><HEAD><TITLE>Invadir 17 - Getting in a state</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir17.html">Back to Lesson 
+16</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir18.html">Forward to Lesson 
+18</A></H6>
+<P><B>Invadir 17 - Getting in a state</B></P>
+<P>The game is working pretty well by now, except that nothing really happens 
+when you have cleared all the invaders. There is also an error message when the 
+cannon gets hit by a bullet. Normally when you've killed all the baddies, you 
+would expect to see a new screen with the words "Next Level" or some such for a 
+few seconds, then the game would start again and be more difficult. If you got 
+hit by a bullet. you'd see a different screen "You're dead" or something, and if 
+you had been shot several times you would proceed to a 'game over' screen.</P>
+<P><B>Something about Director's Score.</B></P>
+<P>When Macromind designed Videoworks (the program which became Macromedia 
+Director) they hit upon the idea of using a spreadsheet as an animation design 
+tool. The cells horizontally would represent time (or 'frames') and the cells 
+vertically would represent gel layers (or 'sprite' channels). It was a smart 
+idea, and made it very easy for people to make sophisticated animations which 
+could be exported as Quicktime movies, or as PICS sequences to be embedded in 
+Hypercard stacks.</P>
+<P>When Lingo proper came along in Director 3, the timeline remained dominant, 
+and though increasing numbers of users found Lingo useful to make navigation 
+buttons which would jump between one animated sequence and another, few could 
+understand the abstraction of 'factories', Lingo's initial implementation of 
+encapsulated data and procedures. Lingo has been increasingly refined with the 
+addition of Parent scripts and Lists in Director 4, then behaviors in Director 
+6. These have made the creation of sophisticated dynamic data structures more 
+and more simple. Unfortunately we still have a very linear interface to lay out 
+our non-linear content, the score.</P>
+<P>So what is the score good for? Well, I can remember when I filled in a survey 
+form in Director 5. Where it said "What can we remove to improve the product?" I 
+wrote "The score". At that time, the score was a real stumbling block to really 
+creative use of the tool, mainly because of its linear structure, but also 
+because of the weird way that puppeted sprites and the score settings vie with 
+each other for dominance. As people became more and more competent at using 
+Lingo, their movies would take up fewer and fewer frames. It became a symbol of 
+programming excellence to make an entire project in one frame. It might sound 
+crazy, but it really did allow the maximum amount of control. You've already 
+seen just how much dynamic interactivity can be included in one frame.</P>
+<P>Director 6 turned everything on its head (for me anyway). The previously 
+vestigial score script (used by some OO programmers only to make the<TT> 
+rollover() </TT>function work propertly) suddenly took a central role in OO 
+design with Director, simply because it became a place to <B>encapsulate 
+data</B>. Having handlers attached to a sprite is no big deal. Storing data as 
+properties <B>inside</B> those sprites so that the handlers can use it is really 
+something. Now it is the parent script which takes a back seat, indeed I rarely 
+use parent scripts any more because it's easier to use the score as a tool for 
+encapsulation. This is what we are going to look at in this lesson.</P>
+<P>(Thinking of the score in this way leads you to the realisation that it would 
+be better if it were recursively structured like files and folders. Imagine if 
+you could encapsulate scores inside scores just as you can put folders inside 
+folders. That's something for your wishlist or survey form...)</P>
+<P>Now, when the playback head encounters a new sprite with a script in the 
+score, an instance of the object described by that script is created and stored 
+in the sprite. A<TT> beginsprite </TT>message is then sent to the instance. As 
+long as the playback head remains within the 'span' of that sprite, the instance 
+is kept 'alive'. As soon as the playback head is about to leave that part of the 
+score, an<TT> endsprite </TT>message is sent to the sprite, and (usually) the 
+instances stored inside the sprite are removed from memory. All properties are 
+forgotten. If the playback head returns to the same part of the score, it 
+creates new instances based on the scripts attached to the sprites found 
+there.</P>
+<P>This means that by stretching sprites out to different lengths in the score, 
+data can be made more or less 'ephemeral'. A sprite which lasts for 28 frames 
+will be able to coexist with up to 28 different sets of sprites, each with their 
+own properties. Please be very aware that I am replacing the 'timeline' concept 
+with the idea of states. You can still use the score as a timeline if you wish 
+to make linear animations, but I hope that you can see there is often more power 
+in seeing individual frames as states with particular combinations of objects in 
+memory at once. In many situations you will use a combination of linear 
+animations and state-based OO structures.</P>
+<P>Let's now consider the most important states we need for our game;</P>
+<P>The game itself (this is what we have been working on the whole time so 
+far.)</P>
+<P>The <B>'You're dead'</B> screen (The player's score, lives and the invaders 
+need to survive between lives. 1 Life needs to be docked here.)</P>
+<P>The <B>'Next Level'</B> screen (The player's score and lives needs to survive 
+between levels. Level needs to be inceased here.)</P>
+<P>The <B>'Game Over'</B> screen (The player's score needs to survive here. 
+Almost all other data is obsolete)</P>
+<P>We might consider other states, <B>'Enter your name'</B>, and a 'slideshow' 
+of splash screens introducing the characters in the game, giving instructions, 
+displaying previous highscores and so on.</P>
+<P>What I am trying to do here is locate data in the different states. It is 
+important, for example, that the invaders are removed from memory between levels 
+so that they can be 'reborn' in the new level, but they must also stick around 
+if the player loses a life, otherwise there will be a whole bunch of healthy new 
+invaders everytime the cannon gets hit and that's just not cricket.</P>
+<P>All this should indicate that the player's score will need to 'last longer' 
+than the invader sprites, and that the invaders will need to be in memory for 
+longer than the bullets etc. If we carry on with this analysis we'll end up with 
+some kind of hierarchy of scope.</P>
+<P align=center>SHORTEST LASTING OBJECTS<BR>...<BR>Bullets 
+<BR>Invaders<BR>Cannon<BR>Score <BR>High Score Table<BR>...<BR>LONGEST LASTING 
+OBJECTS</P>
+<P>This translates directly into the relative spans of the sprites in question. 
+We are soon going to start messing around in the score so that we can make use 
+of different frames to configure different states. First, you should make three 
+text or graphic cast members containing words like "You're Dead", "Next Level" 
+and "Game Over". Be creative. (Need I mention it?)</P>
+<P>Next, you should reorganise the sprites in the score so that they all start 
+in frame 2 except the score display sprite which should start in frame 1.</P>
+<P>Add the following frame labels: <BR>Frame 1: "Splash", Frame 2: "Game", Frame 
+3: "Dead", Frame 4: "Nextlevel", Frame 5: "GameOver"</P>
+<P>Stretch the invader and bullet sprites out to frame 3</P>
+<P>Stretch the score display sprite out to frame 5.</P>
+<P>Stretch the cannon and 'invisible connector' sprites out to frame 4.</P>
+<P>Add the text cast members to channel 30 in the appropriate frames.</P>
+<P>When you're finished, your score should look something like this;</P>
+<P align=center><IMG align=bottom border=0 height=550 
+src="Invadir 17 - Getting in a state_files/scopescore.gif" width=431></P>
+<P>If you're wondering why my score looks weird, well in case you've not 
+discovered yet, it's possible to hide/show the sprite toolbar with the keyboard 
+shortcut Shift-Command-H (Shift-Ctrl-H on Windows). This can also be achieved by 
+Ctrl-clicking on parts of the score window, or from the View menu. I prefer to 
+have the toolbar hidden and to use the sprite inspector because it gives me more 
+flexibility and control over screen 'real estate'.</P>
+<P>You can also view the frames at different sizes by clicking on the <IMG 
+align=bottom alt="score resize button" height=18 
+src="Invadir 17 - Getting in a state_files/scresize.gif" width=12> button. This 
+screenshot shows the score at 800% with the sprite toolbar hidden. I have also 
+'colour coded' the sprites according to their type.This makes it easier to see 
+what they are at a glance.</P>
+<P>OK, now it's time to make another score script. When the playback head jumps 
+to some of these other frames, we are going to want it to stay there for a while 
+and then jump to another frame. This means we are going to have to make a frame 
+loop similar to the one we made right in the beginning, but with a special 
+characteristic, a destination frame to jump to after the delay is finished. Type 
+this into the frame script of frame 3 ("You're Dead").</P><PRE><FONT size=-1>--temporary loop script</FONT>
+<FONT size=-1>property destination, max, counter</FONT>
+
+<FONT size=-1>on beginsprite me</FONT>
+
+<FONT size=-1>   set max to 50</FONT>
+<FONT size=-1>   set counter to 0</FONT>
+<FONT size=-1>   set destination to "Game"</FONT>
+
+<FONT size=-1>end</FONT>
+
+<FONT size=-1>on exitframe me</FONT>
+
+<FONT size=-1>   if counter &lt; max then</FONT>
+
+<FONT size=-1>      set counter to counter + 1</FONT>
+<FONT size=-1>      go to the frame</FONT>
+
+<FONT size=-1>   else</FONT>
+
+<FONT size=-1>      go to destination</FONT>
+
+<FONT size=-1>   end if</FONT>
+<FONT size=-1>end</FONT></PRE>
+<P>This script, by the way, demonstrates a programming algorithm which you will 
+probably use over and over again:</P>
+<P>You have a counter variable. You regularly check whether the counter is 
+larger (or smaller) than a certain maximum value (called max in this case), if 
+it isn't, you increase (or decrease) the counter, if it is, you do something 
+else. Often you use the counter itself to do something while it is counting. In 
+the case of animations, the counter might represent the current displayed frame 
+in a sequence of pictures.</P>
+<P>Here, when the counter gets above the maximum value, it instructs the 
+playback head to leave and go to a particular destination.</P>
+<P>Now we need to go back to the bullet script and modify it such that the 
+playback head jumps to the appropriate place at the appropriate moment.</P><PRE><FONT size=-1>-- new exitframe handler for the bullet script</FONT>
+
+<FONT color=#333333 size=-1>on exitFrame me</FONT>
+
+<FONT color=#333333 size=-1>  if not shooting then</FONT>
+
+<FONT color=#333333 size=-1>    return</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  set myV to the locV of sprite mySprite</FONT>
+
+<FONT color=#333333 size=-1>  if myV &lt; 0 or myv &gt; the height of the rect of the stage then</FONT>
+
+<FONT color=#333333 size=-1>    set shooting to false</FONT>
+<FONT color=#333333 size=-1>    set the locV of sprite mysprite to offstage</FONT>
+<FONT color=#333333 size=-1>    add bullets, mysprite -- ready again, so adds itself to shared list</FONT>
+<FONT color=#333333 size=-1>    return</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  if vdirection = 1 then</FONT>
+
+<FONT color=#333333 size=-1>    set possibleTargets to [cannon]</FONT>
+
+<FONT color=#333333 size=-1>  else</FONT>
+
+<FONT color=#333333 size=-1>    set possibleTargets to invaders</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  repeat with target in possibleTargets</FONT>
+
+<FONT color=#333333 size=-1>    if sprite mysprite intersects target then</FONT>
+
+<FONT color=#333333 size=-1>      hit sprite target</FONT>
+
+<FONT color=#333333 size=-1>      if target = cannon then</FONT>
+
+<FONT color=#333333 size=-1>        -- End of life</FONT>
+
+<FONT color=#333333 size=-1>        </FONT><B><FONT size=-1>go to frame "Dead"</FONT></B>
+
+<FONT color=#333333 size=-1>      else</FONT>
+
+<FONT color=#333333 size=-1>        deleteOne invaders, target</FONT>
+
+<FONT color=#333333 size=-1>        if invaders = [] then</FONT>
+
+<FONT color=#333333 size=-1>          -- End of level</FONT>
+<FONT color=#333333 size=-1>          </FONT><B><FONT size=-1>go to frame "Nextlevel"</FONT></B>
+
+<FONT color=#333333 size=-1>        end if</FONT>
+<FONT color=#333333 size=-1>      end if</FONT>
+
+<FONT color=#333333 size=-1>      set shooting to false</FONT>
+
+<FONT color=#333333 size=-1>      set the locV of sprite mysprite to offstage</FONT>
+
+<FONT color=#333333 size=-1>      return</FONT>
+
+<FONT color=#333333 size=-1>    end if</FONT>
+
+<FONT color=#333333 size=-1>  end repeat</FONT>
+
+<FONT color=#333333 size=-1>  set the locV of sprite mySprite to myV + (vdirection * speed)</FONT>
+<FONT color=#333333 size=-1>end</FONT></PRE>
+<P>Watch out for those hardcoded values! (I'll clean up later.)</P>
+<P>You should also attach the temporary loop script to the the frame script of 
+frame 4 ("Next Level").</P>
+<P>Finally, let's just add a handler to the cannon so that it makes a noise when 
+hit.</P><PRE><FONT color=#333333 size=-1>property mySprite -- Sprite channel</FONT>
+<FONT color=#333333 size=-1>property stagewidth </FONT>
+
+<FONT color=#333333 size=-1>property invaders -- list of invader sprite channels</FONT>
+<FONT color=#333333 size=-1>property bullets -- list of bullet sprite channels</FONT>
+<FONT color=#333333 size=-1>property cannon -- sprite channel</FONT>
+<FONT color=#333333 size=-1>property scorer -- score sprite channel</FONT>
+
+<B><FONT size=-1>property explodeSound</FONT></B><FONT color=#333333 size=-1> </FONT>
+<B><FONT size=-1>property soundChan</FONT></B>
+
+<FONT color=#333333 size=-1>on beginsprite me</FONT>
+
+<FONT color=#333333 size=-1>  set mySprite to the spritenum of me</FONT>
+<FONT color=#333333 size=-1>  -- set bullets to [2, 21, 22, 23, 24, 25] -- removed</FONT>
+<FONT color=#333333 size=-1>  set stagewidth to the width of the rect of the stage</FONT>
+<FONT color=#333333 size=-1>  </FONT><B><FONT size=-1>set explodeSound to "explosion"</FONT></B>
+<FONT color=#333333 size=-1>  </FONT><B><FONT size=-1>set soundChan to 1</FONT></B>
+
+<FONT color=#333333 size=-1>end</FONT>
+
+<FONT color=#333333 size=-1>on storeShared me, gameSprites</FONT>
+<FONT color=#333333 size=-1>  </FONT>
+<FONT color=#333333 size=-1>  set invaders to the invaders of gameSprites</FONT>
+<FONT color=#333333 size=-1>  set bullets to the bullets of gameSprites</FONT>
+<FONT color=#333333 size=-1>  set cannon to the cannon of gameSprites</FONT>
+<FONT color=#333333 size=-1>  set scorer to the scorer of gameSprites</FONT>
+<FONT color=#333333 size=-1>  </FONT>
+<FONT color=#333333 size=-1>end</FONT>
+
+<FONT color=#333333 size=-1>on exitFrame me</FONT>
+
+<FONT color=#333333 size=-1>  -- test that mouse cursor is on stage</FONT>
+
+<FONT color=#333333 size=-1>  if the mouseH &gt; 0 and the mouseH &lt; stagewidth then</FONT>
+
+<FONT color=#333333 size=-1>    set the locH of sprite mySprite to the mouseH --move sprite to mouseH</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  -- shift key sends shoot message to bullet</FONT>
+
+<FONT color=#333333 size=-1>  if the shiftdown then</FONT>
+
+<FONT color=#333333 size=-1>    if bullets = [] then</FONT>
+
+<FONT color=#333333 size=-1>      return -- no bullets are available right now so leave handler</FONT>
+
+<FONT color=#333333 size=-1>    end if</FONT>
+
+<FONT color=#333333 size=-1>    set bullet to getAt(bullets,1) -- first available bullet in list</FONT>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>sendsprite bullet, #shoot, mysprite -- sends own sprite channel as extra parameter</FONT></B>
+
+<FONT color=#333333 size=-1>    return -- leave handler</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>end</FONT>
+
+<FONT size=-1>on hit me</FONT>
+
+<FONT size=-1>   <B>puppetsound soundChan, explodeSound</B></FONT>
+
+<FONT size=-1>end</FONT></PRE>
+<P>We have to prevent the user shooting bullets when the cannon has been hit or 
+when all the invaders. If the cannon is another frame, messages are going to be 
+sent to non-existent bullets so I have changed the syntax of the<TT> #shoot 
+</TT>message to the broadcast form.</P>
+<P><B>You should also do this in the invader script.</B></P>
+<P>This means that no 'handler not defined' errors will be generated in the 
+frames with no bullets. This could have been handled in other ways, such as 
+stretching the bullets out in the score, which would allow shooting between 
+levels and between lives. Please feel free to do this if you prefer.</P>
+<P>For now, though, you should be able to shoot all the invaders and go to the 
+next level screen. You'll notice that after the next level screen, you will see 
+a whole bunch of new invaders appearing. This is because the invader sprites 
+have all been instantiated anew since the playback head left their domain.</P>
+<P>Finally, we need to make sure that the invaders that have been killed remove 
+are not simply replaced in the invaders list every time the player loses a life. 
+In the storeshared handler of the invader script:</P><PRE>on storeShared me, gameSprites
+  
+  set invaders to the invaders of gameSprites
+  <B>if not alive then</B> 
+    <B>deleteone invaders, mySprite</B>
+  <B>end if</B>
+  set bullets to the bullets of gameSprites
+  set cannon to the cannon of gameSprites
+  set scorer to the scorer of gameSprites
+  
+end </PRE>
+<P>If we neglect this, there will be dead invaders in the invaders list and the 
+user will never be able to shoot them.</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir18.html">Forward to 
+Lesson 18</A></H5></BODY></HTML>

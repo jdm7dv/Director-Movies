@@ -1,0 +1,191 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir20.html -->
+<HTML><HEAD><TITLE>Invadir 20 - Lives and Levels</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir19.html">Back to Lesson 
+19</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir21.html">Forward to Lesson 
+21</A></H6>
+<P><B>Invadir 20 - Lives and Levels</B></P>
+<P>Right, now we're in a position to add lives and levels to the game. You'll 
+need to make a seperate field cast member for each of these, put them on an 
+appropriate place on the screen. arrange the lives field sprite from frame 2 to 
+4 in channel 18, the levels sprite from frame 2 to 5 in channel 19. Make sure 
+they have the same number display script as the score field and then 
+proceed:</P>
+<P>Adjust the number display script like this:</P><PRE><FONT size=-1>-- NUMBER DISPLAY SCRIPT --</FONT>
+<FONT size=-1>property displayField -- field cast member reference</FONT>
+<FONT size=-1>property val -- the displayed value</FONT>
+<FONT size=-1>property invaders -- list of invader sprite channels</FONT>
+<FONT size=-1>property bullets -- list of bullet sprite channels</FONT>
+<FONT size=-1>property cannon -- sprite channel</FONT>
+<FONT size=-1>property scorer -- score sprite channel</FONT>
+<B><FONT size=-1>property startVal</FONT></B>
+
+<FONT size=-1>on beginsprite me</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>  set displayField to the member of sprite the spritenum of me</FONT>
+<FONT size=-1>  reset me</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>end</FONT>
+
+<FONT size=-1>on storeShared me, gameSprites</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>  set invaders to the invaders of gameSprites</FONT>
+<FONT size=-1>  set bullets to the bullets of gameSprites</FONT>
+<FONT size=-1>  set cannon to the cannon of gameSprites</FONT>
+<FONT size=-1>  set scorer to the scorer of gameSprites</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>end</FONT>
+
+<FONT size=-1>on reset me</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>  <B>set val to startVal</B></FONT>
+<FONT size=-1>  update me</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>end</FONT>
+
+<FONT size=-1>on update me</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>  put val into field displayField</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>end</FONT>
+
+<FONT size=-1>on inc me, amount</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>  set val to val + amount</FONT>
+<FONT size=-1>  update me</FONT>
+<FONT size=-1>  </FONT>
+<FONT size=-1>end</FONT>
+
+<B><FONT size=-1>on setVal me, v</FONT></B>
+<FONT size=-1>  </FONT>
+<FONT size=-1>  <B>set val to v</B></FONT>
+<FONT size=-1>  <B>update me</B></FONT>
+<FONT size=-1>  </FONT>
+<B><FONT size=-1>end</FONT></B>
+
+<B><FONT size=-1>on getVal me, v</FONT></B>
+<FONT size=-1>  </FONT>
+<FONT size=-1>  <B>return val</B></FONT>
+<FONT size=-1>  </FONT>
+<B><FONT size=-1>end</FONT></B>
+
+<B><FONT size=-1>on getPropertyDescriptionList me</FONT></B>
+<FONT size=-1>  </FONT>
+<FONT size=-1>  <B>return [#startVal:[#comment:"Start value", #format:#integer, #default:0]]</B></FONT>
+<FONT size=-1>  </FONT>
+<B><FONT size=-1>end</FONT></B></PRE>
+<P>Here again we use the<TT> getPropertyDescriptionList </TT>handler so that 
+each number display field can have its own starting value. You will have to open 
+the property dialog box for each one. The score should start at 0, the lives 
+should be set at at least 3, the level should start at 1.</P>
+<P>It is quite common to provide handlers which get and set values of an 
+otherwise private property. They allow external objects to get or set an 
+internal value in a polite way, i.e. by asking for it. We could have referred 
+to<TT> the val of sprite S</TT>, but there is less room for error if the object 
+gets a chance to see who is accessing its internal data. If we wanted to be 
+really safe, we could make additional checks in the<TT> setVal </TT>handler, for 
+example to ensure that the parameter is a <B>number</B> and not some less 
+suitable datatype. This is a very common practice. Try typing</P>
+<P>beep "now"</P>
+<P>...in the message window (and press return) and you will see a manifestation 
+of exactly this kind of internal check. (Director complains with a "integer 
+expected" message because the parameter was of the wrong type.)</P>
+<P>&nbsp;</P>
+<P>Now, back to the job in hand. Change the <B>connector</B> script as 
+follows</P><PRE><FONT color=#333333>-- connector sprite script --</FONT>
+<FONT color=#333333>on beginsprite me</FONT>
+<FONT color=#333333>  </FONT>
+<FONT color=#333333>  set mysprite to the spritenum of me</FONT>
+<FONT color=#333333>  set invs to [3, 4, 5, 6, 7, 8, 9, 10]</FONT>
+<FONT color=#333333>  set buls to [2, 21, 22,23, 24, 25]</FONT>
+<FONT color=#333333>  set can to 1</FONT>
+<FONT color=#333333>  set sc to 20</FONT>
+<FONT color=#333333>  </FONT><B>set liv to 18</B>
+<FONT color=#333333>  </FONT><B>set lev to 19</B>
+<FONT color=#333333>  </FONT><B>sendallsprites #storeShared, [#invaders:invs,#bullets:buls, #cannon:can, #scorer:sc, #livesSprite:liv, #levelSprite:lev]</B><FONT color=#333333>  </FONT>
+<FONT color=#333333>end</FONT></PRE>
+<P>This will send the additional information about the lives and the levels to 
+all the sprites at the beginning of the game. (Only the bullet sprite really 
+needs to use this extra information). It also sends messages to the number 
+display sprites for lives and levels to set their initial values to 3 and 1 
+respectively.</P>
+<P>In the bullet script, add the following properties</P><PRE><B>property livesSprite </B>
+<B>property levelSprite</B></PRE>
+<P>...and modify the<TT> storeShared </TT>handler as follows:</P><PRE><FONT color=#333333>on storeShared me, gameSprites</FONT>
+<FONT color=#333333>  </FONT>
+<FONT color=#333333>  set invaders to the invaders of gameSprites</FONT>
+<FONT color=#333333>  set bullets to the bullets of gameSprites</FONT>
+<FONT color=#333333>  set cannon to the cannon of gameSprites</FONT>
+<FONT color=#333333>  set scorer to the scorer of gameSprites</FONT>
+  <B>set livesSprite to the livesSprite of gameSprites</B>
+  <B>set levelSprite to the levelSprite of gameSprites</B>
+<FONT color=#333333>end</FONT></PRE>
+<P>These new lines take the information about the lives and level sprites and 
+store their channels in internal properties.</P>
+<P>Then inside the exitframe handler, make the following adjustments:</P><PRE>      <FONT color=#333333>if target = cannon then</FONT>
+<FONT color=#333333>        </FONT>
+<FONT color=#333333>        -- End of life</FONT>
+        <B>sendsprite livesSprite, #inc, -1</B>
+        <FONT color=#333333>go to frame "Dead"</FONT>
+<FONT color=#333333>        </FONT>
+<FONT color=#333333>      else</FONT>
+<FONT color=#333333>        </FONT>
+<FONT color=#333333>        deleteOne invaders, target -- removes invader from shared list</FONT>
+<FONT color=#333333>        </FONT>
+<FONT color=#333333>        if invaders = [] then</FONT>
+<FONT color=#333333>          </FONT>
+<FONT color=#333333>          -- End of level</FONT>
+          <B>sendsprite levelSprite, #inc, 1</B>
+          <FONT color=#333333>go to frame "Next Level"</FONT>
+<FONT color=#333333>          </FONT>
+<FONT color=#333333>        end if</FONT>
+<FONT color=#333333>        </FONT>
+<FONT color=#333333>      end if</FONT></PRE>
+<P>Now when you run the movie, you will find that your lives will decrease every 
+time you get hit, and the level will increase every time you kill all the 
+invaders.</P>
+<P>If the player gets killed several times, she should run out of lives. 
+Currently we have no way to jump to the Game over screen and the lives just keep 
+on being reduced by one leaving to negative values for the lives.</P>
+<P>To deal with this, I would suggest that we make a test after losing a life to 
+find out whether there are any lives left. This is why we need the<TT> getVal 
+</TT>function in the number display script If there are none, we will want to 
+change the destination of the temporary looper so that instead of jumping back 
+into the game, it jumps to the Game over frame. Here again, if we want to keep 
+things tidy, we will need to add an accessor handler for the<TT> destination 
+</TT>property in the <B>temporary loop script</B>:</P><PRE>on changeDestination me, newDestination
+  set destination to newDestination
+end</PRE>
+<P>Now back to the exitframe handler of the bullet script.</P><PRE>      <FONT color=#333333>if target = cannon then</FONT>
+<FONT color=#333333>        </FONT>
+<FONT color=#333333>        -- End of life</FONT>
+        <FONT color=#333333>go to frame "Dead"</FONT>
+        <B>if sendsprite(livesSprite, #getVal) = 0 then</B>
+          <B>sendsprite -5, #changeDestination, "Game Over"</B>
+        <B>else</B>
+          <B>sendsprite livesSprite, #inc, -1</B>
+        <B>end if</B>
+<FONT color=#333333>        </FONT>
+<FONT color=#333333>      else</FONT></PRE>
+<P>This last addition illustrate three ways in which sendsprite can be used. In 
+reverse order;</P>
+<P>sending a message to a sprite in the normal way with<TT> sendsprite 
+livesSprite, #inc, -1</TT></P>
+<P>sending a message to the framescript by addressing it to sprite channel 
+-5<TT> sendsprite -5, changeDestination, "Game Over"</TT><BR>Although the 
+framescript does not contain a sprite, it does have a spritenum property, the 
+value of which is -5. This is very convenient.</P>
+<P>Using a sendsprite call as a function call.<TT> sendsprite (livesSprite, 
+#getVal)<BR></TT>This is just like any other function call. The expression 
+stands in for the value returned by the function.</P>
+<P>Now when the player loses all her lives, the playback head will jump to the 
+Game Over frame. Now finally we have the game working properly. Everybody can 
+get killed, lives, levels and score are incremented and decremented properly, 
+all that remains now is to add some polish.</P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir21.html">Forward to 
+Lesson 21</A></H5></BODY></HTML>

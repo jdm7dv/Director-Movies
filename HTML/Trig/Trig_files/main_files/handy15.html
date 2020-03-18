@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy15.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 15</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#ff0000 vLink=#770000>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG border=0 height=31 src="handy15_files/handyman.gif" 
+      width=213> 
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG align=bottom border=0 height=9 
+            src="handy15_files/archiveDivLine.gif" width=440></TD>
+          <TD rowSpan=2 vAlign=top width=55><A 
+            href="http://www.director-online.com/howTo/archive/Handyman_Archive.html"><IMG 
+            align=bottom border=0 height=28 src="handy15_files/archiveDiv.gif" 
+            width=55></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440><FONT size=2></FONT>
+            <P><FONT color=#cc0000 face="Arial, Helvetica, sans-serif"><B>Dear 
+            Multimedia Handyman</B></FONT> </P>
+            <P>I've been for weeks trying to get objects to move across the 
+            screen following a sine curve (or a wave line if this is a more 
+            accurate description). I have even bought a book on trigonometry. 
+            But I am still stumped! Can you help me some pointers as to how to 
+            integrate all these beautiful trigonometric functions in my code. 
+            <P>Thanks in advance, 
+            <P>Patrick Y Bousseton, <A 
+            href="mailto:pyb@magna.com.au">pyb@magna.com.au</A> 
+            <P><BR>Dear Patrick, 
+            <P>For this question, I asked for some expert assistance from a 
+            Shockwave Trig programmer extraordinaire, <A 
+            href="http://canter.com/mediaband/collins/" target=_top>Jim 
+            Collins</A>. Jim responds: 
+            <P>Mercy, such a simple little questions that opens a rather largish 
+            can o' worms. Trig is a wonderful thing. Feared, misunderstood, 
+            under-utilised, under-estimated. There is quite frankly almost no 
+            path an object might travel in your wildest imagination, be it 
+            straight lines, curves, curls, spirals, corkscrews or any imaginable 
+            combination thereof, that can't be at the very least closely 
+            approximated with a little trig. Yet use of trig is widely shunned 
+            out of math paranoia or mistaken assumptions about the overhead. 
+            <P>Trig functions are routine and old hat on all platforms, and have 
+            over the years been optimized more than most any common math 
+            function. Director is no exception. Its trig is minimal, but fast 
+            and efficient. Try making some blob of pixels spin in a circle using 
+            the score and try the same thing with a little trig. It will not 
+            only move in a true circle, not some bulging, asymmetrical oblate 
+            spheroid, but it will be faster to boot. But I still see it 
+            pooh-poohed by people who really ought to know better. 
+            <P>Take sprite 1... to move it across the screen in a sinusoidal 
+            fashion understand that it will need a trig function applied to only 
+            one direction of it's motion, up and down. The sprite motion left to 
+            right is linear. Assuming it's just off to the left side of the 
+            stage we want to apply a simple linear function to move it 
+            horozontally <PRE><FONT color=#0033ff>
+on enterFrame
+  set the locH of sprite 1 to the locH of sprite 1 + 10
+end
+</FONT></PRE>
+            <P>To handle the sinusoidal part you add a bit to the same 
+            enterframe handler to set the sprites vertical position based on a 
+            trig function. In this case just a simple SIN function is all you 
+            need. But to drive it to produce the smooth up and down you need to 
+            feed it an artificial angle value that varies over time. Innumerable 
+            ways to do that. It just needs to be a numerical value that changes 
+            at a constant rate over time, like say the sprites locH. <PRE><FONT color=#0033ff>
+on enterFrame
+  set the locH of sprite 1 to the locH of sprite 1 + 10
+  set myAngle to the locH of sprite 1
+  set the locV of sprite 1 to 100*SIN(myAngle) + 100
+end
+</FONT></PRE>
+            <P>The first 100 is because a SIN function returns values between +1 
+            to -1 which isn't very far to move so you use a simple multiplier to 
+            increase the vertical dimension of the sprites movement. Now the 
+            sprites vertical location will oscillate between -100 and +100. 
+            Since -100 is off the stage the second 100 added to locV in the 
+            enterframe handler simply shifts all the vertical movements up 100 
+            pixels. So now the sprites vertical position will oscillate between 
+            0 and 200 pixels. 
+            <P>The last step is trimming in that angle a bit. One complete cycle 
+            of a SIN function returning values from 0 to + 1 down to - 1 and 
+            back to 0 requires 360 degrees but in director and most programming 
+            languages angles are measured in radians. 2*pi() radians is = to 360 
+            degrees. So to get our sprite to do once full SIN bounce we feed it 
+            an angle whose value ranges from 0 to 2*pi() or a little less than 6 
+            and a half. Using the sprites locH as the angle will have our sprite 
+            bouncing up and down like crazy. He will do a complete bounce every 
+            time he moves horizonatlly 6.5 pixels. To slow his bouncing down a 
+            bit just add a divisor to the locH used for the angle: <PRE><FONT color=#0033ff>
+on enterFrame
+  set the locH of sprite 1 to the locH of sprite 1 + 10
+  set myAngle to the locH of sprite 1/float(50)
+  set the locV of sprite 1 to 100*SIN(myAngle) + 100
+  updatestage
+end
+</FONT></PRE>
+            <P>bigger divisor = smaller angle = slower bounce 
+            <P>Use SIN or COS for this sort of thing depending on where you want 
+            your sprite to start. Both osciallet between -1 and +1 and the same 
+            rate for a given rate of angular change. But SIN starts at 0 and COS 
+            at 1 (both for an angle of 0). You can use anything to feed in the 
+            artificial angle, it just should be something that changes at a 
+            constant rate, which you can control with a divisor. Time is good, 
+            set my angle to the ticks/float(20), or just keep a running counter 
+            that you initialize somewhere to say 0. Then <PRE><FONT color=#0033ff>
+on enterframe
+  set myAngle to myAngle + .2
+  set the locH of sprite 1 to the locH of sprite 1 + 10
+  set the locV of sprite 1 to 100*SIN(myAngle) + 100
+  updatestage
+end
+</FONT>
+<OBJECT classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,0,0 height=360 width=240><PARAM NAME="src" VALUE="../other/trigdemo.dcr"><PARAM NAME="swliveconnect" VALUE="false"><PARAM NAME="AutoStart" VALUE="True"><PARAM NAME="palette" VALUE="background"><PARAM NAME="bgcolor" VALUE="#ffffff">
+          
+          
+          
+          
+          
+          <EMBED src="../other/trigdemo.dcr" pluginspage="http://www.macromedia.com/shockwave/download/" width="240" height="360" swliveconnect="false" autostart="True" palette="background" bgcolor="#ffffff"></EMBED>
+        </OBJECT></PRE>
+            <P>Something smaller instead of .2 and he bounces slower, bigger he 
+            bounces faster. </P>
+            <P>Zav was kind enough to make the demo movie (<A 
+            href="http://www.director-online.com/howTo/other/trigdemo.hqx" 
+            target="">HQX</A> or <A 
+            href="http://www.director-online.com/howTo/handy_articles/other/trigdemo.zip" 
+            target="">ZIP</A>). For those of you who can't deal with the D6 
+            download, here's the critical code. <PRE><FONT color=#0033ff>
+on AnimateALASin
+  set background = 2
+  set mySprite = 3
+  set backgroundLoc = the loc of sprite background 
+  
+  set xMag = 20
+  set yMag = 100
+  set x = 0.0
+  repeat while true
+    set y = sin(x)
+    set the loc of sprite mySprite = backgroundLoc ¬
+      + point( x * xMag, - y * yMag)
+    updateStage
+    if x &lt;= pi() * 2 then
+      set x = x + .1
+    else
+      exit repeat
+    end if
+    DoDelay 2
+  end repeat
+end
+</FONT></PRE>
+            <P>Thanks go to Jim and Zav for their help this week! Be sure to 
+            check out Jim's astounding and beautiful <A 
+            href="http://canter.com/mediaband/collins/" target=_top>Shockwave 
+            work</A>. TMH </P></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD><BR><FONT size=2>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the Help Central section of 
+      DOUG.</FONT> </TD></TR></TBODY></TABLE></BODY></HTML>

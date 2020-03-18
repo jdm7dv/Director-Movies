@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0102)http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra02.html -->
+<HTML><HEAD><TITLE>Macromedia Director - Using the XML Parser Xtra: What is XML?</TITLE><!-- #BeginTemplate "/Templates/Support.dwt" -->
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META http-equiv=Content-Language content=en-US><!-- mmV=7 --><!-- #BeginEditable "doctitle" -->
+<SCRIPT language=Javascript>
+
+function swapImage(imgName,newImg){
+  if ((navigator.appName == 'Netscape' && parseFloat(navigator.appVersion) >= 3) || (parseFloat(navigator.appVersion) >= 4)){		
+		eval('document.' + imgName + '.src = "' + newImg + '"');
+	}
+}
+
+</SCRIPT>
+
+<SCRIPT language=javascript>
+var previous = "end";
+var next = "end";
+</SCRIPT>
+<!-- #EndEditable -->
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+var MM2K_loaded = false;
+//-->
+</SCRIPT>
+<LINK href="using_xml_parser_xtra02_files/mmbasic.css" rel=stylesheet>
+<META content="MSHTML 5.50.4134.600" name=GENERATOR></HEAD>
+<BODY vLink=#660033 aLink=#000000 link=#333399 bgColor=#ffffff leftMargin=0 
+topMargin=0 onload="if (MM2K_loaded) {MM2K_onLoad()}" marginheight="0" 
+marginwidth="0"><!-- #BeginEditable "navtop" -->
+<SCRIPT language=Javascript src="using_xml_parser_xtra02_files/nav.js" 
+type=text/javascript></SCRIPT>
+
+<TABLE height=61 cellSpacing=0 cellPadding=0 width="100%" border=0 
+summary="Navigation container">
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#eeeeee>
+    <TD width=750>
+      <TABLE cellSpacing=0 cellPadding=0 width="1%" bgColor=#eeeeee border=0 
+      summary="Logo and site navigation links">
+        <TBODY>
+        <TR vAlign=bottom bgColor=#eeeeee>
+          <TD vAlign=bottom align=left width=442><IMG height=40 
+            alt="Macromedia - what the web can be." 
+            src="using_xml_parser_xtra02_files/logo.gif" width=482 
+            useMap=#logoMap border=0 name=logo><MAP name=logoMap><AREA 
+              title="Macromedia - what the web can be." shape=RECT target=_top 
+              alt="Macromedia - what the web can be." coords=11,5,238,38 
+              href="http://www.macromedia.com/"></MAP></TD>
+          <TD vAlign=bottom align=left width=67>
+            <TABLE cellSpacing=0 cellPadding=0 border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2><IMG height=22 alt=" " 
+                  src="using_xml_parser_xtra02_files/pixel.gif" width=2 
+                border=0></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 border=0>
+                    <TBODY>
+                    <TR vAlign=top>
+                      <TD><A 
+                        onmouseover="MM_swapImage('up_store','','/uber/nav/images/over_store.gif',0)" 
+                        onmouseout=MM_swapImgRestore() target=_top 
+                        href="http://store.macromedia.com/"><IMG height=18 
+                        alt=Store 
+                        src="using_xml_parser_xtra02_files/up_store.gif" 
+                        width=63 border=0 name=up_store></A></TD>
+                      <TD><IMG height=18 alt=| 
+                        src="using_xml_parser_xtra02_files/tick_upper.gif" 
+                        width=1 border=0></TD>
+                      <TD colSpan=3><A 
+                        onmouseover="MM_swapImage('up_download','','/uber/nav/images/over_download.gif',0)" 
+                        onmouseout=MM_swapImgRestore() target=_top 
+                        href="http://www.macromedia.com/software/downloads/"><IMG 
+                        height=18 alt=Downloads 
+                        src="using_xml_parser_xtra02_files/up_download.gif" 
+                        width=93 border=0 name=up_download></A></TD>
+                      <TD><IMG height=18 alt=| 
+                        src="using_xml_parser_xtra02_files/tick_upper.gif" 
+                        width=1 border=0></TD>
+                      <TD colSpan=3><A 
+                        onmouseover="MM_swapImage('up_membership','','/uber/nav/images/over_membership.gif',0)" 
+                        onmouseout=MM_swapImgRestore() target=_top 
+                        href="http://www.macromedia.com/membership/"><IMG 
+                        height=18 alt=Membership 
+                        src="using_xml_parser_xtra02_files/up_membership.gif" 
+                        width=102 border=0 
+                  name=up_membership></A></TD></TR></TBODY></TABLE></TD>
+                <TD><IMG height=2 alt=" " 
+                  src="using_xml_parser_xtra02_files/pixel.gif" width=8 
+                border=0></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR vAlign=top bgColor=#cccccc>
+    <TD align=left><IMG height=3 alt=- 
+      src="using_xml_parser_xtra02_files/pixel.gif" width=750 border=0></TD></TR>
+  <TR vAlign=top align=left bgColor=#adadad>
+    <TD width=750 background=using_xml_parser_xtra02_files/tile_lower.gif>
+      <TABLE cellSpacing=0 cellPadding=0 width="1%" border=0 
+      summary="Site navigation links">
+        <TBODY>
+        <TR vAlign=top>
+          <TD width=10 bgColor=#999999><A 
+            onmouseover="MM2K_showHideLayers('support_unt','','hide','products_unt','','hide')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra02.html#"><IMG 
+            height=18 alt=" " src="using_xml_parser_xtra02_files/tile_lower.gif" 
+            width=5 border=0 name=un_tile></A></TD>
+          <TD align=left width=84 bgColor=#999999><A 
+            onmouseover="MM_swapImage('un_tile','','/uber/nav/images/tile_lower_over.gif','up_products','','/uber/nav/images/over_products.gif',0);MM2K_overButton('MM2K_showHideLayers(\'support_unt\',\'\',\'hide\',\'products_unt\',\'\',\'show\')')" 
+            onmouseout="MM_swapImgRestore(); MM2K_outLayer(); MM2K_outButton()" 
+            target=_top href="http://www.macromedia.com/software/"><IMG 
+            height=18 alt=Products 
+            src="using_xml_parser_xtra02_files/up_products.gif" width=89 
+            border=0 name=up_products></A></TD>
+          <TD width=1><A 
+            onmouseover="MM2K_showHideLayers('support_unt','','hide','products_unt','','hide')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra02.html#"><IMG 
+            height=18 alt=| src="using_xml_parser_xtra02_files/tick_lower.gif" 
+            width=1 border=0></A></TD>
+          <TD align=left width=91 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_support','','/uber/nav/images/over_support.gif',0);MM2K_overButton('MM2K_showHideLayers(\'products_unt\',\'\',\'hide\',\'support_unt\',\'\',\'show\')')" 
+            onmouseout="MM_swapImgRestore(); MM2K_outLayer(); MM2K_outButton()" 
+            target=_top href="http://www.macromedia.com/support/"><IMG height=18 
+            alt=Support src="using_xml_parser_xtra02_files/up_support.gif" 
+            width=91 border=0 name=up_support></A></TD>
+          <TD width=1><A 
+            onmouseover="MM2K_showHideLayers('support_unt','','hide','products_unt','','hide')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra02.html#"><IMG 
+            height=18 alt=| src="using_xml_parser_xtra02_files/tick_lower.gif" 
+            width=1 border=0></A></TD>
+          <TD align=left width=100 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_solution','','/uber/nav/images/over_solutions.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/solutions/"><IMG height=18 
+            alt=Solutions src="using_xml_parser_xtra02_files/up_solutions.gif" 
+            width=100 border=0 name=up_solution></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra02_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=96 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_partners','','/uber/nav/images/over_partners.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/partners/"><IMG height=18 
+            alt=Partners src="using_xml_parser_xtra02_files/up_partners.gif" 
+            width=96 border=0 name=up_partners></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra02_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=96 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_services','','/uber/nav/images/over_services.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/services/"><IMG height=18 
+            alt=Services src="using_xml_parser_xtra02_files/up_services.gif" 
+            width=96 border=0 name=up_services></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra02_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=100 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_showcase','','/uber/nav/images/over_showcase.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/showcase/"><IMG height=18 
+            alt=Showcase src="using_xml_parser_xtra02_files/up_showcase.gif" 
+            width=100 border=0 name=up_showcase></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra02_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=92 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_company','','/uber/nav/images/over_company.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/macromedia/"><IMG height=18 
+            alt=Company src="using_xml_parser_xtra02_files/up_company.gif" 
+            width=92 border=0 name=up_company></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra02_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=74 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_jobs','','/uber/nav/images/over_jobs.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/macromedia/hr/"><IMG height=18 
+            alt=Jobs src="using_xml_parser_xtra02_files/up_jobs.gif" width=74 
+            border=0 name=up_jobs></A></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+if (typeof do_drop == 'boolean' && do_drop) {
+        document.write('<scri' + 'pt src="/uber/nav/dropdown.js" type="text/javascript" language="JavaScript"></scri' + 'pt>');
+}
+//-->
+</SCRIPT>
+<!-- #EndEditable -->
+<TABLE cellSpacing=0 cellPadding=0 width=750 border=0 
+summary="contents of page except for top navigation">
+  <TBODY>
+  <TR>
+    <TD width="1%" colSpan=3><IMG height=8 alt=" " 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra2_files\using_xml_parser_xtra02_files\pixel(1).gif" 
+      width=15></TD></TR>
+  <TR>
+    <TD width="1%"><IMG height=2 alt=" " 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra2_files\using_xml_parser_xtra02_files\pixel(1).gif" 
+      width=15></TD>
+    <TD width="98%"><!-- #BeginEditable "nav" --><!-- MakeNav args="
+	header_text=Macromedia Director on the internet
+	product_color=FF6600
+"--><!-- #EndEditable --><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=+1><B><I><SPAN 
+      class=tophead><!-- #BeginEditable "header" --><FONT 
+      color=#ff6600>Macromedia Director on the internet</FONT><!-- #EndEditable --></SPAN></I></B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" color=#999999 size=1><SPAN 
+      class=crumbtrail><BR><!-- #BeginEditable "crumbtrail" --><A target=_top 
+      href="http://www.macromedia.com/"><FONT color=#999999>Home</FONT></A> &gt; 
+      <A target=_top href="http://www.macromedia.com/software/"><FONT 
+      color=#999999>Products</FONT></A> &gt; <A target=_top 
+      href="http://www.macromedia.com/software/director/"><FONT 
+      color=#999999>Director</FONT></A> &gt; <A target=_top 
+      href="http://www.macromedia.com/support/director/"><FONT 
+      color=#999999>Support</FONT></A> &gt; <A 
+      href="http://www.macromedia.com/support/director/internet.html"><FONT 
+      color=#999999>On the internet</FONT></A> 
+      <!-- #EndEditable --></SPAN></FONT></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=1 cellPadding=0 width="98%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top 3><IMG height=12 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra2_files\using_xml_parser_xtra02_files\pixel(1).gif" 
+      width=1></TD></TR>
+  <TR>
+    <TD vAlign=top width="1%"><IMG height=1 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra2_files\using_xml_parser_xtra02_files\pixel(1).gif" 
+      width=15></TD>
+    <TD vAlign=top width="99%"><!-- #BeginEditable "content" --><FONT 
+      face="Arial, Helvetica, sans-serif" size=4><B>What is XML?</B></FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>XML 
+      (Extensible Markup Language) is similar to HTML in that it uses markup 
+      tags to define content; however, HTML has predefined tags that you can use 
+      to format any data. Any application that reads HTML must understand the 
+      meaning of tags such as </FONT><CODE>&lt;TITLE&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>, 
+      </FONT><CODE>&lt;P&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>, and 
+      </FONT><CODE>&lt;BODY&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>. HTML tags also 
+      describe how information appears on the screen. XML, on the other hand, 
+      consists of a set of rules that let you define your own tags and the type 
+      of data they can contain, and it has no visual component. With XML, there 
+      is no pre-defined way to display any given type of data such as molecular 
+      structures or grocery lists. An XML document is merely a container for the 
+      data.The Director developer, by knowing what kind of data the XML document 
+      contains, can make intelligent decisions about what the Director movie 
+      should do with the information.</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>One key 
+      advantage of XML over a regular text document is that XML is not 
+      order-dependent. If an application refers to the third item in a line of 
+      data, inserting new data or making subsequent changes to the way the data 
+      is produced cause the application to fail. With XML, the components of the 
+      data itself can be referred to by name, so if a new chunk of data is 
+      inserted before the one being used, the name is still valid. Existing code 
+      continues to work and the newly inserted data is ignored.</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>There are many 
+      sources of information for understanding, creating, and editing XML on the 
+      Internet. These are some useful Web sites that offer information about 
+      XML:</FONT>
+      <P>
+      <TABLE cellSpacing=0 cellPadding=4>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="using_xml_parser_xtra02_files/tri.gif" width=14 vspace=2></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><A target=mm_window 
+            href="http://www.xml.com/">http://www.xml.com/<A target=mm_window 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/"></FONT></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="using_xml_parser_xtra02_files/tri.gif" width=14 vspace=2></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><A target=mm_window 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/"><A 
+            target=mm_window 
+            href="http://www.ucc.ie/xml/">http://www.ucc.ie/xml/<A 
+            target=mm_window 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/"></FONT></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="using_xml_parser_xtra02_files/tri.gif" width=14 vspace=2></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><A target=mm_window 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/"><A 
+            target=mm_window 
+            href="http://www.w3.org/TR/REC-xml">http://www.w3.org/TR/REC-xml<A 
+            target=mm_window 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/"></FONT></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="using_xml_parser_xtra02_files/tri.gif" width=14 vspace=2></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><A target=mm_window 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/"><A 
+            target=mm_window 
+            href="http://www.w3.org/DOM/">http://www.w3.org/DOM/<A 
+            target=mm_window 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/"></FONT></A></TD></TR></TBODY></TABLE>
+      <P>
+      <TABLE border=0>
+        <TBODY>
+        <TR>
+          <TD><A 
+            onmouseover="swapImage('back','/images/contentsover.gif'); window.status='To Table of Contents';return true" 
+            onmouseout="swapImage('back','/images/contents.gif')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra.html"><IMG 
+            alt="To Table of Contents" 
+            src="using_xml_parser_xtra02_files/contents.gif" vspace=1 border=0 
+            name=back></A></TD>
+          <TD><A 
+            onmouseover="swapImage('next','/images/nextover.gif'); window.status='Forward to next document';return true" 
+            onmouseout="swapImage('next','/images/next.gif')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra03.html"><IMG 
+            alt="Forward to next document" 
+            src="using_xml_parser_xtra02_files/next.gif" vspace=1 border=0 
+            name=next></A></TD></TR></TBODY></TABLE></P></TD></TR></TBODY></TABLE><!-- #EndEditable -->
+<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0 
+summary="Bottom of page">
+  <TBODY>
+  <TR>
+    <TD width="1%"><IMG height=2 alt=" " 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra2_files\using_xml_parser_xtra02_files\pixel(1).gif" 
+      width=15></TD>
+    <TD width="98%"><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2><BR>
+      <CENTER>
+      <HR noShade SIZE=1>
+      <FONT face="Geneva, Arial, Helvetica, sans-serif" size=-2><FONT 
+      color=#333333>Copyright ©1995-2000 Macromedia, Inc. All rights 
+      reserved.</FONT><BR><A 
+      href="http://www.macromedia.com/help/copyright.html"><FONT 
+      color=#999999>Copyright, trademarks, and disclaimers</FONT></A> | <A 
+      href="http://www.macromedia.com/help/privacy.html"><FONT 
+      color=#999999>Privacy 
+  policy</FONT></A><BR>&nbsp;</FONT></CENTER></FONT></TD></TR></TBODY></TABLE><!-- #EndTemplate --></BODY></HTML>

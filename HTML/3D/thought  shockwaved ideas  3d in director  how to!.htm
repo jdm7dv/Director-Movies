@@ -1,0 +1,426 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0057)http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html -->
+<HTML><HEAD><TITLE>thought > shockwaved ideas > 3d in director > how to!</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type><!-- #include "home_head.incl"	 #SECTION#="thought" -->
+<SCRIPT language=javaScript>
+
+// check for Navigator 3
+nnn = 0;
+if (navigator.appName == "Netscape" && parseInt(navigator.appVersion) >= 3) { nnn = 1} ;
+loaded=0;
+
+function loadImg () {
+    if (nnn) {
+	identity = new Image(291, 35);
+	identity.src = "../gfx/hi_identity.gif";
+	place = new Image(291, 35);
+	place.src = "../gfx/hi_place.gif";
+	thought = new Image(291, 35);
+	thought.src = "../gfx/hi_thought.gif";
+	action = new Image(291, 35);
+	action.src = "../gfx/hi_action.gif";	
+	noImage = new Image(291, 35);
+	noImage.src = "../gfx/hi_none.gif";	
+	loaded = 1
+    }   }
+function hilite(imgName) {
+	if (loaded == 1) {	document.lite.src = eval(imgName + ".src")	}
+	window.status = '>>> section: ' + imgName;
+	return true   
+	}
+function unlite() {   if (loaded == 1) { document.lite.src = noImage.src }   }
+
+// -->
+</SCRIPT>
+
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY 
+background="thought  shockwaved ideas  3d in director  how to!_files/bg.gif" 
+bgColor=#ffffff link=#cc3300 onload=loadImg() vLink=#660000>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR vAlign=bottom>
+    <TD bgColor=#ffffff colSpan=2><IMG alt="Che Tamahori" border=0 height=13 
+      src="thought  shockwaved ideas  3d in director  how to!_files/che.gif" 
+      width=339></TD></TR>
+  <TR vAlign=bottom>
+    <TD bgColor=#ffffff><IMG alt=...thought border=0 height=47 
+      src="thought  shockwaved ideas  3d in director  how to!_files/t_thought.gif" 
+      width=299></TD>
+    <TD bgColor=#ffffff><IMG alt="" border=0 height=35 name=lite 
+      src="thought  shockwaved ideas  3d in director  how to!_files/hi_none.gif" 
+      width=291><BR><A href="http://www.sfx.co.nz/tamahori/identity/index.html" 
+      onmouseout=unlite() onmouseover="return hilite('identity')"><IMG 
+      alt=identity border=0 height=12 
+      src="thought  shockwaved ideas  3d in director  how to!_files/b_identity.gif" 
+      width=74></A><A href="http://www.sfx.co.nz/tamahori/action/index.html" 
+      onmouseout=unlite() onmouseover="return hilite('action')"><IMG alt=action 
+      border=0 height=12 
+      src="thought  shockwaved ideas  3d in director  how to!_files/b_action.gif" 
+      width=62></A><A href="http://www.sfx.co.nz/tamahori/thought/index.html" 
+      onmouseout=unlite() onmouseover="return hilite('thought')"><IMG 
+      alt=thought border=0 height=12 
+      src="thought  shockwaved ideas  3d in director  how to!_files/b_thought.gif" 
+      width=67></A><A href="http://www.sfx.co.nz/tamahori/place/index.html" 
+      onmouseout=unlite() onmouseover="return hilite('place')"><IMG alt=place 
+      border=0 height=12 
+      src="thought  shockwaved ideas  3d in director  how to!_files/b_place.gif" 
+      width=62></A></TD></TR>
+  <TR bgColor=#999999 height=2>
+    <TD colSpan=2><IMG alt="" border=0 height=2 
+      src="thought  shockwaved ideas  3d in director  how to!_files/titline.gif" 
+      width="95%"></TD></TR></TBODY></TABLE><!-- end include -->
+<TABLE cellPadding=0><!-- Section Title -->
+  <TBODY>
+  <TR vAlign=top>
+    <TD width=295>
+      <H1 align=right><TT>how to cook 3d in director</TT></H1><IMG border=0 
+      height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/x.gif" 
+      width=290><BR></TD>
+    <TD rowSpan=2 width=20><IMG border=0 height=50 
+      src="thought  shockwaved ideas  3d in director  how to!_files/x.gif" 
+      width=20> </TD>
+    <TD width=250><IMG border=0 height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/x.gif" 
+      width=245> </TD></TR>
+  <TR vAlign=top>
+    <TD align=right width=295>
+      <H1 align=right><TT>&gt;</TT><BR><!-- Images --><IMG height=235 
+      src="thought  shockwaved ideas  3d in director  how to!_files/howto_girl.gif" 
+      width=186></H1><SMALL>These techniques will not neccessitate<BR>the 
+      wearing of ridiculous coloured glasses! </SMALL></TD><!-- Page Title -->
+    <TD width=250><!-- Content -->Creating 3D effects in Director is 
+      relatively simple, tastes great, and is low in bandwidth calories. This 
+      page will show you all of the necessary components for creating your own 
+      cheesy 3D effects.
+      <P>Rather than give you a complete, finished project, I'll present all of 
+      the components you need for simple 3D in director, and a method for mixing 
+      them together. You <U>will</U> need some basic cooking skills to create 
+      your own finished movie. I'm a designer, not a programmer; the techniques 
+      shown here are simple, and could be taken much further with a little 
+      thought. Much of the code is also hideously inefficient, so feel free to 
+      come up with a more elegant solution!
+      <P>Required Ingredients:
+      <P>
+      <UL type=circle>
+        <LI><A 
+        href="http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html#fastfood">A 
+        taste for fast food</A> 
+        <LI><A 
+        href="http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html#cookbook">A 
+        good cookbook</A> 
+        <LI><A 
+        href="http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html#storing">Storing 
+        points</A> 
+        <LI><A 
+        href="http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html#transforming">Transforming 
+        points</A> 
+        <LI><A 
+        href="http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html#displaying">Displaying 
+        points</A> 
+        <LI><A 
+        href="http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html#drawing">Drawing 
+        lines</A> 
+        <LI><A 
+        href="http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html#combining">Combining 
+        ingredients</A> </LI></UL><BR><BR></TD></TR><!-- LINE -->
+  <TR bgColor=#999999 height=1>
+    <TD colSpan=3><IMG alt="" height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/titline.gif" 
+      width=220></TD></TR>
+  <TR>
+    <TD width=295>
+      <H1 align=left><TT><A name=fastfood>A Taste for Fast Food</A>
+      <P></TT></H1>This is not exactly gourmet 3D. We're taking all sorts of 
+      shortcuts, to accommodate some of Director's (ahem) less attractive 
+aromas.
+      <P>Gourmet 3D would be Z-sorted, so we could have sprites passing behind 
+      (and in front of) other sprites, based on their distance from the viewer. 
+      I think this would require doing something like a QuickSort on the point 
+      list, then constantly reassigning sprites to channels based on the 
+      z-depth...
+      <P>We're going to cheat. We'll dump everything to the screen without any 
+      regard for sprite order. Just use the Darkest (or Lightest) ink mode, and 
+      stir well. This means that if you have sprites that aren't solid black (or 
+      white), the sprites they pass in front of will be visible through them. 
+      For this reason, I make sure that the sprites become lighter in tone as 
+      they recede in space. And you thought that blurring effect was just for 
+      flavour? The image to the right demonstrates this problem (or bonus 
+      feature).
+      <P>Whenever you find a problem like this (ie, no depth-sorting), look at 
+      it as an opportunity to create something that <U>doesn't try</U> to look 
+      like traditional 3D stuff. New Zealander's are born with infinite reserves 
+      of natural cunning - others may have to resort to psychoactive chemicals 
+      or periods of unemployment to achieve this perceptual state.
+      <P>Gourmet 3D features <U>are</U> possible within the framework I'll be 
+      laying out here; to cook them up, I recommend the assistance of a good 
+      reference book.
+      <P><BR></P></TD>
+    <TD></TD>
+    <TD align=right vAlign=bottom><SMALL>This image shows how sprites are 
+      visible through each other. Here, the blurred globe can be seen through 
+      the finger of the hand. It is important that sprites in the background are 
+      lighter than the sprites in the foreground 
+      <P></SMALL><IMG height=224 
+      src="thought  shockwaved ideas  3d in director  how to!_files/howto_hand.gif" 
+      width=238>
+      <P><BR></P></TD></TR><!-- LINE -->
+  <TR bgColor=#999999 height=1>
+    <TD colSpan=3><IMG alt="" height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/titline.gif" 
+      width=220></TD></TR>
+  <TR vAlign=top>
+    <TD>
+      <H1 align=left><TT><A name=cookbook>A Good Cookbook</A>
+      <P></TT></H1>If you're going to cook up some tasty stuff, you'll want to 
+      read up on it. Go and get yourself an elementary guide to 3D computer 
+      graphics. I can thoroughly recommend anything by James D.Foley; what we're 
+      looking for is really basic stuff. This resource will become useful after 
+      you get stuff spinning on screen, so you can extend it into something 
+      creative.
+      <P><BR></P></TD></TR><!-- LINE -->
+  <TR bgColor=#999999 height=1>
+    <TD colSpan=3><IMG alt="" height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/titline.gif" 
+      width=220></TD></TR>
+  <TR vAlign=top>
+    <TD>
+      <H1 align=left><TT><A name=storing>Storing Points</A>
+      <P></TT></H1>To represent points in 3D space, you need to represent them 
+      in code. For ease of editing, I use a field to store my initial point 
+      definitions. I then use that field to build a list of 'points' in which 
+      each 'point' is itself a property list containing all the info we need to 
+      know about that point.
+      <P></P></TD></TR>
+  <TR vAlign=top>
+    <TD><BR>In this case, a field called <TT>startPoints</TT> contains 8 
+      lines, which describe the points in the 'rotating cube' seen elsewhere in 
+      these pages. The Lingo below creates a list called <TT>points</TT> which 
+      contains the 8 corners of the cube: each point has <TT>#xpos</TT>, 
+      <TT>#ypos</TT>, <TT>#zpos</TT> and <TT>#sprite</TT> properties. Store the 
+      <TT>points</TT> list somewhere handy - you'll be using it again! </TD>
+    <TD></TD>
+    <TD><IMG height=180 
+      src="thought  shockwaved ideas  3d in director  how to!_files/howto_field1.gif" 
+      width=199> </TD></TR>
+  <TR vAlign=top>
+    <TD colSpan=3><FONT color=#006666><PRE>  set points=[]
+  repeat with i = 1 to (the number of lines in field "startPoints")
+    set tmp=[sprite:0]
+    set the sprite of tmp=i
+    addprop tmp,#xpos,item 1 of line i of field "startPoints"
+    addprop tmp,#ypos,item 2 of line i of field "startPoints"
+    addprop tmp,#zpos,item 3 of line i of field "startPoints"
+    add points, tmp
+  end repeat
+</PRE></FONT><BR></TD></TR><!-- LINE -->
+  <TR bgColor=#999999 height=1>
+    <TD colSpan=3><IMG alt="" height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/titline.gif" 
+      width=220></TD></TR>
+  <TR vAlign=top>
+    <TD></TD>
+    <TD></TD>
+    <TD>
+      <H1 align=left><TT><A name=transforming>Transforming Points</A>
+      <P></TT></H1>To make the model spin, I just apply a rotation 
+      transformation to the entire list of points - conceptually much simpler 
+      than creating a roving view port into the 3D world.
+      <P>In the code below, I rotate all of the members in the global list 
+      <TT>points</TT> by <TT>Xangle</TT> around the x-axis and by 
+      <TT>Yangle</TT> around the y-axis.
+      <P>If you want to get into the matrix transformations that actually 
+      describe 3D manipulations, check your cookbook - you're going to come up 
+      with something nicer than this:
+      <P></P></TD></TR>
+  <TR vAlign=top>
+    <TD colSpan=3><FONT color=#006666><PRE>on XY_rotate Xangle, Yangle
+  global points
+  repeat with i = 1 to count (points)     -- loop thru point list
+    set thisPoint = getAt (points,i)      -- get this point reference
+    set z = the zpos of thisPoint
+    set x = the xpos of thisPoint
+    set y = the ypos of thisPoint    
+                                          -- Y Rotate
+    set temp_zpos             = z * cos(Yangle) - x * sin(Yangle)
+    set the xpos of thisPoint = z * sin(Yangle) + x * cos(Yangle)    
+                                          -- X rotate
+    set the zpos of thisPoint = y * sin(Xangle) + temp_zpos * cos(Xangle)
+    set the ypos of thisPoint = y * cos(Xangle) - temp_zpos * sin(Xangle)
+    
+  end repeat
+end XY_rotate
+</PRE></FONT><BR></TD></TR><!-- LINE -->
+  <TR bgColor=#999999 height=1>
+    <TD colSpan=3><IMG alt="" height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/titline.gif" 
+      width=220></TD></TR>
+  <TR vAlign=top>
+    <TD>
+      <H1 align=left><TT><A name=displaying>Displaying Points</A>
+      <P></TT></H1>It's nice knowing that these points are whizzing around in 
+      the machine, but much more rewarding to actually <U>see</U> them doing it. 
+      To do this, we have to flatten the 3D points onto the 2D space Director 
+      can work with:
+      <P></P></TD></TR>
+  <TR vAlign=top>
+    <TD colSpan=3><FONT color=#006666><PRE>on View_points
+  global points, xoff, yoff, d
+  -- points: list of points
+  -- xoff:   x of the center of rotation onscreen
+  -- yoff:   y of the center of rotation onscreen
+  -- d:      degree of perspective. 900 looks ok...
+  
+  repeat with i = 1 to count (points)   -- loop thru points in list
+    set p = getAt (points,i)            -- get the point reference
+    
+    -- Project 3D point onto 2D plane
+    set scalar = (1.0 / ((the zpos of p * 1.0)/d + 1))
+    set xp = the xpos of p * scalar     -- the x,y position for 2D display
+    set yp = the ypos of p * scalar
+    
+    -- Voodoo calc to find which of 8 cast members to use: gives me the blur...
+    set p_cast   = max( min( 38 - (24 * scalar), 17), 10)
+    
+    -- Position that sprite
+    set p_sprite = the sprite of p
+    set the locH of sprite p_sprite = xp + xoff
+    set the locV of sprite p_sprite = yoff - yp
+    set the castnum of sprite p_sprite = p_cast
+        
+    -- Scale that sprite
+    set the width  of sprite p_sprite = the width  of cast p_cast * scalar*.76
+    set the height of sprite p_sprite = the height of cast p_cast * scalar*.76
+  end repeat
+  
+end View_points
+</PRE></FONT></TD></TR>
+  <TR vAlign=top>
+    <TD>We need to calculate the value scalar for each point, to calculate the 
+      x,y position for the point onscreen. Luckily, this scalar value can also 
+      be used to scale the sprite bitmap as the point whizzes through space.
+      <P>The line I have labeled 'Voodoo Calc' is designed to give me a value 
+      for cast swapping between different versions of the sprite bitmap. I use 
+      this to give me the blur. I'd suggest ignoring this line initially, as 
+      it's totally hard coded to the specific positions of the cast members in 
+      this particular movie. Anyway, blurring is only one option. While blurring 
+      looks nice, a simple fade through the blend property would be more calorie 
+      conscious.
+      <P><BR></P></TD>
+    <TD></TD>
+    <TD vAlign=bottom><IMG height=52 
+      src="thought  shockwaved ideas  3d in director  how to!_files/howto_wordblur.gif" 
+      width=144>
+      <P><BR></P></TD></TR><!-- LINE -->
+  <TR bgColor=#999999 height=1>
+    <TD colSpan=3><IMG alt="" height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/titline.gif" 
+      width=220></TD></TR>
+  <TR vAlign=top>
+    <TD>
+      <H1 align=left><TT><A name=drawing>Displaying Lines</A>
+      <P></TT></H1>This is one area where you can get as tricky as you want. 
+      There are all sorts of ways of doing this faster, depending on whether you 
+      want to have sprites and lines, or lines alone; whether you are drawing 
+      individual lines, or sets of faces...
+      <P>The system I'm showing here is a trusty, if crude way of doing it. It 
+      assumes that the points that define a line are already indicated by 
+      sprites: thus, it ignores the 3D point stuff, and uses <TT>the hLoc</TT> 
+      and <TT>the vLoc</TT> of those sprites as the endpoints of the lines. Like 
+      I said, crude but trusty.
+      <P>The lines themselves are just QuickDraw lines. Of course, Quickdraw 
+      lines can only go in one diagonal direction (ie, either \ or /) so we have 
+      to use two lines, as select the appropriate one for each line sprite. 
+      There is an obvious bug with this technique - when the line is perfectly 
+      horizontal or vertical, it disappears. I'm too lazy to test for these 
+      cases, but you'll probably want to! 
+      <P>To use this code, just call <TT>Connect_Points</TT> with the sprite for 
+      the line, and the indexes of the two members of the points list you want 
+      the line to draw between.
+      <P>
+      <DD>Eg: <TT>Connect_Points (24, 1, 7)</TT>
+      <P><BR></P></DD></TD></TR>
+  <TR vAlign=top>
+    <TD colSpan=3><FONT color=#006666><PRE>on Connect_Points line_sprite, fromPoint, toPoint
+  global points
+  set x1 = the locH of sprite (the sprite of getAt( points, fromPoint))
+  set y1 = the locV of sprite (the sprite of getAt( points, fromPoint))
+  set x2 = the locH of sprite (the sprite of getAt( points, toPoint))
+  set y2 = the locV of sprite (the sprite of getAt( points, toPoint))
+  
+  set rx1 = min(x1,x2)                         -- find minimum bounding box
+  set rx2 = max(x1,x2)                         -- ... is there a better way
+  set ry1 = min(y1,y2)
+  set ry2 = max(y1,y2)
+  if rx1 = x1 then set c = (y1 &gt; y2)           -- test to choose / or \
+  else set c = (y1 &lt; y2)                       -- ... weird code, but it works
+  set the castnum of sprite line_sprite = 6+c  -- castnum 6=/, 7=\
+  spritebox line_sprite, rx1, ry1, rx2, ry2    -- and place on the screen
+end Connect_Points
+</PRE></FONT><BR></TD></TR><!-- LINE -->
+  <TR bgColor=#999999 height=1>
+    <TD colSpan=3><IMG alt="" height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/titline.gif" 
+      width=220></TD></TR>
+  <TR vAlign=top>
+    <TD align=right><EMBED height=240 src=shox/wee_cube.dcr width=240> </TD>
+    <TD></TD>
+    <TD>
+      <H1 align=left><TT><A name=combining>Combining Ingredients</A>
+      <P></TT></H1>All the techniques I used to create things like the cube you 
+      see at to the left, are outlined above. How you hook them together is up 
+      to you. Sometimes a rigorous OOP system would be the way to go - I'm not a 
+      big fan of Director's OOP approach, so seldom use it. That said, I've used 
+      it in cases where I want to create 3D shapes just out of lines...
+      <P>I've glossed over a number of things, like how you handle your 
+      puppeting, and how you feed those all important values to Xangle and 
+      Yangle. This can be done via automatic interpolators (for fully scripted 
+      animation) or via user interaction. I currently use some impolite code for 
+      doing the latter, which seems to cause some real CPU hogging problems in 
+      the Shockwaved versions (not to mention trapping the mouse movement even 
+      when in another app!) But hey - at least it runs fast...
+      <P>It's important to think about how people will interact with the model. 
+      There are two ways of translating the user's mouse movements into the X 
+      and Y rotations of the model. The system I've used in the cube you see 
+      here is based on constantly transforming the entire pointset cumulatively, 
+      which gives a nice natural feel to the interaction.
+      <P>On the other hand, if you want to mix this approach with QTVR type 
+      object manipulation you have to transform a fresh copy of the original 
+      pointset each time - this ensures that the transforms are about the 
+      original X and Y axes.
+      <P>I also build momentum into my interaction code. Essentially, you just 
+      make sure that when the mousedown ends, you continue to transform the 
+      model by a fraction of the previous angles. Easy. This gives the model a 
+      nice sense of physicality.
+      <P>I'd really like to see what people do with this code. If you spot any 
+      glaring errors (as opposed to alternative methods) or have done something 
+      cool, <A href="mailto:che@sfx.co.nz">let me know</A>!
+      <P><BR><BR><BR></P></TD></TR><!-- Navigation --><!-- Line -->
+  <TR bgColor=#999999 height=1>
+    <TD colSpan=3><IMG alt="" height=1 
+      src="thought  shockwaved ideas  3d in director  how to!_files/titline.gif" 
+      width=220></TD></TR>
+  <TR vAlign=top>
+    <TD align=right><A 
+      href="http://www.sfx.co.nz/tamahori/home/index.html">home</A> / <A 
+      href="http://www.sfx.co.nz/tamahori/thought/index.html">thought</A> / <A 
+      href="http://www.sfx.co.nz/tamahori/thought/shockers.html">shockwaved 
+      ideas</A> / <A 
+      href="http://www.sfx.co.nz/tamahori/thought/shockers.html">3d in 
+      director</A> &lt; </TD>
+    <TD rowSpan=2 width=20><IMG border=0 height=50 
+      src="thought  shockwaved ideas  3d in director  how to!_files/x.gif" 
+      width=20> </TD>
+    <TD width=250>&gt; <A 
+      href="http://www.sfx.co.nz/tamahori/thought/shock_3d_heirarchy.html">3d 
+      Heirarchy Example</A><TT> - 12 kb</TT>
+      <P>&gt; <A 
+      href="http://www.sfx.co.nz/tamahori/thought/shock_3d_block.html">3d Vector 
+      Graphics Example</A><TT> - 6 kb <B>NEW</B></TT>
+      <P>&gt; <A 
+      href="http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html">How to 
+      Cook 3d in Director</A><TT> - <B>NEW</B></TT>
+      <P></P></TD></TR></TBODY></TABLE><!-- #include "home_foot.incl"	 #SECTION#="thought" --><BR><BR><BR><BR><PRE><TT>
+c o n t a c t   m e  :  <A href="mailto:che@sfx.co.nz">mailto:che@sfx.co.nz</A>
+</T></PRE><!-- end include --></TT></BODY></HTML>

@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy78.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 78</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#770000 aLink=#ff0000 link=#ff0000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=31 src="handy78_files/handyman.gif" width=213 
+      border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG height=9 
+            src="handy78_files/archiveDivLine.gif" width=440 align=bottom 
+            border=0></TD>
+          <TD vAlign=top width=55 rowSpan=2><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+            height=28 src="handy78_files/archiveDiv.gif" width=55 align=bottom 
+            border=0></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <P><B><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Dear 
+            Multimedia Handyman</FONT></B> 
+</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD><BR>
+      <P>I am new to director, and I am using Dir 6.5. I would like the user to 
+      drag the image about on the stage and put the image in the "basket" to 
+      represent the chosen prefrence and yet the computer can remember which one 
+      is in the "basket". 
+      <P><A href="mailto:benwong21@hotmail.com">Ben Wong</A> 
+      <P>Dear Ben 
+      <P>Dragging a sprite around is easy. To do that, you just select the 
+      sprite in the score and click on "Moveable" in the score window controls. 
+      To keep track of which sprites are "in the basket", we'll need to use some 
+      Lingo. Here's a demo movie that you can play with and download. (Download 
+      <A href="http://www.director-online.com/howTo/other/handy78.hqx">Mac</A> 
+      or <A 
+      href="http://www.director-online.com/howTo/other/handy78.zip">PC</A>) 
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=320 height=240><PARAM NAME="SRC" VALUE="../other/handy78.dcr">
+      <embed src="../other/handy78.dcr" 
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="240"></embed> </OBJECT>
+      <P>First, let's discuss what is really happening when a sprite goes "in 
+      the basket". In order to make the basket look like it has a back and 
+      front, I've used two different sprites. The first sprite I call 
+      "basketTop" includes the black area and the back rim of the basket. All 
+      objects going into the basket need to cross in front of this sprite, so 
+      I'll put basketTop in sprite channel 1. The other part of the basket is 
+      called "basketFront". All of the sprite going into the basket will appear 
+      to be behind this part of the basket. So, I need to put basketFront in a 
+      higher numbered sprite channel than all of my other sprites. 
+      <P><IMG height=248 alt="" src="handy78_files/handy78_basket.gif" width=390 
+      border=0> 
+      <P>So, when you drag a sprite (colored ball) into the basket, all you're 
+      really doing is dragging it to a point on the stage that is inside of the 
+      area that basketFront occupies. Since basketFront is in a higher sprite 
+      channel, it appears that the other sprites are going inside. Now let's 
+      figure out the lingo part. 
+      <P>What we need to do is have the sprite "know" when it has been dropped 
+      inside the target area. To do that, we'll write a mouseUp handler in the 
+      behavior so when you release the sprite, it checks to see if its own 
+      location is inside the rect of the target sprite. Make sense so far? Next, 
+      if it is inside the target, it needs to add its "name" to a list. But, if 
+      it is not inside the target, it needs to make sure that its name is not on 
+      the list (in case it was there before.) 
+      <P>So our behavior needs to have properties for the target sprite, the 
+      target sprite's rect, and a "name" so that we'll be able to identify the 
+      sprites we put into the list. We'll also need to have a global variable to 
+      hold the list. Here's the behavior. <PRE><FONT color=#cc0000>-- basketDrop Behavior
+-- copyright © 1999, ZZP Online, LLC
+-- Free use for readers of Director Online
+
+property pMySprite
+property pTargetSprite, pTargetRect
+property pMyName
+
+global gBasketList
+
+<B>on getPropertyDescriptionList me</B>
+
+  set pdlist to [:]
+  addprop pdlist, #pTargetSprite, [#comment:"Target ¬
+    sprite number", #format:#integer, #default:1]
+  addprop pdlist, #pMyName, [#comment:"Name of this ¬
+    object:", #format:#symbol, #default:#item1]
+  return pdlist
+  
+end getPropertyDescriptionList
+
+<B>on beginSprite me</B>
+
+  set pMySprite = the spriteNum of me
+  set pTargetRect = the rect of sprite pTargetSprite
+  
+  if voidP(gBasketList) then
+    set gBasketList = []
+  end if
+  
+end
+
+<B>on mouseUp me</B>
+
+  set myLoc = the loc of sprite pMySprite
+  
+  if inside(myLoc, pTargetRect) then
+  
+    if getOne (gBasketList, pMyName) then
+      nothing
+    else
+      add gBasketList, pMyName
+    end if
+    
+  else
+  
+    if getOne (gBasketList, pMyName) then
+      deleteOne gBasketList, pMyName
+    end if
+    
+  end if
+  
+end</FONT></PRE>
+      <P>When you drop this behavior on a sprite, it will ask you for the sprite 
+      number of the target (basketFront), and it wants to know the name of the 
+      object. For example, I when I dropped it on the blue ball sprite, I named 
+      it "blue". 
+      <P><IMG height=107 alt="" src="handy78_files/handy78_param.gif" width=344 
+      border=0> 
+      <P>When the movie plays, the beginSprite handler sets pTargetRect equal to 
+      the rect of the target sprite number. This rect is simply a list of points 
+      corresponding to the top-left and bottom right corners of the basketFront 
+      sprite. The if statement in the beginSprite handler is there just to 
+      double check that the gBasketList -- my list of sprite in the basket -- is 
+      initialized. (I have a startMovie script which sets gBasketList = []. ) 
+      <P>When the sprite is moved and released, the mouseUp handler uses the 
+      "inside" Lingo term to see if the loc of the dragged sprite is inside the 
+      boundary of the target rect. If so, it checks to see if that sprite is 
+      already on the list. If so, then nothing happens, else it adds the name of 
+      that sprite to the list. Finally, if the sprite is not inside the target 
+      rect, then it checks the list and if its name is on the list, it removes 
+      the name. 
+      <P>That's all there is to it. Good luck with your project. 
+      <P><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A target=display 
+      href="http://www.director-online.com/help_central/Display.html">Help 
+      Central</A> section of DOUG.</FONT> </P></TD></TR></TBODY></TABLE></BODY></HTML>

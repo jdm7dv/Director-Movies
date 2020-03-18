@@ -1,0 +1,9 @@
+.tophead {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; FONT-STYLE: italic; FONT-FAMILY: Arial, Helvetica, sans-serif
+}
+.crumbtrail {
+	FONT-SIZE: 10px; COLOR: #999999; FONT-FAMILY: Verdana, Geneva, Arial, Helvetica, sans-serif
+}
+BODY {
+	BACKGROUND-IMAGE: url(/uber/images/mm_bg_small.gif); BACKGROUND-REPEAT: repeat-x
+}

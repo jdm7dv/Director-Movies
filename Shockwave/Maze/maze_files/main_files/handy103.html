@@ -1,0 +1,409 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.director-online.com/howTo/handy_articles/handy103.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 103</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.1300" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#ff0000 vLink=#770000>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG border=0 height=31 src="handy103_files/handyman.gif" 
+      width=213> 
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG align=bottom border=0 height=9 
+            src="handy103_files/archiveDivLine.gif" width=440></TD>
+          <TD rowSpan=2 vAlign=top width=55><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+            align=bottom border=0 height=28 src="handy103_files/archiveDiv.gif" 
+            width=55></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <P><B><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Dear 
+            Multimedia Handyman</FONT></B> 
+</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD><BR>
+      <P>I am working on a maze game. I need to make the character control by 
+      four arrow keys (left, right, up and down ). How do i make the character 
+      move inside the maze without working through the wall? Thank you for your 
+      help! 
+      <P><A href="mailto:pei-chen@rumpustoys.com">Pat</A> 
+      <P>Dear Pat, 
+      <P>I've received several similar maze movement questions, so I'll try to 
+      show you a couple of approaches. I hope you'll pardon my simplistic 
+      graphics and poor maze design. 
+      <P>
+      <OBJECT classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      height=256 width=320><PARAM NAME="SRC" VALUE="../other/handy103.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed src="../other/handy103.dcr"
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="256" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>Here's an example where the maze is static and the character moves 
+      around by pressing the J, L, I, and K keys. I don't use the arrow keys 
+      because in Shockwave on some browsers, the arrow keys are reserved for 
+      browser functions so that's not dependable. As you'll see by pressing 
+      those keys, the "character" (light green dot) moves around the maze, 
+      stopping when it bumps into a wall. Here's how I did it. 
+      <P>The walls are quickdraw sprites, all from a single cast member. Each 
+      wall, including the four outside boundaries, is a separate sprite. Of 
+      course, it would be easier to create a beautiful graphic maze in Photoshop 
+      and then import that as a single cast member and have it in a single 
+      sprite channel. However, in order to detect when the character bumps into 
+      a wall, I need to have each wall as a separate sprite. You'll see why in a 
+      moment. 
+      <P>The character sprite has a behavior I call mazeMan. When the sprite is 
+      initiated (beginSprite), it sends out a call to all the other sprites to 
+      add their bounding rects to a list, pRectList. (For any sprite, the rect 
+      is the rectangle which is the outer boundary of the sprite.) So mazeMan 
+      compiles this list of the boundaries of all the walls. When the key is 
+      pressed, the mazeMan behavior figures out the next place that the 
+      character should move, then checks in the list to see if it will intersect 
+      with any of the rects in the list. If an intersection is found, that means 
+      it would cross a wall boundary, so the character stops. However, if no 
+      intersection is found, then the character moves to the new spot. 
+      <P>That's the concept, now let's get to the code. Since we're using the 
+      keys to move this character around, we'll need to write a keyDownScript. 
+      You can't use a keyDown handler within a behavior for mazeMan because 
+      keyDown events are only recognized within movie scripts, or in behavior 
+      scripts for editable fields or text. So we'll set up a movie script (we'll 
+      use the startMovie script) which sets the keyDownScript to "passKeyEvent" 
+      -- that's just a name I made up for a custom handler. The passKeyEvent 
+      handler simply sends out a message to the mazeMan sprite, telling it to 
+      pay attention to the key that was pressed (getKey). I use a global 
+      variable, gMazeMan, to hold the number of the mazeMan sprite. You'll see 
+      in the mazeMan behavior that it sets the value of gMazeMan. 
+      <P><PRE><FONT color=#cc0000><B>on startMovie</B>
+  set the keyDownScript to "passKeyEvent"
+end
+
+<B>on passKeyEvent</B>
+
+  global gMazeMan
+  
+  sendSprite gMazeMan, #getKey
+  
+end passKeyEvent</FONT></PRE>
+      <P>Whenever a key is pressed, the keyDownScript sends a message to 
+      sprite(gMazeman) and tells it to getKey. That means that our mazeMan 
+      behavior will need to have a handler called getKey which will look at 
+      which key was pressed and respond. 
+      <P>Here's the mazeMan behavior: 
+      <P><PRE><FONT color=#cc0000>property pSprite, pRectList, pMoveIncr, pRIGHTkey
+property pLEFTkey, pUPkey, pDOWNkey, pHDir, pVDir
+
+global gMazeMan
+
+-- should be applied to sprite moving through maze
+-- NOTE: this sprite must be in a higher numbered 
+-- sprite channel than the maze walls
+
+<B>on getPropertyDescriptionList me</B>
+
+  set pdlist to [:]
+  
+  addprop pdlist, #pMoveIncr, [#comment:"Move increment (pixels):", ¬
+    #format:#integer, #default:8]
+  addprop pdlist, #pRIGHTkey, [#comment:"Right Key:", #format:#string, ¬
+    #default:"L"]
+  addprop pdlist, #pLEFTkey, [#comment:"Left Key:", #format:#string, ¬
+    #default:"J"]
+  addprop pdlist, #pUPkey, [#comment:"Up Key:", #format:#string, ¬
+    #default:"I"]
+  addprop pdlist, #pDOWNkey, [#comment:"Down Key:", #format:#string, ¬
+    #default:"K"]
+  
+  return pdlist
+  
+end getPropertyDescriptionList
+
+<B>on beginSprite me</B>
+
+  gMazeMan = me.spriteNum
+  pRectList = []
+  sendAllSprites(#reportRect, pRectList)
+  pSprite = sprite(me.spriteNum)
+  pHDir = 0
+  pVDir = 0
+  
+end beginSprite
+
+<B>on getKey me</B>
+
+  pHDir = 0
+  pVDir = 0
+  
+  case the key of 
+    pRIGHTkey: pHDir = 1
+    pLEFTkey: pHDir = -1
+    pUPkey: pVDir = -1
+    pDOWNkey: pVDir = 1
+  end case
+  
+end
+
+<B>on prepareFrame me</B>
+
+  if pHDir &lt;&gt; 0 OR pVDir &lt;&gt; 0 then
+  
+    currentRect = pSprite.rect    
+    deltaH = pHDir * pMoveIncr
+    deltaV = pVDir * pMoveIncr
+    deltaRect = rect(deltaH, deltaV, deltaH, deltaV)
+    newRect = currentRect + deltaRect
+    
+    repeat with mazeRect in pRectList
+    
+      if intersect(newRect, mazeRect) &gt; 0 then
+        pHDir = 0
+        pVDir = 0
+        exit
+      end if
+      
+    end repeat
+    
+    pSprite.rect = newRect
+  end if
+  
+end</FONT></PRE>
+      <P>Special note: when you enter a frame, sprites execute their beginSprite 
+      handlers in the order of the sprite channels. So, a beginSprite handler on 
+      sprite 1 executes before sprite 2 gets around to instantiating its 
+      behavior. For example, suppose that we put our mazeMan in sprite 1 and 
+      then put all of our maze wall sprites in the higher numbered channels. 
+      When mazeMan executes its beginSprite handler, it will send out a message 
+      to all sprites to reportRect. At that moment, the behaviors on the other 
+      sprites aren't in existence yet, so nobody reports their rect. For this 
+      exact reason, mazeMan needs to be in a higher sprite channel than any of 
+      the sprite which report their rects. (If you really need mazeMan to be in 
+      a lower numbered sprite channel (maybe for graphic layering reasons), then 
+      you simply need to make sure that all of your maze wall sprites begin at 
+      least one frame before the mazeMan sprite.) 
+      <P>When mazeMan sends out the command to reportRect, all of the maze wall 
+      sprites add their bounding rects to a list called pRectList. This only 
+      needs to happen once, since the walls aren't moving. 
+      <P>The getKey behavior simply converts the key that was pressed into 
+      directional values for the character. The properties pHDir and pVDir refer 
+      to the horizontal and vertical direction that the character will move. If 
+      the value is 0 then the character is stopped. A value of 1 will move the 
+      character to the right or down, while a value of -1 will move the 
+      character up or left. The getKey handler doesn't actually move the 
+      character, it simply sets the directional value which we'll soon need. 
+      <P>The real meat of this behavior is the prepareFrame handler. This 
+      handler executes before each new frame is drawn. Since we don't need to 
+      bother doing any calculations if the character is standing still, the 
+      first line checks to see if the keys have been pressed (requesting the 
+      character to move.) If the values of both pHDir and pVDir are 0, then we 
+      can skip the rest of the handler. 
+      <P>Assuming that either pHDir or pVDir have been set to 1 or -1, then we 
+      need to see if moving in that direction will cause us to intersect with a 
+      wall. Start by calculating the newRect that the character <B>will have if 
+      we make the move</B>. That value is computed by taking the current Rect of 
+      the character sprite and adding a "deltaRect" to it. deltaRect is a bogus 
+      variable which simply converts the direction and increment of the move 
+      into a rect format so that it can be added to currentRect. This yields the 
+      value newRect. The next step is to check to see if newRect intersects with 
+      any of the wall sprite rects in pRectList. If an intersection is found, 
+      pHDir and pVDir are reset to 0 and the character doesn't make a move. 
+      Otherwise, the character sprite's rect is set to the newRect value, which 
+      has the effect of moving the sprite on the stage. 
+      <P>Here's the behavior which must be attached to all of the "wall" 
+      sprites. This behavior will know what to do with that command. It's a very 
+      short behavior which simply adds the wall sprite's rect to the pRectList. 
+      <P><PRE><FONT color=#cc0000>-- attach to maze wall sprites
+
+<B>on reportRect me, pRectList</B>
+  myRect = sprite(me.spriteNum).rect
+  add pRectList, myRect
+end</FONT></PRE>
+      <P>That's all there is to this type of maze game. But, what if your game 
+      has a huge maze -- many times larger than the stage? What if you want your 
+      character to stay stationary in the center of the stage while the maze 
+      scrolls up and down and left and right around the character? Here's an 
+      example: 
+      <P>
+      <OBJECT classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      height=256 width=320><PARAM NAME="SRC" VALUE="../other/handy103_2.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed src="../other/handy103_2.dcr"
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="256" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>For this type of maze movement, we'll need to revise our concept a 
+      little bit. Some parts are the same; for every move, we'll check the 
+      intersection between the character's rect and the list of wall rects -- 
+      and either allow the move or not. What's different here is that we'll have 
+      to calculate the newRects of all of the walls in the rectList, and we'll 
+      need to move all of the wall sprites (and perhaps other objects in the 
+      maze) instead of the character. When this happens, we'll have to update 
+      our pRectList to show the new rects of all of the walls. That means that 
+      we'll have to do a lot more calculations for every move... or maybe not! 
+      Ready for a little abstract thinking? 
+      <P>Even though the character is stationary and the maze is moving around 
+      it, the player's perception is that the character is moving through the 
+      maze -- just like the first game. Why? Because the player isn't locked 
+      into perceiving the world based on the rectangle defined by the stage. So, 
+      let's take the same liberty and think in terms of virtual rects. 
+      <P>You may have noticed that I used the same maze design for both demos 
+      above. In the first case, each move required that I check mazeMan's 
+      proposed newRect against the list of wall rects. Then, when the move was 
+      allowed, I changed mazeMan's rect and left the pRectList as is. So why 
+      wouldn't that work in the second example? From mazeMan's perspective, he's 
+      in the same maze -- his world as defined by pRectList is the same. So we 
+      can use exactly the same method of evaluating potential intersections. All 
+      that we really need to change is what happens when a move is allowed. 
+      Instead of using mazeMan's newRect to display the movement, we'll need to 
+      send a message out to all of the maze sprites to moveMaze. Still foggy? 
+      Hang in there and it'll become clearer. 
+      <P>In this second example, we'll need to use the same startMovie and 
+      passKeyEvent movie script. The maze gets set up exactly the same way, with 
+      each wall being a separate sprite. If you're going to have a huge maze, 
+      set your stage size to be huge, set up the maze, then reset your stage 
+      size down to the final dimension and place mazeMan at the center of that. 
+      (Don't forget to set up walls around the perimeter of the maze.) In this 
+      second demo, I created a background or "floor" for the maze so that you 
+      can always tell if the maze is moving underneath the character -- even 
+      when the walls appear the same from frame to frame. This brings up an 
+      important point. 
+      <P>There will probably be some objects within the maze which need to move 
+      with the maze, but with which the character should be allowed to 
+      intersect. Obviously, the red brick floor of the maze will be in constant 
+      intersection with mazeMan. And we'll probably want to put traps and 
+      potions and monsters and gold throughout the maze. They'll all need to 
+      move with the maze while allowing the character to move over them for 
+      collection or a fight or whatever. Therefore, we'll need two separate 
+      behaviors for the maze objects/walls. The first behavior is the same one 
+      we used before: reportRect. But that one will only go on objects like the 
+      walls which are barriers. The second behavior is the one which will 
+      actually move the sprite in unison with all the others: mazeMover. There's 
+      not much to it really... 
+      <P><PRE><FONT color=#cc0000>property pSprite
+
+<B>on beginSprite me</B>
+  pSprite = sprite(me.spriteNum)
+end
+
+<B>on moveMaze me, deltaH, deltaV</B>
+  pSprite.loc = pSprite.loc + point((deltaH * -1), ¬
+    (deltaV * -1))
+end</FONT></PRE>
+      <P>So add the mazeMover behavior to all of the objects and walls in the 
+      maze (but not to mazeMan of course.) 
+      <P>Let's look at the needed revisions to the mazeMan (static) behavior. 
+      You'll notice that I've changed some of the properties. We no longer need 
+      to move the mazeMan sprite, so I don't bother with the pSprite property. 
+      But we'll need to keep track of the virtual rect of mazeMan, so there's a 
+      new property called pMyVrect. I've also renamed pRectList to pVRectList -- 
+      just for clarity. 
+      <P><PRE><FONT color=#cc0000>property pVRectList, pMoveIncr, pRIGHTkey, pLEFTkey
+property pUPkey, pDOWNkey, pHDir, pVDir, pMyVrect
+
+global gMazeMan
+
+-- should be applied to sprite moving through maze
+-- NOTE: this sprite must be in a higher numbered 
+-- sprite channel than the maze walls
+
+
+<B>on getPropertyDescriptionList me</B>
+
+  set pdlist to [:]
+  
+  addprop pdlist, #pMoveIncr, [#comment:"Move increment (pixels):", ¬
+    #format:#integer, #default:8]
+  addprop pdlist, #pRIGHTkey, [#comment:"Right Key:", #format:#string, ¬
+    #default:"L"]
+  addprop pdlist, #pLEFTkey, [#comment:"Left Key:", #format:#string, ¬
+    #default:"J"]
+  addprop pdlist, #pUPkey, [#comment:"Up Key:", #format:#string, ¬
+    #default:"I"]
+  addprop pdlist, #pDOWNkey, [#comment:"Down Key:", #format:#string, ¬
+  #default:"K"]
+  
+  return pdlist
+end getPropertyDescriptionList
+
+<B>on beginSprite me</B>
+
+  gMazeMan = me.spriteNum
+  pVRectList = []
+  sendAllSprites(#reportRect, pVRectList)
+  pHDir = 0
+  pVDir = 0
+  pMyVrect = sprite(me.spriteNum).rect
+  
+end beginSprite
+
+<B>on getKey me</B>
+
+  pHDir = 0
+  pVDir = 0
+  
+  case the key of 
+    pRIGHTkey: pHDir = 1
+    pLEFTkey: pHDir = -1
+    pUPkey: pVDir = -1
+    pDOWNkey: pVDir = 1
+  end case
+  
+end
+
+<B>on prepareFrame me</B>
+
+  if pHDir &lt;&gt; 0 OR pVDir &lt;&gt; 0 then
+  
+    deltaH = pHDir * pMoveIncr
+    deltaV = pVDir * pMoveIncr
+    deltaRect = rect(deltaH,deltaV,deltaH,deltaV)
+    newVrect = pMyVrect + deltaRect
+    
+    repeat with mazeRect in pVRectList
+      if intersect(newVrect, mazeRect) &gt; 0 then
+        pHDir = 0
+        pVDir = 0
+        exit
+      end if
+    end repeat
+    
+    pMyVrect = newVrect
+    sendAllSprites(#moveMaze, deltaH, deltaV)
+    
+  end if
+  
+end</FONT></PRE>
+      <P>It looks almost identical to our previous mazeMan behavior. The 
+      alterations are mainly in the prepareFrame handler. In this new behavior, 
+      the newVrect (new virtual rect) is calculated by adding the deltaRect to 
+      our pMyVrect value. This value is checked against the rectList as before. 
+      But if the move is allowed, we see the major difference in the two 
+      behaviors -- see the last few lines of the prepareFrame handler. In the 
+      first mazeMan behavior, the rect of the mazeMan sprite is set to the new 
+      rect. But in this new mazeMan, only the pMyVrect gets the new value, and 
+      the character on stage doesn't move. Instead, a command is sent out to all 
+      sprites to #moveMaze. The mazeMover behavior we applied to all of the 
+      maze's walls and objects receives the message and moves its sprite 
+      accordingly. 
+      <P>That's the nuts and bolts! Now you can take the concept and add some 
+      fun stuff. For example, you could create a behavior for object collection, 
+      which would be sort of like the rectList except that intersection wouldn't 
+      cause a stop. Instead, intersection would result in a reward or penalty. 
+      If you get really ambitious, you'll read over the maze monster article I 
+      did a few weeks ago and adapt it so that monsters can move through a 
+      moving maze. Don't ask me to do it for you! 
+      <P>Sample code for both movies is available for download in <A 
+      href="http://www.director-online.com/howTo/other/handy103.hqx">Mac</A> or 
+      <A href="http://www.director-online.com/howTo/other/handy103.zip">PC</A> 
+      format. This is a director 7 movie. 
+      <P><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A 
+      href="http://www.director-online.com/help_central/Display.html" 
+      target=display>Help Central</A> section of DOUG.</FONT> 
+</P></TD></TR></TBODY></TABLE></BODY></HTML>

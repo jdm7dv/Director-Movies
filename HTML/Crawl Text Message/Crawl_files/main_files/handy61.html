@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy61.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 61</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#ff0000 vLink=#770000>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG border=0 height=31 src="handy61_files/handyman.gif" 
+      width=213> 
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG align=bottom border=0 height=9 
+            src="handy61_files/archiveDivLine.gif" width=440></TD>
+          <TD rowSpan=2 vAlign=top width=55><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+            align=bottom border=0 height=28 src="handy61_files/archiveDiv.gif" 
+            width=55></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <P><B><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Dear 
+            Multimedia Handyman</FONT></B> 
+            <P>I am creating a multimedia resume and would like to place a 
+            crawling marquee across the bottom of my Director Movie. So far, I 
+            don't have a clue how to go about this. 
+            <P><A href="mailto:terryb@tomrowe.com">Terry Bredemeyer</A> 
+            <P>Terry, 
+            <P>This is pretty easy to do. The concept is that you'll have a 
+            display field that is a set number of characters (chars) wide. For 
+            this example, let's say that it is 26 chars. As the message string 
+            crawls across the display, what we'll be doing is deleting the first 
+            char in the string (as it disappears on the left side of the 
+            display) and adding a char at the end. This way, char 2 becomes char 
+            1, char 3 becomes char 2, etc. 
+            <P>
+            <OBJECT classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 
+            codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+            height=200 width=240><PARAM NAME="SRC" VALUE="../other/marquee.dcr">
+                                            <embed src="../other/marquee.dcr" 
+            pluginspage="http://www.macromedia.com/shockwave/download/" 
+            type="application/x-director" width="240" height="200">              
+              </embed>               </OBJECT>
+            <P>I'll write this as a movie script with several handlers, which 
+            you can call from any other script simply by naming the handler and 
+            supplying it with the message string and the number of chars to 
+            display at a time. You will call the handler with the following 
+            format: <PRE><FONT color=#cc0000>crawlMessage (messageString, chars)</FONT></PRE>
+            <P>Since the message will repeat itself, I recommend adding some 
+            spaces at the end of your message string so that there is some 
+            separation before the repeat. Also, the handler assumes that you 
+            have a field member named "display". 
+            <P>I'm going to use a global variable called gcrawlFlag as a "flag". 
+            This is simply a signal that says "time to crawl" or "time to stop". 
+            By using a global variable flag, I'll be able to have an exitFrame 
+            handler check that flag on every frame exit. If the flag says 
+            #crawl, then the crawling code will execute. Note that exitFrame 
+            handlers are usually frame scripts, but I'm putting this one in a 
+            movie script. That means that it will execute -- or at least check 
+            on the crawl flag -- on the exit of every frame in the movie. <PRE><FONT color=#cc0000>
+
+message crawler movie script
+
+on crawlMessage messageString, chars
+  global gcrawlFlag, gLoop
+  set gLoop = the number of chars in messageString ¬
+    + 1
+  set gcrawlFlag to #crawl
+  initMessage messageString, chars
+end
+
+on stopcrawl
+  global gcrawlFlag
+  set gcrawlFlag to #stop
+end
+
+on initMessage messageString, chars
+  global gMessage
+  set endChar = chars
+  set gMessage = messageString
+  put char 1 to endChar of gMessage into field ¬
+    "display"
+end
+
+on exitFrame
+  global gcrawlFlag, gMessage, gNextChar, gLoop
+  if gcrawlFlag = #crawl then
+    set gNextChar = gNextChar + 1
+    if gNextChar &gt; gLoop then
+      set gNextChar = 0
+    end if
+    delete char 1 of field "display"
+    put char gNextChar of gMessage after field ¬
+      "display"
+  end if
+end
+</FONT></PRE>
+            <P>When you're ready to stop the crawl, simply issue the command 
+            "stopCrawl". That will change the crawl flag to #stop. The exit 
+            frame script will see this and will stop changing the display. Since 
+            we're using an exitFrame script to generate the crawl, the tempo of 
+            your movie will determine the crawl speed. 
+            <P>Good luck with your project. 
+  </P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD><BR>
+      <P><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A 
+      href="http://www.director-online.com/help_central/Display.html" 
+      target=display>Help Central</A> section of DOUG.</FONT> 
+</P></TD></TR></TBODY></TABLE></BODY></HTML>

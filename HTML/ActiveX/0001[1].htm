@@ -1,0 +1,126 @@
+<html>
+
+<head>
+<title>6/14/99 - Adding a drop-down box to Director</title>
+<script LANGUAGE="JavaScript">
+ <!--
+ if (top.location.href.indexOf("index.htm") == -1) {	
+theurl = location.href.toString();
+" + theurl + "^2";
+ top.location.href = newframe;	
+}
+ // --> 
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0"><center>
+
+<h1 align="center"><font color="#008000">Drop-Down Boxes in Director </font></h1>
+<p align="center"><b>The Question:</b></p>
+<p align="left">I want to insert a drop down menu (like in a web browser) into
+Director for a user form.&nbsp; Is there an Xtra or some code that can do this?</p>
+<hr>
+<p align="center"><b>The Answer</b></p>
+<p align="left">Actually you won't need to buy a thing.&nbsp; If you have
+Internet Explorer 4 or greater and ActiveX installed, then you are ready to go.&nbsp;
+Director's ActiveX Xtra is great for a lot of add-on functionality, but can be a
+bit frustrating.&nbsp; You need to have the proper program installed, and then
+play with the ActiveX control until you figure out how to get it to function
+properly.&nbsp; IE has a built in ActiveX component to do just what you are
+looking for.&nbsp; On a PC, open Director and choose
+Insert&gt;Control&gt;ActiveX.&nbsp; From there a dialog box will open asking you
+to pick a component.&nbsp; Choose the MS Forms 2.0 ComboBox control and click
+OK.&nbsp; (Fig. 1)</p>
+  <p align="center"><img border="0" src="X-Control%5B1%5D.jpg" width="347" height="267"><br>
+Fig.1 </p>
+<p align="left">Now you get a list of parameters you can modify.&nbsp; For now
+we will leave these alone.&nbsp; Click OK and move the new cast member to a
+score channel.&nbsp; We are going to use an on beginSprite handler to make the
+list, so for testing, try to avoid putting it in the first frame.&nbsp; Now we
+create a behavior to populate the list.&nbsp; Note that there is no parameter to
+hold all of this from the onset, so we have to build the list as soon as the
+sprite is active.&nbsp; Here is the basic behavior...</p>
+
+<table border="1" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="100%">
+
+<p class=NormalText><span style="font-family: Courier"><font size="2" face="Arial"><span style="font-family: Courier; color: #0000C8">property</span>
+startText, choiceList, whatDo,<span
+style='color:green'> spriteNum</span><o:p/></font></span></p>
+
+<p class=NormalText><span style="font-family: Courier"><font size="2" face="Arial"><span style="font-family: Courier; color: #0000C8">on</span><span
+style="font-family: Courier; color: green"> getPropertyDescriptionList</span><span
+style='font-family:Courier;color:#0000C8'> me<span
+style="mso-spacerun: yes"><br>
+  </span>return</span>
+[<span style='color:green'>#</span>startText : [<span style='color:green'>#format</span>
+:<span style='color:green'> #string</span>,<span style='color:green'> #default</span>
+:<span style='color:gray'> &quot;DefaultText&quot;</span>,<span
+style='color:green'> #comment</span> :<span style='color:gray'> &quot;Default
+text in drop-box.&quot;</span>],<span style='color:green'> #</span>choiceList :
+[<span style='color:green'>#format</span> :<span style='color:green'> #string</span>,<span
+style='color:green'> #comment</span> :<span style='color:gray'> &quot;List of
+choices separated by (;)&quot;</span>,<span style='color:green'> #default</span>
+:<span style='color:gray'> &quot;Choice 1;Choice 2;Choice 3&quot;</span><o:p/>]]<br>
+<span style='font-family:Courier;color:#0000C8'>end</span><![if !supportEmptyParas]>&nbsp;<span style='font-family:Courier;color:#0000C8'><br>
+<br>
+on</span><span
+style='font-family:Courier;color:green'> beginSprite</span><span
+style='font-family:Courier;color:#0000C8'> me</span><o:p/><br>
+<span style='font-family:Courier;color:#0000C8'><span
+style="mso-spacerun: yes">  </span>the</span><span style='font-family:Courier;
+color:green'> itemDelimiter</span> =<span
+style='color:gray'> &quot;;&quot;</span><o:p/><br>
+<span style='font-family:Courier;color:#0000C8'><span
+style="mso-spacerun: yes">  </span>repeat with</span> x =<span style='color:gray'> 1</span><span style='color:#0000C8'> to</span>
+choiceList.<span style='color:green'>item</span>.<span style='color:green'>count</span><o:p/><br>
+<span
+style="mso-spacerun: yes">    </span>addItem(<span style='color:green'>sprite
+spriteNum</span>, choiceList.<span style='color:green'>item</span><o:p/>[x])<br>
+<span style='font-family:Courier;color:#0000C8'><span
+style="mso-spacerun: yes">  </span>end repeat</span><o:p/><br>
+<span
+style="mso-spacerun: yes"> </span>(<span style='color:green'>sprite spriteNum</span>).<span
+style='color:green'>text</span><o:p/> = startText<br>
+<span style='font-family:Courier;color:#0000C8'>end<br>
+</span><![if !supportEmptyParas]>&nbsp;<![endif]><o:p/><br>
+<span style='font-family:Courier;color:#0000C8'>on</span><span
+style='font-family:Courier;color:green'> getBehaviorDescription</span><span
+style='font-family:Courier;color:#0000C8'> me</span><o:p/><br>
+<span
+style="mso-spacerun: yes">  </span>describe =<span style='color:gray'>
+&quot;Combo box startUp script.<span style="mso-spacerun: yes"> 
+</span>Requires the MS Forms Combo Box Active X.&quot;</span> &amp;<span
+style='color:#0000C8'> return</span> &amp;<span style='color:gray'> &quot;Drop
+this behavior on a Microsoft ComboBox ActiveX sprite.<span style="mso-spacerun:
+yes">  </span>This will build and populate the dropdown list. <span
+style="mso-spacerun: yes"> </span>To retrieve the property just get the text of
+sprite X property for the ActiveX Sprite.&quot;</span><o:p/><br>
+<span style='font-family:Courier;color:#0000C8'><span
+style="mso-spacerun: yes">  </span>return</span><o:p/>
+describe<br>
+<span style='font-family:Courier;color:#0000C8'>end</span></font></span></p>
+
+    </td>
+  </tr>
+</table>
+
+<p class=MsoNormal>&nbsp;<![endif]><o:p/></p>
+
+<p class="MsoNormal">We drag this to the sprite, type in the default test, and
+then add the list of items separated by a &quot;;&quot; but no extra spaces.&nbsp;
+If you look through the behavior you can see that we are taking the
+&quot;list&quot; which is just a string and separating it by the itemDelimiter,
+which we have set to &quot;;&quot;.&nbsp; Then we just take each item and use
+the ActiveX component's &quot;addItem&quot; handler to add each item.&nbsp; From
+here we can get the user's chosen value at any time by calling the text of
+sprite property of the ActiveX Sprite.&nbsp; (put sprite(1).text).</p>
+<p class="MsoNormal"> </p>
+<p align="center"><a href="/howto.shtml">Return to the article list</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/howdosub.shtml">Submit a Question</a></p>
+<p align=center><small>MediaMacros Copyright 1999 <a href="mailto:chuck@mediamacros.com">Chuck
+Neal</a></small></p>
+
+</center></body></html>
+

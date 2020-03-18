@@ -1,0 +1,1372 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0083)http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm -->
+<HTML><HEAD><TITLE>Macromedia - Scripting examples for working with lists in Director 7</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META http-equiv=Last-Modified content="Wed, 27 Oct 1999 15:35:08 GMT">
+<META http-equiv=Version content=1.0 name=DOCVERSION>
+<META content="Wed, 27 Oct 1999 15:35:08 GMT" name=LASTMODIFIED>
+<META content="Tips &amp; Tricks" name=AREA>
+<META content=Yes name=PUBLIC>
+<META content="Tom Higgins" name=AUTHOR>
+<META content=3 name=IMPORTANCE>
+<META content="linear, property, list, syntax, examples" name=KEYWORDS>
+<META content=All name=PLATFORM>
+<META content=Director name=PRODUCT>
+<META content=7 name=VERFROM>
+<META content=99 name=VERTO>
+<META content="7 and above" name=VERSIONS>
+<META content="Scripting examples for working with lists in Director 7" 
+name=DOCTITLE>
+<META content=14109 name=DOCID>
+<META content="Ready for review" name=STATUS>
+<META content="October 27, 1999" name=DATECREATED>
+<META content="October 28, 1999" name=DATEMODIFIED>
+<META content=TechNote name=KIND>
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#660033 aLink=#000000 link=#333399 bgColor=#ffffff><!-- begin Director TechNotes top fragment -->
+<TABLE cellSpacing=0 cellPadding=0 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=bottom noWrap><IMG height=17 
+      src="d7_list_syntax_examples_files/pixel.gif" width=18 border=0><A 
+      target=_top href="http://www.macromedia.com/"><IMG height=12 
+      alt=macromedia 
+      src="d7_list_syntax_examples_files/crumb_macromedia_blue.gif" width=99 
+      border=0></A><IMG height=12 alt=: 
+      src="d7_list_syntax_examples_files/crumb_colon.gif" width=15 border=0><A 
+      target=_top href="http://www.macromedia.com/software/"><IMG height=12 
+      alt=products src="d7_list_syntax_examples_files/crumb_products_blue.gif" 
+      width=69 border=0></A><IMG height=12 alt=: 
+      src="d7_list_syntax_examples_files/crumb_colon.gif" width=15 border=0><A 
+      target=_top href="http://www.macromedia.com/software/director/"><IMG 
+      height=12 alt=director 
+      src="d7_list_syntax_examples_files/crumb_director_blue.gif" width=63 
+      border=0></A><IMG height=12 alt=: 
+      src="d7_list_syntax_examples_files/crumb_colon.gif" width=15 border=0><A 
+      target=_top href="http://www.macromedia.com/support/director/"><IMG 
+      height=12 alt=support 
+      src="d7_list_syntax_examples_files/crumb_support_blue.gif" width=61 
+      border=0></A><IMG height=12 alt=: 
+      src="d7_list_syntax_examples_files/crumb_colon.gif" width=15 border=0><A 
+      href="http://www.macromedia.com/support/director/technotes.html"><IMG 
+      height=12 alt=technotes 
+      src="d7_list_syntax_examples_files/crumb_technotes_blue.gif" width=79 
+      border=0></A></TD></TR></TBODY></TABLE><IMG height=30 
+src="d7_list_syntax_examples_files/pixel.gif" width=2 border=0>
+<TABLE cellSpacing=0 cellPadding=0 width="95%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top align=right width="10%"><IMG height=60 alt="Director icon" 
+      src="d7_list_syntax_examples_files/director_logo.gif" width=72 border=0> 
+      <IMG height=2 src="d7_list_syntax_examples_files/pixel.gif" width=120 
+      border=0> </TD>
+    <TD vAlign=top width="90%"><IMG height=34 alt="Director technotes" 
+      src="d7_list_syntax_examples_files/head_technotes.gif" width=142 border=0> 
+
+      <HR width="100%" noShade SIZE=1>
+<!-- at this point we are inside a table inside a table -->
+      <H3><FONT face="Arial, Helvetica, sans-serif" size=+1><B>Scripting 
+      examples for working with lists in Director 7</B></FONT></H3>
+      <TABLE cellSpacing=1 cellPadding=5 border=1>
+        <TBODY>
+        <TR>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Product: 
+            </B></FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Director</FONT> </TD>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Platform: 
+            </B></FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>All</FONT> </TD>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Versions: 
+            </B></FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>7 and above</FONT> </TD>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>ID: 
+            </B></FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>14109</FONT> </TD></TR></TBODY></TABLE>
+      <P><!--mm-contents -->
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>Syntax examples for 
+      list manipulation</B></FONT><A name=pageTop>&nbsp;</A><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>This TechNote provides 
+      more detailed syntax examples for each of the Lingo commands associated 
+      with list variables in Director 7. All commands listed below are subject 
+      to the limitations outlined in the Lingo Dictionary.</FONT> </P>
+      <P>
+      <TABLE cellPadding=4 width=600>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=310 height=38><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2><B><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#creating">Creating 
+            new list variables</A></B><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#brackets">[ 
+            ]</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#duplicate">duplicate</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#list">list</A><BR><B><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#adding">Adding 
+            values/properties to a list variable</A></B><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#add">add</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#addAt">addAt</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#addProp">addProp</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#append">append</A><BR><B><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#setting">Setting 
+            values within a list variable</A></B><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#setaProp">setaProp</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#setAt">setAt</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#setProp">setProp</A><BR><B><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#deleting">Deleting 
+            values/properties from a list variable</A></B><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#deleteAll">deleteAll</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#deleteAt">deleteAt</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#deleteOne">deleteOne</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#deleteProp">deleteProp</A></FONT></TD>
+          <TD vAlign=top width=311 height=38>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#retrieveValues">Retrieving 
+            values from a list variable</A></B><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#getaProp">getaProp</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#getAt">getAt</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#getLast">getLast</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#getProp">getProp</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#getPropAt">getPropAt</A><BR><B><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#retrieveInfo">Retrieving 
+            information about a list variable</A></B><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#count">count</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#findPos">findPos</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#findPosNear">findPosNear</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#getOne">getOne</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#getPos">getPos</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#ilk">ilk</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#listP">listP</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#max">max</A><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#min">min</A><BR><B><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#manipulating">Manipulating 
+            a list variable</A></B><BR><A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#sort">sort</A></FONT></P></TD></TR></TBODY></TABLE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B><A 
+      name=creating>Creating new list variables</A></B></FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2><B>The following 
+      commands are used in order to create new list variables.</B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=brackets>"[ ]"</A></I></B><I>:</I></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      </FONT><FONT face="Courier New, Courier, mono" color=#666666 
+      size=3>someVariableName </FONT><FONT face="Courier New, Courier, mono" 
+      size=3>= []</FONT><BR><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2>traditional: </FONT><FONT face="Courier New, Courier, mono" 
+      color=#666666 size=3>someVariableName </FONT><FONT 
+      face="Courier New, Courier, mono" size=3>= [</FONT><FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someValue1</FONT><FONT face="Courier New, Courier, mono">, <FONT 
+      color=#666666 size=3>someValue2</FONT>,...]</FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      </FONT><FONT face="Courier New, Courier, mono" color=#666666 
+      size=3>someVariableName </FONT><FONT face="Courier New, Courier, mono" 
+      size=3>= [:]</FONT><BR><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2>traditional: </FONT><FONT face="Courier New, Courier, mono" 
+      color=#666666 size=3>someVariableName </FONT><FONT 
+      face="Courier New, Courier, mono" size=3>= [#</FONT><FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someProperty1</FONT>:<FONT face="Courier New, Courier, mono" 
+      color=#666666 size=3>someValue1</FONT><FONT 
+      face="Courier New, Courier, mono" size=3>,#</FONT><FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someProperty2</FONT>:<FONT face="Courier New, Courier, mono" 
+      color=#666666 size=3>someValue2</FONT><FONT 
+      face="Courier New, Courier, mono" size=3>,...]</FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: There is no 
+      new syntax for this command.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: The 
+      following command creates a new empty linear list variable named 
+      </FONT><FONT face="Courier New, Courier, mono" 
+      size=3>someLinearList.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>someLinearList = []</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: The 
+      following command creates a new linear list variable named <FONT 
+      face="Courier New, Courier, mono" size=3>someLinearList</FONT> and 
+      populates the list with values. The resulting list is <FONT 
+      face="Courier New, Courier, mono" color=#000000 
+      size=3>[24,36,79,12]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>someLinearList = [24,36,79,12]</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: The 
+      following command creates a new empty property list variable named <FONT 
+      face="Courier New, Courier, mono" size=3>somePropertyList</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>somePropertyList = [:]</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: The 
+      following command creates a new property list variable named <FONT 
+      face="Courier New, Courier, mono" size=3>somePropertyList</FONT> and 
+      populates the list with properties and values. The resulting list is <FONT 
+      face="Courier New, Courier, mono" size=3>[#a: 98, #b: 112, #c: 9, #d: 
+      49]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>somePropertyList = [#a: 98, #b: 112, #c: 9, #d: 49]</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=duplicate>"duplicate":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>duplicate(<FONT 
+      color=#666666>someListVariable</FONT>)</FONT> <BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" size=3><FONT 
+      color=#666666>someListVariable</FONT>.duplicate()</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following commands create a new list variable named </FONT><FONT 
+      face="Courier New, Courier, mono" size=3>myNewList</FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> which is a duplicate 
+      copy of the linear list </FONT><FONT face="Courier New, Courier, mono" 
+      size=3>myList</FONT>. <FONT size=2><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif">The resulting value 
+      of</FONT></FONT> <FONT face="Courier New, Courier, mono" 
+      size=3>myNewList</FONT> <FONT face="Courier New, Courier, mono" 
+      size=2>is</FONT> <FONT face="Courier New, Courier, mono" 
+      size=3>["Sally","Steve","Jen","Fred"]</FONT>. 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- traditional<BR>myList 
+      = ["Sally","Steve","Jen","Fred"]<BR>myNewList = duplicate(myList)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax<BR>myList 
+      = ["Sally","Steve","Jen","Fred"]<BR>myNewList = myList.duplicate()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=list>"list":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>list(<FONT color=#666666 
+      size=3>someValue1</FONT>,<FONT color=#666666 
+      size=3>someValue2</FONT>,...)</FONT></FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: There is no 
+      new syntax for this command</FONT>. 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: The 
+      following command creates a new linear list variable named <FONT 
+      face="Courier New, Courier, mono" size=3>someLinearList</FONT>. The 
+      resulting list is <FONT face="Courier New, Courier, mono" 
+      size=3>["red","green","blue"]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>someLinearList = ["red","green","blue"]</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B><A 
+      name=adding>Adding values and properties to a list 
+      variable</A></B></FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2><B>The following 
+      commands are used in order to add new values or new properties to an 
+      already existing list variable.</B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=add>"add":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      </FONT><FONT face="Courier New, Courier, mono" size=3>add <FONT 
+      color=#666666 size=3>someLinearList</FONT>,<FONT color=#666666 
+      size=3>someValue</FONT></FONT> <FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someLinearList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.add(<FONT color=#666666 size=3>someValue</FONT>)</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements add the value 80 to the unsorted linear list named <FONT 
+      face="Courier New, Courier, mono" size=3>hiScores. <FONT size=2><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif">The</FONT></FONT></FONT> 
+      resulting list is <FONT face="Courier New, Courier, mono" 
+      size=3>[98,49,72,80]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>hiScores = [98,49,72]<BR>add hiScores,80</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax 
+      <BR>hiScores = [98,49,72]<BR>hiScores.add(80)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#666666 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>When using this command 
+      with unsorted lists, the value is added to the end of the list. When using 
+      this command with sorted lists, the value is added into its appropriate 
+      sorted location.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=addAt>"addAt":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2>traditional:</FONT> <FONT face="Courier New, Courier, mono" 
+      size=3>addAt <FONT color=#666666>someLinearList</FONT>,<FONT 
+      color=#666666>somePositionIndex</FONT>,<FONT 
+      color=#666666>someValue</FONT></FONT> <BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax:</FONT><FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someLinearList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.addAt(<FONT color=#666666>somePositionIndex</FONT>,<FONT 
+      color=#666666>someValue</FONT>)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements add the value "dog" to the third position of the unsorted 
+      linear list named animals. The resulting list is <FONT 
+      face="Courier New, Courier, mono" 
+      size=3>["horse","cat","dog","bird"]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>animals = ["horse","cat","bird"]<BR>addAt 
+      animals,3,"dog"</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR></FONT><FONT face="Courier New, Courier, mono" 
+      size=3>animals = ["horse","cat","bird"] <BR>animals.addAt(3,"dog") </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=addProp>"addProp":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>addProp <FONT 
+      color=#666666>somePropertyList</FONT>,<FONT 
+      color=#666666>#someProperty</FONT>,<FONT color=#666666>someValue</FONT> 
+      </FONT></FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2><BR>dot-syntax: <FONT face="Courier New, Courier, mono" 
+      color=#666666 size=3>somePropertyList</FONT><FONT 
+      face="Courier New, Courier, mono" size=3>.addProp(<FONT 
+      color=#666666>#someProperty</FONT>,<FONT 
+      color=#666666>someValue</FONT>)</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements add the property #myFavoriteColor and its assigned value 
+      of "blue" to the unsorted property list <FONT 
+      face="Courier New, Courier, mono" size=3>myAttributes</FONT>. The 
+      resulting list is [#myAge: 15,#myFavoriteFood: "hamburgers",#myName: 
+      "Joe",#myFavoriteColor: "blue"]. </FONT>
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR></FONT><FONT face="Courier New, Courier, mono" 
+      size=3>myAttributes = [#myAge: 15,#myFavoriteFood: "hamburgers",#myName: 
+      "Joe"]<BR></FONT><FONT face="Courier New, Courier, mono" size=3>addProp 
+      myAttributes,#myFavoriteColor,"blue"</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR></FONT><FONT face="Courier New, Courier, mono" 
+      size=3>myAttributes = [#myAge: 15,#myFavoriteFood: "hamburgers",#myName: 
+      "Joe"]<BR></FONT><FONT face="Courier New, Courier, mono" 
+      size=3>myAttributes.addProp(#myFavoriteColor,"blue") </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#666666 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>When using this command 
+      with unsorted lists, the property is added to the end of the list. If 
+      using this command with sorted lists, the property is added into its 
+      appropriate sorted location.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=append>"append":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      append <FONT face="Courier New, Courier, mono" color=#666666 
+      size=3>someLinearList</FONT>,<FONT face="Courier New, Courier, mono" 
+      color=#666666 size=3>someValue</FONT> <BR>dot-syntax:</FONT> <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someLinearList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.append(<FONT color=#666666>someValue</FONT>)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements add the value 8 to the end of the sorted linear list 
+      <FONT face="Courier New, Courier, mono" size=3>myValues</FONT>. The 
+      resulting list is [3,9,12,8].</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>myValues = [3,9,12]<BR>append myValues,8</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>myValues = [3,9,12] <BR>myValues.append(8)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B><A 
+      name=setting>Setting values within a list variable</A></B></FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2><B>The following 
+      commands are used in order to set the values contained by an existing list 
+      variable.</B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=setaProp>"setaProp":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>setaProp <FONT 
+      color=#666666>somePropertyList</FONT>,<FONT 
+      color=#666666>#someProperty</FONT>,<FONT 
+      color=#666666>someValue</FONT></FONT> <BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>somePropertyList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.setaProp(<FONT color=#666666>#someProperty</FONT>,<FONT 
+      color=#666666>someValue</FONT>)</FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>somePropertyList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>[<FONT color=#666666>#someProperty</FONT>] = <FONT 
+      color=#666666>someValue</FONT></FONT> <BR></FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: 
+      <FONT face="Courier New, Courier, mono" color=#666666 
+      size=3>somePropertyList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.<FONT color=#666666>someProperty</FONT> = <FONT 
+      color=#666666>someValue</FONT></FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of the property #yesVotes to 38 in the 
+      property list <FONT face="Courier New, Courier, mono" 
+      size=3>voteResults</FONT>. The resulting list is [#yesVotes: 38,#noVotes: 
+      19].</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>voteResults = [#yesVotes: 25,#noVotes: 19]<BR>setaProp 
+      voteResults,#yesVotes,38</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>voteResults = [#yesVotes: 25,#noVotes: 
+      19]<BR>voteResults.setaProp(#yesVotes,38)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>voteResults = [#yesVotes: 25,#noVotes: 
+      19]<BR>voteResults[#yesVotes] = 38</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>voteResults = [#yesVotes: 25,#noVotes: 
+      19]<BR>voteResults.yesVotes = 38</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements add the property #abstaining to the property list <FONT 
+      face="Courier New, Courier, mono" size=3>voteResults </FONT>and set its 
+      value to <FONT face="Courier New, Courier, mono" size=3>10</FONT>. The 
+      resulting list is <FONT face="Courier New, Courier, mono" 
+      size=3>[#yesVotes: 38,#noVotes: 19,#abstaining: 10]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>voteResults = [#yesVotes: 38,#noVotes: 19]<BR>setaProp 
+      voteResults,#abstaining,10</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>voteResults = [#yesVotes: 38,#noVotes: 
+      19]<BR>voteResults.setaProp(#abstaining,10)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>voteResults = [#yesVotes: 38,#noVotes: 
+      19]<BR>voteResults[#abstaining] = 10</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#666666 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>The property must 
+      already exist in the list in order to use the dot operator to manipulate 
+      it. If the dot operator is used to manipulate a property that does not 
+      already exist in the list, a script error will result.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=setAt>"setAt":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>setAt <FONT 
+      color=#666666>someList</FONT>,<FONT color=#666666>someIndex</FONT>,<FONT 
+      color=#666666>someValue</FONT></FONT> <BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.setAt(<FONT color=#666666>someIndex</FONT>,<FONT 
+      color=#666666>someValue</FONT>)<BR></FONT></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>[<FONT color=#666666>someIndex</FONT>] = <FONT 
+      color=#666666>someValue</FONT></FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of the fourth position in the property list 
+      <FONT face="Courier New, Courier, mono" size=3>myData</FONT> to 22. The 
+      resulting list is <FONT face="Courier New, Courier, mono" size=3>[#testA: 
+      32,#testB: 19,#testC: 7,#testD: 22,#testE: 82]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- traditional<BR>myData 
+      = [#testA: 32,#testB: 19,#testC: 7,#testD: 0,#testE: 82]<BR>setAt 
+      myData,4,22</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax<BR>myData 
+      = [#testA: 32,#testB: 19,#testC: 7,#testD: 0,#testE: 
+      82]<BR>myData.setAt(4,22)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax<BR>myData 
+      = [#testA: 32,#testB: 19,#testC: 7,#testD: 0,#testE: 82]<BR>myData[4] = 
+      22</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of the seventh position in the linear list 
+      <FONT face="Courier New, Courier, mono" size=3>myData</FONT> to 99. The 
+      resulting list is <FONT face="Courier New, Courier, mono" 
+      size=3>[32,19,7,22,82,0,99]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- traditional<BR>myData 
+      = [32,19,7,22,82]<BR>setAt myData,7,99</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax<BR>myData 
+      = [32,19,7,22,82]<BR>myData.setAt(7,99)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax<BR>myData 
+      = [32,19,7,22,82]<BR>myData[7] = 99</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#666666 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>These commands replace 
+      the value currently held within the list variable at the specified 
+      position. If a list position is specified that is greater than the number 
+      of items in a linear list, Director will expand the list's blank entries 
+      to provide the number of places specified by the index value. If a list 
+      position is specified that is greater than the number of items in a 
+      property list a script error will result.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=setProp>"setProp":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>setProp <FONT 
+      color=#666666>somePropertyList</FONT>,<FONT 
+      color=#666666>#someProperty</FONT>,<FONT 
+      color=#666666>someValue</FONT></FONT> <BR>dot-syntax:</FONT><FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>somePropertyList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.setProp(<FONT color=#666666>#someProperty</FONT>,<FONT 
+      color=#666666>someValue</FONT>)<BR></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>somePropertyList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>[<FONT color=#666666>#someProperty</FONT>] = <FONT 
+      color=#666666>someValue<BR></FONT></FONT></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>somePropertyList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.<FONT color=#666666>someProperty</FONT> = <FONT 
+      color=#666666>someValue</FONT></FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of the property <FONT 
+      face="Courier New, Courier, mono" size=3>#amplitude</FONT> to 49.0 in the 
+      property list <FONT face="Courier New, Courier, mono" 
+      size=3>waveData</FONT>. The resulting list is <FONT 
+      face="Courier New, Courier, mono" size=3>[#amplitude: 49.0,#frequency: 
+      12.5,#wavelength: 103.0]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>waveData = [#amplitude: 42.0,#frequency: 12.5,#wavelength: 
+      103.0]<BR>setaProp waveData,#amplitude,49.0</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>waveData = [#amplitude: 42.0,#frequency: 12.5,#wavelength: 
+      103.0]<BR>waveData.setaProp(#amplitude,49.0)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>waveData = [#amplitude: 42.0,#frequency: 12.5,#wavelength: 
+      103.0]<BR>waveData[#amplitude] = 49.0</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax 
+      <BR>waveData = [#amplitude: 42.0,#frequency: 12.5,#wavelength: 
+      103.0]<BR>waveData.amplitude = 49.0</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B><A 
+      name=deleting>Deleting values and properties from a list 
+      variable</A></B></FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2><B>The following 
+      commands are used in order to delete values or properties from an already 
+      existing list variable.</B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=deleteAll>"deleteAll":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>deleteAll <FONT 
+      color=#666666>someList</FONT></FONT> <BR>dot-syntax: There is no new 
+      syntax for this command.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: These 
+      statements delete all items from the linear list <FONT 
+      face="Courier New, Courier, mono" size=3>testScores</FONT>. The resulting 
+      list is [].</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>testScores = [99,82,90,71,66,87]<BR>deleteAll 
+      testScores</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#666666 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>This command deletes 
+      all items in the specified list without changing the list type. Therefore, 
+      if a deleteAll command is issued for a property list, the resulting list 
+      is [:].</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=deleteAt>"deleteAt":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>deleteAt <FONT 
+      color=#666666>someList</FONT>,<FONT 
+      color=#666666>someIndex</FONT></FONT><BR>dot-syntax:</FONT> <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.deleteAt(<FONT color=#666666>someIndex</FONT>)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements delete the value at the second position in the linear 
+      list <FONT face="Courier New, Courier, mono" size=3>conxnInfo</FONT>. The 
+      resulting list is <FONT face="Courier New, Courier, mono" size=3>["Sally", 
+      "123.456.78.910"]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>conxnInfo = ["Sally", "letMeIn!", 
+      "123.456.78.910"]<BR>deleteAt conxnInfo,2</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>conxnInfo = ["Sally", "letMeIn!", "123.456.78.910"] 
+      <BR>conxnInfo.deleteAt(2)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements delete the value at the second position in the linear 
+      list <FONT face="Courier New, Courier, mono" size=3>conxnInfo</FONT>. The 
+      resulting list is <FONT face="Courier New, Courier, mono" 
+      size=3>[#userName: "Sally",#conxnIP: "123.456.78.910"]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>conxnInfo = [#userName: "Sally",#userPass: 
+      "letMeIn!",#conxnIP: "123.456.78.910"]<BR>deleteAt conxnInfo,2</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>conxnInfo = [#userName: "Sally",#userPass: 
+      "letMeIn!",#conxnIP: "123.456.78.910"] <BR>conxnInfo.deleteAt(2)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=deleteOne>"deleteOne":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>deleteOne <FONT 
+      color=#666666>someList</FONT>,<FONT color=#666666>someValue</FONT> 
+      </FONT><BR>dot-syntax:</FONT> <FONT face="Courier New, Courier, mono" 
+      color=#666666 size=3>someList</FONT><FONT 
+      face="Courier New, Courier, mono" color=#000000 size=3>.deleteOne(<FONT 
+      color=#666666 size=3>someValue</FONT>) </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements delete the value "Tom" from the linear list <FONT 
+      face="Courier New, Courier, mono" size=3>greenGroupMembers</FONT>. The 
+      resulting list is <FONT face="Courier New, Courier, mono" 
+      size=3>["Tim","Sally","Phil","Jennifer"]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>greenGroupMembers = 
+      ["Tim","Sally","Tom","Phil","Jennifer"]<BR></FONT><FONT 
+      face="Courier New, Courier, mono" size=3>deleteOne 
+      greenGroupMembers,"Tom"</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>groupLeaders = 
+      ["Tim","Sally","Tom","Phil","Jennifer"]<BR>groupLeaders.deleteOne("Tom")</FONT> 
+
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements delete the value "Joe" and its associated value from the 
+      property list <FONT face="Courier New, Courier, mono" 
+      size=3>groupLeaders</FONT>. The resulting list is <FONT 
+      face="Courier New, Courier, mono" size=3>[#greenGroup: "Tim", #redGroup: 
+      "Nancy"]</FONT> .</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>groupLeaders = [#greenGroup: "Tim", #purpleGroup: "Joe", 
+      #redGroup: "Nancy"]<BR>deleteOne groupLeaders,"Joe"</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>groupLeaders = [#greenGroup: "Tim", #purpleGroup: "Joe", 
+      #redGroup: "Nancy"]<BR>groupLeaders.deleteOne("Joe") </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#666666 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>If there is more than 
+      one property within a list variable containing the specified value, then 
+      only the first instance of that value and its associated property will be 
+      deleted.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=deleteProp>"deleteProp":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>deleteProp <FONT 
+      color=#666666>somePropertyList</FONT>,#<FONT 
+      color=#666666>someProperty</FONT> </FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>somePropertyList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.deleteProp(#<FONT color=#666666>someProperty</FONT>)</FONT></FONT> 
+
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements delete the property <FONT 
+      face="Courier New, Courier, mono" size=3>#batteries</FONT> from the 
+      property list <FONT face="Courier New, Courier, mono" 
+      size=3>emergencySupplies</FONT>. The resulting list is <FONT 
+      face="Courier New, Courier, mono" size=3>[#water: 10, #food: 25, 
+      #flashlights: 2]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>emergencySupplies = [#water: 10, #food: 25, #flashlights: 
+      2, #batteries: 6]<BR>deleteProp emergencySupplies,#batteries</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>emergencySupplies = [#water: 10, #food: 25, #flashlights: 2, 
+      #batteries: 6]<BR>emergencySupplies.deleteProp(#batteries) </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=3><B><A 
+      name=retrieveValues><FONT face="Arial, Helvetica, sans-serif">Retrieving 
+      values from a list variable</FONT></A></B></FONT> <BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2><B>The following 
+      commands are used in order to retrieve values from within an existing list 
+      variable.</B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=getaProp>"getaProp":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      </FONT><FONT face="Courier New, Courier, mono" size=3>getaProp(<FONT 
+      color=#666666>someList</FONT>,<FONT 
+      color=#666666>somePropertyOrIndex</FONT>)</FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.getaProp(<FONT 
+      color=#666666>somePropertyOrIndex</FONT>)<BR></FONT></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>[<FONT color=#666666>somePropertyOrIndex</FONT>]</FONT></FONT> 
+      <BR><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: 
+      </FONT><FONT face="Courier New, Courier, mono" color=#666666 
+      size=3>somePropertyList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.<FONT color=#666666>someProperty</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>myColor</FONT> to the value of the property <FONT 
+      face="Courier New, Courier, mono" size=3>#Henry</FONT> within the property 
+      list <FONT face="Courier New, Courier, mono" size=3>favoriteColors</FONT>. 
+      The resulting value of <FONT face="Courier New, Courier, mono" 
+      size=3>myColor</FONT> is "red".</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- traditional 
+      <BR>favoriteColors = [#Henry: "red", #Allison: "blue", #Jay: 
+      "orange"]<BR>myColor = getaProp(favoriteColors,#Henry)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>favoriteColors = [#Henry: "red", #Allison: "blue", #Jay: 
+      "orange"]<BR>myColor = favoriteColors.getaProp(#Henry)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>favoriteColors = [#Henry: "red", #Allison: "blue", #Jay: 
+      "orange"]<BR>myColor = favoriteColors[#Henry]</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>favoriteColors = [#Henry: "red", #Allison: "blue", #Jay: 
+      "orange"]<BR>myColor = favoriteColors.Henry</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>myColor</FONT> to the value located at the third position within 
+      the linear list <FONT face="Courier New, Courier, mono" 
+      size=3>favoriteColors</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>myColor</FONT> is 
+      "orange".</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>favoriteColors = ["red","blue","orange","green"]<BR>myColor 
+      = getaProp(favoriteColors,3)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>favoriteColors = ["red","blue","orange","green"]<BR>myColor 
+      = favoriteColors.getaProp(3)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>favoriteColors = ["red","blue","orange","green"]<BR>myColor 
+      = favoriteColors[3]</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=getAt>"getAt":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>getAt(<FONT 
+      color=#666666>someList</FONT>,<FONT 
+      color=#666666>someIndex</FONT>)</FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.getAt(<FONT color=#666666>someIndex</FONT>)<BR></FONT>dot-syntax: 
+      <FONT face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>[<FONT color=#666666>someIndex</FONT>]</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>myStartDate</FONT> to the value located at the fourth position 
+      within the property list <FONT face="Courier New, Courier, mono" 
+      size=3>startDates</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>myStartDate</FONT> is 
+      "Oct19".</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- traditional 
+      <BR>startDates = [#Adam: "Jan22", #Gloria: "Dec13", #Betty: "Jul1", #Tom: 
+      "Oct19"]<BR>myStartDate = getAt(startDates,4)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax 
+      <BR>startDates = [#Adam: "Jan22", #Gloria: "Dec13", #Betty: "Jul1", #Tom: 
+      "Oct19"]<BR>myStartDate = startDates.getAt(4)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot syntax 
+      <BR>startDates = [#Adam: "Jan22", #Gloria: "Dec13", #Betty: "Jul1", #Tom: 
+      "Oct19"]<BR>myStartDate = startDates[4]</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>myStartDate</FONT> to the value located at the second position 
+      within the linear list <FONT face="Courier New, Courier, mono" 
+      size=3>startDates</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>myStartDate</FONT> is 
+      "Dec13".</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>startDates = 
+      ["Jan22","Dec13","Jul1","Oct19"]<BR>myStartDate = 
+      getAt(startDates,2)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>startDates = ["Jan22","Dec13","Jul1","Oct19"]<BR>myStartDate 
+      = startDates.getAt(2)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>startDates = ["Jan22","Dec13","Jul1","Oct19"]<BR>myStartDate 
+      = startDates[2]</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=getLast>"getLast":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>getLast(<FONT 
+      color=#666666>someList</FONT>)</FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.getLast()</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>finalEntry</FONT> to the last value within the property list <FONT 
+      face="Courier New, Courier, mono" size=3>myData</FONT>. The resulting 
+      value of <FONT face="Courier New, Courier, mono" size=3>finalEntry</FONT> 
+      is 47.2.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- traditional<BR>myData 
+      = [#first: 39.5,#second: 55.1,#third: 47.2]<BR>finalEntry = 
+      getLast(myData)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax<BR>myData 
+      = [#first: 39.5,#second: 55.1,#third: 47.2]<BR>finalEntry = 
+      myData.getLast()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>finalEntry</FONT> to the last value within the linear list <FONT 
+      face="Courier New, Courier, mono" size=3>myData</FONT>. The resulting 
+      value of <FONT face="Courier New, Courier, mono" size=3>finalEntry</FONT> 
+      is 38.9.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- traditional<BR>myData 
+      = [12.5,44.7,38.9]<BR>finalEntry = getLast(myData)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- dot-syntax<BR>myData 
+      = [12.5,44.7,38.9]<BR>finalEntry = myData.getLast()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=getProp>"getProp":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      </FONT><FONT face="Courier New, Courier, mono" size=3>getProp(<FONT 
+      color=#666666>somePropertyList</FONT>,#<FONT 
+      color=#666666>someProperty</FONT>)</FONT> <BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax:</FONT> 
+      <FONT face="Courier New, Courier, mono" size=3><FONT 
+      color=#666666>somePropertyList</FONT>.getProp(#<FONT 
+      color=#666666>someProperty</FONT>)<BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: 
+      </FONT><FONT face="Courier New, Courier, mono" color=#666666 
+      size=3>somePropertyList</FONT>[#<FONT 
+      color=#666666>someProperty</FONT>]<BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: 
+      </FONT><FONT color=#666666>somePropertyList</FONT>.<FONT 
+      color=#666666>someProperty</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>myFloor</FONT> to the value of the property <FONT 
+      face="Courier New, Courier, mono" size=3>#menswear</FONT> within the 
+      property list <FONT face="Courier New, Courier, mono" 
+      size=3>storeIndex</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>myFloor</FONT> is 4.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- traditional</FONT> 
+      <FONT face="Courier New, Courier, mono" size=3><BR>storeIndex = 
+      [#kidswear: 2, #ladieswear: 3, #menswear: 4]<BR>myFloor = 
+      getProp(storeIndex,#menswear)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>storeIndex = [#kidswear: 2, #ladieswear: 3, #menswear: 4] 
+      <BR>myFloor = storeIndex.getProp(#menswear)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>storeIndex = [#kidswear: 2, #ladieswear: 3, #menswear: 4] 
+      <BR>myFloor = storeIndex[#menswear]</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>storeIndex = [#kidswear: 2, #ladieswear: 3, #menswear: 4] 
+      <BR>myFloor = storeIndex.menswear</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=getPropAt>"getPropAt":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      </FONT><FONT face="Courier New, Courier, mono" size=3>getPropAt(<FONT 
+      color=#666666>somePropertyList</FONT>,<FONT 
+      color=#666666>someIndex</FONT>)</FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: 
+      </FONT><FONT face="Courier New, Courier, mono" size=3><FONT 
+      color=#666666>somePropertyList</FONT>.getPropAt(<FONT 
+      color=#666666>someIndex</FONT>)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>myProperty</FONT> to the property located in the second index 
+      position within the property list <FONT face="Courier New, Courier, mono" 
+      size=3>officeSupplies</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>myProperty</FONT> is 
+      #pens.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>officeSupplies = [#pencils: 10, #pens: 25, #paper: 
+      12]<BR>myProperty = getPropAt(officeSupplies,2)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>officeSupplies = [#pencils: 10, #pens: 25, #paper: 
+      12]<BR>myProperty = officeSupplies.getPropAt(2)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B><A 
+      name=retrieveInfo>Retrieving information about a list 
+      variable</A></B></FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2><B>The following 
+      commands are used in order to obtain information from an already existing 
+      list variable.</B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=count>"count":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>count(<FONT 
+      color=#666666>someList</FONT>)</FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.count()</FONT> </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the variable <FONT face="Courier New, Courier, mono" 
+      size=3>listCount</FONT> equal to the number of items contained in the 
+      property list <FONT face="Courier New, Courier, mono" 
+      size=3>playList</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>listCount</FONT> is 3.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>playList = [#songA: "Bird Song", #songB: "Stream Sounds", 
+      #songC: "Nature's Echo"]<BR>listCount = count(playList)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>playList = [#songA: "Bird Song", #songB: "Stream Sounds", 
+      #songC: "Nature's Echo"] <BR>listCount = playList.count()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the variable <FONT face="Courier New, Courier, mono" 
+      size=3>listCount</FONT> equal to the number of items contained in the 
+      linear list <FONT face="Courier New, Courier, mono" 
+      size=3>playList</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>listCount</FONT> is 3.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>playList = ["Bird Song", "Soft Melodies", "Nature's 
+      Echo"]<BR>listCount = count(playList)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR></FONT><FONT face="Courier New, Courier, mono" 
+      size=3>playList = ["Bird Song", "Soft Melodies", "Nature's Echo"] 
+      <BR>listCount = playList.count()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=findPos>"findPos ":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      </FONT><FONT face="Courier New, Courier, mono" size=3>findPos(<FONT 
+      color=#666666>somePropertyList</FONT>,#<FONT 
+      color=#666666>someProperty</FONT>)</FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2><BR>dot-syntax: <FONT 
+      color=#666666>somePropertyList</FONT>.findPos(#<FONT 
+      color=#666666>someProperty</FONT>)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>myIndex</FONT> to the position value for the property <FONT 
+      face="Courier New, Courier, mono" size=3>#shoeSize</FONT> within the 
+      property list <FONT face="Courier New, Courier, mono" 
+      size=3>myClothes</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>myIndex</FONT> is 3.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- traditional 
+      <BR>myClothes = [#shirt: "t-shirt", #pants: "blue jeans", #shoes: 
+      "sandals"]<BR>myIndex = findPos(myClothes,#shoes)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>myClothes = [#shirt: "T-shirt", #pants: "blue jeans", 
+      #shoes: "sandals"]<BR>myIndex = myClothes.findPos(#shoes)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=findPosNear>"findPosNear":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>findPosNear(<FONT 
+      color=#666666>someSortedList</FONT>,<FONT 
+      color=#666666>someValue</FONT>)<BR></FONT>traditional: <FONT 
+      face="Courier New, Courier, mono" size=3>findPosNear(<FONT 
+      color=#666666>someSortedPropertyList</FONT>,#<FONT 
+      color=#666666>someProperty</FONT>)</FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someSortedList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.findPosNear(<FONT 
+      color=#666666>someValue</FONT>)<BR></FONT>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someSortedPropertyList</FONT><FONT 
+      face="Courier New, Courier, mono" size=3>.findPosNear(#<FONT 
+      color=#666666>someProperty</FONT>)</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>listIndex</FONT> to the nearest position value for the property 
+      <FONT face="Courier New, Courier, mono" size=3>#bre</FONT> within the 
+      property list <FONT face="Courier New, Courier, mono" 
+      size=3>groceryList</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>listIndex</FONT> is 2.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>groceryList = [#apples: 2, #bread: 1, #juice: 3, #milk: 
+      1]<BR>sort groceryList<BR>listIndex = findPosNear(groceryList,#bre)</FONT> 
+
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>groceryList = [#apples: 2, #bread: 1, #juice: 3, #milk: 
+      1]<BR>sort groceryList <BR>listIndex = 
+      groceryList.findPosNear(#bre)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>listIndex</FONT> to the nearest position value for the value 4.99 
+      within the linear list <FONT face="Courier New, Courier, mono" 
+      size=3>productCost</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>listIndex</FONT> is 3.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>productCost = [1.50,3.0,5.49,9.99]<BR>sort 
+      productCost<BR>listIndex = findPosNear(productCost,4.99)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>productCost = [1.50,3.0,5.49,9.99]<BR>sort 
+      productCost<BR>listIndex = productCost.findPosNear(4.99)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=getOne>"getOne":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>getOne(<FONT 
+      color=#666666>someList</FONT>,</FONT> <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someValue</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>)</FONT><BR>dot-syntax: <FONT face="Courier New, Courier, mono" 
+      color=#666666 size=3>someList</FONT></FONT><FONT 
+      face="Courier New, Courier, mono" size=3>.getOne(<FONT 
+      color=#666666>someValue</FONT>)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>unitType</FONT> to the name of the property within the property 
+      list <FONT face="Courier New, Courier, mono" size=3>distances</FONT> that 
+      has the value of 100. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>unitType</FONT> is #cm.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>distances = [#mm: 1000, #cm: 100, #m: 1]<BR>unitType = 
+      getOne(distances,100)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>distances = [#mm: 1000, #cm: 100, #m: 1]<BR>unitType = 
+      distances.getOne(100)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>unitIndex </FONT>to the index position within the linear list <FONT 
+      face="Courier New, Courier, mono" size=3>distances</FONT> that has the 
+      value of 1000. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>unitIndex</FONT> is 1.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>distances = [1000,100,1]<BR>unitType = 
+      getOne(distances,1000)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>distances = [1000,100,1]<BR>unitType = 
+      distances.getOne(1000)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=getPos>"getPos":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>getPos(<FONT 
+      color=#666666>someList</FONT>,<FONT 
+      color=#666666>someValue</FONT>)</FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.getPos(<FONT color=#666666>someValue</FONT>)</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>myIndex</FONT> to the index position within the property list <FONT 
+      face="Courier New, Courier, mono" size=3>agesList</FONT> that has the 
+      value of 25. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>myIndex</FONT> is 3.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>agesList = [#Steve: 30, #Sarah: 24, #Adam: 25, #Mary: 
+      32]<BR>myIndex = getPos(agesList,25)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>agesList = [#Steve: 30, #Sarah: 24, #Adam: 25, #Mary: 
+      32]<BR>myIndex = agesList.getPos(25)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: 
+      These statements set the value of <FONT face="Courier New, Courier, mono" 
+      size=3>myIndex</FONT> to the index position within the linear list <FONT 
+      face="Courier New, Courier, mono" size=3>agesList</FONT> that has the 
+      value of 32. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>myIndex</FONT> is 4.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>agesList = [30,24,25,32]<BR>myIndex = 
+      getPos(agesList,32)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>agesList = [30,24,25,32]<BR>myIndex = 
+      agesList.getPos(32)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=ilk>"ilk":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>ilk(<FONT 
+      color=#666666>someListVariable</FONT>)</FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someListVariable</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.ilk</FONT> </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>ilk(<FONT 
+      color=#666666>someListVariable</FONT>,<FONT 
+      color=#666666>someType</FONT>)</FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someListVariable</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.ilk(<FONT color=#666666>someType</FONT>)</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements set the value of <FONT 
+      face="Courier New, Courier, mono" size=3>ilkType</FONT> to the type of the 
+      property list <FONT face="Courier New, Courier, mono" 
+      size=3>phoneNumbers</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>ilkType</FONT> is 
+      #propList.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>phoneNumbers = [#Joe: 5551234, #Fred: 5554321, #Alan: 
+      5559876]<BR>ilkType = ilk(phoneNumbers)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>phoneNumbers = [#Joe: 5551234, #Fred: 5554321, #Alan: 
+      5559876]<BR>ilkType = phoneNumbers.ilk</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements set the value of <FONT 
+      face="Courier New, Courier, mono" size=3>ilkType</FONT> to the type of the 
+      linear list <FONT face="Courier New, Courier, mono" 
+      size=3>phoneNumbers</FONT>. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>ilkType</FONT> is #list.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>phoneNumbers = [5551234,5554321,5559876]<BR>ilkType = 
+      ilk(phoneNumbers)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>phoneNumbers = [5551234,5554321,5559876]<BR>ilkType = 
+      phoneNumbers.ilk</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements attempt to verify that <FONT 
+      face="Courier New, Courier, mono" size=3>phoneNumbers</FONT> is a property 
+      list by setting <FONT face="Courier New, Courier, mono" 
+      size=3>ilkCheck</FONT> to a Boolean value (true or false) based on the 
+      type comparison. The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>ilkCheck</FONT> is 1 or 
+      true.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>phoneNumbers = [#Joe: 5551234, #Fred: 5554321, #Alan: 
+      5559876]<BR>ilkCheck = ilk(phoneNumbers,#propList)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>phoneNumbers = [#Joe: 5551234, #Fred: 5554321, #Alan: 
+      5559876]<BR>ilkCheck = phoneNumbers.ilk(#propList)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements attempt to verify that <FONT 
+      face="Courier New, Courier, mono" size=3>phoneNumbers</FONT> is a list by 
+      setting <FONT face="Courier New, Courier, mono" size=3>ilkCheck</FONT> to 
+      a Boolean value (true or false) based on the type comparison. The 
+      resulting value of <FONT face="Courier New, Courier, mono" 
+      size=3>ilkCheck</FONT> is 1 or true.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>phoneNumbers = [5551234,5554321,5559876]<BR>ilkCheck = 
+      ilk(phoneNumbers,#list)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>phoneNumbers = [5551234,5554321,5559876]<BR>ilkCheck = 
+      phoneNumbers.ilk(#list)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#666666 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>When the ilk command is 
+      used to check if a variable is of the type #list, a true result for both 
+      property and linear lists is returned. If it is desired to verify that a 
+      variable is a linear list, try checking first for a true result using the 
+      type #list and then a false result using the type #propList. In addition, 
+      this command checks for data types other than lists. Please refer to the 
+      Lingo Dictionary for information regarding the other data structure types 
+      relating to this command.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=listP>"listP":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>listP(<FONT 
+      color=#666666>someListVariable</FONT>)</FONT><BR>dot-syntax: <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someListVariable</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.listP</FONT></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements attempt to verify that <FONT 
+      face="Courier New, Courier, mono" size=3>dataPoints</FONT> is a list by 
+      setting <FONT face="Courier New, Courier, mono" size=3>typeCheck</FONT> to 
+      a Boolean value (true or false). The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>typeCheck</FONT> is 1 or 
+      true.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>dataPoints = [[3,9],[9,27],[6,18]]<BR>typeCheck = 
+      listP(dataPoints)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>dataPoints = [[3,9],[9,27],[6,18]]<BR>typeCheck = 
+      dataPoints.listP</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements attempt to verify that <FONT 
+      face="Courier New, Courier, mono" size=3>dataPoints</FONT> is a list by 
+      setting <FONT face="Courier New, Courier, mono" size=3>typeCheck</FONT> to 
+      a Boolean value (true or false). The resulting value of <FONT 
+      face="Courier New, Courier, mono" size=3>typeCheck</FONT> is 1 or 
+      true.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>dataPoints = 
+      [#run1:[3,9],#run2:[9,27],#run3:[6,18]]<BR>typeCheck = 
+      listP(dataPoints)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>dataPoints = 
+      [#run1:[3,9],#run2:[9,27],#run3:[6,18]]<BR>typeCheck = 
+      dataPoints.listP</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#666666 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>This command checks for 
+      data types other than lists. Please refer to the Lingo Dictionary for 
+      information regarding the other data structure types relating to this 
+      command.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">Return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=max>"max":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>max(<FONT 
+      color=#666666>someList</FONT>)</FONT><BR>dot-syntax:</FONT> <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someList</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.max()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements set the value of <FONT 
+      face="Courier New, Courier, mono" size=3>maxValue</FONT> to the maximum 
+      value contained within the property list <FONT 
+      face="Courier New, Courier, mono" size=3>callVolume</FONT>. The resulting 
+      value of <FONT face="Courier New, Courier, mono" size=3>maxValue</FONT> is 
+      38.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>callVolume = [#mon: 29,#tue: 34,#wed: 38,#thu: 37,#fri: 
+      23]<BR>maxValue = max(callVolume)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>callVolume = [#mon: 29,#tue: 34,#wed: 38,#thu: 37,#fri: 
+      23]<BR>maxValue = callVolume.max()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements set the value of <FONT 
+      face="Courier New, Courier, mono" size=3>maxString</FONT> to the maximum 
+      value contained within the linear list <FONT 
+      face="Courier New, Courier, mono" size=3>nameList</FONT>. The resulting 
+      value of <FONT face="Courier New, Courier, mono" size=3>maxString</FONT> 
+      is "Walter".</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>nameList = ["Walter","Sarah","Brian","Carrie"]<BR>maxString 
+      = max(nameList)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>nameList = ["Walter","Sarah","Brian","Carrie"]<BR>maxString 
+      = nameList.max()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=min>"min":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>min(<FONT 
+      color=#666666>someListVariable</FONT>)</FONT><BR>dot-syntax:</FONT> <FONT 
+      face="Courier New, Courier, mono" color=#666666 
+      size=3>someListVariable</FONT><FONT face="Courier New, Courier, mono" 
+      size=3>.min()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements set the value of <FONT 
+      face="Courier New, Courier, mono" size=3>minString</FONT> to the minimum 
+      value contained within the property list <FONT 
+      face="Courier New, Courier, mono" size=3>employeeList</FONT>. The 
+      resulting value of <FONT face="Courier New, Courier, mono" 
+      size=3>minString</FONT> is "Amy".</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>employeeList = [#chef: "David",#manager: "Amy",#waiter: 
+      "Steven"]<BR>minString = min(employeeList)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>employeeList = [#chef: "David",#manager: "Amy",#waiter: 
+      "Steven"]<BR>minString = employeeList.min()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Examples: The 
+      following statements set the value of <FONT 
+      face="Courier New, Courier, mono" size=3>minValue</FONT> to the minimum 
+      value contained within the linear list <FONT 
+      face="Courier New, Courier, mono" size=3>salesTotals</FONT>. The resulting 
+      value of <FONT face="Courier New, Courier, mono" size=3>minValue</FONT> is 
+      385.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>salesTotals = [742,684,385,451]<BR>minValue = 
+      min(salesTotals)</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      dot-syntax<BR>salesTotals = [742,684,385,451]<BR>minValue 
+      =salesTotals.min()</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B><A 
+      name=manipulating>Manipulating a list variable</A></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><I><A 
+      name=sort>"sort":</A></I></B></FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>traditional: 
+      <FONT face="Courier New, Courier, mono" size=3>sort <FONT 
+      color=#666666>someListVariable</FONT></FONT> <BR>traditional: <FONT 
+      face="Courier New, Courier, mono" size=3>sort(<FONT 
+      color=#666666>someListVariable<FONT color=#000000>)</FONT></FONT><BR><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>dot-syntax: 
+      </FONT>there is no new syntax for this command</FONT> </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: The 
+      following statements sort the property list <FONT 
+      face="Courier New, Courier, mono" size=3>groupInfo</FONT>. The resulting 
+      list is [#alpha: ["Tom","Alan"], #beta: ["Don","Tim"], #gamma: 
+      ["Ed","Sherry"]].</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>groupInfo = [#beta: ["Don","Tim"],#gamma: 
+      ["Ed","Sherry"],#alpha: ["Tom","Alan"]]<BR>sort groupInfo</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: The 
+      following statement sort the linear list <FONT 
+      face="Courier New, Courier, mono" size=3>highScores</FONT>. The resulting 
+      list is <FONT face="Courier New, Courier, mono" 
+      size=3>[63,77,80,92,99]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>highScores = [92,99,63,80,77]<BR>sort highScores</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: The 
+      following statements sort the property list </FONT><FONT 
+      face="Courier New, Courier, mono" size=3>groupInfo</FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>. The resulting list is 
+      [#alpha: ["Tom","Alan"], #beta: ["Don","Tim"], #gamma: 
+      ["Ed","Sherry"]].</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>groupInfo = [#beta: ["Don","Tim"],#gamma: 
+      ["Ed","Sherry"],#alpha: ["Tom","Alan"]]<BR>sort(groupInfo</FONT><FONT 
+      face="Courier New, Courier, mono" size=3>) </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Example: The 
+      following statements sort the linear list <FONT 
+      face="Courier New, Courier, mono" size=3>highScores</FONT>. The resulting 
+      list is <FONT face="Courier New, Courier, mono" 
+      size=3>[63,77,80,92,99]</FONT>.</FONT> 
+      <P><FONT face="Courier New, Courier, mono" size=3>-- 
+      traditional<BR>highScores = [92,99,63,80,77]<BR>sort(highScores)</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_list_syntax_examples.htm#pageTop">return 
+      to top</A></FONT> <!--mm-end-contents -->
+      <P>
+      <TABLE cellSpacing=1 cellPadding=5 border=1>
+        <TBODY>
+        <TR>
+          <TD colSpan=2><FONT face="Arial, Helvetica, sans-serif" 
+            size=2><B>Keywords: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>linear, property, 
+            list, syntax, examples</FONT> </TD></TR>
+        <TR>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Last 
+            updated: </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>October 
+            28, 1999</FONT> </TD></TR>
+        <TR>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Author: 
+            </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Tom 
+            Higgins</FONT> </TD></TR>
+        <TR>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Area: 
+            </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Tips 
+            &amp; Tricks</FONT> </TD></TR></TBODY></TABLE><!-- insert a little gap after the bottom table --><BR>&nbsp; 
+<!-- close the table row that the body is in --></P></TD></TR>
+  <TR>
+    <TD vAlign=bottom align=right width="10%"><A target=_top 
+      href="http://www.macromedia.com/buy/"><IMG height=21 alt=buy 
+      src="d7_list_syntax_examples_files/buy.gif" width=67 border=0></A><BR><A 
+      href="http://www.macromedia.com/support/search/powersearch.html"><IMG 
+      height=21 alt="power search" 
+      src="d7_list_syntax_examples_files/search.gif" width=90 
+    border=0></A><BR></TD>
+    <TD>
+      <CENTER>
+      <HR width="100%" noShade SIZE=1>
+      <BR><FONT face="Arial, Helvetica" size=-1>[<A target=_top 
+      href="http://www.macromedia.com/">home</A>] [<A target=_top 
+      href="http://www.macromedia.com/software/">products</A>] [<A target=_top 
+      href="http://www.macromedia.com/support/">support</A>] [<A target=_top 
+      href="http://www.macromedia.com/downloads/">downloads</A>] [<A target=_top 
+      href="http://www.macromedia.com/macromedia/">about us</A>] [<A 
+      target=mm_window 
+      href="http://www.macromedia.com/OUTGOING/http://www.shockwave.com/">shockwave.com</A>] 
+      [<A target=_top href="http://www.macromedia.com/help/">help</A>] <BR><FONT 
+      size=-2><A href="http://www.macromedia.com/help/copyright.html">Trademarks 
+      Copyright</A> ©1995-2000 Macromedia, Inc. All rights reserved. <A 
+      href="http://www.macromedia.com/help/privacy.html">Privacy policy</A>. 
+      </FONT><BR></FONT></CENTER></TD></TR></TBODY></TABLE><!-- whitespace required to workaround Nav 3.04 Win scrollbar bug --><BR></BODY></HTML>

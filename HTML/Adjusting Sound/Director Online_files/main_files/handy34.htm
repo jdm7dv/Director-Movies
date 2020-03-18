@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy34.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 34</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#770000 aLink=#ff0000 link=#ff0000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=31 src="handy34_files/handyman.gif" width=213 
+      border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG height=9 
+            src="handy34_files/archiveDivLine.gif" width=440 align=bottom 
+            border=0></TD>
+          <TD vAlign=top width=55 rowSpan=2><A 
+            href="http://www.director-online.com/howTo/archive/Handyman_Archive.html"><IMG 
+            height=28 src="handy34_files/archiveDiv.gif" width=55 align=bottom 
+            border=0></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440><FONT size=2></FONT>
+            <P><FONT color=#cc0000><B><FONT 
+            face="Arial, Helvetica, sans-serif">Dear Multimedia 
+            Handyman</FONT></B></FONT> </P>
+            <P>I hope you don't mind but the user groups have not beeen able to 
+            help. You are my last hope. I want to be able to adjust volume 
+            through a slider mechanism. How do I do this? 
+            <P><A href="mailto:jared@mania.com.au">Jared Fusedale</A> 
+            <P>Jared, 
+            <P>It's a scary thought that I'm anybody's "last hope". Luckily, in 
+            this case I think I can help you out. Let's start with some 
+            definitions. 
+            <P><TT>soundLevel</TT> is the volume level of the sound that is 
+            played through the computer's speaker. Setting range from a minimum 
+            of 0 (no sound) to a maximum of 7. soundLevel affects all channels 
+            of your programs sound. 
+            <P><TT>volume of sound</TT> determines the volume of the sound 
+            channel which you specify (sound channels 1 to 8 -- with 1 and 2 
+            being the channels appearing in the score.) In addition to being 
+            able to specifically affect a single sound channel, you also have a 
+            much greater range of dymamic control: from 0 (mute) to a maximum of 
+            255. You can also use "the volume of member" for a SWA file and "the 
+            volume of sprite" for a digital video member. 
+            <P>Since "volume..." provides so much more control, I'll create a 
+            slider behavior which controls this. The properties we'll want to be 
+            able to set include whichChannel and the min and max of the slider's 
+            range. For example, if the slider's range happens to be 256 pixels, 
+            then there is a one-to-one correspondence between the slider's 
+            position and the volume level. However, it's not very likely that 
+            your slider will be exactly 256 pixels, so we'll build in the math 
+            necessary to make the conversion. Let's work out the math 
+            specifically. 
+            <P>The range of the slider needs to coincide with the range of the 
+            volume. So, we'll divide 256 (volume range) by the height of the 
+            slider trough. This gives us the amount that the volume will change 
+            for each pixel. Let's call that our deltaFactor. Now, multiply the 
+            change in locV of our slider knob by the deltaFactor to get volume. 
+            Here are the formulas -- NOT LINGO. 
+            <P>deltaFactor = 256/the height of the trough sliderChange = the 
+            bottom of trough - the locV of the slider knob volume = sliderChange 
+            * deltaFactor 
+            <P>For my demo movie, I created 2 tiny sound files (just over 100 
+            bytes each) by using just a tiny bit of waveform and setting it to 
+            loop. (Thanks to Joe Sparks for the idea.) I'll set each of the 
+            tones up on a separate volume slider -- each using the same behavior 
+            -- but with different ranges. In this behavior, I'll make the 
+            assumption that the slider trough member is in the sprite channel 
+            just below the slider knob. For example, in my demo movie, slider 
+            1's trough sprite is in channel 1, with the slider knob in channel 
+            2. For the second slider, the sprites are in channels 3 and 4. This 
+            will allow us to automatically "grab" the range of the slider -- one 
+            less thing for you to worry about. 
+            <P align=center>
+            <OBJECT 
+            codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,0,0 
+            classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=96 
+            height=240><PARAM NAME="SRC" VALUE="../other/Volume.dcr">
+            <embed src="../other/Volume.dcr"
+            pluginspage="http://www.macromedia.com/shockwave/download/"
+            width="96" height="240"></embed></OBJECT>
+            <P>Now, let's write that behavior: <PRE><FONT color=#cc0000>
+-- Volume Slider Behavior
+-- assumes that the slider trough is in the
+-- sprite channel just below the slider knob.
+
+property pSoundChannel
+property pRange
+property pSliderBottom
+property pDeltaFactor
+property pMySprite
+property pFlag
+
+on getPropertyDescriptionList me
+  set pdlist to [¬
+    #pSoundChannel: [#comment:"Which Sound Channel",¬
+                     #format:#integer,¬
+                     #default:1,¬
+                     #range:[#min:1,#max:8]] ]
+  return pdlist
+end getPropertyDescriptionList
+
+on beginSprite me
+  set pMySprite = the spriteNum of me
+  set myTroughSprite = pMySprite - 1
+  set pRange = the height of sprite myTroughSprite
+  put pRange
+  set pSliderBottom = the bottom of sprite ¬
+    myTroughSprite
+  set pDeltaFactor = 256/pRange
+  adjustVolume me
+  set pFlag = FALSE
+end
+
+on mouseDown me
+  set pFlag = TRUE
+end
+
+on mouseUp me
+  set pFlag = FALSE
+end
+
+on mouseUpOutside me 
+  set pFlag = FALSE
+end mouseUpOutside
+
+on enterFrame me
+  if pFlag = TRUE then
+    if the mouseV &lt;= pSliderBottom AND¬
+       the mouseV &gt;= pSliderBottom - pRange then
+      set the locV of sprite pMySprite = the mouseV
+      adjustVolume me
+    end if
+  end if
+end
+
+on adjustVolume me
+  set myLocV = the locV of sprite pMySprite
+  set sliderChange = pSliderBottom - myLocV 
+  set the volume of sound pSoundChannel = ¬
+     sliderChange * pDeltaFactor
+end
+</FONT></PRE>The only tricky part to this behavior stems from the 
+            fact that the the slider in my example goes from low to high, while 
+            the locV of the slider knob moves counter -- from high to low. This 
+            leads to some counter-intuitive math formulas. For example, for the 
+            tasks in the enterFrame handler to be executed, the mouseV must be 
+            <B>less</B> than the bottom of the slider trough and <B>greater</B> 
+            than the top of the trough. If you create a slider which is upside 
+            down, you'll need to change the signs in the formulas to accomodate. 
+
+            <P>Good Luck with your program. </P></TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD><BR><FONT size=2>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A target=display 
+      href="http://www.director-online.com/help_central/Display.html">Help 
+      Central</A> section of DOUG.</FONT> </TD></TR></TBODY></TABLE></BODY></HTML>

@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.director-online.com/howTo/handy_articles/handy104.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 104</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#770000 aLink=#ff0000 link=#ff0000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=31 src="handy104_files/handyman.gif" width=213 
+      border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG height=9 
+            src="handy104_files/archiveDivLine.gif" width=440 align=bottom 
+            border=0></TD>
+          <TD vAlign=top width=55 rowSpan=2><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+            height=28 src="handy104_files/archiveDiv.gif" width=55 align=bottom 
+            border=0></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <P><B><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Dear 
+            Multimedia Handyman</FONT></B> 
+</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD><BR>
+      <P>We are trying to create a screensaver which moves to a different 
+      section either every month or on specific dates. We are graphic designers 
+      not Lingo specialists but we need to know if a simple lingo script could 
+      produce this. For example jumping to a particular marker in a movie with 
+      relevant images for Christmas etc. Can you help or point me in the right 
+      direction? 
+      <P><A href="mailto:sean.conroy@sage.com">Sean Conroy</A> 
+      <P>Dear Sean, 
+      <P>Director 7 has some nifty new date functions which are ideal for this 
+      type of application. They all hinge around the built-in property call the 
+      systemDate. In the message window (or any Lingo script) you can simply 
+      refer to the systemDate, and it will use whatever date the computer's 
+      operating system is set to. Try this in your message window (of course, 
+      the date will vary based on when you're doing this.) 
+      <P><PRE><FONT color=#cc0000>today = the systemDate
+put today
+-- date( 1999, 11, 5 )
+put today.month
+-- 11
+put today.day
+-- 5
+put today.year
+-- 1999</FONT></PRE>
+      <P>Or, if you're not happy using Director 7's new dot syntax, you can 
+      refer to the properties like this... 
+      <P><PRE><FONT color=#cc0000>today = the systemDate
+put the month of today
+-- 11
+put the day of today
+-- 5
+put the year of today
+-- 1999</FONT></PRE>
+      <P>Now that we know we can find out the date, let's see how we can apply 
+      that to your situation. I'm going to assume that since you're a graphic 
+      artist, the calendar pages are graphics and we won't need to do any real 
+      calendar functions. Also, rather than use a script that swaps a bunch of 
+      cast members, we'll keep it simple: the date will direct us to a frame 
+      marker. 
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=320 height=240><PARAM NAME="SRC" VALUE="../other/handy104.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed src="../other/handy104.dcr"
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="240" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> 
+      </OBJECT><INSERT 240 x 320 calendar.dcr>
+      <P>A sample movie is available for download in <A 
+      href="http://www.director-online.com/howTo/other/handy104.hqx">Mac</A> or 
+      <A href="http://www.director-online.com/howTo/other/handy104.zip">PC</A> 
+      format. This is a Director 7 movie. 
+      <P>For our example, we'll have 4 holidays: Christmas (Dec 25), New Year's 
+      Eve (Dec 31), Halloween (Oct 31), and Groundhog Day (Feb 2). I included 
+      New Year's Eve so that we'd have an example of 2 holidays in the same 
+      month. If it's any other date, then the movie will simply default to the 
+      frame showing the entire month. 
+      <P>We obviously want the calendar to go immediately to the correct frame, 
+      so we'll put our script in a startMovie handler. 
+      <P><PRE><FONT color=#cc0000><B>on startMovie</B>
+
+  today = the systemDate
+  theDay = today.day
+  thisMonth = today.month
+  
+  case thisMonth of
+    1: go to frame "Jan"
+    2: 
+      if theDay = 2 then
+        go to frame "GroundhogDay"
+      else
+        go to frame "Feb"
+      end if
+    3: go to frame "Mar"
+    4: go to frame "Apr"
+    5: go to frame "May"
+    6: go to frame "Jun"
+    7: go to frame "Jul"
+    8: go to frame "Aug"
+    9: go to frame "Sep"
+    10: 
+      if theDay = 31 then
+        go to frame "Halloween"
+      else
+        go to frame "Oct"
+      end if
+    11: go to frame "Nov"
+    12: 
+    
+      if theDay = 25 then
+        go to frame "Christmas"
+      else if theDay = 31 then
+        go to frame "NewYearsEve"
+      else
+        go to frame "Dec"
+      end if
+      
+  end case
+  
+end</FONT></PRE>
+      <P>All this script does it grab the system date, assign values for theDay 
+      and theMonth, and then check those values to give the command to go to the 
+      right frame. 
+      <P>There's one other script I'm using here, which simply puts the date 
+      into a field or text member. Instead of using the systemDate though, I'm 
+      going to use an older Lingo property called the long date. The long date 
+      returns the date, but it is in string format and includes the day of the 
+      week and the month's name (rather than just the month's number.) Here's 
+      the behavior that you can drop on any field or text member. 
+      <P><PRE><FONT color=#cc0000>on beginSprite me
+  myMem = sprite(me.spriteNum).member
+  myMem.text = the long date
+end</FONT></PRE>
+      <P>Good luck with your calendar programs. You might also want to check out 
+      the great Text member calendar behavior that James Newton wrote. It's in 
+      the Director 7 behavior library. 
+      <P><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A target=display 
+      href="http://www.director-online.com/help_central/Display.html">Help 
+      Central</A> section of DOUG.</FONT> </P></TD></TR></TBODY></TABLE></BODY></HTML>

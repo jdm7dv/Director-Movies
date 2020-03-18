@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0076)http://www.mediamacros.com/index.htm?http://www.mediamacros.com/home.shtml^2 -->
+<HTML><HEAD><TITLE>MediaMacros</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<SCRIPT language=JavaScript>
+<!--
+var ar0 = "nav2.html";
+var ar1 = "top_set.html";
+var ar2 = "home.shtml";
+
+var str = location.search;
+var pos = str.indexOf("^");
+if (pos != -1) {
+  var num = str.substring(pos + 1, str.length);
+  window["ar" + num] = str.substring(1, pos);
+}
+// -->
+</SCRIPT>
+
+<SCRIPT language=JavaScript>
+<!--
+document.write(
+'<frameset rows="100,423*" frameborder="NO" border="0" framespacing="0" cols="*">',
+  '<frame name="topFrame" scrolling="NO" noresize src="', ar1, '" frameborder="NO" >',
+  '<frameset cols="190,534*" frameborder="NO" border="0" framespacing="0" rows="*">',
+    '<frame name="Navigation" scrolling="NO" noresize src="', ar0, '" frameborder="NO">',
+    '<frame name="main" scrolling="AUTO" frameborder="NO" src="', ar2, '">',
+  '</frameset>',
+'</frameset>'
+);
+
+// -->
+</SCRIPT>
+
+<META content="MSHTML 5.50.4030.2400" name=GENERATOR></HEAD>
+<BODY></BODY></HTML>

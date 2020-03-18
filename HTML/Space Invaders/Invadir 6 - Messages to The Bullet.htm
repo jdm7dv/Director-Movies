@@ -1,0 +1,208 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0042)http://brennan.young.net/Edu/Invadir6.html -->
+<HTML><HEAD><TITLE>Invadir 6 - Messages to The Bullet</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir5.html">Back to Lesson 
+5</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir7.html">Forward to Lesson 
+7</A></H6>
+<P><B>Lesson 6 - Messages to The Bullet</B></P>
+<P>Now at least our invadirs movie is starting to look like a game. It's even 
+visually recognisable as space invaders even though there is no gameplay yet. If 
+you've got this far and your brain is still working, then I'm quite sure that 
+you're really eager to take the project a step further so that you can actually 
+shoot and destroy the aliens. Take it easy though, some things should not be 
+rushed into, and OO design is one of them.</P>
+<P>You've already got the invaders to move horizontally. The bullet isn't going 
+to be all that different. It's going to be moving vertically instead, and of 
+course it's not going to bounce off the top and bottom of the screen (unless you 
+really want it to). Drag the bullet into <B>frame 1, channel 2</B> in the score 
+and give it this script:</P><PRE>property mySprite
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+
+end
+
+on exitFrame me
+
+  set myV to the locV of sprite mySprite
+
+  set the locV of sprite mySprite to myV - 1
+
+end</PRE>
+<P>Name the script "bullet script". Notice that instead of <TT>locH </TT>we are 
+using <TT>locV </TT>, referring to <B>vertical</B> location. For clarity I have 
+called the local variable <TT>myV </TT>, but you could call it <TT>pizza </TT>or 
+<TT>fireman </TT>if you liked.</P>
+<P>When you run the movie, you will see the bullet rising up the screen and 
+eventually disappearing. This closely resembles the first invader script, but in 
+what ways will it differ as we refine it? Here is a quick rundown.<BR></P>
+<UL>
+  <LI>The bullet is only going to be shooting <B>sometimes</B>. This is a very 
+  important point. When it's not shooting it should be invisible and ready to 
+  shoot, when it <B>is</B> shooting, it should not suddenly start shooting 
+  again.<BR>
+  <LI>The bullet is going to have to shoot from the same position as the cannon, 
+  but thereafter maintain its own "trajectory".<BR>
+  <LI>Something is going to have to fire the bullet so that it actually starts 
+  shooting in the first place.<BR>
+  <LI>The bullet is going to 'hit' things while it is shooting. </LI></UL>
+<P>Now we touch upon another important area of software design, the concept of 
+<B>states</B>. The bullet is going to have two quite distinct states, 
+<B>shooting</B> and <B>not shooting</B>. Did you notice the word <B>not</B>? 
+Remember how I said that the word <B>not</B> is intimately connected with logic? 
+Remember <B>true</B> and <B>false</B>? In this case, <B>Shooting</B> is either 
+true or false.</P>
+<P>Lingo provides two constants<TT> true </TT>and<TT> false</TT>, numerically 
+equivalent to 1 and 0 respectively. A variable which only has one of two values 
+is called a <B>flag</B> or <B>boolean</B> variable. The word 'boolean' is named 
+after the mathemetician George Boole, the first person to explore logic 
+thoroughly. All digital hardware and software designs are fundamentally based on 
+his work. If you think true and false is not really a very expressive range of 
+options, consider that everything you see on your computer is stored as millions 
+of booleans, usually called binary digits or <B>bits</B> for short. Take them 
+seriously, they are not as innocent as they might seem!</P>
+<P>So we're getting somewhere. <B>If</B> the bullet is shooting it should move 
+up the screen checking to see if it has hit anything or gone offscreen 
+altogether. <B>If not</B>, it should just hang around waiting to shoot. This 
+'shooting' thing sounds like something we want the sprite to remember, so we 
+therefore know that it's going to be a <B>property</B>.</P><PRE>property mySprite, shooting
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+  set shooting to false
+
+end
+
+on exitFrame me
+
+  if shooting then
+
+    set myV to the locV of sprite mySprite
+    set the locV of sprite mySprite to myV - 1
+
+  end if
+
+end</PRE>
+<P>Good, but how do we get the bullet to shoot? So far we have been using 
+messages which are sent by Director itself; <TT>exitframe </TT>and 
+<TT>beginsprite</TT>. These are not by any means the only messages that Director 
+sends, but if you really want to unleash the power of Lingo, you're going to 
+have to create some messages of your own. </P>
+<P>I propose we imagine that there is a<TT> shoot </TT>message which is going to 
+get sent to the bullet. I'm not interested in where the message comes from just 
+yet, only that the bullet is going to have to respond to it. This means making a 
+new handler in the bullet script. You can put the handler before or after either 
+of those that are already there, just don't type it in the middle of another 
+handler.</P><PRE>on shoot me
+
+  set shooting to true
+
+end</PRE>
+<P>There, that was easy. Rewind your movie, drag the bullet sprite to the bottom 
+of the screen and run the movie. Nothing special happening yet? Good. Now read 
+on.</P>
+<P>
+<HR align=left>
+
+<P></P>
+<P>One of the most useful parts of Director, and one which is well worth 
+understanding is the <B>message window</B>. You can get this window open with 
+the window menu. It should say "<TT>--Welcome to Director--</TT>" at the top. 
+(If not, don't worry).</P>
+<P>The message window is a place where you can type Lingo, but unlike in 
+scripts, Lingo in the message window is executed at the moment you press return 
+(or 'enter' on Windows). Try typing</P>
+<P><TT>beep</TT></P>
+<P>and press return. You should hear a system beep immediately. You can then put 
+the cursor at the end of the line you just typed and press return again and hear 
+the same beep.</P>
+<P>The message window is a great place to test lines of Lingo out before you put 
+them inside scripts. You can learn a lot about Director by playing around in the 
+message window. Just remember that like the other authoring windows, it will not 
+be there in the finished movie. Nevertheless it is a very immediate and direct 
+way of sending messages into the Director environment. This can be useful for 
+finding errors, experimenting with Lingo which you are not sure about and so on. 
+If you get an error message, who cares! Read it and try and see why. Error 
+messages are there to help you.</P>
+<P>
+<HR align=left>
+
+<P></P>
+<P>As it happens, sending messages is exactly what we are interested in right 
+now. Your movie is running, your invaders are marching back and forth, your 
+cannon is following the mouse as it should but the bullet (in sprite channel 2) 
+is just sitting there. Go to the message window and type</P><PRE>shoot sprite 2</PRE>
+<P>...and if all is well, you should see the bullet rise gracefully and 
+disappear off the top of the screen. If we want to be able to shoot it again, we 
+will have to trap the moment it disappears with an<TT> if...then </TT>test. It 
+would be nice to have the bullet appear in the right place also. Lastly we 
+should take care that the bullet can only be shot when it is not already 
+shooting. </P>
+<P>Here is how the script should look when all this has been added:</P><PRE>property mySprite, shooting
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+  set shooting to false
+
+end
+
+on exitFrame me
+
+  if shooting then
+
+    set myV to the locV of sprite mySprite
+
+    if myV &lt; 0 then
+
+      set shooting to false
+      set the locV of sprite mysprite to -999
+      return
+
+    end if
+
+    set the locV of sprite mySprite to myV - 1
+
+  end if
+
+end
+
+on shoot me 
+
+  if shooting then
+
+    return
+
+  end if
+
+  set shooting to true
+  set the loc of sprite mysprite to the loc of sprite 1
+
+end</PRE>
+<P>Inside the original<TT> if...then </TT>test there is now another<TT> 
+if...then </TT>test which will only occur if the original condition is met (<TT> 
+shooting = true </TT>). This tests whether the bullet has gone offstage and if 
+it has, assigns a value of<TT> false </TT>to the state variable shooting . It 
+also moves the bullet offstage and the return instruction takes care that the 
+handler is then left altogether without any further activity.<TT> return </TT>is 
+used again in the<TT> shoot </TT>handler; If the bullet is already shooting, we 
+don't want to allow it to be shot again.</P>
+<P><TT>return </TT>is very useful when you want to leave a handler without 
+executing obsolete lines of code. Remember those processor cycles!</P>
+<P>If it is ready to shoot, it's location is set to the location of the cannon. 
+Notice that we are using<TT> loc </TT>instead of<TT> locH </TT>and <TT>locV 
+</TT>. This allows the positioning to be achieved in one line instead of 
+two.</P>
+<P><TT>loc </TT>is another lingo sprite property and when all is said and done, 
+is usually easier to work with than<TT> locH </TT>and<TT> locV </TT>seperately. 
+It refers to two values, horizontal and vertical in the form</P><PRE><TT>point(h, v)</TT></PRE>
+<P>Make sure your movie is saved and then let's proceed...</P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir7.html"><TT>Forward 
+to Lesson 7</TT></A></H5></BODY></HTML>

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir14.html -->
+<HTML><HEAD><TITLE>Invadir 14 - Did I Shoot Six Bullets or Only Five?</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir13.html">Back to Lesson 
+13</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir15.html">Forward to Lesson 
+15</A></H6>
+<P><B>Invadir 14 - Did I Shoot Six Bullets or Only Five?</B></P>
+<P>Now that we have done the preparatory work we can think about multiple 
+bullets. There are several strategies that could work here. For what I have in 
+mind there will have to be specific sprite channels set aside for bullets. Right 
+now we're using channel 2 Let's assume that 21-25 are also used for bullets. 
+Copy the bullet sprite and paste it into those channels.</P>
+<P>It might seem a bit messy to have a discontiguous set of bullets. It 
+<B>is</B> messy, but I am going to use this to illustrate another aspect of 
+complexity management. Decent encapsulation does not necessarily concern itself 
+with having everything in a neat row. It's the boundaries that are important, 
+not the data inside. For conceptual tidiness you might want to drop sprite 2 
+from the list and delete that sprite altogether, although I'm going to proceed 
+as if we <B>don't</B> do this.</P>
+<P>One way to implement multiple bullets is to store the list [2, 21, 22, 23, 
+24, 25,] in both the invaders and the cannon, called something like<TT> 
+bullets</TT>. This would be a property of each script and would be intitally set 
+('initialized') in their beginsprite handlers. When it comes to shooting, the 
+most easy way would be something like this:</P><PRE><FONT size=-1>--CANNON SCRIPT--</FONT>
+
+<FONT color=#333333 size=-1>property mySprite -- Sprite channel</FONT>
+<B><FONT color=#000000 size=-1>property bullets -- List of Sprite channels</FONT></B><FONT color=#333333 size=-1>
+property stagewidth</FONT>
+
+<FONT color=#333333 size=-1>on beginsprite me</FONT>
+
+<FONT color=#333333 size=-1>  set mySprite to the spritenum of me
+  </FONT><B><FONT color=#000000 size=-1>set bullets to [2, 21, 22, 23, 24, 25]</FONT></B><FONT color=#333333 size=-1>
+  set stagewidth to the width of the rect of the stage</FONT>
+
+<FONT color=#333333 size=-1>end</FONT>
+
+<FONT color=#333333 size=-1>on exitFrame me</FONT>
+
+<FONT color=#333333 size=-1>  -- test that mouse cursor is on stage
+</FONT>
+<FONT color=#333333 size=-1>  if the mouseH &gt; 0 and the mouseH &lt; stagewidth then
+</FONT>
+<FONT color=#333333 size=-1>    set the locH of sprite mySprite to the mouseH -- move sprite to mouseH
+</FONT>
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  -- shift key sends shoot message to bullet
+</FONT>
+<FONT color=#333333 size=-1>  if the shiftdown then</FONT>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>repeat with bullet in bullets</FONT></B>
+
+<FONT color=#333333 size=-1>      </FONT><B><FONT color=#000000 size=-1>if not the shooting of sprite bullet then -- n.b. Testing the property of another object.
+</FONT></B>
+<FONT color=#333333 size=-1>        </FONT><B><FONT color=#000000 size=-1>shoot sprite bullet, mysprite -- sends own sprite channel as extra parameter
+</FONT></B><FONT color=#333333 size=-1>        </FONT><B><FONT color=#000000 size=-1>return -- success, leave, doing nothing else
+</FONT></B>
+<FONT color=#333333 size=-1>      </FONT><B><FONT color=#000000 size=-1>end if</FONT></B>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>end repeat</FONT></B>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>-- if we get this far, no bullets are available right now so...
+</FONT></B>
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>return -- leave handler</FONT></B><FONT color=#333333 size=-1>
+</FONT>
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>end</FONT></PRE>
+<P>...although some OO purists might object (no pun intended) to checking the 
+property of an object without using a predefined 'accessor' function. I would 
+simply say that the 'shooting' property of the bullet class has become 'public' 
+because it is <B>intended</B> to be visible to the outside. (Excuses excuses). I 
+will clean this up later.</P>
+<P>If you expect a property to be 'public' in this way, it is quite important to 
+be aware of the fact, even specifying it with a comment. Of course all 
+properties and handlers are public in Lingo, but if you want to have a clearer 
+picture of who is doing what, you should be especially careful that data inside 
+one object is <B>never directly modified</B> by another object. Visibility is 
+one thing, having foreign code mess around with a carefully organised internal 
+subsystem is often a recipe for disorder and lengthy debugging cycles. You have 
+been warned.</P>
+<P>We can now make equivalent additions to the invader script, and clean up the 
+hardcoded stuff I added at the end of the last lesson:</P><PRE><FONT size=-1>--INVADER SCRIPT--</FONT>
+
+<FONT color=#333333 size=-1>property mySprite -- Sprite channel</FONT>
+<FONT color=#333333 size=-1>property hdirection -- either 1 or -1</FONT>
+<FONT color=#333333 size=-1>property speed -- pixels per frame</FONT>
+<FONT color=#333333 size=-1>property stagewidth</FONT>
+<FONT color=#333333 size=-1>property alive -- Boolean (either True or False)</FONT>
+<FONT color=#333333 size=-1>property offstage -- large negative value</FONT>
+<FONT color=#333333 size=-1>property explodeSound -- sound cast member name</FONT>
+<FONT color=#333333 size=-1>property soundChan -- sound channel</FONT>
+<FONT color=#333333 size=-1>property scorer -- Sprite channel</FONT>
+<FONT color=#333333 size=-1>property points -- how many points the invader is worth</FONT>
+<B><FONT color=#000000 size=-1>property cannon -- Sprite channel</FONT></B>
+<B><FONT color=#000000 size=-1>property bullets -- List of Sprite channels</FONT></B>
+
+<FONT color=#333333 size=-1>on beginsprite me</FONT>
+
+<FONT color=#333333 size=-1>  set mySprite to the spritenum of me</FONT>
+<FONT color=#333333 size=-1>  set hdirection to 1</FONT>
+<FONT color=#333333 size=-1>  set speed to 8</FONT>
+<FONT color=#333333 size=-1>  set stagewidth to the width of the rect of the stage</FONT>
+<FONT color=#333333 size=-1>  set alive to true</FONT>
+<FONT color=#333333 size=-1>  set explodeSound to "explosion"</FONT>
+<FONT color=#333333 size=-1>  set offstage to -999</FONT>
+<FONT color=#333333 size=-1>  set soundChan to 1</FONT>
+<FONT color=#333333 size=-1>  set scorer to 20</FONT>
+<FONT color=#333333 size=-1>  set points to 10</FONT>
+<FONT color=#333333 size=-1>  </FONT><B><FONT color=#000000 size=-1>set cannon to 1</FONT></B><FONT color=#333333 size=-1></FONT>
+<FONT color=#333333 size=-1>  </FONT><B><FONT color=#000000 size=-1>set bullets to [2, 21, 22, 23, 24, 25]</FONT></B>
+<FONT color=#333333 size=-1>end</FONT>
+
+<FONT color=#333333 size=-1>on exitFrame me</FONT>
+
+<FONT color=#333333 size=-1>  if not alive then
+</FONT>
+<FONT color=#333333 size=-1>    return -- leave here, do nothing
+</FONT>
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  set myH to the locH of sprite mySprite -- current horizontal pos</FONT>
+
+<FONT color=#333333 size=-1>  if myH &lt; 0 then -- hit left edge
+</FONT>
+<FONT color=#333333 size=-1>    set hdirection to 1
+</FONT>
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  if myH &gt; stagewidth then -- hit right edge
+</FONT>
+<FONT color=#333333 size=-1>    set hdirection to -1
+</FONT>
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  set the locH of sprite mySprite to myH + (hdirection * speed) -- move sprite</FONT>
+<FONT color=#333333 size=-1>  </FONT><B><FONT size=-1>set cannonLeft to the left of sprite cannon</FONT></B><FONT color=#333333 size=-1></FONT>
+<FONT color=#333333 size=-1>  </FONT><B><FONT size=-1>set cannonRight to the right of sprite cannon</FONT></B></PRE>
+<P>&nbsp;</P><PRE><FONT color=#333333 size=-1>  if myH &gt; cannonLeft and myH &lt; cannonRight then -- directly above cannon
+</FONT>
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>repeat with bullet in bullets</FONT></B>
+<FONT color=#333333 size=-1></FONT>
+<FONT color=#333333 size=-1>      </FONT><B><FONT color=#000000 size=-1>if not the shooting of sprite bullet then -- n.b. Testing the property of another object.
+</FONT></B>
+<FONT color=#333333 size=-1>        </FONT><B><FONT color=#000000 size=-1>shoot sprite bullet, mysprite -- sends own sprite channel as extra parameter
+</FONT></B><FONT color=#333333 size=-1>        </FONT><B><FONT color=#000000 size=-1>return -- success, leave, doing nothing else
+</FONT></B>
+<FONT color=#333333 size=-1>      </FONT><B><FONT color=#000000 size=-1>end if</FONT></B>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>end repeat</FONT></B>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>-- if we get this far, no bullets are available right now so...
+</FONT></B>
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>return -- leave handler</FONT></B><FONT color=#333333 size=-1>
+</FONT>
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>end</FONT>
+
+<FONT color=#333333 size=-1>on hit me</FONT>
+
+<FONT color=#333333 size=-1>   set alive to false
+   set the locH of sprite mySprite to offstage
+   puppetsound soundChan, explodeSound</FONT>
+<FONT color=#333333 size=-1>   inc sprite scorer, points</FONT>
+
+<FONT color=#333333 size=-1>end</FONT></PRE>
+<P>Now when you run your movie, you should have bullets galore, plenty for 
+everyone, although the invaders will probably monopolise somewhat. Of course you 
+can even add extra ones later by copying the bullet sprite and pasting it into 
+even more sprite channels. Remember to attend to the bullet lists in each case 
+though.</P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir15.html">Forward to 
+Lesson 15</A></H5></BODY></HTML>

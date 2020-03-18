@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0069)http://www.mcli.dist.maricopa.edu/director/tips/lingo/scale-drag.html -->
+<HTML><HEAD><TITLE>Scaling Objects while Dragging</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<H1>Scaling Objects while Dragging</H1><PRE>Date:    Fri, 1 Jul 1994 12:19:30 -0500
+From:    Matthew Caldwell &lt;sexkittn@BURN.DEMON.CO.UK&gt;
+Subject: Re: Speed and Mac 4.0
+
+&gt;I am trying to do a drag and drop operation that rescales as it drags,
+&gt;ie. in some kind of 3d perspective
+</PRE>Well, here's a modified version of something I used for a similar effect. 
+Note that it isn't friendly to other things going on at the same time -- it 
+loops inside the handler while the mouse is still down. (QT movies will continue 
+to play, though). There are various other ways in which it isn't exemplary 
+scripting practice too, but anyway... 
+<P>A constraining sprite is used to set the area in which the dragging can 
+occur, and the amount of scaling is calculated relative to *vertical* movement 
+within it, but it shouldn't be too difficult to change it for horizontal 
+movement if desired, or even separate scaling in each dimension. 
+<P>In this case the scaling is: <PRE>   start position = bottom of constraint box = 100%
+   top of constraint box = 45%
+</PRE>This works very smoothly and nicely when the sprite is a quickdraw shape, 
+rather more jerkily when it is a large &amp; complex bitmap. 
+<P>The handler goes in the cast script of the thing being moved. The globals 
+need to be set beforehand, or alternatively you could pass both sprites as 
+parameters and calculate the other things at the top of the handler (probably a 
+better idea all round, actually): <PRE>on mouseDown
+  -- baseTop is the top of the constraining sprite
+  -- baseRange is the height of the constraining sprite
+  -- baseWidth &amp; baseHeight are the starting width &amp; height of the
+  -- dragged (scaling) sprite in channel whichSprite
+  global baseTop, baseRange, baseWidth, baseHeight, whichSprite
+
+
+  if the puppet of sprite whichSprite = false then puppetSprite whichSprite, true
+
+  set relativeV to the locV of sprite whichSprite - the mouseV
+  set relativeH to the locH of sprite whichSprite - the mouseH
+
+  repeat while the stillDown
+    -- move the figure
+    set the locV of sprite whichSprite to relativeV + the mouseV
+    set the locH of sprite whichSprite to relativeH + the mouseH
+    -- scale it for pseudo-perspective
+    set scaleFactor to (((the locV of sprite whichSprite) - baseTop) * 0.55 / baseRange) + 0.45
+    set the width of sprite whichSprite to baseWidth * scaleFactor
+    set the height of sprite whichSprite to baseHeight * scaleFactor
+    -- show it
+    updateStage
+  end repeat
+end mouseDown
+</PRE>
+<SCRIPT language=JavaScript>
+<!-- hide scripts from crusty old browsers
+document.write('<p><hr noshade><font face="helvetica,arial" size=-1>Director Web Tips n Tricks: <b>');
+document.write(document.title);
+document.write('</b><br><i>tip last modified  ' + document.lastModified);
+document.write('</i></font><br><tt>URL: ');
+document.write(document.location);
+document.write('</tt>');
+// done hiding -->
+</SCRIPT>
+</BODY></HTML>

@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0042)http://brennan.young.net/Edu/Invadir8.html -->
+<HTML><HEAD><TITLE>Invadir 8 - Repetition</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir1.html">Back to Lesson 
+7</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir9.html">Forward to Lesson 
+9</A></H6>
+<P><B>Lesson 8 - Repetition</B></P>
+<P>We have to test for collisions with several sprites. The most obvious thing 
+to do might be to repeat the intersection test over and over like this:</P><PRE>    if sprite mysprite intersects 3 then
+
+      hit sprite 3
+
+    end if
+
+    if sprite mysprite intersects 4 then
+
+      hit sprite 4
+
+    end if
+
+    if sprite mysprite intersects 5 then
+
+      hit sprite 5
+
+    end if
+
+    if sprite mysprite intersects 6 then
+
+      hit sprite 6
+
+    end if</PRE>
+<P>...and so on. This would work fine, if being a little inelegant, but imagine 
+what a bother this would be if we decided to move our invaders into different 
+sprite channels. Imagine how long and unwieldy your script would become if you 
+decided to add eight more invaders.</P>
+<P>The key to simplifying an operation like this, and making it scalable, is the 
+word <B>repeat</B>. If we could repeat the same instruction over and over just 
+changing the sprite channel each time it would be great, and indeed we can!</P><PRE>on exitFrame me
+
+  if shooting then
+
+    set myV to the locV of sprite mySprite
+
+    if myV &lt; 0 then
+
+      set shooting to false
+      set the locV of sprite mysprite to -999
+      return
+
+    end if
+
+    repeat with target = 3 to 10
+
+      if sprite mysprite intersects target then
+
+        hit sprite target
+        set shooting to false
+        set the locV of sprite mysprite to -999
+        return
+
+      end if
+
+    end repeat
+
+    set the locV of sprite mySprite to myV - 1
+
+  end if
+
+end</PRE>
+<P>We now have a loop containing the necessary test. Every time around the loop, 
+the value of the variable <TT>target </TT>increases so that all the channels 
+from 3 to 10 are tested for collisions with the <TT>if </TT>test. If you run the 
+movie you will find that you can now shoot at all the invaders and, if you hit 
+them they will all disappear.</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir9.html">Forward to 
+Lesson 9</A></H5></BODY></HTML>

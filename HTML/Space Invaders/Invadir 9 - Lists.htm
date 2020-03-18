@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0042)http://brennan.young.net/Edu/Invadir9.html -->
+<HTML><HEAD><TITLE>Invadir 9 - Lists</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir8.html">Back to Lesson 
+8</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir10.html">Forward to Lesson 
+10</A></H6>
+<P><B>Lesson 9 - Lists</B></P>
+<P>So far we have a playable game, which is more or less what we want, but in 
+the back of our minds we should always expect that no matter how simple a 
+project might seem, it might get more complicated later, especially if we go on 
+adding things indiscriminately. You might already have an idea of the mess that 
+can evolve in a multimedia project without due care and attention.</P>
+<P>For example, we are probably going to want to have more bullets so that the 
+cannon does not have to wait for the bullet to finish shooting before it can 
+fire again. We are also going to want the invaders to shoot bullets too. Does 
+this mean we need to make a whole new bullet script just for that? We could do 
+this, but it goes against one of the central ideals of Object Oriented design; 
+<B>reuseability</B>. If we design the bullet properly we should be able to use 
+it anywhere.</P>
+<P>How might we prepare the bullet so that it can receive shoot messages from 
+either the cannon or one of the invaders? One way might be to send some extra 
+information along with the shoot message describing where it should shoot from, 
+which direction it should be moving and what its possible targets are.</P>
+<P>In order to solve these problems, it is now necessary to explore one of the 
+most powerful organisational structures in Lingo: <B>Lists</B>.</P>
+<P>Lists are containers for arbitrary amounts of data arranged in a particular 
+order. They can be empty, they can contain pictures, numbers, text, cast 
+members, even other lists! You will have come across something very similar on 
+your computer desktop: folders. Folders can contain any number of files and 
+documents (within reasonable limits) but they can also contain folders. Using 
+folders is a very useful way for people to organise their work. Lists can 
+provide a similar level of control over a multimedia project.</P>
+<P>Lists are represented by the two square bracket characters<B> <FONT 
+color=#ff0000>[</FONT></B><FONT color=#ff0000> </FONT>and <B><FONT 
+color=#ff0000>]</FONT></B>. Inside these are found sequences of items seperated 
+by commas. An empty list looks like this.</P><PRE>[]</PRE>
+<P>A list of whole numbers looks like this</P><PRE>[3, 4, 5, 6, 7, 8, 9, 10]</PRE>
+<P>There are many operations that can be performed on lists. Items can be added 
+and removed, modified and sorted, there is also a special repeat loop just for 
+lists. The great advantage of lists is that they allow us to put information 
+which belongs together in one place. We can then store and process this 
+information all at once without unnecessary clutter.</P>
+<P>Let's think about our game. Suppose we stored all the sprite channels of the 
+invaders in a list. Every time we hit an invader, we could remove the 
+appropriate sprite channel from the list. This would make it very easy to tell 
+when all the invaders had been shot. As soon as the list became empty we could 
+advance to the next level. Additionally, as each invader is removed from the 
+list, it would be faster to test for intersections with the remaining sprites. 
+The game would not only be optimised, it would get faster and perhaps more 
+challenging as the invaders were cleared.</P>
+<P>Lets look at the bullet script using lists:</P><PRE>property mySprite, shooting, possibleTargets
+
+on beginsprite me
+  set mySprite to the spritenum of me
+  set shooting to false
+  set possibleTargets to [3, 4, 5, 6, 7, 8, 9, 10]
+end
+
+on exitFrame me
+
+  if shooting then
+
+    set myV to the locV of sprite mySprite
+
+    if myV &lt; 0 then
+
+      set shooting to false
+      set the locV of sprite mysprite to -999
+      return
+
+    end if
+
+    repeat with target in possibleTargets
+
+      if sprite mysprite intersects target then
+
+        hit sprite target
+
+        deleteOne possibleTargets, target
+
+        if possibleTargets = [] then
+
+          -- Some lingo to be added here later
+          -- End of level or end of life
+
+        end if
+
+        set shooting to false
+
+        set the locV of sprite mysprite to -999
+
+        return
+
+      end if
+
+    end repeat
+
+    set the locV of sprite mySprite to myV - 1
+
+  end if
+
+end
+
+on shoot me 
+
+  if shooting then
+
+    return
+
+  end if
+
+  set shooting to true
+
+  set the loc of sprite mysprite to the loc of sprite 1
+
+end</PRE>
+<P>Notice the way the repeat loop has changed. Previously it began with</P><PRE>repeat with target = 3 to 10</PRE>
+<P>...and now this has been replaced with</P><PRE>repeat with target in possibleTargets</PRE>
+<P>In both cases, the variable<TT> target </TT>runs through a series of values 
+(initially the whole numbers from 3 to 10), taking one value each time around 
+the loop. In the new version however, we have the opportunity to change the 
+contents of the list. Notice the extra lines. The<TT> deleteOne </TT>instruction 
+is a special Lingo procedure for removing a specified item from a list. Here we 
+are removing the sprite channel which was hit by the bullet.</P>
+<P>There are many more procedures and functions that can be applied to lists, 
+there are also other kinds of lists but we will not go into any more detail 
+here. It is recommended that the reader takes the time to explore some of these, 
+perhaps starting with the software help application connected to the Director 
+application.</P>
+<P>We also have a test to find out whether all the targets have been removed 
+from the list. Right now we are not doing anything when this occurs but there is 
+space to include some more Lingo when we are ready.</P>
+<P>If you are working on a slow computer, you will notice the performance 
+advantage of testing for fewer intersections quite quickly.</P>
+<P>
+<HR align=left>
+
+<P></P>
+<P><B>Comments</B></P>
+<P>The two hyphens indicate a <B>comment</B>. Everything following a pair of 
+hyphens will be ignored by Director. Comments are very useful because you can 
+add extra information to your scripts to remind you what is going on. Usually 
+you forget the details of a script if you do not look at it for a couple of 
+weeks, so comments can help you understand what you had in mind.</P>
+<P>Comments are also invaluable if you are going to pass the script on to 
+someone else to work on later. You can use comments to write 'pseudo-code' if 
+you are not sure of the details or are simply too lazy to write it, then you can 
+ask someone else to fill in, or catch up yourself later. Comments are 
+additionally used to 'deactivate' lines of code so that you can experiment with 
+different approaches to a programming problem without having to rewrite lines 
+over and over again.</P>
+<P>Comments have no impact on performance, or the filesize of 
+shockwave-compressed movies. It is strongly recommended that the reader uses 
+comments, especially in those parts of your code where details are not very 
+clear. Leaving plenty of blank lines around your code can also help. Get into 
+the habit of commenting your code early. Evolve a 'coding style'. </P>
+<P>It's a drag to add comments later because (tautology) the comments aren't 
+there to tell you what is going on. If you begin to forget so early, imagine 
+what it will be like entering the project after doing something else for six 
+months!</P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir10.html">Forward to 
+Lesson 10</A></H5></BODY></HTML>

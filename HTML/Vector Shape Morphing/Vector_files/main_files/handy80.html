@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy80.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 80</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#ff0000 vLink=#770000>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG border=0 height=31 src="handy80_files/handyman.gif" 
+      width=213> 
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG align=bottom border=0 height=9 
+            src="handy80_files/archiveDivLine.gif" width=440></TD>
+          <TD rowSpan=2 vAlign=top width=55><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+            align=bottom border=0 height=28 src="handy80_files/archiveDiv.gif" 
+            width=55></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <P><B><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Dear 
+            Multimedia Handyman</FONT></B> 
+</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD><BR>
+      <P>Well, I'm a French designer, I'm not a programmer, but I like to play 
+      with lingo and search for new graphical solutions. I started to watch the 
+      new shapes in director 7. I think it's a great thing. I started trying to 
+      morphe a shape to another one (ex: a star to a heart) and it works. Then I 
+      wanted a behavior for progressive morphing. Now, the problem is that I'm 
+      not able to tell the morphing member "stop your morph, you're the good 
+      form". Can you help? 
+      <P><A href="mailto:secondi@itw.fr">Sebastiano</A> 
+      <P>Credit: Sebastiano sent the code from his unsucessful attempt at the 
+      behavior, much of which I have used in this answer. I have used the French 
+      terms he did. 
+      <P>Dear Sebastiano, 
+      <P>Nice job on your attempt. You've grasped the basic idea but just need 
+      some refinement. I'll recap the process required for morphing one vector 
+      shape into another. (For a complete explanation of vector members, read 
+      Will Turnage's <A 
+      href="http://www.director-online.com/accessArticle2.cfm?id=313" 
+      target=_blank>great article on vector shapes</A>.) 
+      <P>We know that each vector shape is a drawn by connecting lines between 
+      points on a list, which is called the vertexList. Since this is a list in 
+      the standard sense of Lingo, there are some quick operations we can do to 
+      an entire list. For example... <PRE><FONT color=#cc0000>set listA = [5,10,15]
+set listB = [2,3,4]
+put listA - listB
+-- [3, 7, 11]</FONT></PRE>
+      <P>In this example, when we subtract listB from list A, the result is a 
+      new list where the first item is the difference between the first item of 
+      listA and the first item of listB. This is a very handy capability. 
+      <P>Now, assume that we have two vertexLists, each with the same number of 
+      points (that's very important). If we subtract one list from the other, 
+      we'll get a list of points which represents the difference between each 
+      corresponding point in the two lists. That list is precisely the amount 
+      and direction we would have to move each vertex in order to change the 
+      first shape to the second one. 
+      <P>Now, since we want to make that change over a number of frames, we need 
+      to figure out the incremental change for each vertex <B>per</B> frame. So, 
+      if we take the list representing the <B>whole</B> change and divide it by 
+      the number of frames in our morph animation, we'll get a list of the 
+      incremental change (per frame) for each vertex. 
+      <P>
+      <OBJECT classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      height=240 width=320><PARAM NAME="SRC" VALUE="../other/handy80.dcr">
+      <embed src="../other/handy80.dcr" 
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="240"></embed> </OBJECT>
+      <P>Download a sample movie in <A 
+      href="http://www.director-online.com/howTo/other/handy80.hqx">Mac</A> or 
+      <A href="http://www.director-online.com/howTo/other/handy80.zip">PC</A> 
+      format 
+      <P>So that's the concept. Now let's get to the Lingo. We'll start with the 
+      getPropertyDescriptionList handler. This will let the author specify 
+      values for the initial shape, the target shape, and the number of frames. 
+      Note that the vector member on stage should be a different cast member 
+      from either the start or end shape of your morph. That's important because 
+      the morph will permanently alter your morphing vector cast member (not 
+      just the sprite instance.) So, unless you want to recreate your initial 
+      shape again and again, make a copy of it and specify that copy as your 
+      starting shape. <PRE><FONT color=#cc0000>-- VectorMorph Behavior
+-- copyright © 1999, ZZP Online
+-- free use for readers of Director Online
+-- credit to Sebastiano &lt;secondi@itw.fr&gt; 
+-- for the conceptual start
+
+property pForme1 
+-- the vertexList of the initial shape
+property pForme2 
+-- the vertexList of the target shape
+property pPasMorphing 
+-- the incremental change per frame
+property pMember1 
+-- cast member with initial shape
+property pMember2 
+-- cast member with the target shape
+property pMyMem 
+-- the vector member on stage
+property pFrames 
+-- number of frames for morph animation
+property pFrameCount 
+-- current frame
+property pFlag -
+- on/off switch for morphing
+
+<B>on getPropertyDescriptionList me</B>
+
+  myMem = sprite(the currentSpriteNum).member
+  pdlist = [:]
+  
+  addprop pdlist, #pMember1, [#comment:"Initial ¬
+    Vector Shape member", #format:#member, ¬
+    #default:myMem]
+    
+  addprop pdlist, #pMember2, [#comment:"Target ¬
+    Vector Shape member", #format:#member, ¬
+    #default:myMem + 1]
+
+  addprop pdlist, #pFrames, [#comment:"Frame ¬
+    Duration for Morph", #format:#integer, ¬
+    #default:30]
+    
+  return pdlist
+  
+end getPropertyDescriptionList
+
+
+<B>on beginSprite me</B>  
+
+  pMyMem = sprite(the spriteNum of me).member
+  pForme1=member(pMember1).vertexList * 1.0000
+--  put "startList =" &amp;&amp; pForme1
+  pForme2=member(pMember2).vertexList * 1.0000
+--  put "targetList =" &amp;&amp; pForme2
+  pPasMorphing= (pForme2-pForme1)/pFrames
+--  put "increment =" &amp;&amp; pPasMorphing
+  pFlag = #stop
+  pFrameCount = 0
+end
+
+<B>on mouseUp me</B>
+  set pFlag = #morph
+end
+
+<B>on enterFrame me</B>
+
+  if pFlag = #morph then
+    if pFrameCount = pFrames - 1 then
+      pMyMem.vertexList = pForme2
+      pFlag = #stop
+    else
+      pFrameCount = pFrameCount + 1
+      -- put "pFrameCount =" &amp;&amp; pFrameCount
+      hMorphAllee
+    end if
+  end if
+  
+end enterFrame
+
+
+<B>on hMorphAllee me</B>
+  pForme1 = pForme1 + pPasMorphing
+  pMyMem.vertexList = pForme1
+end
+
+<B>on reset me</B>
+  pForme1=member(pMember1).vertexList
+  pMyMem.vertexList = pForme1
+  pFrameCount = 0
+end</FONT></PRE>
+      <P>In the beginSprite handler, we set some of the properties which weren't 
+      specified in the getPropertyDescriptionList handler. pForme1 and pForme2 
+      are the vertexLists for the initial and target shapes, respectively. I 
+      multiply them by 1.0000 so that we can take full advantage of the fact 
+      that vertexLists can be float values. That's important so that we don't 
+      get rounding errors when calculating the incremental change. The real key 
+      to this whole behavior is that property called pPasMorphing. (It's one of 
+      the French variables that Sebastiano named.) 
+      <P>This property holds the list of points which are the incremental change 
+      per frame. The calculation is condensed to a single line, but it's the 
+      same as I described earlier: the difference in the two vertex lists, 
+      divided by the number of frames in the animation. The last steps in the 
+      beginSprite handler are to initialize our pFlag to #stop, and the 
+      pFrameCount to 0. 
+      <P>The mouseUp handler simply turns the morphing animation on by setting 
+      our pFlag to #morph. That means that on the next enterFrame event, the 
+      enterFrame handler will see that pFlag = #morph, and the morphing will 
+      begin. The enterFrame handler counts the number of frames in our 
+      animation. Each frame, it calls for the shape to be morphed by calling the 
+      hMorphAllee handler. This handler simply adds the incremental list 
+      (pPasMorphing) to pForme1, and then sets our on-stage shape member to that 
+      vertex list. The enterFrame handler counts frames until it reaches the 
+      last frame of the animation. 
+      <P>For the last frame, rather than having it morph the last time, it 
+      simply sets the shape to the target vertex list (pForme2). Finally, it 
+      sets our pFlag = #stop so that the morphing animation stops. 
+      <P>The last little handler there is simply there for the reset button. It 
+      resets our on-stage shape to the vertexList of our initial vector shape 
+      member. It also resets the frame count to zero. 
+      <P>A final warning. Since we're doing simple subtraction of one vertexList 
+      from the other, it is critical that each shape have the same number of 
+      vertexes. Further, each vertex point can have points for one or two 
+      "handles" which allow the shape to be curved. You must have exactly the 
+      same number of handles for corresponding points in the two shapes -- even 
+      if those handles are dragged on top of the vertex point (making their 
+      effect disappear.) 
+      <P>Great idea Sebastiano. Thanks for sending in your code and your 
+      question. 
+      <P><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A 
+      href="http://www.director-online.com/help_central/Display.html" 
+      target=display>Help Central</A> section of DOUG.</FONT> 
+</P></TD></TR></TBODY></TABLE></BODY></HTML>

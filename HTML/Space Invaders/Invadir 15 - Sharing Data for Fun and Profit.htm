@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir15.html -->
+<HTML><HEAD><TITLE>Invadir 15 - Sharing Data for Fun and Profit</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir14.html">Back to Lesson 
+14</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir16.html">Forward to Lesson 
+16</A></H6>
+<P><B>Invadir 15 - Sharing Data for Fun and Profit</B></P>
+<P>A more sophisticated technique for managing complexity is for objects to each 
+have a copy of a pointer to the same shared list or object, something like a 
+global variable but more tidy. Global variables are anathema to purist 
+Object-Oriented programmers. <B>Data always belongs somewhere.</B> Using global 
+variables merely indicates that you haven't thought about which object should be 
+responsible for that data, or perhaps (excuses excuses) that you have designated 
+the top level of organisation (the Director player application) as an object and 
+the globals merely extend its properties.</P>
+<P>In the spirit of not teaching bad habits, I'm not even going to tell you how 
+to make global variables in Lingo, you can find that out elsewhere. Instead I am 
+going to introduce a cleaner technique which is more fascinating and elegant, 
+especially if you were properly toilet-trained. If not, don't cry, it's going to 
+come out all right.</P>
+<P>The 'shared pointer' technique I am about to explain is unlikely to appear in 
+many books about Director, but it can help you tie up some loose ends and 
+organise your work without resorting to use of global variables. Here is a 
+diagram which explains the idea a little better:</P>
+<P align=center><IMG align=middle height=205 
+src="Invadir 15 - Sharing Data for Fun and Profit_files/shared.gif" 
+width=262></P>
+<P align=center>Data shared by two objects.</P>
+<P>This might look something like a global variable to you. The difference is, a 
+global variable is available anywhere and everywhere, shared data is still the 
+property of <B>something</B>, it just happens to belong to a group of objects 
+rather than just one. As soon as you are outside one of the objects that 
+'part-owns' the data, it is unavailable, except by getting a reference to one of 
+the 'part-owners'.</P>
+<P>The most powerful thing about storing pointers (references) to the same data 
+in object properties is that if one object makes a change to the data, all the 
+objects 'see' the change.</P>
+<P>This is also a warning! If you provide duplicate references to the same data, 
+you have to remember that that data may well be modified by another object. It 
+is anything but private, it is actually located elsewhere in memory, and this is 
+probably the best way to conceptualise it, even if the objects themselves see it 
+as their own property! I have sometimes called this kind of data 'unglobal'.</P>
+<P>Not all data in Lingo can be shared in this way, more simple datatypes like 
+integers (whole numbers) can not be 'passed by reference, but high level 
+datatypes like lists can, and that will be ideal for our purposes. '. There are 
+a few areas where we could benefit from sharing references to the same list. The 
+first one is the list of bullets, the second is the list of invaders.</P>
+<P>To start with the bullets. Right now, we have all the invaders and the cannon 
+rummaging through a private list and checking the properties of other objects. 
+As I mentioned in the previous lesson, this would make strict OO programmers 
+look askance. It's just not polite to go inspecting the properties of another 
+object. You're always better off asking the object for the information you want, 
+then at least it has the opportunity to refuse or pay attention to what is 
+happening. (This is why they always ask you politely for your passport 
+<B>before</B> they stamp it).</P>
+<P>As well as being rather cavalier and cheeky to inspect the bullets' 
+properties, it is also (in this case) extremely inefficient. I'd like to suggest 
+instead that the bullets <B>remove themselves</B> from a shared list of bullets 
+while they are busy flying through the air, then replace themselves when they 
+are ready to be shot again. (If only real warfare were so economical.) This 
+would mean that the repeat loop which tests for whether bullets are available 
+can be removed altogether and a potential performance bottleneck will be 
+overcome.</P>
+<P>Similarly we are going to want to maintain a shared list of invaders between 
+the bullets so that as each invader gets hit and removed from the shared invader 
+list, all the bullet objects see the change, make fewer tests and can identify 
+immediately the moment when all the invaders have been dispatched to the great 
+console in the sky.</P>
+<P>To make this work, we are going to need a sprite which will make all the 
+appropriate connections, which will eventually gather all the appropriate sprite 
+channels into named lists and then inform all the sprites which game object is 
+in which channel. This should happen when the game starts, so it would seem 
+obvious to use the<TT> beginsprite </TT>message.</P>
+<P>One problem is that the sprites receive the<TT> beginsprite </TT>message in 
+order, starting with sprite 1 and continuing upwards. This means that the 
+'connector' thing could be placed in a scorescript attached to the topmost 
+sprite (i.e. the sprite with the highest channel number, ironically at the 
+bottom of the score). This sprite need not be visible, it could be an empty 
+field or a transparent shape, it could even be located offstage altogether. When 
+this the sprite with the highest sprite channel number gets its<TT> beginsprite 
+</TT>message, we know that all the others have already been set up and are ready 
+to receive other messages.</P>
+<P>Make an invisible sprite, either an empty field, an invisible shape, or 
+anything visual moved offstage. Attach this script to it:</P>
+<P>-- connector sprite script --</P><PRE><FONT size=-1>on beginsprite me</FONT>
+
+<FONT size=-1>  set mysprite to the spritenum of me</FONT>
+<FONT size=-1>  set invs to [3, 4, 5, 6, 7, 8, 9, 10]</FONT>
+<FONT size=-1>  </FONT><FONT color=#000000 size=-1>set buls to [2, 21, 22,23, 24, 25]</FONT>
+<FONT size=-1>  </FONT><FONT color=#000000 size=-1>set can to 1</FONT>
+<FONT size=-1>  </FONT><FONT color=#000000 size=-1>set sc to 20</FONT>
+<FONT size=-1>  sendallsprites #storeShared, [#invaders:invs,#bullets:buls, #cannon:can, #scorer:sc]</FONT>
+
+<FONT size=-1>end</FONT></PRE>
+<P>required immediately before the message, and any other parameters can be 
+provided afterwards seperated by commas.</P>
+<P><B>"Broadcast" Messaging</B></P>
+<P>It is possible to send a message to all the sprites in the same frame with 
+the<TT> sendallsprites </TT>instruction. Notice the # character. This is 
+required immediately before the message, and any other parameters can be 
+provided afterwards seperated by commas.</P>
+<P>One useful peculiarity of <TT>sendallsprites</TT> is that messages which are 
+not understood are <B>ignored</B> rather than generating 'handler not defined' 
+errors. There is a related instruction,<TT><FONT size=-1> </FONT>sendsprite<FONT 
+size=-1> </FONT></TT>which sends a message to a particular sprite. Again, no 
+errors are generated if the message is not understood. Both of these 
+instructions are called "Broadcast" messaging, as opposed to "Direct" messaging 
+which is what we have been doing so far.</P>
+<P>This means that</P>
+<P><TT>sendsprite target, #hit</TT></P>
+<P>...is the broadcast messaging equivalent of</P>
+<P><TT>hit sprite target</TT></P>
+<P>Why would you want error messages? Well, you might <B>not</B> want them if 
+your boss or client was coming over to check out your work, but you probably 
+would want them if you were trying to fix an error in your code!</P>
+<P>&nbsp;</P>
+<P>This is the syntax for the broadcast sprite messaging instructions:</P><PRE>sendsprite <B><FONT color=#ff0000>spritechannel</FONT></B>, #<B><FONT color=#ff0000>message</FONT></B>, <B><FONT color=#ff0000>parameter1</FONT></B>,<B><FONT color=#ff0000>parameter2</FONT></B>, <B><FONT color=#ff0000>parameter3...</FONT></B>
+
+sendallsprites #<B><FONT color=#ff0000>message</FONT></B>, <B><FONT color=#ff0000>parameter1</FONT></B>, <B><FONT color=#ff0000>parameter2</FONT></B>,<B><FONT color=#ff0000>parameter3 ...</FONT></B></PRE>
+<P>The parameters are optional, depending on the context and purpose of the 
+message. Here <B>a reference to</B> a list is distributed to all the other 
+sprites as a parameter. </P>
+<P><TT><FONT size=-1>[#invaders:invs,#bullets:buls, #cannon:can, 
+#scorer:sc]</FONT></TT></P>
+<P>This is a special kind of list called a property list. Property lists are 
+similar to the linear lists we have seen already, except that each item in the 
+list has a property name connected to it. They have the following structure:</P>
+<P><TT>[#<B><FONT color=#ff0000>propertyname</FONT></B> : <B><FONT 
+color=#ff0000>value</FONT></B>]</TT></P>
+<P>This template property list contains only one item, extra items can be added 
+seperated by commas, as in linear lists, but every value in a property list must 
+have a property associated with it. An empty property list looks like this:</P>
+<P>[:]</P>
+<P>Property lists are very useful because they make the order of data in a list 
+less important. If you know the name of the property and have a reference to the 
+list you can access the property using Lingo's standard 'genitive' syntax:</P><PRE>the <B><FONT color=#ff0000>property</FONT></B> of <B><FONT color=#ff0000>list</FONT></B></PRE>
+<P>Which, I should not need to remind you, is exactly the same way that you 
+would refer to the property of an object. The expanded Director 7 'dot' syntax 
+rules apply here also.</P>
+<P>
+<HR align=left>
+
+<P></P>
+<P>When you run your movie, there will be no apparent changes. The 'connector' 
+sprite is doing its job, but the broadcast messages are falling on deaf ears. In 
+the next lesson we will get all the other sprites to respond to the #storeshared 
+message and use that property list parameter.</P>
+<P align=center>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=450>
+  <TBODY>
+  <TR>
+    <TD align=middle bgColor=#ff9999 width="100%">In earlier versions of this 
+      tutorial, this lesson continued here and became very long. Now, that 
+      content has been moved into the next lesson to give a break. Apologies for 
+      any confusion.</TD></TR></TBODY></TABLE></P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir16.html">Forward to 
+Lesson 16</A></H5></BODY></HTML>

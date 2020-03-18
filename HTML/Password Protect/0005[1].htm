@@ -1,0 +1,214 @@
+<html>
+
+<head>
+<title>7/12/99 - Password Protection in a Projector</title>
+<script LANGUAGE="JavaScript">
+ <!--
+ if (top.location.href.indexOf("index.htm") == -1) {	
+theurl = location.href.toString();
+newframe = "http://www.mediamacros.com/index.htm?" + theurl + "^2";
+ top.location.href = newframe;	
+}
+ // --> 
+</script>
+</head>
+
+<body bgcolor="#FFFFFF" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0"><center>
+
+
+<h1 align="center"><font color="#008000">Password Protection in a Projector</font></h1>
+
+<p><b>The Question:</b></p>
+
+<p>How can I make my projector &quot;password protected?&quot;&nbsp; I want to have it so
+only certain users can view the content and they will need a valid id to proceed.</p>
+
+<hr align="center">
+
+<p align="center"><b>The Answer</b></p>
+
+<p>If you want to keep a user out of your project unless they have &quot;clearance&quot;
+it isn't as difficult as you might think.&nbsp; Start with the first frame of you movie
+being set up as a password entry screen.&nbsp; Include one field (set to editable and
+fixed size) and any instructions, etc.&nbsp; Then put a simple &quot;go to the frame&quot;
+handler on the exitFrame script.</p>
+
+<p>Now that we have the basic setup, we need to decide what the script will need to
+do.&nbsp; First, we don't want wandering eyes to pick up the password, so we need to
+filter the keys to the field to show a &quot;*&quot; for each letter.&nbsp; Next we want
+to allow only alpha-numeric characters to be entered as well a a space, a period and maybe
+even a dash.&nbsp; Finally we want the password to be checked when the user presses the
+enter key and if it is correct, advance to a designated frame.&nbsp; We can allow a set
+number of failed attempts and retries as well.&nbsp; </p>
+
+<p>After setting up the necessary properties for the behavior (the correct password, where
+to go if correct, current number of tries, and maximum number of tries) we need to set a
+beginSprite handler that will ensure the field is editable and that the previous text is
+cleared out.&nbsp; We are also going to need a property to store the current password
+attempt as the text in the field will be a series of &quot;*&quot; characters, and not the
+actual input.&nbsp; First lets filter the key strokes.&nbsp; Since we want to only effect
+the keys pressed while the field is active, we can make an on keyDown me handler in the
+behavior.&nbsp; This allows us to intercept any keystroke before it gets sent to the field
+itself.&nbsp; We will have 3 types of keys.&nbsp; The return key, any valid characters,
+and finally everything else that should be ignored.&nbsp; For this we can use a simple if
+statement to check if the key was the return key, then see if it was any of the allows
+keys (using the contains argument) and finally telling Director not to pass any other data
+to the field with a dontPassEvent call.&nbsp; Below is the finished code...</p>
+
+<table border="1" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td width="100%"><font FACE="Courier" COLOR="#0000c8">property</font><font FACE="Courier"
+    COLOR="#008000"> spriteNum</font><font FACE="Courier">, password, theMarker, tries,
+    currentWord, </font>totalTries<font FACE="Courier" COLOR="#0000c8"><p>on</font><font
+    FACE="Courier" COLOR="#008000"> beginSprite</font><font FACE="Courier" COLOR="#0000c8"> me<br>
+    </font><font FACE="Courier"><font color="#0000c8">&nbsp; </font>tries =</font><font
+    FACE="Courier" COLOR="#808080"> 0<br>
+    </font><font FACE="Courier" color="#0000c8">&nbsp; </font><font FACE="Courier">currentWord
+    =</font><font FACE="Courier" COLOR="#808080"> &quot;&quot;<br>
+    </font><font FACE="Courier" color="#0000c8">&nbsp; </font><font FACE="Courier"
+    COLOR="#008000">sprite</font><font FACE="Courier">(</font><font FACE="Courier"
+    COLOR="#008000">spriteNum</font><font FACE="Courier">).</font><font FACE="Courier"
+    COLOR="#008000">member</font><font FACE="Courier">.</font><font FACE="Courier"
+    COLOR="#008000">text</font><font FACE="Courier"> =</font><font FACE="Courier"
+    COLOR="#808080"> &quot;&quot;<br>
+    </font><font FACE="Courier" color="#0000c8">&nbsp; </font><font FACE="Courier"
+    COLOR="#008000">sprite</font><font FACE="Courier">(</font><font FACE="Courier"
+    COLOR="#008000">spriteNum</font><font FACE="Courier">).</font><font FACE="Courier"
+    COLOR="#008000">member</font><font FACE="Courier">.</font><font FACE="Courier"
+    COLOR="#008000">editable</font><font FACE="Courier"> =</font><font FACE="Courier"
+    color="#0000c8"> true<br>
+    end</font><font FACE="Courier"></p>
+    </font><font FACE="Courier" color="#0000c8"><p>on</font><font FACE="Courier"
+    COLOR="#008000"> keyDown</font><font FACE="Courier" color="#0000c8"> me<br>
+    &nbsp; if<font FACE="Courier"> tries =</font><font FACE="Courier" COLOR="#008000"> void</font>
+    then<font FACE="Courier"> tries =</font><font FACE="Courier" COLOR="#808080"> 0<br>
+    </font>&nbsp; if the<font FACE="Courier" COLOR="#008000"> key</font><font FACE="Courier">
+    =</font> return then<br>
+    &nbsp;&nbsp;&nbsp; </font><font FACE="Courier" COLOR="#008000">dontPassEvent<br>
+    </font><font FACE="Courier" color="#0000c8">&nbsp;&nbsp;&nbsp; if currentWord = password
+    then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#008000">go</font><font
+    FACE="Courier"> theMarker<br>
+    </font>&nbsp;&nbsp;&nbsp; else<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#008000">alert</font><font
+    FACE="Courier" COLOR="#808080"> &quot;Incorrect password.&quot;<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier">tries = tries +</font><font
+    FACE="Courier" COLOR="#808080"> 1<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if<font FACE="Courier"> tries &gt;= </font></font><font
+    color="#0000c8">totalTries</font><font FACE="Courier" color="#0000c8"> then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier"
+    COLOR="#008000">alert</font><font FACE="Courier" COLOR="#808080"> &quot;Invalid User&quot;<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier"
+    COLOR="#008000">quit<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end if<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; currentWord =<font FACE="Courier"
+    COLOR="#808080"> &quot;&quot;<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font FACE="Courier" COLOR="#008000">sprite</font><font
+    FACE="Courier">(</font><font FACE="Courier" COLOR="#008000">spriteNum</font><font
+    FACE="Courier">).</font><font FACE="Courier" COLOR="#008000">member</font><font
+    FACE="Courier">.</font><font FACE="Courier" COLOR="#008000">text</font><font
+    FACE="Courier"> =</font><font FACE="Courier" COLOR="#808080"> &quot;&quot;<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end if<br>
+    &nbsp;&nbsp;&nbsp; else<br>
+    &nbsp;&nbsp;&nbsp; </font><font FACE="Courier" COLOR="#008000">dontPassEvent<br>
+    </font><font FACE="Courier" COLOR="#0000c8">&nbsp;&nbsp;&nbsp; if the </font><font
+    FACE="Courier" color="#008000">keyCode</font><font FACE="Courier" COLOR="#0000c8"> =<font
+    FACE="Courier" COLOR="#808080"> 51</font> then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if currentWord.<font FACE="Courier" color="#008000">char</font><font
+    FACE="Courier">.</font><font FACE="Courier" color="#008000">count</font><font
+    FACE="Courier"> &gt;</font><font FACE="Courier" COLOR="#808080"> 1</font> then<font
+    FACE="Courier"> <br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; howMany = (currentWord.<font
+    FACE="Courier" color="#008000">char</font><font FACE="Courier">.</font><font
+    FACE="Courier" color="#008000">count</font><font FACE="Courier"> -</font><font
+    FACE="Courier" COLOR="#808080"> 1</font><font FACE="Courier">)<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; currentWord = currentWord.<font
+    FACE="Courier" color="#008000">char</font><font FACE="Courier">[</font><font
+    FACE="Courier" COLOR="#808080">1</font>..howMany]<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; currentWord =<font FACE="Courier"
+    COLOR="#808080"> &quot;&quot;<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end if<br>
+    &nbsp;&nbsp;&nbsp; else<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if<font FACE="Courier" COLOR="#808080">
+    &quot;1234567890abcdefghijklmnopqrstuvwxyz-. &quot;</font><font FACE="Courier"> contains</font>
+    the<font FACE="Courier" color="#008000"> key</font> then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; currentWord = currentWord &amp; the<font
+    FACE="Courier" color="#008000"> key<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end if<br>
+    &nbsp;&nbsp;&nbsp; end if<br>
+    &nbsp;&nbsp;&nbsp; <font FACE="Courier">theText =</font><font FACE="Courier"
+    COLOR="#808080"> &quot;&quot;<br>
+    </font>&nbsp;&nbsp;&nbsp; if currentWord.<font FACE="Courier" color="#008000">char</font><font
+    FACE="Courier">.</font><font FACE="Courier" color="#008000">count</font><font
+    FACE="Courier"> &gt;</font><font FACE="Courier" COLOR="#808080"> 0</font> then<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; repeat with<font FACE="Courier"> x =</font><font
+    FACE="Courier" COLOR="#808080"> 1</font> to currentWord.<font FACE="Courier"
+    color="#008000">char</font><font FACE="Courier">.</font><font FACE="Courier"
+    color="#008000">count<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; theText = theText &amp;<font
+    FACE="Courier" COLOR="#808080"> &quot;*&quot;<br>
+    </font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; end repeat<br>
+    &nbsp;&nbsp;&nbsp; end if<br>
+    &nbsp;&nbsp;&nbsp; <font FACE="Courier" color="#008000">sprite</font><font FACE="Courier">(</font><font
+    FACE="Courier" color="#008000">spriteNum</font><font FACE="Courier">).</font><font
+    FACE="Courier" color="#008000">member</font><font FACE="Courier">.</font><font
+    FACE="Courier" color="#008000">text</font> = theText<br>
+    &nbsp; end if<br>
+    end</p>
+    <p>on</font><font FACE="Courier" color="#008000"> getPropertyDescriptionList</font><font
+    FACE="Courier" COLOR="#0000c8"> me<br>
+    &nbsp; </font><font FACE="Courier">p_list = [:]<br>
+    </font><font FACE="Courier" COLOR="#0000c8">&nbsp; </font><font FACE="Courier"><font
+    FACE="Courier" color="#008000">addProp</font> p_list,<font FACE="Courier" color="#008000">
+    #</font>password, [<font FACE="Courier" color="#008000">#format</font> <font
+    color="#008000">:</font><font FACE="Courier" color="#008000">#string</font>,<font
+    FACE="Courier" color="#008000"> #default</font> <font color="#808080">:</font><font
+    FACE="Courier" COLOR="#808080">&quot;myPassword&quot;</font>,<font FACE="Courier"
+    COLOR="#008000"> #comment</font> <font color="#808080">:</font><font FACE="Courier"
+    COLOR="#808080">&quot;The password&quot;</font>]<br>
+    </font><font FACE="Courier" color="#0000c8">&nbsp; </font><font FACE="Courier"><font
+    FACE="Courier" COLOR="#008000">addProp</font> p_list,<font FACE="Courier" COLOR="#008000">
+    #</font>theMarker, [<font FACE="Courier" COLOR="#008000">#format</font> <font
+    color="#008000">:</font><font FACE="Courier" COLOR="#008000">#marker</font>,<font
+    FACE="Courier" COLOR="#008000"> #default</font> <font color="#008000">:</font><font
+    FACE="Courier" COLOR="#008000">#next</font>,<font FACE="Courier" COLOR="#008000"> #comment</font>
+    <font color="#808080">:</font><font FACE="Courier" COLOR="#808080">&quot;Where to go if
+    correct&quot;</font>]<br>
+    </font><font FACE="Courier" color="#0000c8">&nbsp; </font><font FACE="Courier"><font
+    FACE="Courier" COLOR="#008000">addProp</font> p_list,<font FACE="Courier" COLOR="#008000">
+    #</font>totalTries, [<font FACE="Courier" COLOR="#008000">#format</font> <font
+    color="#008000">:</font><font FACE="Courier" COLOR="#008000">#integer</font>,<font
+    FACE="Courier" COLOR="#008000"> #default</font> <font color="#808080">:</font><font
+    FACE="Courier" COLOR="#808080">4</font>,<font FACE="Courier" COLOR="#008000"> #comment</font>
+    <font color="#808080">:</font><font FACE="Courier" COLOR="#808080">&quot;Number of
+    tries&quot;</font>]<br>
+    </font><font FACE="Courier" COLOR="#0000c8">&nbsp; return</font><font FACE="Courier">
+    p_list<br>
+    </font><font FACE="Courier" COLOR="#0000c8">end</font><font FACE="Courier"></p>
+    </font><font FACE="Courier" COLOR="#0000c8"><p>on</font><font FACE="Courier"
+    COLOR="#008000"> getBehaviorDescription</font><font FACE="Courier" COLOR="#0000c8"> me<br>
+    &nbsp; return &quot;Use this on a field to require password access to a projector. </font><font
+    FACE="Courier" COLOR="#808080">Parameters include the correct password, where to go if
+    correct, and the number of allowed attempts.&quot;<br>
+    </font><font FACE="Courier" COLOR="#0000c8">end<font FACE="Courier">&nbsp;</font></font></td>
+  </tr>
+</table>
+
+<p>You can add variations to it to allow for a user name and a password and even use an
+algorithm to customize a &quot;key&quot; for each user.&nbsp; Using Xtras like Buddy API
+you can also write to the system registry to record a users registration and thus skip the
+registration process the next time.&nbsp; (This behavior is available in the commercial
+release of the <a href="/lib.shtml">Buddy API library</a>.)</p>
+
+<p>As usual, you can also find all of these behaviors/scripts in the <a
+href="/search.shtml">behavior database.</a></p>
+
+
+<p align="center"><a href="/howto.shtml">Return to the article list</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/howdosub.shtml">Submit a Question</a></p>
+<p align=center><small>MediaMacros Copyright 1999 <a href="mailto:chuck@mediamacros.com">Chuck
+Neal</a></small></p>
+</body>
+</html>
+

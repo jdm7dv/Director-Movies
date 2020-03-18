@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://www.mcli.dist.maricopa.edu/director/tips/lingo/pan-stage.html -->
+<HTML><HEAD><TITLE>Panning the stage (fast!)</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<H1>Panning the stage (fast!)</H1><PRE>Date:    Tue, 21 Apr 1998 15:38:15 -0700
+From:    "Terry R. Schussler" <SCHUSSLER@GMATTER.COM>
+Subject: Panning the stage, fast.
+
+&gt;I know it's not exactly ground-breaking (in fact, something much like it
+&gt;can be seen on the 1996 ID Magazine CD-ROM), but I'm trying to create an
+&gt;interface wherein a user can navigate a space much larger than the confines
+&gt;of the screen.  For example, rolling the mouse towards the top of the
+&gt;screen would cause their view to pan upwards, revealing elements up there.
+&gt;As they roll left, the scene pans left, and so on.
+
+</PRE>You asked a good question which caused me to do some thinking. Based on 
+some recent work, I've crafted a handler which will address part of your 
+question - rapid panning of the stage. Rather than changing the positions of 
+several sprites one at a time, I've approached the problem from the perspective 
+of changing your "viewport" of the stage using the oft overlooked "drawRect of 
+windowObject" property. You could easily adapt a version of this code to 
+algorithmically change the coordinates of the drawRect using math as well. (i.e. 
+set the drawRect of the stage = the drawRect of the stage + rect(-10,0,-10,0) 
+would set the stage to shift left 10 pixels.) <!-- begin code fragments --------------------------------------><PRE><FONT color=#000099>
+-- PLACE THESE SCRIPTS IN A MOVIE SCRIPT MEMBER
+on mouseDown
+  dragStage
+end mouseDown
+
+-- This handler will change the drawRect of the stage
+-- of whichever window is active at the time it is called
+-- written by Terry R. Schussler, g/matter, inc.
+-- version 1.0
+-- 4/21/98
+--
+on dragStage
+  -- grab the original mouse coordinates
+  put the mouseH into Horiginal
+  put the mouseV into Voriginal
+  -- grab the original drawRect coordinates
+  put the drawrect of the activeWindow into originalDrawRect
+  -- make a copy of the original drawRect
+  -- NOTE: rects *are* property lists and
+  -- must be dereferenced to make a true copy
+  set newDrawRect = duplicate(originalDrawRect)
+  repeat while the stillDown
+    set Hoffset = the mouseH - Horiginal
+    set Voffset = the mouseV - Voriginal
+    -- NOTE: Use of case is faster than an IF test
+    -- An IF test would require checking both variables regardless
+    -- of whether or not Hoffset was non-zero
+    case FALSE of
+      Hoffset, Voffset : -- redraw the window only if necessary
+        nothing
+      otherwise
+        --    if abs(Hoffset) &gt; 1 OR abs(Voffset) &gt; 1 then
+        set the left of newDrawRect = the left of newDrawRect + Hoffset
+        set the right of newDrawRect = the right of newDrawRect + Hoffset
+        set the top of newDrawRect = the top of newDrawRect + Voffset
+        set the bottom of newDrawRect = the bottom of newDrawRect + Voffset
+        set the drawrect of the activeWindow to newDrawRect
+    end case
+  end repeat
+  -- use the next line to snap the drawRect back to the rect
+  -- that was active when this handler was started
+  set the drawrect of the activeWindow = originalDrawRect
+  -- use the next line to snap the drawRect back to the rect
+  -- that was defined as the original stage
+  --  set the drawrect of the activeWindow = the rect of the activeWindow +
+rect(-the left of the rect of the activeWindow, -the top of the rect of the
+activeWindow, -the left of the rect of the activeWindow, -the top of the
+rect of the activeWindow)
+end dragStage
+</FONT></PRE><!-- end code fragments ---------------------------------------->
+<P>
+<P>
+<SCRIPT language=JavaScript>
+<!-- hide scripts from crusty old browsers
+document.write('<p><hr noshade><font face="helvetica,arial" size=-1>Director Web Tips n Tricks: <b>');
+document.write(document.title);
+document.write('</b><br><i>tip last modified  ' + document.lastModified);
+document.write('</i></font><br><tt>URL: ');
+document.write(document.location);
+document.write('</tt>');
+// done hiding -->
+</SCRIPT>
+</P></BODY></HTML>

@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0053)http://www.director-online.com/buildArticle.cfm?id=10 -->
+<HTML><HEAD><TITLE>A Director Online article</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+    <!--
+    function MM_openBrWindow(theURL,winName,features) { //v1.2
+      window.open(theURL,winName,features);
+    }
+    //-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.3013.2600" name=GENERATOR></HEAD>
+<BODY aLink=#425294 bgColor=#ffffff link=#425294 text=#000000 vLink=#31427b>
+<P><BR>
+<TABLE border=0 cellPadding=0 cellSpacing=0 height=25 width=500>
+  <TBODY>
+  <TR align=left bgColor=#cecece vAlign=top>
+    <TD><A href="http://www.director-online.com/generateURL.cfm?id=10" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=10','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      onmouseover="window.status='Get the direct URL for this article'; return true"><IMG 
+      alt="Get the direct URL for this article" border=0 height=25 
+      src="Search Engine_files/articleURL.gif" width=87></A> </TD>
+    <TD><A 
+      href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman" 
+      onmouseover="window.status='Visit the Multimedia Handyman article archive'; return true"><IMG 
+      alt="Visit the Multimedia Handyman article archive" border=0 height=25 
+      src="Search Engine_files/archives.gif" width=66></A> </TD>
+    <TD><A 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=7" 
+      onmouseover="window.status='Check out other articles by Pat McClellan'; return true"><IMG 
+      alt="Check out other articles by Pat McClellan" border=0 height=25 
+      src="Search Engine_files/author.gif" width=56></A> </TD>
+    <TD><A href="http://www.director-online.com/emailArticle.cfm?id=10" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=10','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      onmouseover="window.status='Mail this article to a friend'; return true"><IMG 
+      alt="Mail this article to a friend" border=0 height=25 
+      src="Search Engine_files/mailArticle.gif" width=83></A> </TD>
+    <TD><A href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true"><IMG 
+      alt="Sign in to your myDOUG page" border=0 height=25 
+      src="Search Engine_files/signIn.gif" width=63></A> </TD>
+    <TD><A href="http://www.developernation.com/Forums/index.cfm?cfapp=2" 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true"><IMG 
+      alt="Discuss this article on DOUGthreads" border=0 height=25 
+      src="Search Engine_files/discussArticle.gif" width=105></A> </TD>
+    <TD><A href="http://www.director-online.com/help.html" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      onmouseover="window.status='What do these buttons do?'; return true"><IMG 
+      alt="What do these buttons do?" border=0 height=25 
+      src="Search Engine_files/help.gif" width=25></A> </TD></TR></TBODY></TABLE>
+<P><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+size=+2><B>Multimedia Handyman</B></FONT><BR><FONT color=#cc0000 
+face="Verdana, Arial, Geneva, Helvetica, sans-serif" size=+1><B>Searching 
+through a property list.</B></FONT> 
+<P><FONT size=-1>by <A href="mailto:pat@director-online.com">Pat McClellan</A> 
+</FONT>
+<P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=500>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>
+      <P>Dear Multimedia Handyman, 
+      <P>What I need is a search engine of sorts, to search through my list of 
+      data. My list looks like this: 
+      <P><FONT color=#cc0000 face="Courier New, Courier, mono" 
+      size=-1>gDataList=[[#name:"Amanda", #surname:"Allard", #department: 
+      "banking", #Phone:"3477"], [#name:"Wendy", #surname:"Allen", 
+      #Department:"Executive", #Phone:"7777"], [#name:"Peter", 
+      #surname:"Jedrasicak", #department:"B.I.S", #Phone:"7014"], [#name:"Neil", 
+      #surname:"Cooper", #department:"Marketing", #Phone:"7012"]] </FONT>
+      <P>The user has to fill in a First Name, and Last Name field, then press a 
+      Search button. 
+      <P><A href="mailto:sethes@auscape.net">Sethe</A> 
+      <P>Sethe, 
+      <P>First, let me credit Tab Julius' book "Lingo!" for teaching me most of 
+      what I know about lists. It's a great book. 
+      <P>Searching through lists is always faster if you sort the list. Once 
+      you've sorted a list, it will always remain sorted. Sorting is comparable 
+      to inserting alphabetical dividers in a card catalog -- it allows you to 
+      not search through records you know don't apply. The trick is to create a 
+      useful index by which to sort -- and later, by which to search. 
+      <P>To sort your list, you'll need to make it a compound property list, 
+      indexed by some unique value in each record of the list. Note: you 
+      <B>cannot</B> repeat the index. So, indexing by first name is bad because 
+      you're likely to have 2 or more Johns or Bills or Amandas. Indexing by 
+      last name isn't much better because you can't be assured that you will 
+      have unique values. 
+      <P>Since your user will be inputting first and last name, I'll assume that 
+      a combination of lastname and firstname will be unique -- figuring that if 
+      there is a coincidence of names at an office one of the "Bill"s would be 
+      listed as a William. We'll index by lastname <B>and</B> firstname, turning 
+      them into a combination symbol... like this: 
+      <P><FONT color=#cc0000 face="Courier New, Courier, mono" size=-1>set 
+      gDataList= [#JonesBill: [#name: "Bill", #surname: "Jones", #dept: 
+      "Executive", #Phone: "7777"], #AllenWendy: [#name: "Wendy", #surname: 
+      "Allen", #dept: "Executive", #Phone: "1234"], #JedrasicakPeter: [#name: 
+      "Peter", #surname: "Jedrasicak", #dept: "BIS", #Phone: "7014"]] </FONT>
+      <P>Now, to sort the list, simply add the line of code "sort gDatalist". 
+      This will sort the list alphabetically, AND the list will stay sorted as 
+      you add new entries. 
+      <P><FONT color=#cc0000 face="Courier New, Courier, mono" size=-1>sort 
+      gDataList <BR>put gDataList </FONT>
+      <P><FONT color=#cc0000 face="Courier New, Courier, mono" size=-1>-- 
+      [#AllenWendy: [#name: "Wendy", #surname: "Allen", #dept: "Executive", 
+      #Phone: "1234"], #JedrasicakPeter: [#name: "Peter", #surname: 
+      "Jedrasicak", #dept: "BIS", #Phone: "7014"], #JonesBill: [#name: "Bill", 
+      #surname: "Jones", #dept: "Executive", #Phone: "7777"]]</FONT> 
+      <P>Hey, look, alphabetical order by both lastName and firstname, just like 
+      we need. Now, if your user inputs lastname = "Jones" and FirstName = 
+      "Bill" into fields called "inputLast" and "inputFirst", and then pressed 
+      the Search button... <PRE><FONT color=#cc0000>
+on mouseUp
+  set comboname = the text of field "inputLast" &amp; the¬
+    text of field "inputFirst"
+  set lookup = symbol(comboname)
+
+  if voidP(findPos(gDataList,lookup)) then
+    alert "This person is not in the database."
+  else
+    set myDataList = getaProp (gDataList, lookup)
+ 
+    -- very fast
+
+    put the name of myDataList into field ¬
+      "displayName"
+    put the surname of myDataList into field ¬
+      "displaySurname"
+    -- etc.
+  end if
+end
+</FONT></PRE>
+      <P>VERY fast because it's looking through a sorted list. Therefore, it can 
+      find its place almost immediately. 
+      <P>NOTE: if the user enters a space or Return or Enter, it will screw up 
+      the lookup. Therefore, put a keyDownScript that ignores spaces &amp; 
+      such... <PRE><FONT color=#cc0000>
+on startMovie
+  set the keyDownScript to "filterSpaces"
+end
+
+on filterSpaces
+  case the key of 
+    " ", ENTER, RETURN:
+      dontPassEvent
+  end case
+end
+</FONT></PRE>
+      <P>Good luck. If your data becomes large, check out the V12 Database Xtra. 
+      </P></TD></TR></TBODY></TABLE>
+<P>
+<TABLE width=500>
+  <TBODY>
+  <TR>
+    <TD><FONT size=-1><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries to our messageBoard <A 
+      href="http://www.developernation.com/Forums/index.cfm?cfapp=2">DOUGthreads</A>. 
+      </FONT></FONT></TD></TR></TBODY></TABLE>
+<P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 height=25 width=500>
+  <TBODY>
+  <TR align=left bgColor=#cecece vAlign=top>
+    <TD><A href="http://www.director-online.com/generateURL.cfm?id=10" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=10','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      onmouseover="window.status='Get the direct URL for this article'; return true"><IMG 
+      alt="Get the direct URL for this article" border=0 height=25 
+      src="Search Engine_files/articleURL.gif" width=87></A> </TD>
+    <TD><A 
+      href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman" 
+      onmouseover="window.status='Visit the Multimedia Handyman article archive'; return true"><IMG 
+      alt="Visit the Multimedia Handyman article archive" border=0 height=25 
+      src="Search Engine_files/archives.gif" width=66></A> </TD>
+    <TD><A 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=7" 
+      onmouseover="window.status='Check out other articles by Pat McClellan'; return true"><IMG 
+      alt="Check out other articles by Pat McClellan" border=0 height=25 
+      src="Search Engine_files/author.gif" width=56></A> </TD>
+    <TD><A href="http://www.director-online.com/emailArticle.cfm?id=10" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=10','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      onmouseover="window.status='Mail this article to a friend'; return true"><IMG 
+      alt="Mail this article to a friend" border=0 height=25 
+      src="Search Engine_files/mailArticle.gif" width=83></A> </TD>
+    <TD><A href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true"><IMG 
+      alt="Sign in to your myDOUG page" border=0 height=25 
+      src="Search Engine_files/signIn.gif" width=63></A> </TD>
+    <TD><A href="http://www.developernation.com/Forums/index.cfm?cfapp=2" 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true"><IMG 
+      alt="Discuss this article on DOUGthreads" border=0 height=25 
+      src="Search Engine_files/discussArticle.gif" width=105></A> </TD>
+    <TD><A href="http://www.director-online.com/help.html" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      onmouseover="window.status='What do these buttons do?'; return true"><IMG 
+      alt="What do these buttons do?" border=0 height=25 
+      src="Search Engine_files/help.gif" width=25></A> </TD></TR></TBODY></TABLE>
+<P> </P></BODY></HTML>

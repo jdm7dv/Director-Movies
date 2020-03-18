@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir16.html -->
+<HTML><HEAD><TITLE>Invadir 16 - Getting connected</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir14.html">Back to Lesson 
+15</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir17.html">Forward to Lesson 
+17</A></H6>
+<P><B>Invadir 16 - Getting connected</B></P>
+<P align=center>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=450>
+  <TBODY>
+  <TR>
+    <TD align=middle bgColor=#ff9999 width="100%">In earlier versions of this 
+      tutorial, this lesson discussed the score and the concept of states. Now, 
+      that content has been moved into the next lesson. Apologies for any 
+      confusion.</TD></TR></TBODY></TABLE></P>
+<P>Now that we have a 'connector' sprite broadcasting a message to all the other 
+sprites, it's time to use that message and, more importantly, the parameter that 
+comes with it to set up all the sprites with their appropriate shared property 
+values.</P>
+<P>The bullet, invader, cannon and scorer scripts will all now need a handler 
+like this:</P><PRE><B><FONT size=-1>on storeShared me, gameSprites</FONT></B>
+<B></B>
+<B><FONT size=-1>  set invaders to the invaders of gameSprites</FONT></B>
+<B><FONT size=-1>  set bullets to the bullets of gameSprites</FONT></B>
+<B><FONT size=-1>  set cannon to the cannon of gameSprites</FONT></B>
+<B><FONT size=-1>  set scorer to the scorer of gameSprites</FONT></B>
+<B></B>
+<B><FONT size=-1>end</FONT></B></PRE>
+<P>The value arriving as the parameter<TT> gameSprites </TT>is a pointer to a 
+property list in memory. All the sprites receive the same pointer, so all the 
+sprites share this data. The cannon and scorer data are more simple, low-level 
+datatypes called integers (whole numbers). These are not passed by reference, 
+but it doesn't matter, it is only the multiple objects (bullets and invaders) 
+which need to be handled in this way. It is, after all, the bullets and the 
+invaders which are going to be shooting and dying in varying quantities.</P>
+<P>All assignment statements relating to these properties in the beginsprite 
+handler of these scripts are overridden. You may remove them if you wish.</P>
+<P>Now because lists are passed 'by reference', each object stores a reference 
+to the same list of bullets and invaders. This means that each bullet can 
+<B>remove itself</B> from the bullet list when it starts shooting, then add 
+itself when it is finished. Each sprite stores a reference to the same list so 
+they can all 'see' immediately which bullets are available.</P>
+<P>Here is how the bulletscript would look with this added.:</P><PRE><FONT color=#333333 size=-1>-- BULLET SCRIPT --</FONT>
+<FONT color=#333333 size=-1>property mySprite -- sprite channel</FONT>
+<FONT color=#333333 size=-1>property shooting -- Boolean (either True or False)</FONT>
+<FONT color=#333333 size=-1>property invaders -- list of invader sprite channels</FONT>
+<FONT color=#333333 size=-1>property vdirection -- either 1 or -1</FONT>
+<FONT color=#333333 size=-1>property speed -- pixels per frame</FONT>
+<FONT color=#333333 size=-1>property shootsound -- sound cast member name</FONT>
+<FONT color=#333333 size=-1>property cannon -- sprite channel</FONT>
+<FONT color=#333333 size=-1>property soundChan -- sound channel</FONT>
+<FONT color=#333333 size=-1>property offstage -- large negative value</FONT>
+
+<B><FONT size=-1>property bullets -- list of bullet sprite channels</FONT></B>
+
+<FONT color=#333333 size=-1>on beginsprite me</FONT>
+
+<FONT color=#333333 size=-1>  set mySprite to the spritenum of me</FONT>
+<FONT color=#333333 size=-1>  set shooting to false</FONT>
+<FONT color=#333333 size=-1>  set shootsound to "blast"</FONT>
+<FONT color=#333333 size=-1>  set speed to 8</FONT>
+<FONT color=#333333 size=-1>  set vdirection to -1</FONT>
+<FONT color=#333333 size=-1>  set soundChan to 2</FONT>
+<FONT color=#333333 size=-1>  set offstage to -999</FONT>
+<FONT color=#333333 size=-1>  -- </FONT><B><FONT size=-1>note, some lines have been removed from this handler</FONT></B><FONT color=#333333 size=-1> --</FONT>
+<FONT color=#333333 size=-1>  -- </FONT><B><FONT size=-1>you do not have to remove them, but you can if you wish</FONT></B><FONT color=#333333 size=-1> --</FONT>
+<FONT color=#333333 size=-1>  -- </FONT><B><FONT size=-1>here are the lines which have been removed:</FONT></B><FONT color=#333333 size=-1> --</FONT>
+<FONT size=-1>  -- set invaders to [3, 4, 5, 6, 7, 8, 9, 10]</FONT>
+<FONT size=-1>  -- set cannon to 1</FONT>
+
+<FONT color=#333333 size=-1>end</FONT>
+
+<B><FONT color=#000000 size=-1>on storeShared me, gameSprites</FONT></B>
+<B><FONT color=#000000 size=-1>  set invaders to the invaders of gameSprites</FONT></B>
+<B><FONT color=#000000 size=-1>  set bullets to the bullets of gameSprites</FONT></B>
+<B><FONT color=#000000 size=-1>  set cannon to the cannon of gameSprites</FONT></B>
+<B><FONT color=#000000 size=-1>  set scorer to the scorer of gameSprites</FONT></B>
+<B><FONT color=#000000 size=-1>end</FONT></B>
+
+<FONT color=#333333 size=-1>on exitFrame me</FONT>
+
+<FONT color=#333333 size=-1>  if not shooting then</FONT>
+
+<FONT color=#333333 size=-1>    return</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  set myV to the locV of sprite mySprite</FONT>
+
+<FONT color=#333333 size=-1>  if myV &lt; 0 or myv &gt; the height of the rect of the stage then</FONT>
+
+<FONT color=#333333 size=-1>    set shooting to false</FONT>
+<FONT color=#333333 size=-1>    set the locV of sprite mysprite to offstage</FONT>
+<FONT color=#333333 size=-1>    </FONT><B><FONT color=#000000 size=-1>add bullets, mysprite -- ready again, so adds itself to shared list</FONT></B>
+<FONT color=#333333 size=-1>    return</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  if vdirection = 1 then</FONT>
+
+<FONT color=#333333 size=-1>    set possibleTargets to [cannon]</FONT>
+
+<FONT color=#333333 size=-1>  else</FONT>
+
+<FONT color=#333333 size=-1>    set possibleTargets to invaders</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  repeat with target in possibleTargets</FONT>
+
+<FONT color=#333333 size=-1>    if sprite mysprite intersects target then</FONT>
+
+<FONT color=#333333 size=-1>      hit sprite target</FONT>
+
+<FONT color=#333333 size=-1>      if target = cannon then</FONT>
+
+<FONT color=#333333 size=-1>        -- End of life</FONT>
+
+<FONT color=#333333 size=-1>      else</FONT>
+
+<FONT color=#333333 size=-1>        </FONT><B><FONT color=#000000 size=-1>deleteOne invaders, target -- removes invader from shared list</FONT></B>
+
+<FONT color=#333333 size=-1>        if invaders = [] then</FONT>
+
+<FONT color=#333333 size=-1>        -- End of level</FONT>
+
+<FONT color=#333333 size=-1>        end if</FONT>
+
+<FONT color=#333333 size=-1>      end if</FONT>
+
+<FONT color=#333333 size=-1>      set shooting to false</FONT>
+<FONT color=#333333 size=-1>      </FONT><B><FONT color=#000000 size=-1>add bullets, mysprite -- ready again, so adds itself to list</FONT></B>
+<FONT color=#333333 size=-1>      set the locV of sprite mysprite to offstage</FONT>
+<FONT color=#333333 size=-1>      return</FONT>
+
+<FONT color=#333333 size=-1>    end if</FONT>
+<FONT color=#333333 size=-1>  end repeat</FONT>
+
+<FONT color=#333333 size=-1>  set the locV of sprite mySprite to myV + (vdirection * speed)</FONT>
+
+<FONT color=#333333 size=-1>end</FONT>
+
+<FONT color=#333333 size=-1>on shoot me, whosShooting</FONT>
+
+<FONT color=#333333 size=-1>  if shooting then</FONT>
+
+<FONT color=#333333 size=-1>    return</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  set shooting to true</FONT>
+<FONT color=#333333 size=-1>  </FONT><B><FONT color=#000000 size=-1>deleteOne bullets, mysprite -- busy, so removes itself from list</FONT></B>
+<FONT color=#333333 size=-1>  set the loc of sprite mysprite to the loc of sprite whosShooting</FONT>
+
+<FONT color=#333333 size=-1>  if whosShooting = cannon then</FONT>
+
+<FONT color=#333333 size=-1>    set vdirection to -1 -- shooting upwards</FONT>
+
+<FONT color=#333333 size=-1>  else</FONT>
+
+<FONT color=#333333 size=-1>    set vdirection to 1 -- shooting downwards</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  puppetsound soundChan, shootsound</FONT>
+
+<FONT color=#333333 size=-1>end</FONT></PRE>
+<P>Remember that the invader and cannon script will also need the<TT> <FONT 
+size=-1>storeShared </FONT></TT>handler. Here it is again:</P><PRE><B><FONT size=-1>on storeShared me, gameSprites</FONT></B>
+<B></B>
+<B><FONT size=-1>  set invaders to the invaders of gameSprites</FONT></B>
+<B><FONT size=-1>  set bullets to the bullets of gameSprites</FONT></B>
+<B><FONT size=-1>  set cannon to the cannon of gameSprites</FONT></B>
+<B><FONT size=-1>  set scorer to the scorer of gameSprites</FONT></B>
+<B></B>
+<B><FONT size=-1>end</FONT></B></PRE>
+<P>Add it now. You should also ensure that each of these scripts includes 
+declarations of the following properties:</P><PRE><B><FONT size=-1>property invaders -- list of invader sprite channels
+property bullets -- list of bullet sprite channels
+property cannon -- sprite channel
+property scorer -- score sprite channel</FONT></B></PRE>
+<P>
+<HR align=left>
+
+<P></P>
+<P>For the actual shooting in the invader and cannon script, things will look 
+like this:</P>
+<P><B>Add these lines to the cannon script</B></P><PRE><FONT color=#333333 size=-1>  if the shiftdown then</FONT>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>if bullets = [] then</FONT></B>
+
+<FONT color=#333333 size=-1>      </FONT><B><FONT size=-1>return -- no bullets are available right now so leave handler</FONT></B>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>end if</FONT></B>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>set bullet to getAt(bullets,1) -- first available bullet in list</FONT></B>
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>shoot sprite bullet, mysprite -- sends own sprite channel as extra parameter</FONT></B>
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>return -- leave handler</FONT></B>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>end</FONT></PRE>
+<P><B>Add these lines to the invader script:</B></P><PRE><FONT color=#333333 size=-1>  if myH &gt; cannonLeft and myH &lt; cannonRight then -- directly above cannon</FONT>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>if bullets = [] then</FONT></B>
+
+<FONT color=#333333 size=-1>      </FONT><B><FONT size=-1>return -- no bullets are available right now so leave handler</FONT></B>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>end if</FONT></B>
+
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>set bullet to getAt(bullets,1) -- first available bullet in list</FONT></B>
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>shoot sprite bullet, mysprite -- sends own sprite channel as extra parameter</FONT></B>
+<FONT color=#333333 size=-1>    </FONT><B><FONT size=-1>return -- leave handler</FONT></B>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>end</FONT></PRE>
+<P>This replaces the repeat loops added in the previous lesson, which were 
+regularly testing the shooting property of each bullet, a potential bottleneck, 
+especially if all the bullets are in use much of the time. Similarly, we have 
+managed to move a whole load of hard coded data related to game sprites into one 
+place. Now there are fewer alterations necessary if you change the number of 
+bullets or invaders in your game.</P>
+<P>To see this working 'in the abstract', open the Watcher window and type</P><PRE>the invaders of sprite 2</PRE>
+<P>in the field at the top, then press return or click on the add button. When 
+you run the movie you will see a list appearing in the watcher window containing 
+the invader sprite channels.</P>
+<P align=center><IMG align=bottom height=149 
+src="Invadir 16 - Getting connected_files/watcher.gif" width=230></P>
+<P>As you shoot in the invaders, (and whether or not you use the bullet in 
+sprite channel 2), you will see the list will contain fewer and fewer items. All 
+the bullets are using the same list, so if one bullet removes in invader from 
+the list, all the others have fewer invaders also.</P>
+<P>In a later lesson, we will see how the connector sprite can gather the sprite 
+information intelligently, clearing up most of its own hardcoding 
+altogether.</P>
+<P>Finally, let's just add a little something to the bullet script so that you 
+can feel how things are progressing.</P><PRE><FONT size=-1>-- new exitframe handler for the bullet script</FONT>
+
+<FONT color=#333333 size=-1>on exitFrame me</FONT>
+
+<FONT color=#333333 size=-1>  if not shooting then</FONT>
+
+<FONT color=#333333 size=-1>    return</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  set myV to the locV of sprite mySprite</FONT>
+
+<FONT color=#333333 size=-1>  if myV &lt; 0 or myv &gt; the height of the rect of the stage then</FONT>
+
+<FONT color=#333333 size=-1>    set shooting to false</FONT>
+
+<FONT color=#333333 size=-1>    set the locV of sprite mysprite to offstage</FONT>
+
+<FONT color=#333333 size=-1>    add bullets, mysprite -- ready again, so adds itself to shared list</FONT>
+
+<FONT color=#333333 size=-1>    return</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  if vdirection = 1 then</FONT>
+
+<FONT color=#333333 size=-1>    set possibleTargets to [cannon]</FONT>
+
+<FONT color=#333333 size=-1>  else</FONT>
+
+<FONT color=#333333 size=-1>    set possibleTargets to invaders</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  repeat with target in possibleTargets</FONT>
+
+<FONT color=#333333 size=-1>    if sprite mysprite intersects target then</FONT>
+
+<FONT color=#333333 size=-1>      hit sprite target</FONT>
+
+<FONT color=#333333 size=-1>      if target = cannon then</FONT>
+
+<FONT color=#333333 size=-1>        -- End of life</FONT>
+
+<FONT color=#333333 size=-1>      else</FONT>
+
+<FONT color=#333333 size=-1>        deleteOne invaders, target</FONT>
+<FONT color=#333333 size=-1> </FONT>
+<FONT color=#333333 size=-1>       if invaders = [] then</FONT>
+
+<FONT color=#333333 size=-1>        -- End of level</FONT>
+
+<FONT color=#333333 size=-1>        </FONT><B><FONT size=-1>alert "All invaders dispatched, commander!"</FONT></B>
+
+<FONT color=#333333 size=-1>        end if</FONT>
+<FONT color=#333333 size=-1>      end if</FONT>
+
+<FONT color=#333333 size=-1>      set shooting to false</FONT>
+
+<FONT color=#333333 size=-1>      set the locV of sprite mysprite to offstage</FONT>
+
+<FONT color=#333333 size=-1>      add bullets, mysprite -- ready again, so adds itself to shared list</FONT>
+
+<FONT color=#333333 size=-1>      return</FONT>
+
+<FONT color=#333333 size=-1>    end if</FONT>
+
+<FONT color=#333333 size=-1>  end repeat</FONT>
+
+<FONT color=#333333 size=-1>  set the locV of sprite mySprite to myV + (vdirection * speed)</FONT>
+
+<FONT color=#333333 size=-1>end</FONT></PRE>
+<P>That was a long and complicated lesson. It might be that you need to read 
+through it again to check that you understand what is going on. You might like 
+to download a director movie which contains the working code so far:</P>
+<P><A href="http://brennan.young.net/Edu/inv16.zip">.<B>zip archive</B></A><B> 
+</B></P>
+<P><A href="http://brennan.young.net/Edu/inv16.hqx"><B>.sit.hqx 
+archive.</B></A></P><PRE></PRE>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir17.html">Forward to 
+Lesson 17</A></H5></BODY></HTML>

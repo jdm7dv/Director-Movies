@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir12.html -->
+<HTML><HEAD><TITLE>Invadir 12 - STOP!</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ff9999>
+<H6><A href="http://brennan.young.net/Edu/Invadir11.html">Back to Lesson 
+11</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir13.html">Forward to Lesson 
+13</A></H6>
+<P><B>Lesson 12 - STOP!</B></P>
+<P>Why the darker background colour? I wanted to wake you up a bit for this 
+lesson as it is very important. I have been referring continually to 
+reuseability, scope and various other esoteric technical terms. For the sake of 
+making the code easier to understand I have not been as careful and thorough 
+with this as I could and should have been. That's OK, because I know what I'm 
+doing. You don't, however, so I am taking a whole lesson to emphasise this and 
+polish what we have so far, to 'clean up' as it were, before we go on.</P>
+<P><B>Finished Quickly is Rarely Finished.</B></P>
+<P>Often you start a project with an idea, you choose one corner of the idea and 
+implement it, then you choose another and implement that. Your nerdy colleague 
+might warn you against rushing ahead, but pretty soon, things start coming 
+together and there is an enormous temptation to fill in the remaining details 
+without paying attention to preparing some solid foundations to build upon.</P>
+<P>The result is that you get finished quickly while the nerdy guy is still 
+drawing weird diagrams with bubbles and lines connecting them. You celebrate, 
+show it to your friends, you show it to your colleagues and so on. Hooray!</P>
+<P>Some of your colleagues suggest that what you have made would be even better 
+if the graphics were a bit different. Someone else would like to see more 
+dynamism in the animation. Your mother doesn't like the sounds, "Why does the 
+green thing always make the same sound?" she asks. "It's the computer that makes 
+the sound, mum." you say, playing for time, and ruining the illusion.</P>
+<P>Somewhat crestfallen you open the project again. By this time, the nerdy guy 
+is peering at his diagrams and doing a lot of copy-paste stuff. You start to 
+implement the changes, one by one. You spend a little time remembering what your 
+code was doing, and then weave the enhancements around what you have. As each 
+enhancement gets added, it gets more and more difficult to keep track of what's 
+going on, but you just take it in your stride. That's what it means to be a pro, 
+you imagine, and you're partly right.</P>
+<P>You show your new version off, a little more cautiously. Colleagues say 
+"Yeah" and "Hmm" and "What about adding a background image?" Back to the 
+project. Before you have been able to work out what all your spaghetti code was 
+doing, your nerdy colleague has already implemented all the suggestions in his 
+own project and is showing it off in the authoring environment. Suggestions from 
+onlookers are implemented immediately as you look on, fuming and furious at 
+yourself for not taking the time to build a decent, scalable structure.</P>
+<P>Some readers may remember just such a sequence of events from a project they 
+have been involved in. Others might think it's just a fairy story. This kind of 
+thing is VERY COMMON and has led to, among other things, the widespread 
+distribution of expensive software which is prone to crashes, deadlines being 
+missed by many months, exhausting beta testing and upgrade cycles, once 
+sucessful firms going out of business, and so on. In short, this phenomenon has 
+led to what Nikolas Wirth (the creator of the Pascal programming language) calls 
+'The software crisis'. It is happening right now.</P>
+<P>If you're going to get good at designing and implementing interactivity, 
+you're going to have to take the time to build solid foundations for your 
+work.</P>
+<P><B>Hardcoding</B></P>
+<P>The first demon in programming hell is the hard coded value. Just one seems 
+innocent enough...</P><PRE>on shoot me 
+
+  if shooting then
+
+    return
+
+  end if
+
+  set shooting to true
+  set the loc of sprite mysprite to the loc of sprite 1
+
+end</PRE>
+<P>Looks OK doesn't it? What possible evil lurks in this innocuous handler? 
+Well, "What about adding a background image?" Just try moving the cannon sprite 
+to another channel, say channel 40 and see how well your game works. Ah! Of 
+course, you have to change the shoot handler.</P><PRE>on shoot me 
+
+  if shooting then
+
+    return
+
+  end if
+
+  set shooting to true
+  set the loc of sprite mysprite to the loc of sprite 40
+
+end</PRE>
+<P>Still think it's OK? What if you had to move the sprite again in two weeks. 
+Would you still remember to look in the shoot handler?</P>
+<P>Moral: If at all possible, don't put any actual values in your scripts. It is 
+often unavoidable, but if you must do it, make those values into properties and 
+set them in an obvious place, such as the<TT> beginsprite </TT>handler. 
+Isolating where the hardcoding occurs makes it much easier to clean up the mess 
+when things start to change. Having to look through your scripts searching for a 
+hardcoded value is no fun.</P>
+<P>Common hardcoded values which get missed in the shuffle are extreme values 
+such as -999, assumed maximum and minimum "constants" like 640 and 480, 0, 100 
+and 255. These values often seem so fixed that there is a temptation to type 
+them straight in to the middle of some obscure handler. Be sure, be <B>very</B> 
+sure that these values will not change before you do this!</P>
+<P><B>What Was I Thinking Of?</B></P>
+<P>Things tend to need to change. Often the guy in the suit changes his mind 
+about fundamental things halfway through the project. If you didn't sort the 
+approprate legal things out in the contract, you can easily end up being obliged 
+to carry out those changes. You might even be in the inenviable position of 
+changing someone else's work. Eeek!</P>
+<P>Are you sure you are going to be understand what all the code was doing? You 
+owe it to yourself, and to anyone else who might need to enter your code later 
+to provide <B>comments</B> as liberally as possible. It might seem like a waste 
+of time or a bore, but you will thank yourself in the future. If so, imagine 
+your future self getting angry with the you of now because you couldn't be 
+bothered to add a few words to each handler to say what was going on.</P>
+<P>
+<HR align=left>
+
+<P></P>
+<P>Normally you would have to do all this yourself, and believe me, starting 
+early really helps. It also helps to look ahead and consider what enhancements 
+are due later. It may well be that a little renaming can help conceptualising 
+the project.</P>
+<P>Here then, are all the scripts of the game so far, commented, with a few 
+preparations for the future and with almost all hardcoding tidied away:</P>
+<P>
+<HR align=left>
+
+<P></P>
+<P align=center><B>CANNON</B></P><PRE>--CANNON SCRIPT--
+
+property mySprite -- Sprite channel
+property bullet -- Sprite channel
+property stagewidth
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+  set bullet to 2
+  set stagewidth to the width of the rect of the stage
+
+end
+
+on exitFrame me
+
+  -- test that mouse cursor is on stage
+  if the mouseH &gt; 0 and the mouseH &lt; stagewidth then
+
+    set the locH of sprite mySprite to the mouseH -- move sprite to mouseH
+
+  end if
+
+  -- shift key sends shoot message to bullet
+  if the shiftDown then
+
+    shoot sprite bullet
+
+  end if
+
+end</PRE>
+<P>
+<HR align=left>
+
+<P></P>
+<P align=center><B>INVADER</B></P><PRE>--INVADER SCRIPT--
+property mySprite -- Sprite channel
+property hdirection -- either 1 or -1
+property speed -- pixels per frame
+property stagewidth
+property alive -- Boolean (either True or False)
+property offstage -- large negative value
+property explodeSound -- sound cast member name
+property soundChan -- sound channel
+property scorer -- Sprite channel
+property points -- how many points the invader is worth
+
+on beginsprite me
+  set mySprite to the spritenum of me
+  set hdirection to 1
+  set speed to 8
+  set stagewidth to the width of the rect of the stage
+  set alive to true
+  set explodeSound to "explosion"
+  set offstage to -999
+  set soundChan to 1
+  set scorer to 20
+  set points to 10
+end
+
+on exitFrame me
+  if not alive then
+    return -- leave here, do nothing
+  end if
+  set myH to the locH of sprite mySprite -- current horizontal pos
+  if myH &lt; 0 then -- hit left edge
+    set hdirection to 1
+  end if
+  if myH &gt; stagewidth then -- hit right edge
+    set hdirection to -1
+  end if
+  set the locH of sprite mySprite to myH + (hdirection * speed) -- move sprite
+end
+
+on hit me
+   set alive to false
+   set the locH of sprite mySprite to offstage
+   puppetsound soundChan, explodeSound
+   inc sprite scorer, points
+end</PRE>
+<P>
+<HR align=left>
+
+<P></P>
+<P align=center><B>BULLET</B></P><PRE>-- BULLET SCRIPT --
+
+property mySprite -- sprite channel
+property shooting -- Boolean (either True or False)
+property invaders -- list of invader sprite channels
+property vdirection -- either 1 or -1
+property speed -- pixels per frame
+property shootsound -- sound cast member name
+property cannon -- sprite channel
+property soundChan -- sound channel
+property offstage -- large negative value
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+  set shooting to false
+  set invaders to [3, 4, 5, 6, 7, 8, 9, 10]
+  set shootsound to "blast"
+  set speed to 8
+  set vdirection to -1
+  set cannon to 1
+  set soundChan to 2
+  set offstage to -999
+
+end
+
+on exitFrame me
+
+  if not shooting then
+
+    return -- leave here, do nothing
+
+  end if
+
+  set myV to the locV of sprite mySprite
+
+  if myV &lt; 0 then
+
+    set shooting to false
+    set the locV of sprite mysprite to offstage
+    return
+
+  end if
+
+  set possibleTargets to invaders -- <B>looking</B> <B>ahead</B>...
+
+  -- (The list will vary according to <B>who</B> shoots the bullet)
+
+  repeat with target in possibleTargets
+
+    if sprite mysprite intersects target then
+
+      hit sprite target
+      deleteOne possibleTargets, target
+
+      if possibleTargets = [] then
+
+        -- Some lingo to be added here later
+        -- End of level or end of life
+
+      end if
+
+      set shooting to false
+      set the locV of sprite mysprite to offstage
+      return
+
+    end if
+
+  end repeat
+
+  set the locV of sprite mySprite to myV + (vdirection * speed)
+
+end
+
+on shoot me
+
+  if shooting then
+
+    return -- leave here, do nothing
+
+  end if
+
+  set shooting to true
+  set the loc of sprite mysprite to the loc of sprite cannon
+  puppetsound soundChan, shootsound
+
+end</PRE>
+<P>
+<HR align=left>
+
+<P></P>
+<P align=center><B>NUMBER DISPLAY</B></P>
+<P>&nbsp;</P><PRE>-- NUMBER DISPLAY SCRIPT --
+
+property displayField -- field cast member reference
+property val -- the displayed value
+
+on beginsprite me
+
+   set displayField to the member of sprite the spritenum of me
+   reset me
+
+end
+
+on reset me
+
+   set val to 0
+   update me
+
+end
+
+on update me
+
+   put val into field displayField
+
+end
+
+on inc me, amount
+
+   set val to val + amount
+   update me
+
+end</PRE>
+<P>
+<HR align=left>
+
+<P></P>
+<P>You may notice a few changes which aid readability, particularly in the way 
+properties are declared. It is perfectly fine to declare properties on indivdual 
+lines like this. It also offers more possibilities for commenting, describing 
+what type of data they represent and so on.</P>
+<P>I have also purged hardcoded values throughout. There are a few left, but 
+these (0, 1 and -1) are arguably pretty fixed. Don't be too sure though! All 
+other hardcoded values are now established in the beginsprite handler of each 
+script. There are even some cool ways of setting this data elsewhere but we'll 
+look at some of those later. For now we know that any tweaking of values 
+requires a look at the beginsprite handler of each script.</P>
+<P>One thing I have added to the invader and the bullet is a new property, 
+<B>speed</B>. This allows the bullets to move a bit faster. This has been 
+seperated from the <B>direction</B> property in each case so that the direction 
+property merely specifies whether the sprite is moved up or down, left or right. 
+The speed property specifies <B>how much</B> it moves. Multiplying them together 
+gives the amount which should be added to the current position.</P>
+<P>In the bullet script I have changed the first test so that the handler is 
+exited immediately if shooting is false. This means the handler is a little more 
+tidy and easier to read.</P>
+<P>I have also changed the name of the 'possibleTargets' property to 'invaders'. 
+We are going to have bullets shooting in both directions testing for collisions 
+with two different sets of sprites, so it will not be accurate to name this list 
+'possibleTargets'. Notice that I retain the name later as a local variable. You 
+will soon see how this little conceptual change becomes useful.</P>
+<P>Be sure to update your scripts to include all these changes, or for safety, 
+copy and paste these scripts wholesale into your movie before you proceed...</P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir13.html">Forward to 
+Lesson 13</A></H5></BODY></HTML>

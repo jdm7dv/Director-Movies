@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy79.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 79</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#770000 aLink=#ff0000 link=#ff0000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=31 src="handy79_files/handyman.gif" width=213 
+      border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG height=9 
+            src="handy79_files/archiveDivLine.gif" width=440 align=bottom 
+            border=0></TD>
+          <TD vAlign=top width=55 rowSpan=2><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+            height=28 src="handy79_files/archiveDiv.gif" width=55 align=bottom 
+            border=0></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <P><B><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Dear 
+            Multimedia Handyman</FONT></B> 
+</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD><BR>
+      <P>How do I make it so that you can move an object by pressing the Up, 
+      down, right, and left keys? 
+      <P><A href="mailto:VDuKv@aol.com">-DuK-</A> 
+      <P>Dear DuK, 
+      <P>This is a good, simple task for learning some basics in Lingo. What 
+      you're describing involves the following: 
+      <P>
+      <OL>
+        <LI>Sensing that a key was pressed and released 
+        <LI>Finding out which key it was 
+        <LI>Moving a particular sprite a certain number of pixels in the 
+        appropriate direction. </LI></OL>
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=320 height=240><PARAM NAME="SRC" VALUE="../other/handy79.dcr">
+      <embed src="../other/handy79.dcr" 
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="240"></embed> </OBJECT>
+      <P>Download the sample movie in either <A 
+      href="http://www.director-online.com/howTo/other/handy79.hqx">Mac</A> or 
+      <A href="http://www.director-online.com/howTo/other/handy79.zip">PC</A> 
+      format. 
+      <P>So, let's start with the key press. What we want to do is create a 
+      movie script (not a behavior) which will "notice" all the key presses and 
+      check them to see if it's one of the arrow keys. First, in the startMovie 
+      script, we need to assign a custom handler to the keyDownScript and 
+      another to the keyUpScript. Since I assume you're going to want the sprite 
+      to keep moving as long as the key is held down, we're going to have to 
+      monitor whether the key has been released or not. I'll use a global 
+      variable called gKeyState to keep track of that. In this startMovie 
+      script, let's initialize the gKeyState variable and set it to #released. <PRE><FONT color=#cc0000><B>on startMovie</B>
+
+  global gKeyState
+  
+  set the keyDownScript to "arrows"
+  set the keyUpScript to "releaseKey"
+  set gKeyState = #released
+  
+end</FONT></PRE>
+      <P>The keyDownScript is set to a handler called "arrows", and the 
+      keyUpScript is set to a handler called "release". My idea here is that the 
+      keyDownScript will start the motion by setting the gKeyState to #pressed, 
+      and the keyUpScript will stop the motion by setting gKeyState to 
+      #released. Whenever gKeyState is <B>not</B> #released, then a message will 
+      be sent to the sprites to move. 
+      <P>I know that when you're playing a game like this, you want to be able 
+      to shift directions quickly -- sometimes overlapping the keypresses. So, 
+      we'll want to allow for some "slop". For example, assume that we're 
+      pressing the left arrow and the sprite is moving left, because gKeyState 
+      is #pressed. Now we quickly press the right arrow without first releasing 
+      the left arrow. The sprite starts moving right, but as soon as the left 
+      key is release, the keyUpScript ("releaseKey") will reset gKeyState to 
+      #released and the motion will stop -- even though we're still holding down 
+      the right arrow key. 
+      <P>In order to allow for some overlap of keys, I decided to create a third 
+      possible value for gKeyState: #secondPress. I set up an if-then-else 
+      statement in the "arrows" handler that checks gKeyState. If no key is 
+      pressed (#released), then it sets gKeyState to #pressed. Else, it sets the 
+      gKeyState to #secondPress. It also checks the keyCode, and if the keyCode 
+      is one of the arrow keys, then it sets another global variable (gKey) to 
+      #left, #right, #down, or #up. (This handler can go right below the 
+      startMovie script, in the same cast member.) <PRE><FONT color=#cc0000><B>on arrows</B>
+
+  global gKeyState, gKey
+  
+  if gKeyState = #released then
+    set gKeyState = #pressed
+  else
+    set gKeyState = #secondPress
+  end if
+  
+  case the keyCode of
+    123: set gKey = #left
+    124: set gKey = #right
+    125: set gKey = #down
+    126: set gKey = #up
+  end case
+  
+end</FONT></PRE>
+      <P>The keyUpScript handler seen below ("releaseKey") does a similar 
+      if-then-else check on the gKeyState. If gKeyState is #pressed, then we 
+      know that only one key was down (otherwise gKeyState would be 
+      #secondPress) so we set gKeyState to #released and motion will stop. The 
+      other possibility is that 2 keys had been pressed and now one had been 
+      release. That means gKeyState was #secondPress, in which case we'll set 
+      gKeyState back to #pressed. (I know all of this is a bit confusing, but 
+      you really do need it in order to have quick response that allows some 
+      overlap.) <PRE><FONT color=#cc0000><B>on releaseKey</B>
+
+  global gKeyState, gKey
+  
+  if gKeyState = #pressed then
+    set gKeyState = #released
+  else
+    set gKeyState = #pressed
+  end if
+  
+end</FONT></PRE>
+      <P>So far, we haven't done anything that moves sprites. All we've done is 
+      set the gKeyState and check to see which key was pressed. Now comes the 
+      good part. The following exitFrame handler should be a movie script -- it 
+      can go in the same castmember as all the other scripts we've covered so 
+      far. Since it's a movie script, it will be executed every exitFrame of 
+      your entire movie. But, as you'll see, if the gKeyState is #released, it 
+      does literally "nothing". However, if gKeyState is either #pressed or 
+      #secondPress, then it sends a message to all sprites, calling a handler 
+      named "keyPress" and telling the sprites which key (gKey). <PRE><FONT color=#cc0000><B>on exitFrame</B>
+
+  global gKeyState, gKey
+  
+  if gKeyState = #released then
+    nothing
+  else
+    sendAllSprites(#keyPress, gKey)
+  end if
+  
+end</FONT></PRE>
+      <P>That takes care of watching the key up and key down and which key part. 
+      It also sends out a message. Now we need to create a behavior which will 
+      receive the message from the exitFrame handler, and then move its sprite 
+      accordingly. Since this is for a game, I'll assume that you might want to 
+      vary the speed at which the sprites move. So we'll have a speed property, 
+      which translates to how many pixels per move the sprite will travel. <PRE><FONT color=#cc0000>-- keyMover Behavior
+-- copyright © 1999, ZZP Online, LLC
+-- free use for readers of http://www.director-online.com/
+
+property pSpeed, pSprite
+
+<B>on getPropertyDescriptionList me</B>
+  set pdlist to [:]
+  addprop pdlist, #pSpeed, [#comment:"Pixels ¬
+    per move:", #format:#integer, #default:2]
+  return pdlist
+end getPropertyDescriptionList
+
+<B>on beginSprite me</B>
+  set pSprite = the spriteNum of me
+end
+
+<B>on keyPress me, direction</B>
+
+  set myLocH = the locH of sprite pSprite
+  set myLocV = the locV of sprite pSprite
+  
+  case direction of
+    #left: set the locH of sprite pSprite = ¬
+      myLocH - pSpeed
+    #right: set the locH of sprite pSprite = ¬
+      myLocH + pSpeed
+    #up: set the locV of sprite pSprite = ¬
+      myLocV - pSpeed
+    #down: set the locV of sprite pSprite = ¬
+      myLocV + pSpeed
+  end case
+  
+end
+
+<B>on setSpeed me, speed</B>
+  set pSpeed = speed
+end</FONT></PRE>
+      <P>Notice that handler called "on keypress me". That's what receives the 
+      message from the exitFrame handler. When called, it moves its sprite left, 
+      right, up or down by an increment of pSpeed pixels. 
+      <P>The final little handler is called "on setSpeed me". It doesn't do 
+      anything in my demo, but in your game, you can change the speed of a 
+      sprite simply by saying... <PRE><FONT color=#cc0000>sendSprite (5, #setSpeed, 8)</FONT></PRE>
+      <P>In this example, I reset the speed of sprite 5 so that it now moves 8 
+      pixels per move. These are the basics, which I hope you'll tear apart and 
+      adapt to meet your own needs. 
+      <P>One final note... the arrow keys are "reserved" by some browsers for 
+      browser operations, so for Shockwave, it's a better idea to use standard 
+      letter keys. In fact, my demo movie above may not work on some of your 
+      browsers for this very reason. You can try using the j, k, l, and i keys 
+      instead. 
+      <P><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A target=display 
+      href="http://www.director-online.com/help_central/Display.html">Help 
+      Central</A> section of DOUG.</FONT> </P></TD></TR></TBODY></TABLE></BODY></HTML>

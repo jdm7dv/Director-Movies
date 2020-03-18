@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0068)http://www.macromedia.com/support/director/how/show/simplechild.html -->
+<HTML><HEAD><TITLE>Macromedia - Director Show Me: Simple child object</TITLE>
+<META content="David Benman" name=AUTHOR>
+<META content="October 31, 1997" name=DATEMODIFIED>
+<META 
+content="data structure, data array, lists, database lists, record list, linear&#10;list, complex list, property list" 
+name=KEYWORDS>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="October 31, 1997" name=DATECREATED>
+<META content="Windows, Macintosh" name=PLATFORM>
+<META content="Director " name=PRODUCT>
+<META content=6 name=VERSIONS>
+<META content=6 name=VERFROM>
+<META content=99 name=VERTO>
+<META content="Beginning, Intermediate" name=LEVEL>
+<META content="Multimedia, Code Example" name=KIND>
+<META content=2 name=IMPORTANCE>
+<META content=06845 name=DOCID>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY aLink=#000000 bgColor=#ffffff link=#333399 vLink=#660033>
+<TABLE border=0 cellPadding=0 cellSpacing=0>
+  <TBODY>
+  <TR>
+    <TD nowrap vAlign=bottom><IMG border=0 height=17 
+      src="simplechild_files/pixel.gif" width=18><A 
+      href="http://www.macromedia.com/" target=_top><IMG alt=macromedia border=0 
+      height=12 src="simplechild_files/crumb_macromedia_blue.gif" 
+      width=99></A><IMG alt=: border=0 height=12 
+      src="simplechild_files/crumb_colon.gif" width=15><A 
+      href="http://www.macromedia.com/software/" target=_top><IMG alt=products 
+      border=0 height=12 src="simplechild_files/crumb_products_blue.gif" 
+      width=69></A><IMG alt=: border=0 height=12 
+      src="simplechild_files/crumb_colon.gif" width=15><A 
+      href="http://www.macromedia.com/software/director/" target=_top><IMG 
+      alt=director border=0 height=12 
+      src="simplechild_files/crumb_director_blue.gif" width=63></A><IMG alt=: 
+      border=0 height=12 src="simplechild_files/crumb_colon.gif" width=15><A 
+      href="http://www.macromedia.com/support/director/contents.html" 
+      target=main><IMG alt=support border=0 height=12 
+      src="simplechild_files/crumb_support_blue.gif" width=61></A><IMG alt=: 
+      border=0 height=12 src="simplechild_files/crumb_colon.gif" width=15><A 
+      href="http://www.macromedia.com/support/director/lingo.html" 
+      target=main><IMG alt="lingo, behaviors, and parent scripts" border=0 
+      height=12 src="simplechild_files/crumb_lingobehave_blue.gif" 
+    width=282></A></TD></TR></TBODY></TABLE><IMG border=0 height=30 
+src="E:\Director\Tutor\Simple Child Object\Macromedia Director - Support Center_files\simplechild_files\pixel(1).gif" 
+width=2>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="95%">
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top width="10%"><IMG border=0 height=60 
+      src="simplechild_files/director_logo.gif" width=72> <IMG border=0 height=2 
+      src="E:\Director\Tutor\Simple Child Object\Macromedia Director - Support Center_files\simplechild_files\pixel(1).gif" 
+      width=120> </TD>
+    <TD vAlign=top width="90%" halign="left"><IMG 
+      alt="director lingo, behaviors, and parent scripts" border=0 height=34 
+      src="simplechild_files/head_lingo.gif" width=385> 
+      <HR SIZE=1>
+
+      <P><FONT face="Arial, Helvetica, sans-serif" size=4><B>Simple child 
+      object</B></FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>The best way 
+      to start learning about parent scripts and child objects is to study a 
+      simple movie that creates one child object from a simple parent script. 
+      The sample movie "Simple Child Object" shown below is a finished example 
+      of a simple parent script. You can download and examine a copy of this 
+      movie from the links below. See Chapter 12, "Parent Scripts and Child 
+      Objects" in the Learning Lingo manual for more details about parent 
+      scripts and child objects.</FONT>
+      <P><EMBED height=240 palette=background 
+      pluginspage=http://www.macromedia.com/shockwave/ 
+      src=simplechild.dcr width=320>
+        </EMBED> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Click the Left 
+      and Right buttons to move the ball left and right.
+      <P>Clicking New instructs Lingo to create a child object the ball. This 
+      child object has several obvious properties: its size, color, shape, and 
+      the direction in which it moves. Clicking the Left or Right button 
+      instructs Lingo to move the ball to the left or right.</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B>The 
+      following are important parts of the Lingo that creates and controls the 
+      ball child object:</B></FONT>
+      <P>
+      <TABLE cellPadding=4>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="simplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>This example displays the Lingo script associated with cast 
+            member 8, Ball Parent Script. The script contains a line that starts 
+            with the </FONT><CODE>property</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> keyword and the 
+            handlers named </FONT><CODE>on new</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> and 
+            </FONT><CODE>on moveBall</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2>:</FONT>
+            <P><PRE>property horizPos
+
+on new me
+    --when the sprite is created,
+    -- it's placed on the stage
+    set the horizPos of me to 200
+    set the locH of sprite 2 to the horizPos of me
+    set the locV of sprite 2 to 120
+    return me
+end new
+
+on moveBall me, direction
+    set the horizPos of me to direction * 50 + the horizPos of me
+    set stageWidth to the stageRight - the stageLeft
+    -- when more than half of the sprite
+    --has passed off stage, it is made to appear
+    -- at the opposite end of the stage
+    if the horizPos of me &gt; (stageWidth + 99) then
+        set the horizPos of me to 0
+    end if
+    if the horizPos of me &lt; -99 then
+        set the horizPos of me to stageWidth
+    end if
+    set the locH of sprite 2 to horizPos
+end moveBall
+</PRE><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>The 
+            </FONT><CODE>on new</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> handler creates 
+            the new child objects and sets its initial properties. The 
+            </FONT><CODE>on moveBall</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> handler 
+            controls the ball's motion to the left and right.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="simplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>The script assigned to cast member 4, the New button, calls 
+            the </FONT><CODE>on createBall</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> 
+          handler.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="simplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>This example displays the Lingo script associated with the 
+            </FONT><CODE>on createBall</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> handler in cast 
+            member 9.</FONT> <PRE>on createBall
+    global ball1
+    set ball1 to 0
+    set ball1 to new(script "Ball Parent Script")
+    set the visible of sprite 3 to FALSE
+    set the visible of sprite 4 to FALSE
+    repeat with n = 5 to 8
+        set the visible of sprite n to TRUE
+    end repeat
+end createBall
+</PRE><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>This 
+            handler declares </FONT><CODE>ball1</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> a global 
+            variable and issues a </FONT><CODE>new</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> statement. The 
+            remaining statements turn on or off other sprites that appear on the 
+            Stage as part of the movie's user interface.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="simplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>The </FONT><CODE>on prepareMovie</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2>&gt; handler in 
+            cast member 9 uses the </FONT><CODE>puppetSprite</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> command to put 
+            sprite channel 2 under Lingo control. This is a convenient way to 
+            ensure that changes Lingo makes to sprite channel 2 remain in effect 
+            if the playback head leaves the sprite. When authoring, the 
+            </FONT><CODE>puppetSprite</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> command isn't 
+            necessary if changes to sprite properties aren't to last beyond the 
+            life of the current sprite.</FONT></TD></TR></TBODY></TABLE>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://download.macromedia.com/pub/director/showme/win/smplcobj.zip">Download 
+      the Windows source file for this piece</A> (32K)<BR><A 
+      href="http://download.macromedia.com/pub/director/showme/mac/smplcobj.dir.sea.hqx">Download 
+      the Macintosh source file for this piece</A> (64K)</FONT> 
+      <P><BR>
+      <TABLE border=1 cellPadding=5 cellSpacing=1>
+        <TBODY>
+        <TR>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B>Last 
+            Updated: </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>March 
+            1, 1998</FONT></TD></TR>
+        <TR>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Creator: </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Macromedia</FONT></TD></TR></TBODY></TABLE><BR>
+      <P></P></TD></TR>
+  <TR>
+    <TD align=right vAlign=bottom width="10%"><A 
+      href="http://www.macromedia.com/buy/" target=_top><IMG alt=buy border=0 
+      height=21 src="simplechild_files/buy.gif" width=67></A><BR><A 
+      href="http://www.macromedia.com/support/search/powersearch.html"><IMG 
+      alt="power search" border=0 height=21 src="simplechild_files/search.gif" 
+      width=90></A><BR></TD>
+    <TD>
+      <CENTER>
+      <HR noshade SIZE=1 width="100%">
+      <BR><FONT face="Arial, Helvetica" size=-1>[<A 
+      href="http://www.macromedia.com/" target=_top>home</A>] [<A 
+      href="http://www.macromedia.com/software/" target=_top>products</A>] [<A 
+      href="http://www.macromedia.com/support/" target=_top>support</A>] [<A 
+      href="http://www.macromedia.com/downloads/" target=_top>downloads</A>] [<A 
+      href="http://www.macromedia.com/macromedia/" target=_top>about us</A>] [<A 
+      href="http://www.macromedia.com/OUTGOING/http://www.shockwave.com/" 
+      target=mm_window>shockwave.com</A>] [<A 
+      href="http://www.macromedia.com/help/" target=_top>help</A>] <BR><FONT 
+      size=-2><A href="http://www.macromedia.com/help/copyright.html">Trademarks 
+      Copyright</A> ©1995-1999 Macromedia, Inc. All rights reserved. <A 
+      href="http://www.macromedia.com/help/privacy.html">Privacy policy</A>. 
+      </FONT><BR></FONT></CENTER></TD></TR></TBODY></TABLE>
+<P><BR></P></BODY></HTML>

@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0054)http://www.director-online.com/buildArticle.cfm?id=865 -->
+<HTML><HEAD><TITLE>A Director Online article</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<SCRIPT language=JavaScript>
+    <!--
+    function MM_openBrWindow(theURL,winName,features) { //v1.2
+      window.open(theURL,winName,features);
+    }
+    //-->
+</SCRIPT>
+
+<META content="MSHTML 5.50.4030.2400" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#31427b aLink=#425294 link=#425294 bgColor=#ffffff>
+<P><BR>
+<TABLE height=25 cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#cecece>
+    <TD><A 
+      onmouseover="window.status='Get the direct URL for this article'; return true" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=865','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/generateURL.cfm?id=865"><IMG 
+      height=25 alt="Get the direct URL for this article" 
+      src="buildArticle_files/articleURL.gif" width=87 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Visit the Lingo Lounge article archive'; return true" 
+      href="http://www.director-online.com/archive.cfm?pSection=Lingo%20Lounge"><IMG 
+      height=25 alt="Visit the Lingo Lounge article archive" 
+      src="buildArticle_files/archives.gif" width=66 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Check out other articles by Gary Rosenzweig'; return true" 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=50"><IMG 
+      height=25 alt="Check out other articles by Gary Rosenzweig" 
+      src="buildArticle_files/author.gif" width=56 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Mail this article to a friend'; return true" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=865','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      href="http://www.director-online.com/emailArticle.cfm?id=865"><IMG 
+      height=25 alt="Mail this article to a friend" 
+      src="buildArticle_files/mailArticle.gif" width=83 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar"><IMG 
+      height=25 alt="Sign in to your myDOUG page" 
+      src="buildArticle_files/signIn.gif" width=63 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true" 
+      href="http://209.112.84.34/Forums/index.cfm?cfapp=2&amp;Thread_ID=2658"><IMG 
+      height=25 alt="Discuss this article on DOUGthreads" 
+      src="buildArticle_files/discussArticle.gif" width=105 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='What do these buttons do?'; return true" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/help.html"><IMG height=25 
+      alt="What do these buttons do?" src="buildArticle_files/help.gif" width=25 
+      border=0></A> </TD></TR></TBODY></TABLE>
+<P><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" size=+2><B>Lingo 
+Lounge</B></FONT><BR><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+color=#cc0000 size=+1><B>Creating Starfields and Galaxies from 
+Scratch</B></FONT> 
+<P><FONT size=-1>by <A href="mailto:lingolounge@director-online.com">Gary 
+Rosenzweig</A> </FONT>
+<P>
+<TABLE cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>
+      <P>Many Shockwave developers, like me, are obsessed with file size. I'm 
+      regularly appalled by 500K-1MB applications and games that don't deliver 
+      much bang for the buck. So, every once in a while I try to create tiny 
+      little games -- tiny only in file size, not in features. I've created many 
+      games for less than 20K, and even a few for 5K. 
+      <P>To facilitate this, I am always looking for new ways to create content 
+      inside games without increasing the file size. One such way is to use 
+      Lingo to draw on the Stage. In Director 7 and before, trails were used to 
+      accomplish this, or perhaps several hundred unused sprites at the end of 
+      the Score. With Director 8, we can use imaging Lingo. The simplest example 
+      I could think of was a starfield. Instead of using a Stage-sized bitmap 
+      for a background, you can use Imaging Lingo to create a random starfield 
+      that will look good, but take up little or no file space. The way to do 
+      this is to generate a random horizontal and vertical location, along with 
+      a random shade of gray, and draw it on to a bitmap. This handler will take 
+      n as a parameter and draw n stars. 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><FONT face="Courier New, Courier, mono" color=#c80000 size=-1>-- 
+      build a starfield with n stars</FONT><BR><BR><B><FONT 
+      color=#0000c8>on</FONT> makeStarfield 
+      n</B><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      face="Courier New, Courier, mono" color=#c80000 size=-1>-- clear 
+      image</FONT><BR>&nbsp;&nbsp;<FONT color=#008000>member</FONT>(<FONT 
+      color=#808080>"text"</FONT>).<FONT color=#008000>text</FONT> = <FONT 
+      color=#808080>"Creating Starfield..."</FONT><BR>&nbsp;&nbsp;image = <FONT 
+      color=#008000>member</FONT>(<FONT 
+      color=#808080>"starfield"</FONT>).image<BR>&nbsp;&nbsp;image.fill(<FONT 
+      color=#008000>rect</FONT>(<FONT color=#808080>0</FONT>,<FONT 
+      color=#808080>0</FONT>,image.<FONT color=#008000>width</FONT>,image.<FONT 
+      color=#008000>height</FONT>), rgb(<FONT 
+      color=#808080>"000000"</FONT>))<BR>&nbsp;&nbsp;<FONT 
+      color=#008000>updateStage</FONT><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      face="Courier New, Courier, mono" color=#c80000 size=-1>-- add n stars of 
+      random color and location</FONT><BR>&nbsp;&nbsp;<FONT 
+      color=#0000c8>repeat</FONT> <FONT color=#0000c8>with</FONT> i = <FONT 
+      color=#808080>1</FONT> <FONT color=#0000c8>to</FONT> 
+      n<BR>&nbsp;&nbsp;&nbsp;&nbsp;c = <FONT color=#008000>random</FONT>(<FONT 
+      color=#808080>255</FONT>)<BR>&nbsp;&nbsp;&nbsp;&nbsp;x = <FONT 
+      color=#008000>random</FONT>(image.<FONT 
+      color=#008000>width</FONT>)<BR>&nbsp;&nbsp;&nbsp;&nbsp;y = <FONT 
+      color=#008000>random</FONT>(image.<FONT 
+      color=#008000>height</FONT>)<BR>&nbsp;&nbsp;&nbsp;&nbsp;image.setPixel(<FONT 
+      color=#008000>point</FONT>(x,y),rgb(c,c,c))<BR>&nbsp;&nbsp;<FONT 
+      color=#0000c8>end</FONT> <FONT 
+      color=#0000c8>repeat</FONT><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      color=#008000>member</FONT>(<FONT color=#808080>"text"</FONT>).<FONT 
+      color=#008000>text</FONT> = <FONT 
+      color=#808080>"Done"</FONT><BR>&nbsp;&nbsp;<BR><FONT 
+      color=#0000c8>end</FONT><BR></FONT></P>
+      <P>The following Shockwave movie demonstrates this handler, as well as all 
+      of the others I will be showing you this week. The "starfield" button 
+      draws 1,000 stars, while the "dense starfield" draws 3,000 stars. 
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=400 height=300><PARAM NAME="SRC" VALUE="howTo/other/LL16.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed src="howTo/other/LL16.dcr"
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="400" height="300" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>A Director 8 sample movie is available for download in <A 
+      href="http://www.director-online.com/howTo/other/LL16.hqx">Mac</A> or <A 
+      href="http://www.director-online.com/howTo/other/LL16.zip">PC</A> format. 
+      <P>Other things can be done with similar code. Suppose you wanted the 
+      stars to favor the middle of the screen. This would create a star cluster. 
+      Instead of generating random horizontal and vertical positions, it 
+      generates an angle and a distance from the center. Then, it uses sin and 
+      cos to convert this to a screen position. Here is the code to do that: 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><FONT face="Courier New, Courier, mono" color=#c80000 size=-1>-- 
+      make a starfield with stars bunched toward center</FONT><BR><BR><B><FONT 
+      color=#0000c8>on</FONT> 
+      makeCluster</B><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      color=#008000>member</FONT>(<FONT color=#808080>"text"</FONT>).<FONT 
+      color=#008000>text</FONT> = <FONT color=#808080>"Creating 
+      Cluster..."</FONT><BR>&nbsp;&nbsp;image = <FONT 
+      color=#008000>member</FONT>(<FONT 
+      color=#808080>"starfield"</FONT>).image<BR>&nbsp;&nbsp;image.fill(<FONT 
+      color=#008000>rect</FONT>(<FONT color=#808080>0</FONT>,<FONT 
+      color=#808080>0</FONT>,image.<FONT color=#008000>width</FONT>,image.<FONT 
+      color=#008000>height</FONT>), rgb(<FONT 
+      color=#808080>"000000"</FONT>))<BR>&nbsp;&nbsp;<FONT 
+      color=#008000>updateStage</FONT><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      color=#0000c8>repeat</FONT> <FONT color=#0000c8>with</FONT> i = <FONT 
+      color=#808080>1</FONT> <FONT color=#0000c8>to</FONT> <FONT 
+      color=#808080>10000</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;r = <FONT 
+      color=#008000>power</FONT>(<FONT color=#808080>1</FONT>.<FONT 
+      color=#808080>006</FONT>,<FONT color=#008000>random</FONT>(<FONT 
+      color=#808080>1000</FONT>)-<FONT color=#808080>1</FONT>)-<FONT 
+      color=#808080>1</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;a = <FONT 
+      color=#008000>float</FONT>(<FONT color=#008000>random</FONT>(<FONT 
+      color=#808080>628</FONT>))/<FONT 
+      color=#808080>100</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;x = <FONT 
+      color=#008000>cos</FONT>(a)*r<BR>&nbsp;&nbsp;&nbsp;&nbsp;y = <FONT 
+      color=#008000>sin</FONT>(a)*r<BR>&nbsp;&nbsp;&nbsp;&nbsp;placeStar(image,<FONT 
+      color=#008000>point</FONT>(x,y))<BR>&nbsp;&nbsp;<FONT 
+      color=#0000c8>end</FONT> <FONT 
+      color=#0000c8>repeat</FONT><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      color=#008000>member</FONT>(<FONT color=#808080>"text"</FONT>).<FONT 
+      color=#008000>text</FONT> = <FONT 
+      color=#808080>"Done"</FONT><BR>&nbsp;&nbsp;<BR><FONT 
+      color=#0000c8>end</FONT><BR></FONT></P>
+      <P>The "power(1.006,random(1000)-1)-1" is merely a math trick. It will 
+      return a number between 0 and 392, but over a series of calls to the 
+      function the numbers returned will not be evenly distributed. Instead, the 
+      random numbers will tend to be lower, thus grouping more stars toward the 
+      center of the image. 
+      <P>Instead of using setPixel to draw the star, the handler calls a handler 
+      named "on placeStar". This handler will essentially call setPixel. But, 
+      before it does, it will check the current color of the pixel. If there is 
+      already a star there (that is, if the pixel is non-black) it will 
+      intensify the color of the pixel, not replace it. This will prevent the 
+      middle of the star cluster from having too much dark gray that may be 
+      randomly generated by the handler. 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><FONT face="Courier New, Courier, mono" color=#c80000 size=-1>-- 
+      add to the brightness of a pixel in an image</FONT><BR><BR><B><FONT 
+      color=#0000c8>on</FONT> placeStar 
+      image,p</B><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      face="Courier New, Courier, mono" color=#c80000 size=-1>-- make point 
+      relative to center of image</FONT><BR>&nbsp;&nbsp;<FONT 
+      color=#008000>center</FONT> = <FONT color=#008000>point</FONT>(image.<FONT 
+      color=#008000>width</FONT>/<FONT color=#808080>2</FONT>,image.<FONT 
+      color=#008000>height</FONT>/<FONT 
+      color=#808080>2</FONT>)<BR>&nbsp;&nbsp;newPoint = p+<FONT 
+      color=#008000>center</FONT><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      face="Courier New, Courier, mono" color=#c80000 size=-1>-- ignore points 
+      outside of image</FONT><BR>&nbsp;&nbsp;<FONT color=#0000c8>if</FONT> not 
+      <FONT color=#008000>inside</FONT>(newPoint,image.<FONT 
+      color=#008000>rect</FONT>) <FONT color=#0000c8>then</FONT> <FONT 
+      color=#008000>exit</FONT><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      face="Courier New, Courier, mono" color=#c80000 size=-1>-- get current 
+      color and add to it</FONT><BR>&nbsp;&nbsp;oldColor = 
+      (image.getPixel(p+<FONT color=#008000>center</FONT>)).red<BR>&nbsp;&nbsp;c 
+      = <FONT color=#008000>min</FONT>(oldColor/<FONT 
+      color=#808080>2</FONT>+<FONT color=#008000>random</FONT>(<FONT 
+      color=#808080>255</FONT>),<FONT 
+      color=#808080>255</FONT>)<BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      face="Courier New, Courier, mono" color=#c80000 size=-1>-- set 
+      pixel</FONT><BR>&nbsp;&nbsp;image.setPixel(p+<FONT 
+      color=#008000>center</FONT>,rgb(c,c,c))<BR>&nbsp;&nbsp;<BR><FONT 
+      color=#0000c8>end</FONT><BR></FONT></P>
+      <P>The cluster is interesting, and certainly looks realistic if you are an 
+      astronomy buff. However, a more interesting way to draw stars is in the 
+      shape of a double spiral -- a galaxy. To do this, we will have three 
+      repeat loops. The first will simply go from 0 to 1, with the first loop 
+      creating one spiral arm, and the second creating another. Then, it will 
+      loop through numbers from 0 to 1,000. This will create points from the 
+      center of the image out through the spiral. Spirals are created by making 
+      the angle and the distance from the center from the same number. The third 
+      loop will create a number of stars, each a random distance from the point 
+      on the spiral. Like the cluster handler, it will create these with the 
+      random numbers weighted so that more stars are right on the spiral arm 
+      than off it. 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><FONT face="Courier New, Courier, mono" color=#c80000 size=-1>-- 
+      make a starfield where pixels are laid out along a 
+      spiral</FONT><BR><B><FONT color=#0000c8>on</FONT> 
+      makeGalaxy</B><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      color=#008000>member</FONT>(<FONT color=#808080>"text"</FONT>).<FONT 
+      color=#008000>text</FONT> = <FONT color=#808080>"Creating 
+      Galaxy..."</FONT><BR>&nbsp;&nbsp;image = <FONT 
+      color=#008000>member</FONT>(<FONT 
+      color=#808080>"starfield"</FONT>).image<BR>&nbsp;&nbsp;image.fill(<FONT 
+      color=#008000>rect</FONT>(<FONT color=#808080>0</FONT>,<FONT 
+      color=#808080>0</FONT>,image.<FONT color=#008000>width</FONT>,image.<FONT 
+      color=#008000>height</FONT>), rgb(<FONT 
+      color=#808080>"000000"</FONT>))<BR>&nbsp;&nbsp;<FONT 
+      color=#008000>updateStage</FONT><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      face="Courier New, Courier, mono" color=#c80000 size=-1>-- repeat for each 
+      spiral arm</FONT><BR>&nbsp;&nbsp;<FONT color=#0000c8>repeat</FONT> <FONT 
+      color=#0000c8>with</FONT> n = <FONT color=#808080>0</FONT> <FONT 
+      color=#0000c8>to</FONT> <FONT 
+      color=#808080>1</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;<FONT 
+      face="Courier New, Courier, mono" color=#c80000 size=-1>-- repeat for 100 
+      points along each arm</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;<FONT 
+      color=#0000c8>repeat</FONT> <FONT color=#0000c8>with</FONT> i = <FONT 
+      color=#808080>0</FONT> <FONT color=#0000c8>to</FONT> <FONT 
+      color=#808080>1000</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r 
+      = i*.<FONT 
+      color=#808080>12</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a = 
+      i*.<FONT color=#808080>01</FONT>+<FONT 
+      color=#008000>pi</FONT>*n<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = <FONT 
+      color=#008000>cos</FONT>(a)*r<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y = 
+      <FONT 
+      color=#008000>sin</FONT>(a)*r<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT 
+      color=#0000c8>repeat</FONT> <FONT color=#0000c8>with</FONT> d = <FONT 
+      color=#808080>1</FONT> <FONT color=#0000c8>to</FONT> <FONT 
+      color=#808080>10</FONT>-.<FONT 
+      color=#808080>001</FONT>*i<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r 
+      = <FONT color=#008000>power</FONT>(<FONT color=#808080>1</FONT>.<FONT 
+      color=#808080>006</FONT>,<FONT color=#008000>random</FONT>(<FONT 
+      color=#808080>500</FONT>)-<FONT color=#808080>1</FONT>)-<FONT 
+      color=#808080>1</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a 
+      = <FONT color=#008000>float</FONT>(<FONT color=#008000>random</FONT>(<FONT 
+      color=#808080>628</FONT>))/<FONT 
+      color=#808080>100</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dx 
+      = <FONT 
+      color=#008000>cos</FONT>(a)*r<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dy 
+      = <FONT 
+      color=#008000>sin</FONT>(a)*r<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;placeStar(image,<FONT 
+      color=#008000>point</FONT>(x+dx,y+dy))<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<FONT 
+      color=#0000c8>end</FONT> <FONT 
+      color=#0000c8>repeat</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;<FONT 
+      color=#0000c8>end</FONT> <FONT 
+      color=#0000c8>repeat</FONT><BR>&nbsp;&nbsp;&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      color=#0000c8>end</FONT> <FONT 
+      color=#0000c8>repeat</FONT><BR>&nbsp;&nbsp;<BR>&nbsp;&nbsp;<FONT 
+      color=#008000>member</FONT>(<FONT color=#808080>"text"</FONT>).<FONT 
+      color=#008000>text</FONT> = <FONT 
+      color=#808080>"Done"</FONT><BR>&nbsp;&nbsp;<BR><FONT 
+      color=#0000c8>end</FONT><BR></FONT></P>
+      <P>The result of this handler is beautiful, and it gets better. You can 
+      "tilt" the galaxy so that you don't feel as if you are looking at it from 
+      above. To do this, the "y" variable is divided by a number (3 in this 
+      case) to make the horizontal positions of the stars closer to the center 
+      of the screen. Check it out in the example movie above, and then download 
+      and examine the code in the movie to see the minor changes that made this 
+      galaxy different from the previous one. 
+      <P>But wait, there's more. What about an animated, rotating galaxy? To do 
+      this, all you need to do is create a series of images, 18 in this case, 
+      all with an offset to the angle of the star positions in the first galaxy. 
+      This can get rather complex, but the code is in the example movie for 
+      those who want to see it. I create a smaller galaxy image with an "on 
+      galaxyImage" handler. Then, using a frame behavior, I call that handler 18 
+      times to get galaxy images for every 20 degrees of rotation. These images 
+      are stored a property of the behavior. The resulting list of images is 
+      then animated by setting the image of the sprite on the Stage. In order to 
+      make sure that the 18 images all use exactly the same stars, and not a new 
+      random set, I set the randomSeed property to a constant at the start of 
+      the "on galaxyImage" handler. 
+      <P>So, going back to the file size discussion that started this column, 
+      the resulting .dcr on this page is a mere 5,141 bytes. 1K of that is the 
+      buttons. The result is mostly the Lingo code. No amount of JPEG 
+      compression will get you two starfields, a star cluster, two galaxies and 
+      a rotating galaxy for 5K, not to mention the fact that you can actually 
+      generate near-infinite variations of all of these. You can even color them 
+      by setting the color of the sprite to tint them, or by allowing more 
+      variety than just gray in the color of the stars. 
+      <P>Gary Rosenzweig's latest book is "Advanced Lingo for Games." In it, you 
+      can find the source code for more than 20 complete games. More information 
+      about the book can be found at <A target=_blank 
+      href="http://clevermedia.com/resources/bookstore/book4.html">http://clevermedia.com/resources/bookstore/book4.html</A>. 
+      It can be purchased there, or in your local bookstore. 
+</P></TD></TR></TBODY></TABLE>
+<P>
+<TABLE width=500>
+  <TBODY>
+  <TR>
+    <TD><FONT size=-1>Gary Rosenzweig is the Chief Engineer, founder, and 
+      owner of CleverMedia, a game and multimedia development company in Denver, 
+      Colorado. He has written four books on Macromedia Director and speaks 
+      regularly at Macromedia and Game Developer conferences. CleverMedia's four 
+      sites of games can be found at <A target=_blank 
+      href="http://clevermedia.com/">http://clevermedia.com/</A>. 
+      <P></FONT></P></TD></TR></TBODY></TABLE>
+<P>
+<TABLE height=25 cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#cecece>
+    <TD><A 
+      onmouseover="window.status='Get the direct URL for this article'; return true" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=865','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/generateURL.cfm?id=865"><IMG 
+      height=25 alt="Get the direct URL for this article" 
+      src="buildArticle_files/articleURL.gif" width=87 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Visit the Lingo Lounge article archive'; return true" 
+      href="http://www.director-online.com/archive.cfm?pSection=Lingo%20Lounge"><IMG 
+      height=25 alt="Visit the Lingo Lounge article archive" 
+      src="buildArticle_files/archives.gif" width=66 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Check out other articles by Gary Rosenzweig'; return true" 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=50"><IMG 
+      height=25 alt="Check out other articles by Gary Rosenzweig" 
+      src="buildArticle_files/author.gif" width=56 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Mail this article to a friend'; return true" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=865','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      href="http://www.director-online.com/emailArticle.cfm?id=865"><IMG 
+      height=25 alt="Mail this article to a friend" 
+      src="buildArticle_files/mailArticle.gif" width=83 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar"><IMG 
+      height=25 alt="Sign in to your myDOUG page" 
+      src="buildArticle_files/signIn.gif" width=63 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true" 
+      href="http://209.112.84.34/Forums/index.cfm?cfapp=2&amp;Thread_ID=2658"><IMG 
+      height=25 alt="Discuss this article on DOUGthreads" 
+      src="buildArticle_files/discussArticle.gif" width=105 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='What do these buttons do?'; return true" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/help.html"><IMG height=25 
+      alt="What do these buttons do?" src="buildArticle_files/help.gif" width=25 
+      border=0></A> </TD></TR></TBODY></TABLE>
+<P> </P></BODY></HTML>

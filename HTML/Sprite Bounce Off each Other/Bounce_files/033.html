@@ -1,0 +1,308 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://hakatai.mcli.dist.maricopa.edu/director/tips/oops/033.html -->
+<HTML><HEAD><TITLE>An object to make sprites bounce off each other</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<H1>An object to make sprites bounce off each other</H1><PRE>Date: Tue Dec 22 09:29:15 MST 1998
+From: Owen Kelly &lt;<A href="mailto:owenkelly@netscape.net">owenkelly@netscape.net</A>&gt;
+Subject: An object to make sprites bounce off each other
+</PRE>
+<P>The object below is part of a suite of objects each of whom have their 
+initial property values passed as a property list. There are 2 primary objects. 
+One stores all the actual values used in the 66 movies and takes care of 
+birthing and killing the other objects. The other receives all the mouse, 
+keyboard and Director events, and passes them out to more specialised objects 
+like the one below. 
+<P>There are no sprite scripts, cast member scripts or score scripts except for 
+a single exitframe script which is the same for every single frame of every 
+movie. 
+<P>That script is <FONT color=#0000cc><PRE>on exitFrame
+  global interface
+  updateTheAction interface, the movie
+end
+</PRE></FONT>
+<P>There is also a single, uniform startMovie script which tells the primary 
+object to initialise the objects needed for the movie. There are 3 globals: 
+objectHQ, interface and objectCluster. Those scripts and globals are the only 
+links between the score and the object world. 
+<P>The object here is concerned with moving bitmaps around on the screen on 
+those movies which contain a particular game. (In this case the bitmaps are 
+"pictures" of words, hence some of the handler and variable names.) There are 
+four onscreen at a time, moving around, and bouncing off each other and the 
+edges of the screen. The user has to click on the correct word. 
+<P>The property list for this object looks like this: 
+<P><FONT color=#0000cc><TT>set moverProperties2 = [#currentSpeed: 5, 
+#numberOfPieces: 4, #playingArea: rect(0, 0, 702, 600), #pieceBaseChannel: 11, 
+#castOfPlayingPieces: "dummyWords", #totalPlayingPieces: 0, #startingPoints: 
+[point(334, -27), point (495, 482), point(-51, 419), point(-254, 132)], 
+#objectCluster: [:]]</TT></FONT> 
+<P>The script for the object looks like this. The handlers you probably need to 
+start with are <TT><B>checkForBoundaryCollisions</B></TT> and 
+<B><TT>checkForWordCollisions</TT></B>. 
+<P>I am still working on it so it is not necessarily as compact and optimised as 
+it might be. But it does work. 
+<P>Hope it all makes sense 
+<P>Cheers 
+<P>Owen 
+<P>--------------------------------------------------------- 
+<P><FONT color=#0000cc><PRE>property objectCluster
+property currentSpeed, numberOfPieces, playingArea, leftBoundary,
+topBoundary, rightBoundary, bottomBoundary
+property pieceBaseChannel, pieceChannelCalculator, pieceDirections,
+castOfPlayingPieces, totalPlayingPieces, startingPoints
+
+----------------------------------------------------------------------------------------------------
+-- This section initialises the object. With the exception of objectHQ, every object uses identical new handlers. 
+-- Every object uses identical updateYourProperty handlers. The doAnyInitialActions handler is where 
+-- object specific initialisation gets done.
+----------------------------------------------------------------------------------------------------
+
+on new me, theseProperties
+  updateYourProperties me, theseProperties
+  doAnyInitialActions me
+  return me
+end
+
+on updateYourProperties me, theseProperties
+  set thisMany = count(theseProperties)
+  repeat with x = 1 to thisMany
+    set thisProperty = getPropAt(theseProperties,x)
+    set thisValue = getProp(theseProperties,thisProperty)
+    setProp(me, thisProperty, thisValue)
+  end repeat
+end
+
+on doAnyInitialActions me
+  set leftBoundary = getAt(getProp(me,#playingArea),1)
+  set topBoundary = getAt(getProp(me,#playingArea),2)
+  set rightBoundary = getAt(getProp(me,#playingArea),3)
+  set bottomBoundary = getAt(getProp(me,#playingArea),4)
+  set pieceChannelCalculator = getProp(me,#pieceBaseChannel) - 1
+  setTheStartDirections me
+end
+
+-------------------------------------------------------------------------------------------
+
+on setUpThePieces me
+  set thisChannel = pieceBaseChannel
+  repeat with x = 1 to numberOfPieces
+    set the media of the member of sprite thisChannel = the media of
+member x of castLib castOfPlayingPieces
+    set thisChannel = thisChannel + 1
+  end repeat
+  updateStage
+end
+
+on changeSpeed me, givenSpeed
+  set currentSpeed = givenSpeed
+end
+
+on moveTheWords me
+  checkForBoundaryCollisions me
+  checkForWordCollisions me
+  makeTheMoves me
+end
+
+on checkForBoundaryCollisions me
+  
+  set thisChannel = pieceBaseChannel
+  repeat with x = 1 to numberOfPieces
+    
+    if the left of sprite thisChannel &lt; leftBoundary then
+      set the locH of sprite thisChannel = (leftBoundary + 1) + (the right of sprite thisChannel - the left of sprite thisChannel)/2
+      case getAt(pieceDirections,x) of
+        0: setAt(pieceDirections,x,1)
+        3: setAt(pieceDirections,x,2)
+      end case
+    end if
+    
+    if the top of sprite thisChannel &lt; topBoundary then
+      set the locV of sprite thisChannel = (topBoundary + 1) + (the bottom of sprite thisChannel - the top of sprite thisChannel)/2
+      case getAt(pieceDirections,x) of
+        1: setAt(pieceDirections,x,2)
+        0: setAt(pieceDirections,x,3)
+      end case
+    end if
+    
+    if the right of sprite thisChannel &gt; rightBoundary then
+      set the locH of sprite thisChannel = (rightBoundary - 1) - (the right of sprite thisChannel - the left of sprite thisChannel)/2
+      case getAt(pieceDirections,x) of
+        1: setAt(pieceDirections,x,0)
+        2: setAt(pieceDirections,x,3)
+      end case
+    end if
+    
+    if the bottom of sprite thisChannel &gt; bottomBoundary then
+      set the locV of sprite thisChannel = (bottomBoundary - 1) - (the bottom of sprite thisChannel - the top of sprite thisChannel)/2
+      case getAt(pieceDirections,x) of
+        2: setAt(pieceDirections,x,1)
+        3: setAt(pieceDirections,x,0)
+      end case
+    end if
+    
+    set thisChannel = thisChannel + 1
+  end repeat  
+end
+
+on checkForWordCollisions me
+  repeat with x = 1 to numberOfPieces
+    set thisChannel = x + pieceChannelCalculator
+    if the name of the member of sprite thisChannel = "Explosion" then
+next repeat
+    repeat with y = 1 to numberOfPieces
+      set thatChannel = y + pieceChannelCalculator
+      if x = y then next repeat
+      if sprite thisChannel intersects thatChannel then
+        set spriteList = [thisChannel,thatChannel]
+        setReboundDirection me, spriteList
+        relocationNow me, spriteList
+      end if
+    end repeat
+  end repeat
+end
+
+on makeTheMoves me
+  repeat with x = 1 to numberOfPieces
+    set thisChannel = x + pieceChannelCalculator
+    
+    case getAt(pieceDirections,x) of
+      0:
+        set the locH of sprite thisChannel = the locH of sprite thisChannel - currentSpeed
+        set the locV of sprite thisChannel = the locV of sprite thisChannel - currentSpeed
+      1:
+        set the locH of sprite thisChannel = the locH of sprite thisChannel + currentSpeed
+        set the locV of sprite thisChannel = the locV of sprite thisChannel - currentSpeed
+      2:
+        set the locH of sprite thisChannel = the locH of sprite thisChannel + currentSpeed
+        set the locV of sprite thisChannel = the locV of sprite thisChannel + currentSpeed
+      3:
+        set the locH of sprite thisChannel = the locH of sprite thisChannel - currentSpeed
+        set the locV of sprite thisChannel = the locV of sprite thisChannel + currentSpeed
+    end case  
+  end repeat
+  
+  go to the frame
+end
+
+on setReboundDirection me, spriteList
+  if the right of sprite getAt(spriteList,1) &lt; the right of sprite getAt(spriteList,2) then
+    set horizontalOverlap = the right of sprite getAt(spriteList,1) - the left of sprite getAt(spriteList,2)
+  else
+    set horizontalOverlap = the right of sprite getAt(spriteList,2) - the left of sprite getAt(spriteList,1)
+  end if
+  
+  if the bottom of sprite getAt(spriteList,1) &lt; the bottom of sprite getAt(spriteList,2) then
+    set verticalOverlap = the bottom of sprite getAt(spriteList,1) - the top of sprite getAt(spriteList,2)
+  else
+    set verticalOverlap = the bottom of sprite getAt(spriteList,2) - the top of sprite getAt(spriteList,1)
+  end if
+  
+  if horizontalOverlap &gt; verticalOverlap then switchVertical me,
+spriteList
+  else switchHorizontal me, spriteList
+end
+
+on switchHorizontal me, spriteList
+  repeat with a = 1 to 2
+    set thisItem = getAt(spriteList,a) - pieceChannelCalculator
+    set thisDirection = getAt(pieceDirections,thisItem)
+    case thisDirection of
+      0: setAt(pieceDirections,thisItem,1)
+      1: setAt(pieceDirections,thisItem,0)
+      2: setAt(pieceDirections,thisItem,3)
+      3: setAt(pieceDirections,thisItem,2)
+    end case
+  end repeat
+end
+
+on switchVertical me, spriteList
+  repeat with a = 1 to 2
+    set thisItem = getAt(spriteList,a) - pieceChannelCalculator
+    set thisDirection = getAt(pieceDirections,thisItem)
+    case thisDirection of
+      0: setAt(pieceDirections,thisItem,3)
+      1: setAt(pieceDirections,thisItem,2)
+      2: setAt(pieceDirections,thisItem,1)
+      3: setAt(pieceDirections,thisItem,0)
+    end case
+  end repeat
+end
+
+on relocationNow me, spriteList  
+  repeat with a = 1 to 2
+    set thisItem = getAt(spriteList,a) - pieceChannelCalculator
+    case getAt(pieceDirections,thisItem) of
+      0:
+        set the locH of sprite getAt(spriteList,a) = the locH of sprite
+getAt(spriteList,a) - (currentSpeed + 4)
+        set the locV of sprite getAt(spriteList,a) = the locV of sprite
+getAt(spriteList,a) - (currentSpeed + 4)
+      1:
+        set the locH of sprite getAt(spriteList,a) = the locH of sprite
+getAt(spriteList,a) + (currentSpeed + 4)
+        set the locV of sprite getAt(spriteList,a) = the locV of sprite
+getAt(spriteList,a) - (currentSpeed + 4)
+      2:
+        set the locH of sprite getAt(spriteList,a) = the locH of sprite
+getAt(spriteList,a) + (currentSpeed + 4)
+        set the locV of sprite getAt(spriteList,a) = the locV of sprite
+getAt(spriteList,a) + (currentSpeed + 4)
+      3:
+        set the locH of sprite getAt(spriteList,a) = the locH of sprite
+getAt(spriteList,a) - (currentSpeed + 4)
+        set the locV of sprite getAt(spriteList,a) = the locV of sprite
+getAt(spriteList,a) + (currentSpeed + 4)
+    end case
+    updateStage
+  end repeat    
+end 
+
+on newRound me
+  set topPiece = pieceBaseChannel + (numberOfPieces - 1)
+  set newPiece = the memberNum of sprite topPiece + numberOfPieces
+  if newPiece &gt; totalPlayingPieces then set newPiece = numberOfPieces
+  repeat with x = topPiece down to pieceBaseChannel
+    set the backColor of sprite x = 0
+    set the member of sprite x = member newPiece of castLib castOfPlayingPieces
+    set the rect of sprite x = the rect of member newPiece of castLib castOfPlayingPieces
+    set newPiece = newPiece - 1
+  end repeat
+  
+  set placesToJuggle = duplicate(startingPoints)
+  set startingPoints = []
+  repeat with x = 1 to numberOfPieces
+    addAt(startingPoints,random(x),getAt(placesToJuggle,x))
+    setAt(pieceDirections,x,random(numberOfPieces) - 1)
+  end repeat
+  
+  set thisPiece = pieceBaseChannel
+  repeat with x = 1 to numberOfPieces
+    set the loc of sprite thisPiece = getAt(startingPoints,x)
+    set thisPiece = thisPiece + 1
+  end repeat
+  
+  setTheStartDirections me
+  
+  shotFired getProp(objectCluster,#ammunitionCounter)
+  updateStage
+end
+
+on setTheStartDirections me
+  set pieceDirections = []
+  repeat with x = 1 to numberOfPieces
+    setAt(pieceDirections,x,random(4) - 1)
+  end repeat
+end
+</PRE></FONT>
+<SCRIPT language=JavaScript>
+<!-- hide scripts from crusty old browsers
+document.write('<p><hr noshade><font face="helvetica,arial" size=-1>Director Web Tips n Tricks: <b>');
+document.write(document.title);
+document.write('</b><br><i>tip last modified  ' + document.lastModified);
+document.write('</i></font><br><tt>URL: ');
+document.write(document.location);
+document.write('</tt>');
+// done hiding -->
+</SCRIPT>
+</BODY></HTML>

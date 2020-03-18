@@ -1,0 +1,48 @@
+BODY {
+	FONT-SIZE: 10pt; LINE-HEIGHT: 1.1; FONT-FAMILY: Geneva, Espi Sans, Arial, sans-serif
+}
+P {
+	FONT-SIZE: 10pt; MARGIN-LEFT: 10pt; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+TD {
+	FONT-SIZE: 10pt; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+H2 {
+	FONT-SIZE: 18pt; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+H3 {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+H4 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+UL {
+	LIST-STYLE: circle; FONT-SIZE: 10pt; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+CODE {
+	PAGE-BREAK-BEFORE: auto; FONT-WEIGHT: normal; FONT-SIZE: 9pt; LEFT: 20px; BORDER-TOP-STYLE: solid; LINE-HEIGHT: normal; FONT-STYLE: normal; FONT-FAMILY: Monaco, monospace; BORDER-RIGHT-STYLE: solid; WHITE-SPACE: pre; BORDER-LEFT-STYLE: solid; BACKGROUND-COLOR: #ffffff; BORDER-BOTTOM-STYLE: solid
+}
+.important {
+	FONT-SIZE: 10pt; COLOR: #cc3366; FONT-FAMILY: Geneva, Espi Sans, Arial, sans-serif; font-height: 1.1
+}
+.tmbasic {
+	FONT-SIZE: 10pt; LINE-HEIGHT: 1.1; FONT-FAMILY: Geneva, "Espi Sans", Arial, sans-serif
+}
+.tmbold {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; LINE-HEIGHT: 1.1; FONT-FAMILY: Helvetica, Espi Sans, Arial, sans-serif
+}
+.tmplain {
+	FONT-SIZE: 10pt; MARGIN-LEFT: 10pt; LINE-HEIGHT: 1.1; FONT-FAMILY: Geneva, Espi Sans, Arial, sans-serif
+}
+.enlarge {
+	FONT-SIZE: larger
+}
+.size12 {
+	FONT-SIZE: 12pt; LINE-HEIGHT: 1
+}
+STYLE H1 {
+	FONT-SIZE: 24pt; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif
+}
+OL {
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-ser
+}

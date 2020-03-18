@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir10.html -->
+<HTML><HEAD><TITLE>Invadir 10 - Adding Sound</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir9.html">Back to Lesson 
+9</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir11.html">Forward to Lesson 
+11</A></H6>
+<P><B>Lesson 10 - Adding Sound</B></P>
+<P>Compared to working with graphics, sound is relatively straightforward. 
+However, there are some important things to keep in mind.</P>
+<UL>
+  <LI>Sound is a time based medium. Consider how long your sounds will take to 
+  play, whether they should loop etc.<BR>
+  <LI>Hardware configurations for sound are much less standard than those for 
+  graphics. A large proportion of Intel-type computers (the kind that run 
+  Windows) have no sound at all! Almost all Macintosh computers have good sound 
+  cards. Most can play and mix up to eight independent channels of sound without 
+  too much problem. Many Windows configurations have problems playing more than 
+  one sound channel. Stereo sound requires two channels.<BR>
+  <LI>Sound is a relatively 'heavy' medium. It is not unusual for a shockwave 
+  movie to be more than doubled in size by the addition of sound. Never forget 
+  bandwidth considerations on the internet. People who want to play games rarely 
+  have the patience to sit and wait for large files to download.<BR>See if you 
+  can get away with short 8 bit mono sounds at 11 Khz. This is not always 
+  possible, but for the bleeps and blasts in games it is often quite 
+  adequate.<BR>
+  <LI>To cut down on bandwidth, reduce the sample rate rather than the bit 
+  depth. 8 bit sound has a very 'crunchy' quality which is not pleasant. 
+  Lowering the sample rate merely affects the highest frequencies that can be 
+  included in the sound. High frequencies will be lost.<BR>
+  <LI>Sound can easily be more than 50% of the impact of the finished product. 
+  Adding sound can make the difference between mediocrity and excellence. Try 
+  watching a classic cartoon like Daffy Duck or Droopy with the sound turned 
+  right down. Compare it to a lousy cartoon with the sound turned up. </LI></UL>
+<P>Aside from all this, it is very straightforward to get Director to play a 
+sound. The most obvious way is to drop a sound cast member into a sound channel 
+in the score. By doing this, you attach a sound to a frame. The sound will start 
+and continue playing while the playback head remains in that frame, unless the 
+sound itself is not set to loop or a lingo command takes over the sound 
+channel.</P>
+<P>I usually advise against using the score sound channels because they lack 
+flexibility and control. A better way to play sounds is to trigger them at the 
+appropriate place in your lingo code. The basic sound effect instruction is</P><PRE>puppetsound <FONT color=#ff0000>channel</FONT>, <FONT color=#ff0000>soundCastMember</FONT></PRE>
+<P>
+<HR align=left>
+<B></B>
+<P></P>
+<P><B>Something about puppets...</B></P>
+<P>The word 'puppet' suggests external or remote control. There is also a<TT> 
+puppetsprite </TT>command which you may see in books and elsewhere. External 
+control violates one of the central principles of object oriented design: 
+Objects should be responsible for themselves. A pure OO design has no 'managers' 
+and no 'controllers'. This lends enormous flexibility to the system. Objects can 
+be freely added and removed without the whole system falling apart.</P>
+<P>Earlier versions of Director relied on<TT> puppetsprite </TT>whenever Lingo 
+was going to do anything visually interesting. This command switched the 
+properties of sprite objects in the score to external control by lingo. The 
+resulting mess may be remembered by some readers as counter-intuitive at best, 
+misery-inducing at worst.</P>
+<P>Director 6 introduced 'auto puppeting' and (more importantly) the ability to 
+extend the sprite object with attached behaviors. Some would argue that this is 
+just a conceptual trick and that there is actually no essential difference 
+between puppetting a sprite channel with an object birthed from a parent script 
+(technical stuff) and having a behavior sitting 'inside' the sprite, controlling 
+it as a self contained object.</P>
+<P>I would say that this conceptual trick makes all the difference in the world, 
+that it allows more intuitive thinking about the way that sprites should behave. 
+On top of this there is the fact that working with parent scripts requires 
+sophisticated abstract knowledge whereas dragging a behavior over a sprite is 
+easy enough for absolute beginners to do.</P>
+<P>Using puppetsprite in Director 6 or later is no longer necessary. Some 
+die-hards have their own reasons for using it, some good, some bad. Beginners 
+and those without set habits should steer well clear of <TT>puppetsprite</TT>. 
+It is confusing and practically obsolete.</P>
+<P>Unfortunately, the effects channels (sound, transitions, tempo) are still 
+controlled 'from the outside'. You can not drag a behavior into the sound 
+channel. Fortunately, there are far fewer properties and commands to consider so 
+this is acceptable for now.</P>
+<P>
+<HR align=left>
+
+<P></P>
+<P>So if you want to play the sound cast member "explosion" in channel 1, you 
+would type</P><PRE>puppetsound 1, "explosion"</PRE>
+<P>It is possible to use<TT> puppetsound </TT>without specifying a sound 
+channel. <B>Don't</B> do this. I have found it to be very unreliable.</P>
+<P>The sound will be played at the next screen update. Usually this will 
+synchronise the sound with whatever else is going on. On rare occasions you may 
+wish to issue an<TT> updatestage </TT>command to trigger the sound more 
+immediately. Be careful, because this command will also update the screen and 
+cause extra frame messages to be generated.</P>
+<P>Find, create or download some sounds. You may need to convert sounds to a 
+different format before you can import them into Director. Director imports AIFF 
+and WAV format sounds without any problem. Make sure your sounds are named 
+appropriately. I am going to assume we have a sound called "explosion" and one 
+called "blast". We are also going to use sound channels 1 and 2.</P>
+<P>NOTE! If a sound is playing and you issue a puppetsound command to the same 
+channel, the new sound will override the one that is playing.</P>
+<P>The first thing to do is to add a sound to the bullet when it gets fired.</P><PRE>on shoot me 
+
+  if shooting then
+
+    return
+
+  end if
+
+  set shooting to true
+
+  set the loc of sprite mysprite to the loc of sprite 1
+
+  puppetsound 1, "blast"
+
+end</PRE>
+<P>Notice that we place this sound <B>after</B> the test for</P>
+<P><TT>shooting = true</TT></P>
+<P>The other place we want a sound is in the hit handler of the invader.</P><PRE>on hit me
+
+   set alive to false
+   set the locH of sprite mySprite to -999
+   puppetsound 1, "explosion"
+
+end</PRE>
+<P>That was simple enough. Feel free to add more sounds and experiment with 
+adding<TT> puppetsound </TT>instructions at different places in your script. 
+Keep bandwidth in mind and don't forget that sound channels can only play one 
+sound at a time. The most recent<TT> puppetsound </TT>command will always 
+dominate. If you have the luxury of making a Mac-only CDROM, go all out and add 
+as many channels of CD quality sound as you wish!</P>
+<P>I think you will agree that the game has much more presence with a little 
+sound.</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir11.html">Forward to 
+Lesson 11</A></H5></BODY></HTML>

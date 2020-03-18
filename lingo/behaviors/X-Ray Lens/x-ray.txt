@@ -1,0 +1,191 @@
+--  Lens behavior
+--
+--  Info on use is in the behavior description.
+--
+--  For scripters, we're moving the regpoint of the masking graphic 
+--  in the opposite direction to that of the drag of the lens.
+--  If the altered graphic is larger than the regular background and
+--  the lens appears to magnify the background, then the mask's regPoint is 
+--  moved with a scaling factor, and the larger graphic is sent in the
+--  direction opposite to this. (Confusing -- see stepFrame method.)
+--
+--  When the behavior is dragged atop a lens graphic then the routine checks
+--  that there is actually a valid masked graphic in a lower channel. This check 
+--  is performed again at runtime, just in case sprites were moved about
+--  after the time that the behavior was assigned.
+--
+--  When the lens is clicked a reference to the behavior is added to the actorList.
+--  This is preferable to use of a tight repeat loop because other things can still occur
+--  in your movie -- animations can play, sounds or videos can run, your email can still arrive.
+--  The stepFrame method checks against the mouse being released and will remove itself
+--  from the actorList when the user stops dragging the lens.
+--
+--  Note the Error handler at the end of the set of standard behavior routines...
+--  this makes the "FindAndVerifyMasks" routine easier to read, because the 
+--  handling of an error is separated from the testing of the error.
+--  
+--
+--
+--  History:
+--     10/23/97  jd   Added magnification, changed regPoint retention, rewrote docs.
+--     10/22/97  jd   Written as D6 behavior.
+--      6/15/94  jd   Hardwired for Director 4.
+
+property spriteNum, myOrigLoc, myOrigReg
+property myMaskedSprite, myMaskedLoc, myMask, myMagnification
+
+--==============  EXTERNAL EVENTS  ======================
+
+on beginSprite me
+  FindAndVerifyMasks me
+  SetMagnifyingFactor me
+  ResetMaskRegPoint me
+end
+
+on endSprite me
+  ResetMaskRegPoint me
+end
+
+on mouseDown me
+  set myOrigLoc to the loc of sprite spriteNum
+  set myOrigReg to the regPoint of member myMask
+  set myMaskedLoc to the loc of sprite myMaskedSprite
+  add the actorList, me
+end
+
+on stepFrame me
+  if the mouseUp then deleteOne(the actorList, me)
+  set newOffset to point(the mouseH, the mouseV) - the clickLoc
+  set the loc of sprite spriteNum to myOrigLoc + newOffset
+  set the regPoint of member myMask to myOrigReg - myMagnification * newOffset
+  set the loc of sprite myMaskedSprite to myMaskedLoc - (myMagnification - 1) * newOffset
+end
+
+
+--==============  SUBROUTINES  ======================
+
+
+--  Makes sure there's a sprite with a lower channel with a 'mask' ink,
+--  and that the graphic following this image is a proper 1-bit mask.
+--  Also checks that background-transparent ink is applied to the lens.
+--  Called by beginSprite and getPropertyDescriptionList.
+
+on FindAndVerifyMasks me
+  set myMaskedSprite to 0
+  repeat with i = the currentSpriteNum down to 1
+    if the ink of sprite i = 9 then set myMaskedSprite to i
+  end repeat
+  if myMaskedSprite = 0 then Error me, #noMaskedSpriteFound
+  set maskedMember to the number of the member of sprite myMaskedSprite
+  set myMask to member (maskedMember + 1)
+  if the type of myMask <> #bitmap then Error me, #noMaskFound
+  if the depth of member myMask > 1 then Error me, #incorrectMaskDepth
+  if the ink of sprite (the currentSpriteNum) <> 36 then Error me, #wrongInkOnLens
+end
+
+
+--  Turns the informative string option presented in getPropDesc
+--  to a numeric magnification factor for scaling.
+--  Called by beginSprite.
+
+on SetMagnifyingFactor me
+  delete the last char of myMagnification
+  delete the last char of myMagnification
+  set myMagnification to value(myMagnification)
+end
+
+
+--  Centers the regPoint of the 1-bit masking graphic,
+--  initializing the process. (Changes to member properties persist
+--  through the session, unlike changes to sprite properties.)
+--  Called by beginSprite and endSprite.
+
+on ResetMaskRegPoint me
+  set theH to integer((the right of the rect of member myMask) / 2)
+  set theV to integer((the bottom of the rect of member myMask) / 2)
+  set the regPoint of member myMask to point(theH, theV)
+end
+
+
+--==============  STANDARD BEHAVIOR ROUTINES  ======================
+
+on getPropertyDescriptionList me
+  if the currentSpriteNum <> 0 then FindAndVerifyMasks me
+  return [#myMagnification: [#comment: "What magnification of channel " & 
+myMaskedSprite & " to the background?", #format: #string, #range: 
+["1:1", "1.5:1", "2:1", "2.5:1", "3:1"], #default: 1]]
+end
+
+on getBehaviorDescription me
+  set line1 to "This behavior, when applied to a visible 'lens' type of graphic, 
+will appear to change the contents of an underlying graphic. It does so by 
+manipulating the mask of a mostly-invisible graphic between the lens and the 
+background image. You can appear to magnify the background by using a larger 
+altered image sandwiched between the background and the lens." & RETURN & RETURN
+  set line2 to "Examples include being able to drag a background-transparent 
+circle around to see a pseudo-filtered version of the underlying graphic, or 
+being able to drag a reading bar across a graphic in one language to translate 
+it, or being able to look at the skeleton of an animal on display, or finding 
+secret messages in a picture." & RETURN & RETURN
+  set line3 to "To use:" & RETURN
+  set line4 to "1)  Make your normal background, the altered version, and your 
+lens graphics. If magnifying, make the altered version 1.5 times as large, or 2 
+times as large, etc." & RETURN
+  set line5 to "2)  Make a masking graphic that fits precisely inside the visible 
+area of your lens. You can use onion skinning to make it, or duplicate the lens and 
+fill it with black before deleting non-black pixels, or make the mask first and use 
+it to knock out the proper area of the lens. The mask defines which area of the 
+altered graphic will be seen through the lens." & RETURN
+  set line6 to "3)  Use 'Transform Bitmap' on the masking graphic to turn it to 
+1-bit color. Place it in the cast immediately following your graphic of the 
+altered background. (For instance, if you have an animal, its skeleton, and a 
+lens, then put the mask right after the skeleton in the cast.)" & RETURN
+  set line7 to "4)  Select the normal and altered graphics and drag them to 
+the Stage. The altered graphic should be precisely atop the normal graphic. 
+Give the altered graphic a 'mask' ink. (Result: you should see only the shape 
+of the lens altered. If you wish to change the relative location of this mask, 
+then change the regPoint of the 1-bit graphic in the Paint Window.)" & RETURN
+  set line8 to "5)  Drag the lens graphic onto the Stage, set its ink and desired 
+magnification, and position it right above your masked area. It will appear as 
+if your lens is outlining the altered area." & RETURN
+  set line9 to "6)  Finally assign this behavior to the lens, start the movie, 
+and drag the lens around. You should see the altered area of the graphic change, 
+as if the lens is really affecting the background." & RETURN & RETURN
+  set line10 to "Tips:" & RETURN
+  set line11 to "--  Dragging smoothness is controlled by the framerate of the 
+movie." & RETURN
+  set line12 to "--  Large graphics or high colordepths can slow dragging." & 
+RETURN
+  set line13 to "--  If they drag the lens outside of the graphic boundaries 
+they'll see the white of the Paint Window's canvas. You can paste the altered 
+graphic against a rectangle of the background color in the Paint Window, if 
+speed is not adversely affected." & RETURN
+  set line14 to "--  This routine currently relies upon the background, the 
+altered graphic, and the lens all sharing the same centerpoint on the Stage. 
+It should be possible to set up custom starting points, although this can be 
+tricky to visualize while authoring." & RETURN
+  return line1 & line2 & line3 & line4 & line5 & line6 & line7 & line8 & 
+line9 & line10 & line11 & line12 & line13 & line14
+end
+
+--  Generic error handler.
+--  Mostly called by FindAndVerifyMasks routine.
+on Error me, whatError
+  case (whatError) of
+    #noMaskedSpriteFound: alert "There needs to be an altered image with the 
+'mask' ink in a channel lower than the lens in channel " & the currentSpriteNum 
+& "."
+    #noMaskFound, #incorrectMaskDepth: alert "The castmember immediately 
+following your altered graphic in channel " & myMaskedSprite & " needs to 
+be a 1-bit graphic mask."
+    #wrongInkOnLens: alert "The ink for this draggable lens needs to be 
+background-transparent."
+  end case
+  
+  --  This undefined handler will halt operation 
+  --  and call up the debugger window for you...
+  --  you can replace it with "halt" if you wish:
+  debug()   
+end
+
+

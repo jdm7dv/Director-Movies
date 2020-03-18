@@ -1,0 +1,629 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0083)http://www.macromedia.com/support/director/ts/documents/d7_fast_start_projector.htm -->
+<HTML><HEAD><TITLE>Macromedia - How to create a fast-start Director 7 projector</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="Fri, 09 Jul 1999 23:20:28 GMT" http-equiv=Last-Modified>
+<META content=1.0 http-equiv=Version name=DOCVERSION>
+<META content="Fri, 09 Jul 1999 23:20:28 GMT" name=LASTMODIFIED>
+<META content="Tips &amp; Tricks" name=AREA>
+<META content=Yes name=PUBLIC>
+<META content="Peter DeCrescenzo" name=AUTHOR>
+<META content=2 name=IMPORTANCE>
+<META 
+content="fast start projector, Shockwave Player, Use system player, speed up, slow launching, missing Xtras, Xtras packaging, include in projector, stub projector, stub movie, temp directory, iml32.dll, dirapi.dll, dplib, imllib" 
+name=KEYWORDS>
+<META content=All name=PLATFORM>
+<META content=Director name=PRODUCT>
+<META content=7.0 name=VERFROM>
+<META content=7.0.2 name=VERTO>
+<META content="7.0 to 7.0.2" name=VERSIONS>
+<META content="How to create a fast-start Director 7 projector" name=DOCTITLE>
+<META content=13965 name=DOCID>
+<META content=Done! name=STATUS>
+<META content="July  9, 1999" name=DATECREATED>
+<META content="November  3, 1999" name=DATEMODIFIED>
+<META content=TechNote name=KIND>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY aLink=#000000 bgColor=#ffffff link=#333399 vLink=#660033><!-- begin Director TechNotes top fragment -->
+<TABLE border=0 cellPadding=0 cellSpacing=0>
+  <TBODY>
+  <TR>
+    <TD noWrap vAlign=bottom><IMG border=0 height=17 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/pixel.gif" 
+      width=18><A href="http://www.macromedia.com/" target=_top><IMG 
+      alt=macromedia border=0 height=12 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/crumb_macromedia_blue.gif" 
+      width=99></A><IMG alt=: border=0 height=12 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/crumb_colon.gif" 
+      width=15><A href="http://www.macromedia.com/software/" target=_top><IMG 
+      alt=products border=0 height=12 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/crumb_products_blue.gif" 
+      width=69></A><IMG alt=: border=0 height=12 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/crumb_colon.gif" 
+      width=15><A href="http://www.macromedia.com/software/director/" 
+      target=_top><IMG alt=director border=0 height=12 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/crumb_director_blue.gif" 
+      width=63></A><IMG alt=: border=0 height=12 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/crumb_colon.gif" 
+      width=15><A href="http://www.macromedia.com/support/director/" 
+      target=_top><IMG alt=support border=0 height=12 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/crumb_support_blue.gif" 
+      width=61></A><IMG alt=: border=0 height=12 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/crumb_colon.gif" 
+      width=15><A 
+      href="http://www.macromedia.com/support/director/technotes.html"><IMG 
+      alt=technotes border=0 height=12 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/crumb_technotes_blue.gif" 
+      width=79></A></TD></TR></TBODY></TABLE><IMG border=0 height=30 
+src="Macromedia - How to create a fast-start Director 7 projector_files/pixel.gif" 
+width=2>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="95%">
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top width="10%"><IMG alt="Director icon" border=0 
+      height=60 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/director_logo.gif" 
+      width=72> <IMG border=0 height=2 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/pixel.gif" 
+      width=120> </TD>
+    <TD vAlign=top width="90%"><IMG alt="Director technotes" border=0 
+      height=34 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/head_technotes.gif" 
+      width=142> 
+      <HR noShade SIZE=1 width="100%">
+<!-- at this point we are inside a table inside a table -->
+      <H3><FONT face="Arial, Helvetica, sans-serif" size=+1><B>How to create a 
+      fast-start Director 7 projector</B></FONT></H3>
+      <TABLE border=1 cellPadding=5 cellSpacing=1>
+        <TBODY>
+        <TR>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Product: 
+            </B></FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Director</FONT> </TD>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Platform: 
+            </B></FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>All</FONT> </TD>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Versions: 
+            </B></FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>7.0 to 7.0.2</FONT> </TD>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>ID: 
+            </B></FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>13965</FONT> </TD></TR></TBODY></TABLE>
+      <P><!--mm-contents -->
+      <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>This TechNote was 
+      revised 11/19/99: Steps 10, 11 and 16 have been modified. Also, the 
+      discussion regarding "msvcrt.dll" and "msvfw32.dll" has been moved into <A 
+      href="http://www.macromedia.com/support/director/ts/documents/windll_files_required.htm">What 
+      might cause Director 7 projectors to fail on Windows</A> (TechNote 
+      14150)</FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2>.</FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2> 
+      </FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>What is a 
+      "fast-start" Director 7 projector, and how is one created? Also, what's a 
+      "stub" projector, and can a fast-start projector incorporate stub 
+      projector techniques?</FONT> </P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>A so-called 
+      fast-start Director 7 projector implementation will typically launch 
+      faster than a standard (default) projector.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Fast-start 
+      projectors are created by using a combination of movie design and Xtra and 
+      application resource file configuration techniques.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>As a 
+      convenience, Xtras for use with a standard projector are typically 
+      included inside (compiled into) the projector itself. Because the Xtras 
+      have to be external to the projector before they can be used to play your 
+      movie, a standard projector requires a system TEMP directory to unpack 
+      Xtras into at launch-time.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>A fast-start 
+      projector typically launches faster than a standard projector because a 
+      fast-start projector implementation doesn't include Xtras inside the 
+      projector itself -- so there's nothing to unpack. Also, since a fast-start 
+      projector doesn't require a TEMP directory, they are more robust because 
+      they can launch on systems that don't have a properly-configured TEMP 
+      directory.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Developers 
+      often create a small "stub" movie -- a movie that plays other movies that 
+      are <I>external</I> to the projector -- as a method to speedup projector 
+      launching. A stub movie is typically a very minimal movie in terms of file 
+      size, and when it's the only movie in a projector, the projector is 
+      referred to as a "stub projector". A stub projector can launch faster than 
+      a larger projector because most systems can launch a small application 
+      faster than a large application. Stub projectors have other advantages, 
+      such as enabling simpler file maintenance, backups and so forth.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>A new 
+      capability in Director 7 enables distributing projector application 
+      resources files external to a Director 7 "Shockwave Player" projector, 
+      instead of compiling them into a standard projector. As is the case with 
+      Xtras, since the resource files are not inside a Shockwave Player 
+      projector, they don't need to be unpacked to a TEMP directory. This 
+      implementation further enables faster and more reliable projector 
+      launching. As explained in the "<A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_fast_start_projector.htm#fyi">FYI</A>" 
+      note at the end of this TechNote, this capability is primarily of value to 
+      Director 7 for Windows users.</FONT> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>This TechNote 
+      describes how to create a fast-start projector that incorporates the above 
+      techniques.</FONT> 
+      <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2><B>Note: </B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>There's an example of a 
+      fast-start Director 7 projector on the Director 7 CD, located in the 
+      "Access" folder.</FONT> 
+      <P><BR>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B>To create a 
+      fast-start Director 7 projector, use the following procedure:</B></FONT> 
+      <TABLE cellPadding=4 width=408>
+        <TBODY>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>1</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Create a 
+            new folder (directory) on your computer desktop. You will use this 
+            folder to contain the several files and a sub-folder that together 
+            comprise a fast-start projector installation.</FONT></P>
+            <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Note: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>This folder is 
+            not actually required when making a fast-start projector, but for 
+            purposes of this discussion it will simplify organizing the files. 
+            The folder's name and location are not significant. 
+</FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica" size=2><B><FONT 
+            face="Geneva, Arial, Helvetica, san-serif">2</FONT> </B></FONT></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Launch Director 7.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>3</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Choose 
+            File menu &gt;Open command to open your movie.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Or, if 
+            you wish to create a new movie from scratch, choose File 
+            &gt;New&gt;Movie.</FONT></P>
+            <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Note: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>For purposes of 
+            this discussion, you may wish to try these techniques using a new, 
+            simple testing movie. An example of a so-called "barebones" testing 
+            movie might be one that holds on a frame (use the "Hold on Current 
+            Frame" behavior in the Library Palette), and that contains a button 
+            that executes the Lingo "halt" (to quit the movie.) That's it. Using 
+            a barebones testing movie when learning a new technique will greatly 
+            simplify your troubleshooting if unexpected results 
+          occur</FONT>.</P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>4</B></FONT></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2></FONT>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Choose 
+            Modify&gt;Movie &gt;Xtras. This will open the Movie Xtras dialog 
+            box</FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>.</FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica" size=2><B><FONT 
+            face="Geneva, Arial, Helvetica, san-serif">5</FONT> </B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Disable 
+            the <B>"</B>Include in projector<B>"</B> option for all Xtras that 
+            appear on the list in the Movie Xtras dialog. To do this, select the 
+            name of each Xtra individually and uncheck the "Include in 
+            projector" option.</FONT> 
+            <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Note: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>To create a 
+            projector that launches as fast as possible, Xtras must not be 
+            included in the projector itself.</FONT> </P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>6</B></FONT></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Click OK to accept the changes and close the Movie Xtras 
+            dialog.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>7</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Choose 
+            File &gt;Save and Compact to save the movie</FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>.</FONT></P>
+            <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Note: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>Repeat steps 3 - 
+            7 for all of the movies that will be added to (packaged into) the 
+            projector. In other words, uncheck (disable) "Include in projector" 
+            for all Xtras in all movies that are included in the projector 
+            itself.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Also, if 
+            you make changes to any of the movies that will be included into the 
+            projector after this point, you should repeat steps 3 - 7 again for 
+            the movies that were changed. Certain authoring actions - such as 
+            adding a new cast member, or removing an Xtra from a movie that 
+            contains a member that requires the Xtra - will cause the Xtra to 
+            appear (or reappear) on the list in the Movie Xtras dialog. By 
+            default, when an Xtra is added to this list, the "Include in 
+            projector" option is enabled (checked.) Therefore, you must disable 
+            the "Include in projector" option again in movies that will added to 
+            the projector.</FONT></P>
+            <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Note: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>It is not 
+            necessary to uncheck the "Include in projector" option for Xtras in 
+            movies that are <I>external</I> to the projector, because these Xtra 
+            names are not referenced when a projector is <I>created</I>. Xtras 
+            names that appear in an external movie's Xtras list are referenced 
+            at runtime when the movie plays, but not when creating a 
+            projector.</FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>8</B></FONT></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Choose File &gt;Create Projector and the Create Projector 
+            dialog will open.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>9</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>In the 
+            Create Projector dialog select the movies you want the projector to 
+            play and select Add to add them to the File List.</FONT></P>
+            <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Note: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>For best 
+            performance, only include a minimal "stub" movie in the projector. 
+            </FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>To 
+            create a stub movie, make a new, movie that executes Lingo such as 
+            'go to movie "whichMovie"' to navigate to an external movie. 
+            Ideally, a stub movie should contain as little media as possible - 
+            perhaps none at all - and Lingo to navigate to your "real", external 
+            movie, which will be the first movie your end users will see. Don't 
+            include any other movies or casts into the projector except the stub 
+            movie. A projector that contains a stub movie is often referred to 
+            as a "stub projector".</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For more 
+            information on navigating among movies and working with linked media 
+            and casts, refer to Director's documentation, Help and searchable 
+            TechNotes.</FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>10</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>In the 
+            Director 7 for Windows "Create Projector" dialog box, select Options 
+            to open the Projector Options dialog box.</FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>11</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Windows only:</B> </FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>In the Director 
+            7.0.2 for Windows Projector Options dialog, select Player &gt; 
+            Shockwave. (In Director 7.0, this option was called "Use system 
+            player".) Then click OK.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Macintosh only:</B> </FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>In the Director 
+            7.0.2 for Macintosh Projector Options dialog, select Player &gt; 
+            Standard. (In Director 7.0, this option was available by disabling 
+            "Use system player".) Then click OK.</FONT></P>
+            <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Note: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>For details on 
+            why this step is different for Macintosh and Windows projectors, 
+            refer to the "<A 
+            href="http://www.macromedia.com/support/director/ts/documents/d7_fast_start_projector.htm#fyi">FYI</A>" 
+            note at the end of this TechNote.</FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>12</B></FONT></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>In the Create Projector dialog, select Create to open the 
+            Save projector<B> </B>as dialog box. Enter a name for the projector 
+            and navigate to the folder you created in step 1. Select Save to 
+            save the projector into the folder.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>13</B></FONT></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Exit or quit from Director 7 to return to your computer 
+            desktop.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>14</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Open the 
+            folder you created in step 1. This folder should now contain your 
+            projector. Create a new sub-folder within this folder and name it 
+            "Xtras". The Xtras folder must be at the same directory level as the 
+            projector you created in step 12.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>You will 
+            use the projector's local Xtras folder to contain the Xtras required 
+            to play your movie(s). To speed projector launching, rather than 
+            including Xtras within the projector itself, distribute the Xtras 
+            separately by putting a copy of the Xtras required to play your 
+            movie(s) in the projector's Xtras folder.</FONT></P>
+            <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Note: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>Vendors may 
+            provide Xtras as two separate files (an authoring Xtra and a runtime 
+            Xtra), or they may provide one, dual-purpose Xtra.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>An 
+            "authoring-only" Xtra is used to support authoring tasks. For 
+            example: To display an authoring dialog box, to export data, and so 
+            forth. The "Flash Asset Options" Xtra is an example of an 
+            authoring-only Xtra.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>A 
+            runtime Xtra supports movie functionality when previewing a movie 
+            during authoring, or when playing a movie in a runtime environment 
+            such as with a projector or in Shockwave. The "Flash Asset" Xtra is 
+            an example of a runtime Xtra.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>In some 
+            cases an Xtra is used for both authoring and at runtime. The 
+            "FileIO" and the "Sound Import Export" Xtras are examples of Xtras 
+            that can be used to play movies during both authoring and at 
+            runtime.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Depending on the Xtra, you will either copy the runtime or 
+            the dual-purpose Xtra file to your projector's Xtras 
+            folder.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For more 
+            information on Macromedia's Xtras, and on how to determine which are 
+            required to play your movie, select the Info option in Director 7's 
+            Modify&gt;Movie&gt;Xtras dialog box.<BR><BR>Refer also to 
+            information on Xtras in Director's documentation (for example: 
+            "Managing Xtras for distributed movies" in Using Director, page 
+            352), Help and in searchable TechNotes on our Web 
+        site.</FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>15</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Copy 
+            into the projector's Xtras folder only those Xtras that are required 
+            to play your movie(s).</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Macromedia Xtras installed by Director 7 are located in 
+            Director 7's application folder, in the Xtras sub-folder. Copy the 
+            Xtras required to play your movie from Director 7's Xtras folder to 
+            your projector's Xtras folder.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Avoid 
+            putting Xtras into the Xtras folder that are not actually required 
+            to play your movie(s). Also, don't include authoring-only Xtras in 
+            the projector's Xtras folder. Doing either of these may slow down 
+            projector launching, or cause error messages to be displayed, or 
+            cause movie performance problems.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Xtras 
+            are platform-specific files. Windows projectors only load and use 
+            Windows Xtras, and Macintosh projectors only load and use Macintosh 
+            Xtras. A projector is not affected by the presence of an Xtra 
+            designed for use on the "other" platform, so it's okay to put Xtras 
+            for both platforms into a single Xtras folder.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>If your 
+            movie(s) require a 3rd party Xtra to play, you will need to put a 
+            copy of the appropriate 3rd party Xtra into your projector's Xtras 
+            folder.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For more 
+            information on using, licensing and distributing 3rd party Xtras, 
+            refer to the Xtra's documentation and the vendor's Technical 
+            Support. Macromedia does not provide Technical Support for 3rd party 
+            products.</FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>16</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Windows only:</B> Director 7 for Macintosh users should 
+            skip to Step 17.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For 
+            Director 7.0.0 created projectors, copy the following 
+            Windows-specific application resource files from Director 7 for 
+            Windows' application folder to the folder containing your projector. 
+            </FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Do 
+            <B>not</B> put them in the Xtras folder.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For 
+            Director 7.0.2 created projectors, copy the following 
+            Windows-specific application resource files from Director 7 for 
+            Windows' application folder to the folder containing your projector, 
+            or to the projector's Xtras folder.</FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2><BR></FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>"DIRAPI.DLL" and "IML32.DLL".</FONT></P>
+            <P><FONT color=#666666 face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Notes:</B></FONT></P>
+            <UL>
+              <LI><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Refer 
+              to <A 
+              href="http://www.macromedia.com/support/director/ts/documents/windll_files_required.htm">What 
+              might cause Director 7 projectors to fail on Windows</A> (TechNote 
+              14150) for important information regarding which Windows Dynamic 
+              Link Library files required by all Director 7 projectors.</FONT> 
+              <LI><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+              size=2>Typically you will only include a copy of the ".DLL" files 
+              specified above with your projector. Be careful not to copy the 
+              similarly-named files in Director 7's application folder that have 
+              ".MCH" or ".Z" filename extensions.</FONT> 
+              <LI><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>A 
+              Director 7 for Windows projector that is created using the 
+              Shockwave Player option requires the resource files listed above. 
+              By providing the resource files in the same directory as the 
+              projector or within the projector's Xtras folder when appropriate, 
+              you avoid the case where an end user may not have Shockwave 7 
+              installed, and thus avoid downloading and installing Shockwave 
+              7.</FONT> 
+              <LI><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For 
+              details on why Director 7 for Macintosh users skip this step, 
+              refer to the "<A 
+              href="http://www.macromedia.com/support/director/ts/documents/d7_fast_start_projector.htm#fyi">FYI</A>" 
+              note at the end of this TechNote.</FONT> </LI></UL></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>17</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Remember 
+            to include/distribute with the projector the external movies, casts 
+            and linked media required by your movie(s). Typically, if the 
+            external files are located in the folder that contains the 
+            projector, at the same directory level, the projector will be able 
+            to locate and link to the files automatically. Other file 
+            configurations are also possible.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For 
+            information on navigating among movies, and working with linked 
+            media and casts, refer to Director's documentation, Help and 
+            searchable TechNotes.</FONT></P></TD></TR>
+        <TR>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, san-serif" 
+            size=2><B>18</B></FONT></TD>
+          <TD vAlign=top>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Launch 
+            your projector. It should open quickly and play your 
+            movies.</FONT></P>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>A 
+            fast-start projector will usually take only a few seconds to launch 
+            and begin playing your movies.</FONT> </P></TD></TR></TBODY></TABLE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>Additional 
+      information and troubleshooting tips<BR></B></FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B><A 
+      name=fyi>FYI:</A></B> Because of how the Macintosh operating system works, 
+      there is essentially no performance benefit gained by distributing the 
+      Director 7 for Macintosh projector application resource files external to 
+      a Shockwave Player projector. The files are named "DPLIB", "IMLLIB" and 
+      "MacromediaRuntimeLib", and by default they are included in (compiled 
+      into) a full, non-Shockwave Player projector. The Mac OS performance in 
+      this regard is almost identical -- very fast -- whether these resources 
+      are internal or external to a projector. That's why the instructions above 
+      do not describe distributing these files external to a Director 7 for Mac 
+      Shockwave Player projector.</FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Distributing 
+      <B>Xtras</B> in an Xtras folder is typically beneficial and recommended 
+      because it will enable the fastest Director 7 projector launching on both 
+      Macintosh and Windows.</FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For best 
+      results, we recommend using Director 7.0.2 or higher.</FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Versions of 
+      Director after 7.0.2 may, or may not, use techniques different than what 
+      are described in this TechNote. For more information, refer to the 
+      Director update/version's documentation, ReadMe files, searchable 
+      TechNotes, and so forth.</FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>If your 
+      projector takes a long time to launch before it begins to play your 
+      movies, or if an error message appears, retrace the steps above. If the 
+      problem persists, troubleshoot for movie design, data, and projector, file 
+      and system configuration issues to determine the cause.</FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For example, 
+      if an Xtra that is required to play your movie is not included in the 
+      projectors' Xtras folder, a message may appear to that effect when you 
+      launch the projector. Or, there may be movie performance problems, such as 
+      sprites not appearing on stage, or a red "X" where a sprite should appear, 
+      or no sound, and so forth.</FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>If it's taking 
+      too long before the first frame of your movie plays, there can be many 
+      possible causes. For example, there may be media loading issues, or your 
+      movie may be executing unnecessary or time-consuming Lingo (perhaps in a 
+      movie script, or in frame 1), and so forth. These issues can be avoided or 
+      minimized by changing your movie design. For example, there are Director 7 
+      Text-related issues that can impact movie loading times; for information, 
+      refer to "<A 
+      href="http://www.macromedia.com/support/director/ts/documents/more_text_speedups.htm">How 
+      can I speed up big text in Director 7?</A>" (TechNote 13852) and "<A 
+      href="http://www.macromedia.com/support/director/ts/documents/text_speed.htm">Optimizing 
+      text display speed in Director 7</A>" (TechNote 13771). Other 
+      Director-related issues are discussed in <A 
+      href="http://www.macromedia.com/support/search/powersearch.html">searchable 
+      TechNotes</A>.</FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Performance 
+      problems can also be due to system configuration issues. Testing against 
+      multiple machines/configurations will usually be helpful in 
+      troubleshooting configuration issues.</FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Data related 
+      issues can impact performance. </FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>If necessary, test 
+      against new, simple testing movies using known good data, such as the 
+      sample media located on the Director 7 CD in 
+      Macromedia&gt;Support.</FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>For more 
+      information on how movie design affects performance, and on how to 
+      troubleshoot movies, refer to Director's documentation, Help and 
+      searchable TechNotes, including "<A 
+      href="http://www.macromedia.com/support/general/ts/documents/troubleshooting_pt87.htm"> 
+      What are some more general troubleshooting tips?</A>" (TechNote 
+      13872).</FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2><BR></FONT></P>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B>TechNote 
+      revision history:</B><BR>7/23/99 - Clarification: Disable "Include in 
+      projector" only for Xtras in movies packaged into the projector (Step 
+      #7.)<BR>8/19/99 - Added information concerning the VFW error "</FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>This application 
+      requires the Shockwave Player which is not installed. ...", and also links 
+      to Text performance-related TechNotes.<BR>10/26/99 - Revised steps 10, 11 
+      &amp; 16. For details on why Director 7 for Macintosh users skip these 
+      steps, refer to the "<A 
+      href="http://www.macromedia.com/support/director/ts/documents/d7_fast_start_projector.htm#fyi">FYI</A>" 
+      note in the "Additional information and troubleshooting" section 
+      above.<BR>11/18/99 - Revised steps 10 and 11 to explicitly instruct 
+      Macintosh users to select "standard" projector as an option during 
+      projector creation. Revised step 16 by moving information regarding the 
+      VFW error, "msvcrt.dll" and "msvfw32.dll" into <A 
+      href="http://www.macromedia.com/support/director/ts/documents/windll_files_required.htm">What 
+      might cause Director 7 projectors to fail on Windows</A> (TechNote 
+      14150)</FONT><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>. 
+      </FONT><!--mm-end-contents -->
+      <P>
+      <TABLE border=1 cellPadding=5 cellSpacing=1>
+        <TBODY>
+        <TR>
+          <TD colSpan=2><FONT face="Arial, Helvetica, sans-serif" 
+            size=2><B>Keywords: </B></FONT><FONT 
+            face="Geneva, Arial, Helvetica, sans-serif" size=2>fast start 
+            projector, Shockwave Player, Use system player, speed up, slow 
+            launching, missing Xtras, Xtras packaging, include in projector, 
+            stub projector, stub movie, temp directory, iml32.dll, dirapi.dll, 
+            dplib, imllib</FONT> </TD></TR>
+        <TR>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Last 
+            updated: </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>November 3, 1999</FONT> </TD></TR>
+        <TR>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Author: 
+            </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Peter 
+            DeCrescenzo</FONT> </TD></TR>
+        <TR>
+          <TD><FONT face="Arial, Helvetica, sans-serif" size=2><B>Area: 
+            </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Tips 
+            &amp; Tricks</FONT> </TD></TR></TBODY></TABLE><!-- insert a little gap after the bottom table --><BR>&nbsp; 
+<!-- close the table row that the body is in --></P></TD></TR>
+  <TR>
+    <TD align=right vAlign=bottom width="10%"><A 
+      href="http://www.macromedia.com/buy/" target=_top><IMG alt=buy border=0 
+      height=21 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/buy.gif" 
+      width=67></A><BR><A 
+      href="http://www.macromedia.com/support/search/powersearch.html"><IMG 
+      alt="power search" border=0 height=21 
+      src="Macromedia - How to create a fast-start Director 7 projector_files/search.gif" 
+      width=90></A><BR></TD>
+    <TD>
+      <CENTER>
+      <HR noShade SIZE=1 width="100%">
+      <BR><FONT face="Arial, Helvetica" size=-1>[<A 
+      href="http://www.macromedia.com/" target=_top>home</A>] [<A 
+      href="http://www.macromedia.com/software/" target=_top>products</A>] [<A 
+      href="http://www.macromedia.com/support/" target=_top>support</A>] [<A 
+      href="http://www.macromedia.com/downloads/" target=_top>downloads</A>] [<A 
+      href="http://www.macromedia.com/macromedia/" target=_top>about us</A>] [<A 
+      href="http://www.macromedia.com/OUTGOING/http://www.shockwave.com/" 
+      target=mm_window>shockwave.com</A>] [<A 
+      href="http://www.macromedia.com/help/" target=_top>help</A>] <BR><FONT 
+      size=-2><A href="http://www.macromedia.com/help/copyright.html">Trademarks 
+      Copyright</A> ©1995-1999 Macromedia, Inc. All rights reserved. <A 
+      href="http://www.macromedia.com/help/privacy.html">Privacy policy</A>. 
+      </FONT><BR></FONT></CENTER></TD></TR></TBODY></TABLE><!-- whitespace required to workaround Nav 3.04 Win scrollbar bug --><BR></BODY></HTML>

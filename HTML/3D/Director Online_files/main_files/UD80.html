@@ -1,0 +1,562 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.director-online.com/howTo/UD_articles/UD80.html -->
+<HTML><HEAD><TITLE>Using Director Number 80</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#ff0000 vLink=#770000>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>
+      <P><IMG border=0 height=28 src="UD80_files/UD.gif" width=129> 
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG border=0 height=9 
+            src="UD80_files/archiveDivLine.gif" width=440></TD>
+          <TD rowSpan=2 vAlign=top width=55><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Using%20Director"><IMG 
+            align=bottom border=0 height=28 src="UD80_files/archiveDiv.gif" 
+            width=55></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <H3><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">A New 
+            Dimension: 3D Lingo in Director</FONT></H3>
+            <P><FONT size=-1>by <A href="mailto:dcole@sigma6.com">Dave 
+            Cole</A></FONT> </P></TD></TR></TBODY></TABLE></P></TD></TR></TBODY></TABLE>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><BR>
+      <P>Let's face it: 2D interface and presentation design is being done to 
+      death. We're running out of elbow room in this arena of creativity and the 
+      only way out is to climb above it all. As processor speed continues its 
+      steady ascention, and systems like the iMac begin to flood the low-end 
+      userbase, three-dimensional graphics become ever more feasable; the gaming 
+      industry realized this a long time ago -- the reason 3D has not been 
+      heavily embraced on the web is twofold: Downloading 3D engines, models, 
+      and other data takes a long time. Secondly, if you've ever run CosmoPlayer 
+      or some other playback engine and tried delving into VRML you've probably 
+      found that there's no such thing as a 3D graphics standard on the web; 
+      from machine to machine results vary drastically and half the time your 
+      system is brought to it knees by some software bug in a plug-in somewhere. 
+      Luckily, there's Shockwave. 
+      <P>Shockwave/Flash has become ubiquitous on the web - it's solid and 
+      rarely ever crashes. The problem is it can't do 3D, right? Wrong. On any 
+      computer monitor, 3D graphics algorithms are simply mathematically 
+      sophisticated 2D graphics. All depth cues -- shading, blurring, motion 
+      parallax -- are simulated by making 2D graphics on the screen colored and 
+      positioned correctly to fool you into thinking you're looking at something 
+      in three dimensions. As this follows, all you need to do is throw a few 
+      math equations in your shockwave movie (note: no big increase in download 
+      time) and you've entered the third dimension. It is clear that shockwave 
+      is the best vessel for 3D graphics on the web. This article seeks to 
+      explain some basic principles of 3D graphics and how you can apply them to 
+      your Director movies. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">A Crash Course 
+      in 3D Graphics Theory </FONT></H4>
+      <P>It all begins with a point in space. 3D graphics are often made of 
+      models. These models are made from polygons. These polygons are 
+      represented by their vertices. These vertices are often represented as 1x4 
+      arrays -- x, y, z location, and the homogeneous coordinate w (I won't go 
+      too deeply into w&#8230; suffice to say that it makes the math easier, and is 
+      usually set to 1.0). The actual units used are irrelevant. Each model is 
+      defined as a set of points in its own individual local coordinate system, 
+      and must be translated, rotated, and scaled into its position in the world 
+      coordinate system which is relative to the user's view. Every rotation, 
+      translation, and scaling operation is often performed using well-known 4x4 
+      matrices in which every step in the transformation process multiplies a 
+      4x4 matrix by another 4x4 matrix. The resulting matrix is called the 
+      ModelView matrix, because it holds the transformations to move Models 
+      around the virtual world, as well as data defining what the Viewer's 
+      virutal camera is positioned to capture. More on this later. 
+      <P>After the final 4x4 matrix has been determined, you multiply every 
+      point's coordinates, a 1x4 matrix, against the final 4x4 matrix and this 
+      determines its new location in 3D space. This result is then multiplied 
+      against another 4x4 matrix known as the Projection matrix. This operation 
+      simulates what a camera lens does to a ray of light from the 3D world as 
+      it intersects 2D film. The final operation, called a Viewport 
+      transformation, stretches the resulting coordinates to fit whatever window 
+      size you have established on the user's screen. The result is a 1x4 array 
+      for each point where the x and y values determine where on the screen the 
+      pixel is to show up (the locH and locV if you will), the z value is 
+      normalized between 1 and -1 indicating how far (or near) from the screen 
+      it is, and w is 1.0 (like I said, don't worry about w). This operation 
+      occurs for every vertex in the 3D world, for every frame of animation. 
+      <P>Lost? If so, it's ok - it's as easy to get lost in graphics theory as 
+      it is hard to explain it in layman's terms. Luckily, you don't have to 
+      worry much about the math - I've already written a robust 3D lingo engine 
+      for you to use. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Dave's 3D 
+      Engine</FONT></H4>
+      <P>This <A href="http://www.dubbus.com/devnull/3D/" 
+      target=_blank>engine</A> comes in two flavors: One for D6 and one for D7. 
+      Unfortunately, the version for Director 6.5 and D6 does not contain lingo 
+      calls to draw &amp; color simple polygons. As a result, the next easiest 
+      thing is to use the vertices to define sprite positions on the stage as 
+      opposed to defining polygons, using the z-depth information to 
+      appropriately scale the sprite, change its blend values, and/or change the 
+      member of the sprites. This technique can create fairly convincing 3D 
+      effects. This is how Dave's 3D Engine for D6 operates. I call this method 
+      of 3D "point-based" 3D. 
+      <P>The engine for D7, what I call the "3DE7", has added support for 
+      polygonal 3D graphics, since D7 has the wonderful Quad feature which 
+      allows you to stretch a given bitmap sprite at any of the four corners of 
+      the bitmap. This allows for pseudo texture-mapped 4-vertex polygons. For 
+      the remainder of this article I will refer to this method of 3D as 
+      "polygonal 3D". 
+      <P>There are two script cast members that are common to both engines. The 
+      first is a movie script that holds all the handlers which perform the 
+      actual 3D work and which automate numerous aspects of authoring 3D 
+      graphics for you. It's loosely modeled after the popular (and superior) 
+      graphics API OpenGL - in fact, I recommend referring to an OpenGL manual 
+      while using Dave's 3D Engine. This script is named "3DEngine." 
+      <P>The second cast member is a parent script called "3DSprite." This cast 
+      member is what allows point-based 3D to happen. One instance of a 3DSprite 
+      represents one 3D sprite channel. 
+      <P>Dave's 3D Engine v7 for Director 7 gives you three additional parent 
+      script cast members. 3DQuad, which is pretty much like 3DSprite except it 
+      stretches a sprite's Quad for the purposes of representing polygonal 3D. 
+      The next member, 3DModel, is what makes life easy for you. It encapsulates 
+      both the 3DSprite and 3DQuad behaviors so that you don't have to get your 
+      hands dirty. With it, you can load 3D models in from a variety of 3D Model 
+      file formats, and it will generate the set of 3DSprites or 3DQuads which 
+      are required to represent the model you've imported. You can then 
+      manipulate the whole collection of sprites through one easy interface. 
+      <P><IMG alt="" border=0 height=173 src="UD80_files/UD80_5Cast.gif" 
+      width=350> 
+      <P>The remainder of this article will explain how to use this engine to 
+      create a simple 3D interface, covering step by step some of the principles 
+      of 3D graphics theory. We'll do a step-by-step example of how to make a 
+      simple 3D movie with the engine -- after you run through this example you 
+      should have a firm hold on the concepts involved in order to create more 
+      complex movies. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Step 0: The 
+      Plan </FONT></H4>
+      <P>What we'll be doing in this example is creating a four-sided pyramid 
+      that will float in the center of the screen. When the user clicks and 
+      drags on that pyramid, it will spin accordingly. 
+      <P>When you download the 3D Engine, you receive an example movie with some 
+      code detailing some of the basic functionality of the engine. Linked to 
+      this movie is an external cast called "3DE7.cst". To create your own movie 
+      with the 3D Engine, simply import this external cast, or cut &amp; paste 
+      the members into the internal cast of your movie (this is a better idea if 
+      you want to Shock any of your content). 
+      <P>Create a movie that is 400x400 and import the 5 cast members of the 3D 
+      Engine as you choose; these 5 members reside in the 3DE7.cst file 
+      distributed with the Dave's 3D Engine release archive. Set the background 
+      color of the movie to black or dark grey. 
+      <P><IMG alt="" border=0 height=138 src="UD80_files/UD80_bitmaps.gif" 
+      width=159> 
+      <P>Put any two bitmap images of your choice in the cast. Make sure they're 
+      not too big. I recommend making one just a single blue pixel, and making 
+      the other a picture of something. Call the first one "bitmap1" and the 
+      second one "bitmap2". We'll use these as textures for our model. For every 
+      polygon in the model, there is one Quad needed to represent that polygon. 
+      These bitmaps will be fit to every Quad in the model we'll use. 
+      Unfortunately, right now there is no way to take a single bitmap and 
+      stretch it across several Quads, so we have to apply one bitmap to every 
+      polygon quad in our 3D Model. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Step 1: 
+      Setting Up the Score &amp; Initializing the 3D Engine </FONT></H4>
+      <P><IMG align=left alt="" border=0 height=572 hspace=4 
+      src="UD80_files/UD80_score.gif" vspace=4 width=177> There's no rule that 
+      says you can't do otherwise, but how I typically set up the score in using 
+      Dave's 3D Engine is to loop on a single frame - in this particular case it 
+      makes sense since all our graphics are going to be controlled with lingo. 
+      So, in frame 5 of your movie, set up a frame script to "go to the frame". 
+      <P>Now, with the inception of D7, you don't have to put placeholder 
+      sprites in the sprite channels you are planning on using for 
+      3DSprite/3DQuad objects, however, it is sometimes helpful to put a sprite 
+      there to avoid at times unpredictable ink effects and such. I often just 
+      make a pixel bitmap in the paint window and stick it offscreen. The 3D 
+      engine will replace the sprite and reposition it as needed. In this case, 
+      we'll be creating a 3D Model that will be a pyramid with four sides and a 
+      base. That's 5 surfaces, which means 5 3DQuad objects, which means 5 
+      sprite channels you'll need to allocate. Let's allocate sprite channels 11 
+      through 15, starting at frame 3. 
+      <P>The 3D Engine will need to be initialized. This involves setting up the 
+      Projection matrix with the correct viewing Frustum. A Frustum is a 
+      definition of the volume that determines which objects are visible (within 
+      the camera view) and which are not. It defines the top, bottom, left, 
+      right, furthest and nearest edges of the area that defines where objects 
+      come into view. It's equivalent to choosing a lens on a camera. A wider 
+      viewing frustum creates wide-angle lens effects. A more narrow one acts 
+      like a telephoto lens. Here is a diagram of a frustum: 
+      <P>We want to define a frustum that has the same aspect ratio as our 
+      viewport. A viewport is the actual 2D window that the 3D world is shown 
+      within. We'll make our viewport (or view window) 400x400, the stage size, 
+      and our frustum of a square aspect ratio, with an average viewing volume. 
+      <P><IMG alt="" border=0 height=260 src="UD80_files/UD80_Frustum.gif" 
+      width=370> 
+      <P>The viewing volume of the frustum is the area that is between the 
+      top,bottom, left, right, far, and near planes that describe the viewing 
+      frustum. This volume you could imagine looks like a pyramid with the top 
+      chopped off with a base that grows away from the viewer. Only vertices 
+      that lie within this volume will be shown on the screen, everything else 
+      will not be shown because it is presumed to be outside of the reach of the 
+      lens of the virtual camera. 
+      <P>At frame 1, create a score script with the following code: <PRE><FONT color=#cc0000>on exitFrame
+
+ mSelectMatrix("Projection")
+ mLoadIdentity()
+ pFrustum(-0.9, 0.9, 0.9, -0.9, 0.7, 200.0)
+ pViewPort(0,0,400,400)
+ mSelectMatrix("ModelView")
+ mLoadIdentity()
+ 
+end</FONT></PRE>
+      <P>I'll explain line by line what this code does: 
+      <OL>
+        <LI>mSelectMatrix selects which matrix to edit. There are two possible 
+        matrices we could edit, the Projection matrix which defines how the 
+        viewing is done, and the ModelView matrix which determines how objects 
+        are placed and oriented in the virtual world. We wish to edit the 
+        Projection matrix. 
+        <LI>mLoadIdentity sets the matrix to an identity matrix - the matrix 
+        equivalent of setting a coeffieicent to 1. 
+        <LI>The pFrustum call sets up the Projection matrix to represent a 
+        frustum that is of average width and height, the same aspect ratio as 
+        the viewport, and clips all objects which are closer than 0.9 units from 
+        the camera, and farther than 200 units from the camera. Clipping is the 
+        act of deciding not to draw an object because it falls outside of the 
+        camera view. Feel free to play with these values later, particularly the 
+        0.9, for different perspective effects. 
+        <LI>pViewPort defines a viewing window that is the size of the stage. 
+        <LI>The next two calls simply ensure that any further transformation 
+        calls will be applied to the ModelView matrix and sets the matrix to the 
+        identity matrix, which means that no transformations are saved in the 
+        ModelView matrix. </LI></OL>
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Step 2: 
+      Setting Some Initial Global Variables </FONT></H4>
+      <P>The "3DEngine" cast member in the 3DE cast member bundle has a 
+      prepareMovie script. You'll notice if you examine it that there are a few 
+      global variables that are set in there. You can either override their 
+      default values in a script that's executed after the prepareMovie event, 
+      or change this code right inside the engine (don't be afraid to poke 
+      around!). The global variables you might want to pay attention to are: 
+      <UL>
+        <LI><B>cullBackfaces</B> -- This global variable, when set to TRUE, 
+        enables backface culling. What backface culling does is decides that 
+        polygons have a front face, and a back face. Generally there is 
+        something in the definition of the polygon that indicates this. In many 
+        cases, polygon vertices are defined in a clockwise manner, and 3D 
+        engines assume that if the viewer sees a polygon's front face, then its 
+        vertices can be observed in the same clockwise manner as the polygon was 
+        defined in; D3DE7 uses this convention. Therefore, if the polygon's 
+        front face is not facing the viewer, the engine will decide not to draw 
+        that polygon at all. This is a good idea to enable if you know you've 
+        defined your polygons correctly, since it makes them appear a little 
+        more realistic on the screen as well as saves some blit time. However if 
+        you're not sure that you set up your polys correctly, you might want to 
+        disable this 
+        <LI><B>cullBackfaces_cw</B> -- When set to TRUE, this determines that 
+        all polygons will be front facing when their vertices appear to be 
+        defined in a clockwise order. When set to FALSE, front facing polygons 
+        are assumed to have their vertices defined in a counter-clockwise order. 
+        This is useful for turning objects "inside out". Once we've created this 
+        example, flip the value and take a look. 
+        <LI><B>use3DWatcher</B> -- The 3DWatcher is a parent script I wrote 
+        which is enabled automatically by creating a 3DQuad. What it does it 
+        watches the 3D world for any changes you've made since the last frame 
+        was drawn - if no changes were made, it doesn't call for the 3D Engine 
+        to do anything that frame. This saves on computation time for other 
+        non-3D elements of your movie. When set to TRUE, the 3DWatcher is 
+        enabled. Sometimes, for reasons beyond the scope of this article, the 
+        3DWatcher can think that no change is necessary when one actually is 
+        necessary. I recommend setting this to FALSE while you develop, and then 
+        once you're done, turning it on to and see if nothing breaks. </LI></UL>
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Step 3: 
+      Creating a Model </FONT></H4>
+      <P>In this example, we're going to use the 3DModel parent script to 
+      generate the model from a field cast member that we're about to create. 
+      <P>The first step is to define the model within a field cast member using 
+      a format I created called .D3D -- this model format will define, face by 
+      face, a pyramid shaped model. Each face we'll assign an ink value, blend 
+      value, bitmap member to fill in the polygon. We'll also define the 
+      vertices of each face in a clockwise fashion to indicate to the 3D engine 
+      that its front face is facing outward. 
+      <P>Here is the pyramid in .D3D format. Create a field member called 
+      "Pyramid.D3D" and paste this in: <PRE>  
+-- Pyramid.D3D - defined around its own center
+-- base face: bkg transparent ink, 100% 
+-- blend, bitmap cast member 
+-- don't worry what 0 means for now 
+
+-- base 
+  NEWFACE 36 100 0 bitmap2
+  -10, -5, 10 
+  10, -5, 10 
+  10, -5, -10 
+  -10, -5, -10 
+ -- front 
+  NEWFACE 36 100 0 bitmap1
+  -10, -5, 10 
+  0, 5, 0 
+  0, 5, 0 
+  10, -5, 10 
+ -- back 
+  NEWFACE 36 100 0 bitmap1
+  10, -5, -10 
+  0, 5, 0 
+  0, 5, 0 
+  -10, -5, -10 
+ -- left 
+  NEWFACE 36 100 0 bitmap2
+  -10, -5, -10 
+  0, 5, 0 
+  0, 5, 0 
+  -10, -5, 10 
+ -- right 
+ NEWFACE 36 100 0 bitmap2
+  10, -5, 10 
+  0, 5, 0 
+  0, 5, 0 
+  10, -5, -10 </PRE>
+      <P>This is an excellent opportunity to introduce the concepts of the World 
+      Coordinate System (WCS) versus each object's Local Coordinate System 
+      (LCS). Each model is defined in its own local coordinate system that has 
+      nothing to do with the 3D world. The units in both systems are arbitrary. 
+      The models are then positioned in the World Coordinate System along with 
+      all the other models. 
+      <P><IMG alt="" border=0 height=300 src="UD80_files/UD80_lcs.gif" 
+      width=300> 
+      <P>There is an LCS for every model, but only one WCS. In the "Pyramid.D3D" 
+      field above, the reason that the "front" face is called the front face 
+      here is due to the nature of the WCS. By default, the virtual camera sits 
+      at the origin of the WCS and points down the negative Z axis. Without any 
+      transformations applied to the pyramid model (or any model), it will also 
+      be drawn at the origin of the WCS, oriented such that what is called the 
+      front face of the pyramid would face the camera. I say would because at 
+      this point the camera and the model are in the same place, so the camera 
+      is inside the pyramid. If you were to slide the model back along the Z 
+      axis, then the front face would face the viewer. 
+      <P>Envisioning this situation, I defined the polygons of the pyramid in a 
+      clockwise order as they would appear if I were looking at them head on. 
+      This way I can enable backface culling for a cleaner result. 
+      <P>Now we must create a lingo script to represent this object. Create a 
+      new parent script, call it "Pyramid". This script will encapsulate the 
+      model, representing both its visual status and its interactivity. In the 
+      constructor handler, we'll import the .D3D model. <PRE><FONT color=#cc0000>property model
+global rotX, rotY
+
+on new me
+ model = new (script "3DModel", 1, "Pyramid.D3D", ¬
+   11, 15)
+ rotX = 0
+ rotY = 0
+ add the actorlist, me
+end</FONT></PRE>
+      <P>First we set up some properties, rotX and rotY which we will use for 
+      interactivity later. We keep the model property around to hold a pointer 
+      to the 3DModel object. The call to create a new 3DModel takes the argument 
+      1, which tells the 3D model a .D3D file is coming (you can choose other 
+      numbers for other formats, see the docs), the name of the field that 
+      defines the Pyramid, and then the range of sprite channels the model is 
+      allowed to occupy, 11-15. We then add the Pyramid object to the actorlist 
+      so it can receive stepFrame events. Make sure that on stopMovie you're 
+      setting the actorlist = []. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Step 4: Adding 
+      Interactivity</FONT></H4>
+      <P>This is a very simple step. All we aim to do here is provide the 
+      interface with which the user spins the pyramid. We'll go for a click n' 
+      drag approach. Create a quickdraw box cast member that covers the stage -- 
+      make it a non-filled quickdraw box with a line width of 0. Put it in 
+      sprite channel 20. Attach a behavior to it. This behavior will track the 
+      mouse's movements and modify the global variables rotX and rotY, which 
+      we'll use as arguments later to move the pyramid. 
+      <P>Your behavior should look like this: <PRE><FONT color=#cc0000>global rotX, rotY
+
+on mouseDown me
+ 
+ y = the mouseH
+ x = the mouseV
+ oldRotX = rotX
+ oldRotY = rotY
+ 
+ repeat while the stilldown
+  rotX = oldRotX + (the mouseV - x)
+  rotY = oldRotY + (the mouseH - y)
+  updateStage
+ end repeat
+ 
+end</FONT></PRE>
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Step 5: 3D 
+      Transformations</FONT></H4>
+      <P>This is the part of the article where we actually affect the 3D model's 
+      position in space. Now that we have a way to interactively change the rotX 
+      and rotY values, we need to plug them into the 3D engine's transformation 
+      calls. 
+      <P>Simply put, a transformation is anything that potentially affects the 
+      position of a vertex in space. It can, for instance, be a translation, a 
+      rotation, or a scaling procedure. In this case we will be modifying the 
+      pyramid's rotation. 
+      <P>After any model has been properly transformed to its correct position 
+      in the world coordinate system (known as a model transformation) that 
+      model must be then transformed again to represent the virtual camera's 
+      position and orientation. The idea of positioning a camera is really a 
+      falsehood. What you are in actuality doing is moving every model in the 
+      world coordinate system, one at a time, to a new space in the world 
+      coordinate system to fake the idea that a camera is being moved. For 
+      instance, by default the view of the 3D engine is positioned at the origin 
+      of the world coordinate system looking down the negative Z axis. In some 
+      respects it always is. If you position several models, say, -30 units away 
+      from the origin on the Z axis, and then translate them to -50 units away 
+      from the origin on the Z axis, the appearance to the viewer is that the 
+      camera is moving away from the objects 20 units. In reality, it is the 
+      objects that have moved. This is how it is with moving a virtual camera in 
+      3D. 
+      <P>The general rule is, first make the transformations to position your 
+      models in space, after which we'll make the camera transformations. First 
+      do your rotations to orient the model, then do your scaling if needed 
+      (often it is not), then do your translation to position your model in the 
+      world coordinate system. After all this, now perform your camera 
+      transformations. To move your camera "forward" --translate all your models 
+      back; to move your camera left, translate all your models right. The same 
+      rotation calls you made to orient your model, now that it has been 
+      translated to the right place in the WCS, will cause your models to orbit 
+      around the origin of the world coordinate system (technically where your 
+      camera is always located). Rotations always happen around the center of 
+      the WCS - if your model is not centered on the WCS origin then it will 
+      appear to orbit around the origin instead of spin on its own center. 
+      <P>That having been said, we will write the code to move the pyramid. 
+      We'll do this using the stepFrame event. Write this into the code of your 
+      container script for the Pyramid, "Pyramid". <PRE><FONT color=#cc0000>on stepFrame me 
+
+  --  step 1 - "erase" ModelView matrix  
+  mLoadIdentity() 
+  
+  --  step 2 - since the pyramid is defined sitting at 
+  -- the origin, orient the pyramid  
+  xRotateX(rotX/100.0)  
+  xRotateY(rotY/100.0) 
+  
+ --  step 3 - translate the pyramid 30 units down the -Z axis   
+ --  this is the same as moving the camera 30 units back 
+ -- along the positive Z axis   
+  xTranslate(0, 0, -30.0) 
+  
+ --  step 4 - Multiply the vertices of our model against 
+ -- the resulting ModelView matrix  
+  Transform(model)  
+  
+ --  step 5 - Draw the model with its newly transformed vertices.  
+  drawMe(model) 
+  
+end </FONT></PRE>
+      <P><B>Step 1 </B>of this script does is sets the ModelView matrix, the 4x4 
+      matrix I mentioned earlier to an identity matrix. This is the mathematical 
+      equivalent of not performing any transformations -- wiping the slate 
+      clean. One approach to 3D animation is to do this every frame and then 
+      reposition every model all over again for every frame of the animation. 
+      Another approach never initializes the ModelView matrix between frames and 
+      uses the cumulative transformations to move the geometries -- but we're 
+      not going to use that one for this example. 
+      <P><B>Step 2</B> then applies the rotation global variables rotX and rotY 
+      to the rotation transformation handlers. I divide these values by 100 
+      because we're going from pixel difference to radians -- not doing this 
+      would cause the pyramid to spin wildly. The pyramid will spin on its 
+      origin because the model is defined around its own origin in its local 
+      coordinate system and has not yet been translated away from the origin of 
+      the world coordinate system. This is technically our "model" 
+      transformation. 
+      <P><B>Step 3</B> then moves the model 30 units down the -Z axis -- which 
+      is equivalent to backing the camera off the model 30 units. This is 
+      technically our "viewing" transformation. Note that both step 2 and 3 have 
+      affected the ModelView matrix -- it is the order that is important. 
+      <P><B>Step 4</B> actually multiplies the local coordinate system vertices 
+      of the model against the modelView matrix and the projection matrix, and 
+      saves the results within the model datatype. These results are either each 
+      vertex's transformed locH and locV on the screen (viewport) or 0 if the 
+      vertex has been translated outside of the viewing frustum and hence is 
+      offscreen. 
+      <P><B>Step 5</B> finally draws each polygon of the model based on its 
+      locally stored transformed vertices. If a vertex is outside of the viewing 
+      frustum, that polygon is not drawn. This is known as clipping. The idea of 
+      clipping is a powerful one because it means that you can define a whole 
+      virtual universe and only the portions of the universe that appear within 
+      the viewing frustum will be drawn. All the processor time it would have 
+      taken to blit the image is not allocated. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Step 6: 
+      Z-Sorting </FONT></H4>
+      <P>We could add a further step to the drawing cycle of our pyramid which 
+      would ensure that the sprites which represent the frontmost surfaces will 
+      be assigned a higher locZ property so as to always properly appear on the 
+      screen. After all, it would be a bit embarrasing to have the rear polygons 
+      of a model starship, for instance, be drawn on top of the front ones. 
+      <P>This feature is easily enabled by setting a global variable called 
+      "sortSprites" to TRUE. Do this in prepareMovie and the 3DModel object of 
+      the 3DE7 is smart enough to make a call to the engine's zSort() handler 
+      for that model. This variable is already set to TRUE by default in the 
+      prepareMovie handler of the engine. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Tying up the 
+      loose ends</FONT></H4>
+      <P>All you have to do now is instantiate the object. Since you are looping 
+      on frame 5 of your score, create a frame script in frame 4. This script 
+      will instantiate the 3D model and get things underway. <PRE><FONT color=#cc0000>global pyramidHandle 
+
+on exitFrame 
+  pyramidHandle = new(script "Pyramid") 
+end </FONT></PRE>
+      <P>That should do it. Make sure rotX and rotY are set to 0 in the 
+      prepareMovie handler, rewind, press play, and you should have a pyramid 
+      sitting in front of you! If you click and drag over the pyramid (where you 
+      have placed your invisible quickdraw character), you should be able to 
+      "spin" the pyramid interactively. You have now scratched the surface of a 
+      much larger 3D framework. Using the basic skills you have learned in this 
+      article, you should be able to go on and create far more complicated 3D 
+      environments to suit your needs. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Is This The 
+      Only Way? </FONT></H4>No. As my graphics professor put it, don't be a 
+      slave to your mathematical system -- you create your mathematical system 
+      to be subjugate to your needs. There are many ways in which you can 
+      represent the math needed to render 3D graphics; it just happens that the 
+      path I have taken is one of the most versatile, adaptable, scalable, and 
+      widely written-about methods humanity knows about today. If you are 
+      daring, and your needs don't require such a generalized system, feel free 
+      to explore your own avenues; you might come upon a faster, more 
+      streamlined way to do what you need to do -- but if you ever want to 
+      expand an existing system troubles could creep in. Explore the links 
+      below, widen your horizons, and make your own decisions. Personally, I 
+      find the exploration of new ways to express mathematical concepts in 
+      artistically enticing ways to be the driving impetus behind my work; 
+      Leonardo DaVinci followed this path and look where it got him. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Related Links 
+      </FONT></H4>
+      <P>A Director 7.0 movie of this completed example can be be downloaded in 
+      <A href="http://www.director-online.com/howTo/other/UD80.hqx">Mac</A> or 
+      <A href="http://www.director-online.com/howTo/other/UD80.zip">PC</A> 
+      format. 
+      <P>The documentation for Dave's 3D Engine can be found at:<BR><A 
+      href="http://www.dubbus.com/devnull/3D/3DE-docs.htm" 
+      target=_blank>http://www.dubbus.com/devnull/3D/3DE-docs.htm</A>
+      <P>You can learn more about 3D graphics theory through this link I found: 
+      <BR><A 
+      href="http://ironbark.bendigo.latrobe.edu.au/courses/gdc/bitgrp/outline.html" 
+      target=_blank>General 3D Theory #1</A> 
+      <P>Here's an OpenGL related link for a tutorial on similar functions to 
+      the handlers in Dave's 3D Engine:<BR><A 
+      href="http://www.digital.com/pub/doc/opengl/opengl_index_alpha.html" 
+      target=_blank>OpenGL Specs #1</A> 
+      <P>Some good examples of 3D lingo I've found on the web (not necessarily 
+      using Dave's 3D Engine): 
+      <UL>
+        <LI>NoiseCrime's 3<A 
+        href="http://www.users.dircon.co.uk/~simtek/quads/index.html" 
+        target=_blank>DQuads Page</A> (Incredible Stuff Here) 
+        <LI><A href="http://www.sfx.co.nz/tamahori/thought/shock_3d_howto.html" 
+        target=_blank>Che Tamahori's Page</A> on 3D Lingo (My Inspiration) 
+        <LI><A 
+        href="http://www.atitech.com/ca_us/showcase/ati_aqua/ati_aqua.html" 
+        target=_blank>ATI Aqua Rage</A> (A game using Dave's 3D Engine 2.6) 
+      </LI></UL>
+      <P><FONT size=-1><A href="mailto:dcole@sigma6.com">Dave Cole</A> is a 
+      computer scientist/filmmaker from Detroit, Michigan. After having learned 
+      Director and lingo studying animation at the University of Michigan, he 
+      moved on to develop CD-ROMs, applications, and web sites for Sigma6 
+      Interactive Media in Detroit. In addition, he has produced a short 
+      animation shown at UCON 99, "Infestation," as well as an interactive 
+      weather browser, "BlueSkies 3," through the Weather Underground. In his 
+      spare time, he freelances, plays music, and builds 3D engines.</FONT> 
+    </P></TD></TR></TBODY></TABLE></BODY></HTML>

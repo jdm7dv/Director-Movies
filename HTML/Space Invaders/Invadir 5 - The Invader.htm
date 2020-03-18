@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0042)http://brennan.young.net/Edu/Invadir5.html -->
+<HTML><HEAD><TITLE>Invadir 5 - The Invader</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir4.html">Back to Lesson 
+4</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir6.html">Forward to Lesson 
+6</A></H6>
+<P><B>Lesson 5 - The Invader</B></P>
+<P>The invader is going to move horizontally and "bounce" off the edges of the 
+screen. Every time it bounces it will move a few pixels down the screen. Drag 
+one of the invader cast members onto the stage. Make sure it is in frame 1, and 
+put it in sprite channel 3. (We are going to reserve channel 2 for the 
+bullet).</P>
+<P>We know that when the invader is moving to the right, the value of its locH 
+property is <B>increasing</B>. When it is moving to the left, the value of its 
+locH property is <B>decreasing</B>. Make a new script for the invader sprite 
+(make sure it is a score script, not a cast member script) and type this Lingo 
+in.</P><PRE>on exitFrame me
+
+  set mySprite to the spritenum of me
+  set myH to the locH of sprite mySprite
+  set the locH of sprite mySprite to myH + 1
+
+end</PRE>
+<P>Name the script "invader script". As before, we are storing the sprite's 
+channel in a variable called <B>mysprite</B>. Remember that <B>mysprite</B> is 
+just a name I thought up, you could call it whatever you like, but make sure it 
+somehow suggests to you "the sprite where this script is attached".</P>
+<P>We store the current horizontal location of the sprite in a variable called 
+myH, also a name I thought up myself, then we set the horizontal location of the 
+sprite to a position which is <B>one pixel more</B> than what it was. This will 
+mean that the invader will march onwards to the right and actually disappear 
+altogether! Try it...</P>
+<P>Close to what we want, but no cigar. Before we deal with this important 
+detail I'd like to take an even more important detour:</P>
+<P>It might be smart to get the sprite to remember the<TT> mysprite 
+</TT>variable instead of keep on assigning it every frame. Every line of code 
+takes precious processor time to be carried out, and there is no need to 
+repeatedly do things which have already been done. This is a game, we want it to 
+perform well and be responsive. So why does the sprite not automatically 
+remember what<TT> mysprite </TT>is anyway?</P>
+<P><B>Scope</B></P>
+<P>Normally when you create a variable inside a handler, that variable only 
+keeps its value for the duration of the handler. When the handler is finished, 
+the variable is removed from memory. This might strike you as a strange way of 
+doing things, but there is a very good reason for it.</P>
+<P>Quite a lot of the information we use in everyday life is ephemeral, it is 
+only important, valid and useful in the context where it appears, after which 
+time it is obsolete and usually forgotten, deleted or destroyed. Think about 
+last week's news; the bus ticket you used and then threw away; the location of 
+the shelf in the library where the librarian assured you you would find the 
+books you were looking for.</P>
+<P>These are examples of the way we use and then dispose of once important 
+information. When it comes down to it, most information 'degrades' with time. 
+This means that if we want to work with information (data) with a minimum of 
+mess, it is sensible to locate that information within, and only within the 
+context where it is useful, then delete or forget it when it is no longer 
+useful.</P>
+<P>Given that the most ephemeral and short-lived information should be 
+accessible most immediately, it makes sense that this kind of information is 
+'easiest' to create and use. Thus when you assign value to a new variable inside 
+a handler without any further consideration, it has the scope of 'here and now' 
+(the execution of the current handler) only.</P>
+<P>If you want some information to last a bit longer, you make that information 
+a <B>property</B> of the object that's going to need it. This means that any 
+variables or values that a sprite is going to need to use or update regularly 
+should become properties of that sprite.</P>
+<P>Sprites <B>already</B> have a bunch of properties, we've already looked at 
+some of them (such as <B>ink</B>, <B>member</B> and <B>locH</B>). When you add a 
+property to a script and attach the script to a sprite, you are extending the 
+basic set of sprite properties to include some extra ones which make the sprite 
+a bit more specialised. It is very easy to do this, and you should feel free to 
+add properties to an object if you think it will need them. This is how you do 
+it:</P><PRE>property mySprite
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+
+end</PRE>
+<P>If a property should have a 'default' or even a constant or fixed value for 
+the entire time the sprite is 'in use', one of the best places to assign the 
+value of that property is in a handler which responds to a<TT> beginsprite 
+</TT>message. This message is automatically sent to all sprites with attached 
+scripts when the playback head encounters them in the score for the first 
+time.</P>
+<P>While the playback head remains within the frames where that sprite appears, 
+the sprite with all its properties is 'alive'. As soon as the playback head 
+jumps elsewhere in the score, the sprite object 'dies'. If the playback head 
+then returns to the frame where the sprite is, it sends a<TT> beginsprite 
+</TT>message to the sprite again.</P>
+<P>In this case the sprite will store the value of<TT> the spritenum of me 
+</TT>in a property called<TT> mysprite </TT>for as long as the playback head 
+stays within it's span in the score. This means that it is not necessary to keep 
+reassigning the<TT> mysprite </TT>value every time an<TT> exitframe </TT>message 
+arrives.The script therefore now looks like this:</P><PRE>property mySprite
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+
+end
+
+on exitFrame me
+
+  set myH to the locH of sprite mySprite
+  set the locH of sprite mySprite to myH + 1
+
+end</PRE>
+<P>
+<HR align=left>
+
+<P></P>
+<P>Now to get back to our problem of keeping the invader on the screen. If we 
+want the sprite to move to the left sometimes, to the right other times, then 
+another important property our invader script will need is <B>horizontal 
+direction</B>. We can not continually test for which direction the sprite should 
+move because it might be moving in both directions at different momements and in 
+exactly the same place on the screen. This is how its done...</P><PRE>property mySprite, hdirection, stagewidth
+
+on beginsprite me
+
+  set mySprite to the spritenum of me
+  set hdirection to 1
+  set stagewidth to the width of the rect of the stage
+
+end
+
+on exitFrame me
+
+  set myH to the locH of sprite mySprite
+
+  if myH &lt; 0 then
+
+    set hdirection to 1
+
+  end if
+
+  if myH &gt; stagewidth then
+
+    set hdirection to -1
+
+  end if
+
+  set the locH of sprite mySprite to myH + hdirection
+
+end</PRE>
+<P>Make sure that your invader script now looks like this, then read on.</P>
+<P>In the<TT> beginsprite </TT>handler we have added<TT> stagewidth</TT>, a 
+value which was used in the cannon script also. Please note that<TT> stagewidth 
+</TT>is a name of my choosing. We have also added a default value for<TT> 
+hdirection </TT></P>
+<P>. Notice how there are now two<TT> if </TT>tests inside the<TT> exitframe 
+</TT>handler,which change the<TT> hdirection </TT>property if the invader is 
+close to the sides. The last line takes care that the sprite itself is moved to 
+the appropriate new location. It will either be one pixel further to the right 
+or one pixel futher to the left because adding a negative number is the same as 
+subtraction.</P>
+<P>When you run the movie you will see the invader sprite moving left and right 
+across the screen, changing direction appropriately as it goes over the edges. 
+We haven't got it to move down at all yet, but we'll cover that later.<BR></P>
+<P><B>Sudden Alien Invasion</B></P>
+<P>There is another enormous advantage of using properties. Each sprite which 
+uses the script can remember its <B>own values</B> for these properties, even 
+though they all use the same handlers. Stop the movie, then go to the score and 
+select the invader sprite, copy it and paste it several times into channels 4 to 
+10. You will then have 8 invader sprites. Select each one individually and drag 
+it to a different starting position on the <B>stage</B> (this is where it will 
+appear at the beginning of its 'lifetime').</P>
+<P>When you are ready, run the movie and you should find that all 8 invaders 
+move in a similar, though slightly different fashion, there will be occasions 
+where some of them are moving to the left and others are moving to the right. 
+They are all using the same script, (when you copied the sprite, you also copied 
+the attached script) but each sprite has its own set of properties, not just<TT> 
+locH </TT>but<TT> hdirection </TT>as well! If you like, you can fill up the 
+frame with dozens of invaders and they will all behave the same way. Notice the 
+way performance drops as you increase the number of invaders, however. This will 
+be more noticeable on a slower computer.</P>
+<P>Another effect of this approach is that if you modify the invader script, ALL 
+the invaders will be affected. This approach saves hours of sweat and bother 
+when you have to create multiple instances of the same type of 'thing' and it is 
+one of the central principles of Object Oriented design. In 'traditional' OO 
+terminology, the script is called a <B>class</B> and the invader sprite is an 
+<B>instance</B> or <B>object</B> of that class. Don't worry about the names for 
+now, there are plenty of nerdy arguments about whether they are appropriate 
+anyway. If it feels more comfortable, you might want to think of a class as a 
+template, a blueprint, a stylesheet or even a genome! </P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir6.html">Forward to 
+Lesson 6</A></H5></BODY></HTML>

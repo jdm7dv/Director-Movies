@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.director-online.com/howTo/UD_articles/UD53.html -->
+<HTML><HEAD><TITLE>Using Director Number 53</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.2800" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#ff0000 vLink=#770000>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>
+      <P><IMG border=0 height=28 src="UD53_files/UD.gif" width=129> 
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG border=0 height=9 
+            src="UD53_files/archiveDivLine.gif" width=440></TD>
+          <TD rowSpan=2 vAlign=top width=55><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Using%20Director"><IMG 
+            align=bottom border=0 height=28 src="UD53_files/archiveDiv.gif" 
+            width=55></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <H3><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">A 
+            customized Movie-In-A-Window that can be dragged anywhere on the 
+            screen.</FONT></H3>
+            <P><FONT size=-1>by Paul Hemmer Copyright © 1999, Navistream 
+            Corporation</FONT> </P></TD></TR></TBODY></TABLE></P></TD></TR></TBODY></TABLE>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><BR>
+      <P>A question that has arisen several times over the past few months on 
+      the Lingo-L mailing list has to do with creating a MIAW 
+      (Movie-In-A-Window) that has the following properties: 
+      <P>
+      <OL>
+        <LI>It does not have a standard title-bar 
+        <LI>It can be dragged around by the user both within AND outside the 
+        stage bounds of a windowed projector. </LI></OL>
+      <P>It seems simple enough. What most developers find is that given the 
+      range of windowType values available, the MIAW ends up with a title-bar 
+      and is only moveable within the confines of the stage, or it has no 
+      title-bar, sits within the confines of the stage and cannot be dragged 
+      around at all. As a Director developer, you either have never needed this 
+      type of functionality (and therefore don't realize that it's not as 
+      straightforward as picking the appropriate windowType) or you have banged 
+      your head against the wall trying to figure out which windowType to use to 
+      get the desired results. Bang your heads no longer, the answer is here and 
+      is very easy to implement in your own Director applications. The technique 
+      presented here has been tested and works equally well on both MAC and PC. 
+      <P>So how can this be accomplished? The process is actually quite simple 
+      and really involves only two steps: 
+      <P>
+      <OL>
+        <LI>Use the appropriate windowType value, in this case, the MIAW must 
+        have a windowType = 2 
+        <LI>Attach the appropriate Lingo code to a "fake" title-bar within the 
+        MIAW that interacts with the mouse allowing the MIAW to be dragged 
+        around. </LI></OL>
+      <P>Why must the MIAW have a windowType = 2? In a nutshell, a type-2 window 
+      is not actually a window at all - it's really a dialog box. Actual windows 
+      (the other windowType values available to you in Director) must exist 
+      within the boundaries of the "parent" window - in this case, the stage. 
+      This is not functionality unique to Director, it is a fundamental concept 
+      behind all windowed operating systems. By using a windowType of 2, you are 
+      actually making a ""Movie-In-A-Dialog" and dialog boxes can exist anywhere 
+      on the desktop regardless of the size/location of the main window which 
+      created it. If you can use Lingo to open a Director movie in a dialog box 
+      (windowType = 2) at any desired location on the screen, it would follow 
+      that you can also use Lingo to change it's location at runtime. 
+      <P>So how do I do it? Basically, all you need to do now is attach the 
+      appropriate Lingo code to a "hot-spot" within your MIAW which tracks the 
+      position of the mouse while it is held down, and adjusts the rect of the 
+      window (actually, the dialog box!) accordingly. 
+      <P>The code used in this example is based on Lingo syntax for versions of 
+      Director prior to 7.0 because at the time of this writing, the majority of 
+      DOUG readers have not yet upgraded to Director 7.0. Also, while I always 
+      am an advocate of using OOP in all Director development, this example uses 
+      a single movie-level Lingo script that takes a reference to a MIAW as a 
+      parameter. I have presented the technique like this so that it is 
+      accessible by the widest range of developers. If you are comfortable with 
+      OOP, I recommend wrapping this functionality into your MIAW class (parent 
+      script), but doing so is by no means necessary. By way of acknowledgment, 
+      I have modified this code slightly; however, I cannot take credit for its 
+      initial writing. A fellow developer named Dower Chin is responsible for 
+      writing this code the first time around. Nice work Dower. With that, on to 
+      the code! Paste the following into the script window and make sure it's a 
+      movie-level script. <PRE><FONT color=#cc0000>
+on DragWindow dWhichMIAW
+  tell the stage
+    set mPt to point(the mouseH,the mouseV)
+    set origRect to the rect of dWhichMIAW
+    repeat while the mouseDown
+      set newPt to point(the mouseH, the mouseV)
+      set deltaPt to newPt - mPt
+      set newRect to offset(origRect,getAt(deltaPt,1), ¬
+        getAt(deltaPt,2))
+      set the rect of dWhichMIAW to newRect
+      tell dWhichMIAW to updateStage
+      updateStage
+    end repeat
+  end tell
+end
+</FONT></PRE>
+      <P>As you can see, this script accepts a reference to a MIAW as a 
+      parameter (dWhichMIAW ) - and as such, works with whatever MIAW that you 
+      pass into it. However, the question still remains, "where do I call this 
+      script from?" The answer is quite simple. The diagram below illustrates an 
+      example of what your MIAW might look like. Notice how I have placed a 
+      Director shape member in a location to "fake" a title-bar. 
+      <P><IMG alt="" border=0 height=260 src="UD53_files/UD53.gif" 
+      width=300><BR><I>Figure 1.</I> 
+      <P>Now, the only thing that you need to do is place the following script 
+      on your "fake title bar": 
+      <P><B>Script A</B> <PRE><FONT color=#cc0000>
+global gVideoPlayer 
+- the global reference to your MIAW
+
+on mouseDown
+  repeat while the mouseDown
+    tell the stage to DragWindow(gVideoPlayer)
+  end repeat
+end
+</FONT></PRE>
+      <P>That's all you need. When you open your MIAW it will have no title-bar 
+      and you can click within your "fake title-bar" and drag it anywhere on the 
+      screen you like, regardless of stage size/boundaries. 
+      <P>While this technique is really quite simple, the ability to create 
+      floating movies that can be moved outside the stage is sure to open all 
+      kinds of creative doors for you in your Director development. <FONT 
+      size=-1>
+      <P>Copyright (c) 1999, Paul Hemmer, Interactive Digital Communications, 
+      Inc 
+      <P>Paul Hemmer is a 22 year old software developer with a BS in 
+      Information Technology from Rochester Institute of Technology. He works 
+      for a multimedia development company called Navistream Corporation in 
+      Rochester NY. He primarily does Object Oriented Lingo development and 
+      lately has dabbled in ASP programming. Paul is very much an advocate of 
+      OOP and tries to push Director beyond its limits every day. He is 
+      committed to increasing awareness of the power and importance of the 
+      object oriented mindset and he does his best to make sure everybody on 
+      DirectL knows how he feels. In reality though, Paul is a bass player who 
+      happens to sling Lingo by day. ;) 
+</FONT></P></TD></TR></TBODY></TABLE></BODY></HTML>

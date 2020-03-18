@@ -1,0 +1,31 @@
+<HTML>
+<HEAD>
+<TITLE>Shockwave</TITLE>
+</HEAD>
+<BODY bgcolor="#000000">
+
+<!-- Aftershock treat.dcr 3=288 4=272 37=0 -->
+<OBJECT classid="clsid:166B1BCA-3F9C-11CF-8075-444553540000"
+ codebase="http://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=5,0,0,0"
+ ID=treat WIDTH=288 HEIGHT=272>
+	<PARAM NAME=src VALUE="treat.dcr"> 
+	<PARAM NAME=bgcolor VALUE=#000000 >
+
+<SCRIPT LANGUAGE=JavaScript>
+<!--
+var ShockMode = 0;
+if (navigator.mimeTypes && navigator.mimeTypes["application/x-director"] && navigator.mimeTypes["application/x-director"].enabledPlugin) {
+	ShockMode = 1;
+}
+if ( ShockMode ) {
+	document.write('<EMBED SRC="treat.dcr"');
+	document.write(' swLiveConnect=FALSE WIDTH=288 HEIGHT=272 BGCOLOR=#000000');
+	document.write(' TYPE="application/x-director" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveDirector">');
+	document.write('</EMBED>');
+} else if (!(navigator.appName && navigator.appName.indexOf("Netscape")>=0 && navigator.appVersion.indexOf("2.")>=0)){
+	document.write('<IMG SRC="treat.jpg" WIDTH=288 HEIGHT=272 BORDER=0>');
+}
+//-->
+</SCRIPT><NOEMBED><IMG SRC="treat.jpg" WIDTH=288 HEIGHT=272 BORDER=0></NOEMBED><NOSCRIPT><IMG SRC="treat.jpg" WIDTH=288 HEIGHT=272 BORDER=0></NOSCRIPT></OBJECT><!-- EndAftershock treat.dcr -->
+</BODY>
+</HTML>

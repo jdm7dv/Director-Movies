@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy92.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 92</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#770000 aLink=#ff0000 link=#ff0000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=31 src="handy92_files/handyman.gif" width=213 
+      border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG height=9 
+            src="handy92_files/archiveDivLine.gif" width=440 align=bottom 
+            border=0></TD>
+          <TD vAlign=top width=55 rowSpan=2><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+            height=28 src="handy92_files/archiveDiv.gif" width=55 align=bottom 
+            border=0></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <P><B><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Dear 
+            Multimedia Handyman</FONT></B> 
+</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD><BR>
+      <P>I'm making a game that allows you to pick up objects as you walk 
+      around. The objects are automatically placed in your inventory when you 
+      click on them. 
+      <P>What I need is some help with the lingo that keeps track of all these 
+      objects. If I happen to go back to the same room that I already picked up 
+      an object, I need the lingo to say that the object is not there anymore 
+      and not reveal it again... 
+      <P>And If somehow I can work that out, then I need to be able to save a 
+      user's game. 
+      <P><A href="mailto:gavin@hyro.com">Gavin Rossow</A> 
+      <P>Dear Gavin, 
+      <P>This sounds like a job for...lists! Lists are wonderful things, so 
+      versatile and truly indispensible for almost any game I can think of. 
+      There are two types of lists: linear and property. A linear list can hold 
+      a series of almost anything you want: integers, symbols, float values, 
+      strings, even other lists. You can add and delete things from the list 
+      easily, and you can access the value of items in the list by referencing 
+      the item's order in the list. For example... <PRE><FONT color=#cc0000>set myList = ["key", "gold", "flask", "potion"]
+put myList
+-- ["key", "gold", "flask", "potion"]
+
+add myList, "cloak"
+put myList
+-- ["key", "gold", "flask", "potion", "cloak"]
+
+deleteOne myList, "flask"
+put myList
+-- ["key", "gold", "potion", "cloak"]
+
+whichItem = myList[3]
+put whichItem
+-- "potion"</FONT></PRE>
+      <P>Note in that last example, that the third item in myList was accessed 
+      with the syntax of naming the list, followed by bracketing the item we 
+      want. 
+      <P>Linear lists are very handy for lots of applications, but in your 
+      situation, I think a property list is more appropriate. A property list 
+      keeps track of items by category (by property) rather than by order. All 
+      property lists are a series of property:value pairs. In your game, the 
+      order of the items in the list is irrelevant. In fact, it would be very 
+      difficult for you to keep track of the items in the list using a simple 
+      linear list. In your game, you have a finite set of objects which can be 
+      picked up. So let's initialize a property list that includes all of those 
+      items as properties, and each will have a value of either 1 (if it has 
+      been picked up) or 0. <PRE><FONT color=#cc0000>set myList = [#key:0, #flask:0, #potion:0, #cloak:0, #gold:0]
+put myList
+-- [#key: 0, #flask: 0, #potion: 0, #cloak: 0, #gold: 0]</FONT></PRE>
+      <P>Now, when an item is clicked on (picked up), we'll simply need to set 
+      the corresponding value in myList to 1. <PRE><FONT color=#cc0000>myList.flask = 1
+put myList
+-- [#key: 0, #flask: 1, #potion: 0, #cloak: 0, #gold: 0]</FONT></PRE>
+      <P>Since these items need to disappear once they've been picked up, the 
+      sprites representing the items will need to have a behavior which checks 
+      the list. If the value for its particular item is 1, then it "knows" that 
+      it has been picked up and therefore should disappear offscreen. Obviously, 
+      the list needs to persist throughout the game and be accessible to these 
+      sprites, so be sure to declare the list as a global variable. 
+      <P>One variation on this plan is that some things might not be finite. For 
+      example, you might want to have gold be something that can continue to be 
+      accumulated. So instead of gold having a 1 or 0 value, it could increase 
+      by some increment. Here's a demo movie. 
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=320 height=240><PARAM NAME="SRC" VALUE="../other/handy92.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed src="../other/handy92.dcr"
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="240" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>This movie is available for download in <A 
+      href="http://www.director-online.com/howTo/other/handy92.hqx">Mac</A> or 
+      <A href="http://www.director-online.com/howTo/other/handy92.zip">PC</A> 
+      format. 
+      <P>For your Lingo scripts, start by initializing myList. I'll do it in the 
+      startMovie script. One note about initializing variables (including lists) 
+      in startMovie scripts: if your program jumps from movie to movie then the 
+      startMovie handler in any particular movie executes each time you enter 
+      that movie. That means that your variables will be re-initialized -- 
+      losing your user's status. So, take a look at what I do in this startMovie 
+      script. <PRE><FONT color=#cc0000><B>on startMovie</B>
+  global myList
+  if voidP(myList) then
+    initializeList
+  end if
+end startMovie
+
+<B>on initializeList</B>
+   myList = [#key:0, #flask:0, #potion:0, ¬
+     #cloak:0, #gold:0]
+end initializeList
+
+<B>on stopMovie</B>
+  clearGlobals
+end stopMovie</FONT></PRE>
+      <P>I check to see if the variable myList is void. If it is, then I 
+      initialize it. But if it is not, then I know that we must have initialized 
+      it elsewhere and I don't want to change it. One other item to note... in 
+      authoring, it's very helpful to have a stopMovie script to clearGlobals. 
+      Otherwise, myList would not be void as it should be when we start the 
+      movie again. This clearGlobals thing is really only an issue in authoring. 
+
+      <P>We'll need a "collectItem" behavior for each item. I'll make it so that 
+      when we drop it on an item, there will be a pulldown menu that allows us 
+      to select which item it is. 
+      <P><IMG height=108 alt="" src="handy92_files/handy92_gpdlCollector.gif" 
+      width=297 border=0> 
+      <P>That functionality is created in the getPropertyDescriptionList handler 
+      by adding a range. First I create a list (linear) of all the items I want 
+      to choose from. Then, I specify #range: itemList just below. If you have 
+      different items, you'll want to change the items listed in itemList. This 
+      is a very handy skill to have, so if you've never played around with a 
+      getPropertyDescriptionList ghandler, take the time to learn it. (Gold is 
+      not listed in itemList because we'll use a different behavior for that.) <PRE><FONT color=#cc0000>-- collectItem behavior
+-- copyright © 1999, ZZP Online, LLC
+-- free use for DOUG readers
+
+property spriteNum, pItem
+global myList
+
+<B>on getPropertyDescriptionList me</B>
+  itemList = [#cloak, #key, #flask, #potion]
+  pdlist to [:]
+  addprop pdlist, #pItem, [#comment:"Which item?", ¬
+    #format:#symbol, #default:#cloak, #range: itemList]
+  return pdlist
+end getPropertyDescriptionList
+
+<B>on beginSprite me</B>
+  if myList[pItem] = 1 then
+    sprite(spriteNum).locH = 1000
+  end if
+end beginSprite
+
+<B>on mouseUp me</B>
+  myList[pItem] = 1
+  sprite(spriteNum).locH = 1000
+end mouseUp
+</FONT></PRE>
+      <P>This is a very easy behavior. When the sprite first appears 
+      (beginSprite), it checks to see if its value in myList is 1. If so, it 
+      knows that it has been collected already, so it moves itself offstage to a 
+      locH of 1000. Otherwise, it does nothing and appears on the stage. When 
+      the user clicks on it, it sets its own value in myList to 1 and moves 
+      itself offstage. 
+      <P>For the gold behavior, we want it to act a bit differently. If you 
+      click on the gold, it will add some preset value to your gold tally in 
+      myList and disappear offstage. However, if you return to the room later, 
+      the gold reappears -- allowing you to collect more of it. Here's the 
+      collectGold behavior. <PRE><FONT color=#cc0000>-- collectGold behavior
+-- copyright © 1999, ZZP Online, LLC
+-- free use for DOUG readers
+
+property spriteNum, pValue
+global myList
+
+<B>on getPropertyDescriptionList me</B>
+  set pdlist to [:]
+  addprop pdlist, #pValue, [#comment:"Value?", ¬
+    #format:#integer, #default:10]
+  return pdlist
+end getPropertyDescriptionList
+
+<B>on mouseUp me</B>
+  myList[#gold] = myList[#gold] + pValue
+  sprite(spriteNum).locH = 1000
+end mouseUp</FONT></PRE>
+      <P>This behavior's getPropertyDescriptionList handler doesn't need to have 
+      the pulldown for other items; just a field to allow you to specify the 
+      value of the gold. 
+      <P><IMG height=104 alt="" src="handy92_files/handy92_gpdlCollector2.gif" 
+      width=262 border=0> 
+      <P>It also doesn't have a beginSprite handler. Although the gold 
+      disappears when you click it (mouseUp handler), when you return to the 
+      room, there's no beginSprite handler to check to see if it has been 
+      clicked before. Therefore you can collect the gold each time you pass 
+      through this room. 
+      <P>Saving the user's game is as easy as saving myList. You'll simply need 
+      a way for the user to identify himself/herself. Perhaps you can have an 
+      editable field as a login, and use that ID as the prefs name. For more 
+      information on saving the user's game, <A target=_blank 
+      href="http://www.director-online.com/accessArticle2.cfm?id=329">see this 
+      article</A>. 
+      <P>Good luck with your game! 
+      <P><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A target=display 
+      href="http://www.director-online.com/help_central/Display.html">Help 
+      Central</A> section of DOUG.</FONT> </P></TD></TR></TBODY></TABLE></BODY></HTML>

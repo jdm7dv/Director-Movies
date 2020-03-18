@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://poppy.macromedia.com/~sallen/multiuser/doc/guidelines.html -->
+<HTML><HEAD><TITLE>Multiuser Guidelines</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<H3>Guidelines for Writing Multiuser Shockwave Movies</H3>
+<OL>
+  <LI>
+  <H3>Minimize message frequency</H3>
+  <BLOCKQUOTE>
+    <P>Send only what you need to send. For example, if you are tracking the 
+    position of another players sprite, only send position information when the 
+    sprite's position changes. </P>
+    <P>For some applications, it makes sense collect a set of very small 
+    messages and send them together. For example: Collect several points in a 
+    brush stroke for shared drawing and send them together. Send entire chat 
+    messages after the user presses return instead of sending every 
+    character.</P></BLOCKQUOTE>
+  <LI>
+  <H3>Prioritize receiving over sending </H3>
+  <BLOCKQUOTE>
+    <H4>Increase framerate</H4>
+    <P>Make sure that the Multiuser Xtra is getting enough time to process 
+    incoming messages. Since the Multiuser Xtra processes messages on idle, this 
+    means you need to make sure that there is at least one idle called for every 
+    message you expect to receive. The easiest way to do that is to increase the 
+    framerate of your movie (either through the control panel or use the tempo 
+    channel of the score if you want the framerate to be different for different 
+    parts of the score). By default, message processing happens between frames. 
+    You can also set the idleHandlerPeriod to 0 for maximum idles</P>
+    <H4>CheckNetMessages</H4>
+    <P>If you don't want to depend on built-in idle handling or you want 
+    messages to be processed at other times, you can call 
+    CheckNetMessage(numMessages). This command will process up to numMessages 
+    that may be waiting in the queue. Note: during the CheckNetMessage call your 
+    callback handlers will be called to process the incoming messages.</P>
+    <P>One way you can make sure you receive messages before you send new ones 
+    is by calling GetNumberOutgoingMessages and then calling CheckNetMessages 
+    with the number of messages returned, before sending a 
+  message.</P></BLOCKQUOTE>
+  <LI>
+  <H3>Minimize Screen Updates</H3>
+  <BLOCKQUOTE>
+    <P>In general, drawing to the screen is much more time consuming than 
+    sending, receiving, or processing messages. So, you don't necessarily want 
+    to update the screen for every message you receive. For example, if every 
+    player in a game sends their status, you may want to collect that 
+    information and then update the graphics on stage all at 
+once.</P></BLOCKQUOTE>
+  <LI>
+  <H3>Only send messages to people who need it</H3>
+  <BLOCKQUOTE>
+    <P>If only one user needs the information, don't broadcast it to the whole 
+    group. </P></BLOCKQUOTE>
+  <LI>
+  <H3>Use SetNetMessageHandler</H3></LI></OL>
+<OL>
+  <BLOCKQUOTE>
+    <P>Use SetNetMessageHandler to dispatch and help process incoming messages 
+    depending on subject and/or sender. The native Xtra message dispatching is 
+    more efficient than similar code written in 
+Lingo.</P></BLOCKQUOTE></OL></BODY></HTML>

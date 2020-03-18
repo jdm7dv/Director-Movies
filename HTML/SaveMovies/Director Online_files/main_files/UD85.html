@@ -1,0 +1,353 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0058)http://www.director-online.com/howTo/UD_articles/UD85.html -->
+<HTML><HEAD><TITLE>Using Director Number 85</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2722.1300" name=GENERATOR></HEAD>
+<BODY aLink=#ff0000 bgColor=#ffffff link=#ff0000 vLink=#770000>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>
+      <P><IMG border=0 height=28 src="UD85_files/UD.gif" width=129> 
+      <TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG border=0 height=9 
+            src="UD85_files/archiveDivLine.gif" width=440></TD>
+          <TD rowSpan=2 vAlign=top width=55><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Using%20Director"><IMG 
+            align=bottom border=0 height=28 src="UD85_files/archiveDiv.gif" 
+            width=55></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <H3><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Saving 
+            game states with objects</FONT></H3>
+            <P><FONT size=-1>by <A href="mailto:cc@acca.nmsu.edu">C.C. 
+            Chamberlin</A></FONT> 
+</P></TD></TR></TBODY></TABLE></P></TD></TR></TBODY></TABLE>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width=495>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><BR>
+      <P>You've just finished your cool new shockwave game when it hits you: the 
+      player needs to save her progress. Unfortunately, your game is pretty 
+      complex, and you need to save more than just a few high scores and names; 
+      you need to save objects, and you can't just write out objects using 
+      setPref() like you can with numbers and strings. Should you scrap the 
+      whole project? Is it too nightmarish a task to go on? 
+      <P>Actually, it's pretty simple, if you know how to prepare for it, and 
+      have a few powerful functions under your belt. (In fact, these routines 
+      can be used anytime you need to save and restore the state of your 
+      application.) Let's take a look at some game state saving strategies! 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Before we 
+      begin</FONT></H4>
+      <P>This article assumes: 
+      <P>
+      <UL>
+        <LI>You are using Director 7.02 or greater. 
+        <LI>You can save and read files (using either setpref()/getpref() or 
+        FileIO. 
+        <LI>You are familiar with linear and property lists. 
+        <LI>You are familiar with creating objects from parent scripts. </LI></UL>
+      <P>If you don't know how to save and restore information, check out Mike 
+      Weiland's article <A 
+      href="http://www.director-online.com/accessArticle2.cfm?id=329" 
+      target=_top>Saving a User's State from a Shockwave Movie</A>. Code for 
+      reading and writing files is omitted from the examples. For linear lists, 
+      property lists, and object scripts, see the Director Manual. Also, there 
+      is a an article by Zac on <A 
+      href="http://www.director-online.com/accessArticle2.cfm?id=25" 
+      target=_top>debugging object-oriented programming</A> which may come in 
+      useful and covers some similar topics. 
+      <P>Finally, save your fingers! All the code is already available in an 
+      example movie which you can download in <A 
+      href="http://www.director-online.com/howTo/other/UD85.hqx">Mac</A> or <A 
+      href="http://www.director-online.com/howTo/other/UD85.zip">PC</A> format. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">The 
+      problem</FONT></H4>
+      <P>We want to save the state of our game to a text file, and then read it 
+      back in to pick up the game later. Actually writing our information out to 
+      disk and reading it back in is almost trivial; the hard part is preparing 
+      the data that needs to go out to disk. 
+      <P>Saving a player's name and high score is easy. But what happens when we 
+      are using objects in our game? You can't just use setPref() to save an 
+      object, because we would somehow have to translate it to a string. 
+      Instead, we'll devise a way to represent an object as a list which we 
+      <B>can</B> output as a string using the string() function. 
+      <P>If we want to be able to restore an object from a game, we need to 
+      store two things for later use. First, we need to know which parent script 
+      to create the new object from, and second, we need to know what to set the 
+      properties to. If we can find a way to cajole this information out of any 
+      given object, we can write a generic object-saving handler. 
+      <P>Let's take these two items in order. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Finding the 
+      Script Name</FONT></H4>
+      <P>There is no easy way to get the script name of an object; there is no 
+      built-in Lingo function that you can pass an object to and get the 
+      scriptname back. However, there is a sneaky way to get the scriptname. The 
+      key comes from this observation in the message window: <PRE><FONT color=#cc0000>g = new(script "test")
+put g
+-- &lt;offspring "test" 2 af7f8e8&gt;
+put string(g)
+-- "&lt;offspring "test" 3 af7f8e8&gt;"</FONT></PRE>
+      <P>Notice that the string() function applied to an object returns a string 
+      which contains the name of the script used to create the object. Thus, we 
+      can extract the scriptname using a simple function: <PRE><FONT color=#cc0000>  -- scriptName
+  -- Returns the name of the script used to create an object.
+  -- Returns an empty string if not passed an object.
+
+  <B>on scriptName obj</B>
+  
+    oldDelimiter = the itemDelimiter
+    the itemDelimiter = QUOTE
+    scriptName = item 2 of string(obj)
+    the itemDelimiter = oldDelimiter
+    return scriptName
+    
+  end scriptName</FONT></PRE>
+      <P>(This routine could be shortened to two lines, but since the 
+      itemDelimiter is set across your entire environment, it is safer to set it 
+      back to whatever it was when we entered the handler. If you're careful to 
+      always set the itemDelimiter before referring to items, you can just set 
+      the itemDelimiter and return the scriptname immediately.) 
+      <P>This routine, if passed an object, returns a string containing the 
+      scriptname used to create the object. It's pretty bulletproof, returning 
+      an empty string if passed a non-object. (It <B>will</B> choke on objects 
+      which were created from scripts containing quotes in the script name, but 
+      if that is a concern for you, that is simple enough to fix, and is left as 
+      an exercise for you.) 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Restoring 
+      Properties</FONT></H4>
+      <P>The next task is to get a list of the properties and their values so we 
+      can restore their values when we restore the object. This is where a 
+      certain Lingo feature comes in really handy: <B>properties of objects can 
+      be read as if they were property lists</B>. 
+      <P>For example, say our "test" script has one property named myprop, and 
+      it defaults to "ABC". Then you could type the following in the message 
+      window: <PRE><FONT color=#cc0000>g = new(script "test")
+put g.count
+-- 1
+
+put getpropat(g,1)
+-- #myprop
+
+put getAProp(g,#myprop)
+-- "ABC"</FONT></PRE>
+      <P>This gives us all we need to write a generic handler for translating a 
+      simple object into a list that can be stored away. 
+      <P>Objects with ancestors are somewhat problematic, however. It is 
+      possible to save ancestral properties, too, but that is beyond the scope 
+      of this article (but see the <A 
+      href="http://www.director-online.com/howTo/UD_articles/UD85.html#further">Further 
+      Explorations</A> section at the end of this article for some notes!). 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Objects as 
+      Lists</FONT></H4>
+      <P>Here's how we can convert an object to a list. First, we find out how 
+      many properties the object has using the count function. Then, we step 
+      through them, one by one, building a new property list with the same 
+      properties of the object. If we store the scriptName (obtained from the 
+      handler above) as one of the properties, then we can use that later to 
+      determine the parent script when we restore our game. Here's how it is 
+      done: <PRE><FONT color=#cc0000>  -- objectToList()
+  -- Takes an object and returns a property list
+  -- The property list includes the scriptName.
+  
+  <B>on objectToList what</B>
+  
+    z = [:]
+    propTotal = what.count
+    
+    repeat with looper = 1 to propTotal
+      propName = getPropAt(what,looper)
+      addProp(z,propName,getAProp(what,propName))
+    end repeat
+    
+    addProp(z,#scriptName,scriptName(what))
+    return z
+    
+  end objectToList</FONT></PRE>
+      <P>This routine generates a property list that has as its properties the 
+      properties of the object that is passed to it, and one special property 
+      called #scriptName that has our object's script name. We now have all the 
+      information we need to restore the object. First, we look up the 
+      #scriptName property for the name of the script to create an instance of. 
+      Then, we simply step through and set the object's properties. Here's how: <PRE><FONT color=#cc0000>  -- listToObject()
+  -- Takes a property list with a #scriptName property
+  -- and returns an object
+  
+  <B>on listToObject what</B>
+  
+    sName = getAProp(what,#scriptName)
+    theObj = new(script sName)
+    listCount = what.count
+    
+    repeat with looper = 1 to listCount
+      propName = getPropAt(what,looper)
+      if (propName &lt;&gt; #scriptName) then theObj[propName] = ¬
+        getAt(what,looper)
+    end repeat
+    
+    return theObj
+  end listToObject</FONT></PRE>
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Game saving 
+      strategies</FONT></H4>
+      <P>So now you have a routine for storing a single object! However, many 
+      games will have more information than just the properties of a single 
+      ancestor-less object! Let's construct a way of saving our entire game 
+      state easily. 
+      <P>Suppose your game consists of a player going around collecting weapons 
+      and treasures. You might have a player object, objects representing the 
+      treasures the player has collected, and a few "loose" global variables 
+      that need storing, such as whether they have registered your game. 
+      <P>Rather than writing a routine to save off each of these variables and 
+      objects in turn, we can store them all in a single property list called 
+      "gameState," and then just save and restore that single property list. It 
+      might look like this: <PRE><FONT color=#cc0000>put gameState
+-- [#player:&lt;offspring "playerobject" 2 2aae55c&gt;,¬
+  #key:#red,#registered:false]</FONT></PRE>
+      <P>To save the game, all we need to do is convert all the objects in the 
+      gameState to property lists, and we can save it using standard text read 
+      and write. We do this by stepping through all the elements of the property 
+      list, and, if something is an object, we use our objectToList() routine, 
+      developed above, to convert it to a sub-list. We can then save our list 
+      (as a string) to a text file. <PRE><FONT color=#cc0000>  --  saveGame()
+  --  Saves the contents of the gameState variable
+  
+  <B>on saveGame</B>
+  
+    global gameState
+    
+    saveProps = [:]
+    savePropCount = gameState.count
+    
+    repeat with looper = 1 to savePropCount
+      thisPropertyName = getPropAt(gameState,looper)
+      thisPropertyValue = getAProp(gameState,thisPropertyName)
+      if (objectp(thisPropertyValue)=true) then
+        objstring = objectToList(thisPropertyValue)
+        setAProp(saveProps,thisPropertyName,objstring)
+      else
+        setAProp(saveProps,thisPropertyName,thisPropertyValue)
+      end if
+    end repeat
+    
+    return saveProps
+    
+  end savegame</FONT></PRE>
+      <P>To restore the game, we read in the text, get its value() to convert it 
+      back into a property list, and then step through all the properties, 
+      restoring any objects using the listToObject() routine. 
+      <P>You may be wondering: how do we differentiate between things that 
+      should be property lists, and things that used to be objects before they 
+      were converted? This is where our #scriptName property comes in handy: any 
+      property list with #scriptName as a property is an object! If a property 
+      list has a #scriptName property, then we convert it to an object. Here's 
+      how: <PRE><FONT color=#cc0000>  --  restoreGame()
+  --  Restores the contents of the 
+  -- gameState variable from the text
+  
+  <B>on restoreGame saveText</B>
+  
+    global gameState
+    
+    gameState = value(saveText)
+    gamePropCount = gameState.count
+    
+    repeat with looper = 1 to gamePropCount
+      thisProperty = gameState[looper]
+      -- We leave the property alone unless it is an object
+      if (ilk(thisProperty) = #PropList) then
+        if (voidp(thisProperty[#scriptname])=false) then
+          gameState[looper] = listToObject(thisProperty)
+        end if
+      end if
+    end repeat
+    
+  end restoreGame</FONT></PRE>
+      <P>And we're done! All we need to do now is write out and read in simple 
+      text files using saveGame() and restoreGame(). For example, if you were 
+      using the preferences functions: 
+      <P>
+      <UL>
+        <LI>To save the game, we setPref("savegame.txt",string(saveGame())) 
+        <LI>To restore, we restoreGame(getPref("savegame.txt")) </LI></UL>
+      <P>You could also use FileIO, or even post these strings to a server. This 
+      would also be the place to encrypt the string to prevent people from 
+      hacking your saved games, if you care. 
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Wrapping 
+      up</FONT></H4>
+      <P>Want to try it out? Below is an example shockwave "game" that uses 
+      these exact routines. Click the "What's Going On?" button for an 
+      explanation. 
+      <P>
+      <OBJECT classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      height=200 width=300><PARAM NAME="SRC" VALUE="../other/UD85.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed src="../other/UD85.dcr"
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="300" height="200" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>The source code for this shockwave game is available for download in <A 
+      href="http://www.director-online.com/howTo/other/UD85.hqx">Mac</A> or <A 
+      href="http://www.director-online.com/howTo/other/UD85.zip">PC</A> format. 
+      <P>That's about it for the scope of this article (but see <A 
+      href="http://www.director-online.com/howTo/UD_articles/UD85.html#further">below</A> 
+      for further explorations). The important part is the concept that objects 
+      can be generically converted to lists and back. With that simple-seeming 
+      feature, you can write generic routines for saving and restoring any 
+      complicated game state you create. 
+      <P>Now you can allow your players to leave your game and come back at any 
+      time, picking up right where they left off. And these concepts really 
+      apply to any sort of application you are writing in Lingo; anytime you 
+      need to save and restore data, you can use these routines. 
+      <P>Enjoy! <A name=further></A>
+      <H4><FONT color=#cc0000 face="Arial, Helvetica, sans-serif">Further 
+      Explorations</FONT></H4>
+      <P>The routines provided above do have some limitations, and overcoming 
+      them are left as exercises for you, although I will probably tackle them 
+      in a later article. In the mean time, try improving the situation: 
+      <P><B>Problem</B>: What if some of our gameState properties point at cast 
+      member references? Sprites? Do we need to change any code? 
+      <P><B>Solution</B>: Experiment in the message window to see if member and 
+      sprite references need any special handling. 
+      <P><B>Problem</B>: What if we had a gameState property called #Inventory 
+      which contains a list of objects? The saveGame() and restoreGame() 
+      functions only catch objects at the "top" level of the gameState list, so 
+      the inventory would get corrupted when saved and restored. 
+      <P><B>Solution</B>: Rewrite saveGame() and restoreGame() to recursively go 
+      down through any lists to convert any objects further down. 
+      <P><B>Problem</B>: What if an object has an ancestor, or a property that 
+      points to another object? 
+      <P><B>Solution</B>: An ancestor will (probably <B>*</B>) show up as a 
+      property, so rewrite objectToList() and listToObject() to recursively go 
+      down through the properties and convert any objects it finds, and 
+      traversing any lists it finds. 
+      <P><B>*</B> Hint: There appears to be some strange behavior regarding 
+      whether or not the ancestor shows up as a property, and how the ancestor's 
+      properties are accessed when the object is treated as a property list. Try 
+      different syntax in the message window to investigate. 
+      <P><B>Problem</B>: This one is great! Note that 'the globals' is just like 
+      any other object - you can read and write to its properties (i.e. global 
+      variables) as if the globals were a property list! Therefore, you could 
+      restore <B>everything</B> by restoring the globals variable to its 
+      original state! This requires only a slight modification. 
+      <P><B>Solution</B>: Rewrite saveGame() and restoreGame() to restore the 
+      globals instead of the gameState. 
+      <P><B>Problem</B>: What happens when you have two objects having 
+      properties that point at each other? If you use the saveGame() and 
+      restoreGame() routines we've used up to this point, you'll end up with 
+      four objects instead of two. (Why?) This is probably the most complex game 
+      saving situation. 
+      <P><B>Solution</B>: Do a pre-processing step. Before saving the objects, 
+      recurse through everything and assign each object a unique identifier. 
+      Then, save the object data with the identifiers, using the identifiers for 
+      placement in the list hierarchy. Then, before restoring, restore all of 
+      the objects, and then step through the hierarchy, inserting the objects 
+      based on the identifiers. 
+      <P><FONT size=-1>"C.C." Chamberlin is a multimedia developer in New 
+      Mexico. He does educational outreach multimedia, web, and video projects 
+      with New Mexico State University, and has a freelance business on the 
+      side. He has done work for the USDA, the FBI, USWEST, the Kellogg 
+      Foundation, and the Smithsonian, among others. 
+</FONT></P></TD></TR></TBODY></TABLE></BODY></HTML>

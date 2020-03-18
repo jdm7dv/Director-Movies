@@ -1,0 +1,31 @@
+<HTML>
+<HEAD>
+<TITLE>Shockwave</TITLE>
+</HEAD>
+<BODY bgcolor="#000000">
+
+<!-- Aftershock ddd[1].dcr 3=288 4=295 0=3 37=0 -->
+<OBJECT classid="clsid:166B1BCA-3F9C-11CF-8075-444553540000"
+ codebase="http://download.macromedia.com/pub/shockwave/cabs/director/sw.cab#version=5,0,0,0"
+ ID=ddd[1] WIDTH=288 HEIGHT=295 ALIGN=top>
+	<PARAM NAME=src VALUE="ddd[1].dcr"> 
+	<PARAM NAME=bgcolor VALUE=#000000 >
+
+<SCRIPT LANGUAGE=JavaScript>
+<!--
+var ShockMode = 0;
+if (navigator.mimeTypes && navigator.mimeTypes["application/x-director"] && navigator.mimeTypes["application/x-director"].enabledPlugin) {
+	ShockMode = 1;
+}
+if ( ShockMode ) {
+	document.write('<EMBED SRC="ddd[1].dcr"');
+	document.write(' swLiveConnect=FALSE WIDTH=288 HEIGHT=295 ALIGN=top BGCOLOR=#000000');
+	document.write(' TYPE="application/x-director" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveDirector">');
+	document.write('</EMBED>');
+} else if (!(navigator.appName && navigator.appName.indexOf("Netscape")>=0 && navigator.appVersion.indexOf("2.")>=0)){
+	document.write('<IMG SRC="ddd[1].jpg" WIDTH=288 ALIGN=top HEIGHT=295 BORDER=0>');
+}
+//-->
+</SCRIPT><NOEMBED><IMG SRC="ddd[1].jpg" WIDTH=288 ALIGN=top HEIGHT=295 BORDER=0></NOEMBED><NOSCRIPT><IMG SRC="ddd[1].jpg" WIDTH=288 ALIGN=top HEIGHT=295 BORDER=0></NOSCRIPT></OBJECT><!-- EndAftershock ddd[1].dcr -->
+</BODY>
+</HTML>

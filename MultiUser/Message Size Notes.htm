@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0067)http://poppy.macromedia.com/~sallen/multiuser/doc/MsgSizeNotes.html -->
+<HTML><HEAD><TITLE>Untitled Document</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY bgColor=#ffffff>
+<H1>Message Size Notes</H1>
+<P>by Dave Simmons 
+<P>When making a multiuser movie, it's important to consider the size of the 
+messages being sent between systems. This TechNote describes how to roughly 
+calculate the number of bytes in each message.
+<P>Knowing the size of messages being sent and received by your movie can help 
+prevent bottlenecks. You might consider, for example, sending messages less 
+frequently or broadcasting data together to lower network traffic. 
+<P>In general, fewer large messages work much better than more small messages. 
+This is both due to decreased network overhead (less message header data being 
+sent) and fewer messages to process in your lingo code.
+<P>Each message consists of the error code, server time stamp, subject, sender, 
+recipient list and contents. There is also some additional message formating 
+information. To get the message size, total all the components of the message 
+and add another 16 bytes or so.
+<P>Here's some quick guidelines for the size of content values: 
+<UL>
+  <LI>Integers - 4 bytes 
+  <LI>Floats - 8 bytes 
+  <LI>Strings - the number of characters, rounded up to an even number, plus 4 
+  <LI>Symbols - the text representation size (when it looks like a string) 
+  <LI>Lists - total of all the elements, plus 4 
+  <LI>Properties - symbol size plus the value size 
+  <LI>Points &#8211; the total of the size of the two numbers, floats or integers 
+  <LI>Rects &#8211; the total of the size of the four numbers, floats or integers 
+  <LI>Media or Picture of member&#8211; actual memory resident size of the object in 
+  Director </LI></UL>
+<P>This is an example of a chat message that might be sent from a movie: 
+<TABLE width="100%" border=1>
+  <TBODY>
+  <TR>
+    <TD width="36%">Header data</TD>
+    <TD width="56%">&nbsp;</TD>
+    <TD width="8%">16</TD></TR>
+  <TR>
+    <TD width="36%">#errorCode</TD>
+    <TD width="56%">0</TD>
+    <TD width="8%">4</TD></TR>
+  <TR>
+    <TD width="36%">#timeStamp </TD>
+    <TD width="56%">123456</TD>
+    <TD width="8%">4</TD></TR>
+  <TR>
+    <TD width="36%">#subject</TD>
+    <TD width="56%">"ChatMsg"</TD>
+    <TD width="8%">12</TD></TR>
+  <TR>
+    <TD width="36%">#sender </TD>
+    <TD width="56%">"Myname"</TD>
+    <TD width="8%">10</TD></TR>
+  <TR>
+    <TD width="36%">#recipient </TD>
+    <TD width="56%">"@ChatGroup"</TD>
+    <TD width="8%">14</TD></TR>
+  <TR>
+    <TD width="36%">#content </TD>
+    <TD width="56%">"What is the weather like ?"</TD>
+    <TD width="8%">30</TD></TR>
+  <TR>
+    <TD width="36%">
+      <P>Total number of bytes</P></TD>
+    <TD width="56%">&nbsp;</TD>
+    <TD width="8%">90</TD></TR></TBODY></TABLE>
+<P>To look at the message traffic on the server, you must consider how large the 
+messages are, how often they are sent, and how they are distributed from the 
+server. 
+<P>The formula for the byte rate passing the server is: 
+<BLOCKQUOTE>
+  <P>msgRate = Rate of messages, in messages per second, per movie</P>
+  <P>bytesPerMsg = Number of bytes per message</P>
+  <P>groupSize = Group size the message is being distributed to</P>
+  <P>numUsers = Total number of users connected to the movie</P>
+  <P>Total bytes/second at the server = numUsers * msgRate * bytesPerMsg * 
+  (groupSize + 1)</P></BLOCKQUOTE>
+<P>The "+ 1" in the formula takes in account that the message is sent to the 
+server and then redistributed to all the members in the group.
+<P>For our chat example, let's assume each user sends out a message every 20 
+seconds. The chat messages look like the one above, about 100 bytes each. Assume 
+there is an average of 8 people in each chat group, and 65 people logged on 
+total. That gives a traffic rate at the server of: 
+<BLOCKQUOTE>
+  <P>65 * 1/20 * 100 * (8 + 1) = 2925 bytes per second</P></BLOCKQUOTE>
+<P>At the client end, the formula for messages traffic is: 
+<BLOCKQUOTE>
+  <P>Total bytes/second at the client = (groupSize + 1) * msgRate * 
+  bytesPerMsg.</P></BLOCKQUOTE>
+<P>The "+1" in the formula takes in account that messages sent to the server are 
+relayed and sent back to the same client. 
+<P>In our above example, this means the data rate is: 
+<BLOCKQUOTE>
+  <P>(8 + 1) * 1/20 * 100 = 45 bytes per second.</P></BLOCKQUOTE>
+<P>For both cases, the data will not be a steady flow be come in somewhat random 
+patterns. There will be peaks and lows in the data rate, raising and lowering 
+the amount of information passing through the data pipe.</P>
+<P></P></BODY></HTML>

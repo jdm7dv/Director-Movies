@@ -1,0 +1,1435 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0045)http://www.dubbus.com/devnull/3D/3DE-docs.htm -->
+<HTML><HEAD><TITLE>Dave's 3D Engine v7 - Documentation</TITLE>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+<!--
+function MM_swapImgRestore() { //v2.0
+  if (document.MM_swapImgData != null)
+    for (var i=0; i<(document.MM_swapImgData.length-1); i+=2)
+      document.MM_swapImgData[i].src = document.MM_swapImgData[i+1];
+}
+
+function MM_preloadImages() { //v2.0
+  if (document.images) {
+    var imgFiles = MM_preloadImages.arguments;
+    if (document.preloadArray==null) document.preloadArray = new Array();
+    var i = document.preloadArray.length;
+    with (document) for (var j=0; j<imgFiles.length; j++) if (imgFiles[j].charAt(0)!="#"){
+      preloadArray[i] = new Image;
+      preloadArray[i++].src = imgFiles[j];
+  } }
+}
+
+function MM_swapImage() { //v2.0
+  var i,j=0,objStr,obj,swapArray=new Array,oldArray=document.MM_swapImgData;
+  for (i=0; i < (MM_swapImage.arguments.length-2); i+=3) {
+    objStr = MM_swapImage.arguments[(navigator.appName == 'Netscape')?i:i+1];
+    if ((objStr.indexOf('document.layers[')==0 && document.layers==null) ||
+        (objStr.indexOf('document.all[')   ==0 && document.all   ==null))
+      objStr = 'document'+objStr.substring(objStr.lastIndexOf('.'),objStr.length);
+    obj = eval(objStr);
+    if (obj != null) {
+      swapArray[j++] = obj;
+      swapArray[j++] = (oldArray==null || oldArray[j-1]!=obj)?obj.src:oldArray[j];
+      obj.src = MM_swapImage.arguments[i+2];
+  } }
+  document.MM_swapImgData = swapArray; //used for restore
+}
+//-->
+</SCRIPT>
+
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY aLink=#ccccff bgColor=#006699 link=#ccccff 
+onload="MM_preloadImages('images/back2.gif','#923595867460')" text=#dddddd 
+vLink=#9999ff>
+<P><A href="http://www.dubbus.com/devnull/3D/" onmouseout=MM_swapImgRestore() 
+onmouseover="MM_swapImage('document.back','document.back','images/back2.gif','#923595867460')"><IMG 
+border=0 height=25 name=back 
+src="Dave's 3D Engine v7 - Documentation_files/back.gif" width=60></A><IMG 
+height=25 
+src="Dave's 3D Engine v7 - Documentation_files/home-3d-3de7-documentation.gif" 
+width=433></P>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="100%">
+  <TBODY>
+  <TR>
+    <TD width="10%">&nbsp;</TD>
+    <TD width="84%"><FONT face="Arial, Helvetica, sans-serif" 
+      size=+2><B>Dave's 3D Engine v7 (3DE7) Documentation</B></FONT></TD>
+    <TD width="6%">&nbsp;</TD></TR>
+  <TR>
+    <TD width="10%">&nbsp;</TD>
+    <TD width="84%">&nbsp;</TD>
+    <TD width="6%">&nbsp;</TD></TR>
+  <TR>
+    <TD width="10%">&nbsp;</TD>
+    <TD width="84%"><FONT face="Arial, Helvetica, sans-serif" size=5>Contents 
+      </FONT>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>1. Introduction<BR>2. 
+      New Features in Depth<BR>3. A Review of the 3DE7 Cast Members<BR>4. 3DE7 
+      Global Variables &amp; Datatype Formats<BR>5. 3DE7 Handlers<BR>6. A Note 
+      on Order of Operations<BR>7. The 3DModel Object<BR>8. The 3DQuad 
+      Object<BR>9. The 3DSprite Object<BR>10. Examples<BR>11. Miscellaneous 
+      Issues</FONT><FONT face="Arial, Helvetica, sans-serif" size=2><BR>12. 
+      Contacting Dave</FONT></P>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+size=5>Introduction</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>Welcome! Version 7 of 
+      Dave's 3D Engine is designed for use with Macromedia Director 7. It takes 
+      advantage of the multiple new features of Director 7 while maintaining its 
+      ability to be completely shockwavable without any Xtras!</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>New 
+      features:</FONT></P>
+      <UL>
+        <LI><FONT face="Arial, Helvetica, sans-serif">Polygonal 3D Graphics 
+        (Quad Based)</FONT> 
+        <LI><FONT face="Arial, Helvetica, sans-serif">Imports most 
+        Alias/Wavefront .OBJ Models, file or field based</FONT> 
+        <LI><FONT face="Arial, Helvetica, sans-serif">Imports my own Proprietary 
+        formats, .D3D for polygonal models and .P3D for point-based 3D models 
+        'ala the old 3D Engine, file or field based.</FONT> 
+        <LI><FONT face="Arial, Helvetica, sans-serif">Revised the sprite sorting 
+        algorithm to use D7's locZ property</FONT> 
+        <LI><FONT face="Arial, Helvetica, sans-serif">Avoids redundant 
+        transformations</FONT> 
+        <LI><FONT face="Arial, Helvetica, sans-serif">Use of new D7 syntax for 
+        speed increase</FONT> </LI></UL>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=-1>Dave's 3D Engine v7 
+      contains all the functionality of the old 3D engine as well. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>I wrote this engine 
+      because I was encountering several situations in which I desired to use 
+      concepts of 3-dimensional graphics in my various director projects. Seeing 
+      as the nearest comparable option was a $400 Xtra, I decided to take 
+      matters into my own hands. The result is a collection of lingo scripts 
+      which will allow you to define collections of points and surfaces in 
+      3-space, perform 3D translations, rotations, and scaling operations on 
+      sets of these points, then project all of these onto a 2D surface so they 
+      may be displayed on the screen. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>With the help of the 
+      added 3DSprite object, you can use these resulting point coordinates to 
+      position sprites at these coordinates along with some extra sprite-related 
+      goodies like scaling the sprite relative to it's distance from the virtual 
+      "camera," changing the cast members of a sprite depending on its distance 
+      from the virtual camera, and/or changing its blend values proportional to 
+      its distance from the camera.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>With the 3DQuad and 
+      3DModel objects, you can import polygonal models into the engine, 
+      displaying actual "texture mapped" true 3D graphics. The nice thing about 
+      the 3DE7 is that you can intermix both 3DQuads and 3DSprites 
+      seamlessly.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>I haven't yet 
+      implemented lighting. Frankly, I don't have a lot of time to work on this 
+      thing presently and lighting is a little more difficult than I thought. 
+      I'd love to see this feature in the 3D Engine soon however and will try my 
+      best to get it in a future revision.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>There are some added 
+      conventions, like matrix stacks, that allow for easy programming of 
+      inverse kinematics. Be warned -- this manual isn't a tutorial on the 
+      nature of 3D graphics programming. Find a textbook of your choice for 
+      this. I recommend books such as the <A 
+      href="http://cseng.aw.com/bookdetail.qry?ISBN=0-201-46138-2&amp;ptype=0" 
+      target=_top>OpenGL Programming Guide</A>. I modeled many of the function 
+      calls of Dave's 3D engine after the function calls of the popular 3D API 
+      OpenGL, since I myself am familiar with writing code that works with 
+      functions such as these. If you have used OpenGL before, this interface 
+      will be easy for you; if you haven't touched OpenGL before, you may want 
+      to look up examples of code which use similar function calls that are 
+      available in this engine. For good online tutorial for 3D graphics 
+      programming and OpenGL, try the following links:<BR><BR><A 
+      href="http://www.cac.psu.edu/dept/cac/publications/web/publications/cacguide/viz/sem_notes/3d_fundamentals/">Fundamentals 
+      of 3-D Computer Graphics</A><BR><A 
+      href="http://www.sgi.com/software/opengl/datasheet.html">Graphics 
+      Programming<BR>General Information on OpenGL</A> <BR><A 
+      href="http://www.digital.com/pub/doc/opengl/opengl_index_alpha.html">Index 
+      of OpenGL Function Calls</A><BR><BR>Feel free to keep an eye on my own 
+      homepage for new 3D graphics examples using Dave's 3D engine. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><A 
+      href="http://www.dubbus.com/devnull/3D">http://www.dubbus.com/devnull/3D</A></FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>As a final note on the 
+      intro -- this manual assumes you already have some working knowledge of 3D 
+      computer graphics theory. It is especially helpful if you have a working 
+      knowledge of OpenGL, since this engine behaves pretty much like OpenGL 
+      does. An explanation of 3D Graphics theory far overextends the scope of 
+      this manual and will not be delved into here. Furthermore, please do not 
+      e-mail me asking for a lesson. Review the web links above for this 
+      information, or take a class. </FONT></P>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>New Features of 3DE7 
+      In Depth</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>- New "3DQuad" parent 
+      script. Polygonal Geometry (Using Quads) support! You can now do REAL 3D 
+      with 4-vertex polygons. Implicitly with the Quad feature of D7 you can 
+      also texture map these polygons with any bitmap, even though these 
+      textures aren't perspective mapped, you can achieve some nice effects with 
+      them. Only bitmap cast members are supported in polygonal mode since Quads 
+      only work on bitmaps. The 3DQuad script contains support for backface 
+      culling, the act of not drawing polygons if their front faces aren't 
+      facing the viewer. You can toggle this option on and off with the 
+      "cullBackfaces" global variable and also toggle whether or not clockwise 
+      or counterclockwise-defined polygons are used to determine the front face 
+      (this can be used to effectively turn a geometry "inside out".</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>- New "3DModel" parent 
+      script. With this script you can import various 3D file formats into a 3D 
+      model within Dave's 3D Engine. You specify which format you would like to 
+      import, the filename or field name, and the sprite you would like to start 
+      allocating channels at, and the script builds your model for you! The 3D 
+      Model also includes useful features like saving transformation matrices in 
+      the model datatype itself so you can easily perform model-specific 
+      transformations. Formats supported so far are D3Ds ("Dave's 3D"'s), P3Ds 
+      ("Point-based Dave's 3D"'s), and the Alias/Wavefront .OBJ model format. 
+      D3Ds are my own datafile format for easy construction of geometric shapes. 
+      P3Ds is basically the same datafile format but for point-based 3D using 
+      3DSprites just like the old engine did. .OBJ files will render using 
+      3DQuads. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>- Speed 
+      Optimizations!</FONT></P>
+      <OL>
+        <LI><FONT face="Arial, Helvetica, sans-serif" size=2>Revised the matrix 
+        transformation routines to utilize D7's new syntax </FONT>
+        <LI><FONT face="Arial, Helvetica, sans-serif" size=2>Revised the sprite 
+        sorting algorithm to use D7's locZ property </FONT>
+        <LI><FONT face="Arial, Helvetica, sans-serif" size=2>In general, D7 is 
+        faster, so the 3D Engine is faster. </FONT>
+        <LI><FONT face="Arial, Helvetica, sans-serif" size=2>Implemented a 
+        look-up list of vertices that have already been transformed using the 
+        current ModelView &amp; Projection matrices so that if another vertex in 
+        the same point in space is called on to be transformed, the end value is 
+        already known and is returned from the list instead of being 
+        recalculated.</FONT> 
+        <LI><FONT face="Arial, Helvetica, sans-serif" size=2>Created the 
+        "3DWatcher", a parent script that is used by the engine itself to keep 
+        an eye on whether or not the ModelView and Projection matrices have 
+        changed from frame to frame. If it hasn't, it doesn't transform/redraw 
+        any of the 3D geometries. This is an experimental system so if you 
+        encounter odd problems of geometries not refreshing properly, set the 
+        global variable "use3DWatcher" to 0 to disable it.</FONT> </LI></OL>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>Legalities</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B><FONT size=3>Dave's 
+      3D Engine is SHAREWARE. If you like and use Dave's 3D Engine, particularly 
+      for profit, then please send $20 to:</FONT></B></FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>David Cole<BR>216 
+      Packard<BR>Ann Arbor, MI 48104</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>If you have sent your 
+      $20 shareware fee, you are free to use, distribute, and modify this code 
+      however you like so long as you keep the document "Daves3D.txt" along with 
+      your release somewhere (I recommend the Xtras directory). No direct 
+      support is guaranteed on this software; the software is released AS IS and 
+      future releases may or may not come. I am only one person, I can not 
+      guarantee technical support of any kind. I will not teach you how to code 
+      for 3D graphics. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>Copyright (c) 1998 
+      David Cole<BR>All rights reserved. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>Redistribution and use 
+      in source and binary forms are permitted provided that the above copyright 
+      notice and this paragraph are duplicated in all such forms and that any 
+      documentation, advertising materials, and other materials related to such 
+      distribution and use acknowledge that the software was developed by David 
+      Cole, as well as that the user, if using this software for financial gain, 
+      has paid the $20 shareware registration fee. THIS SOFTWARE IS PROVIDED 
+      ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, 
+      WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTIBILITY AND FITNESS 
+      FOR A PARTICULAR PURPOSE.</FONT></P>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>A Review of the 3DE7 
+      Cast Members</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>The following cast 
+      members comprise Dave's 3D Engine v7 - they are the only cast members you 
+      truely need in your movie to have the full functionality of Dave's 3D 
+      Engine.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=2><B>member("3DEngine")</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>This movie script is 
+        the heart of Dave's 3D Engine. It contains all the handlers necessary to 
+        accomplish 3D transformation of points, as well as other handlers to do 
+        things like sprite sorting, matrix multiplication, 
+      etc.</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=2><B>member("3DModel")</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>This parent script 
+        is the highest level object in the collection. Most of the time when you 
+        introduce a 3D Model (be in polygonal or point based), it will be 
+        through instantiating this object. This object in turn will create 
+        several 3DQuad or 3DSprite objects to facilitate your needs. The 3DModel 
+        currently imports from a field or file .OBJ files, as well as my own 
+        proprietary .D3D polygonal object datafile format and the .P3D 
+        point/sprite based object datafile format.</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=2><B>member("3DQuad")</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>This parent script 
+        is what enables polygonal 3D in the 3DE7. One instance of this 
+        establishes a single sprite as one four-vertex polygon. This polygon can 
+        be transformed by any of the 3D transformation calls. Many instances of 
+        these can make up a 3D Model. You can create models through 
+        instantiating these directly through lingo or indirectly by 
+        instantiating a 3DModel object. </FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=2><B>member("3DSprite")</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>This parent script 
+        is what enables point based 3D in the 3DE7 just like the old version of 
+        Dave's 3D Engine. As opposed to a polygonal representation, this object 
+        allows you to define a standard director sprite that behaves like it is 
+        in a 3D environment. You can make the sprite scale itself, change its 
+        blend, and change its members depending on its Z position distance from 
+        the virtual camera. </FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=2><B>member("3DWatcher")</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>This parent script 
+        is automatically instantiated when you create a 3DQuad. It only affects 
+        the performance of your code when you set the global variable, 
+        "use3DWatcher" to TRUE. If "use3DWatcher" is FALSE then this object does 
+        nothing. When it is active, however, it keeps an eye on the Projection 
+        and ModelView matrix from frame to frame and only passes all the 
+        vertices in the 3D world to the 3D Engine to be transformed if a change 
+        has occured in these matrices. The result of this is smoother 
+        performance of the non-3D elements of your director movie when the 3D 
+        parts are not moving. Otherwise the 3D engine would be retransforming 
+        the vertices every frame regardless of whether or not they have moved 
+        since the last frame.</FONT></P></BLOCKQUOTE>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>3DE7 Global Variables 
+      &amp; Datatype Formats</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>This section lists and 
+      explains the few global variables in the 3D engine that may be of interest 
+      to you, as well as describing the format of some of the basic data formats 
+      the engine uses.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>Datatype 
+      Formats</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><I><B>Basic 
+        Datatypes</B></I></FONT></P>
+        <BLOCKQUOTE>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>- 
+Points</FONT></P>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>Points are 
+          represented as a 4-element list in lingo. [x, y, z, w]. This is a 
+          point in a homogeneous coordinate system where in most casts, w = 1.0. 
+          Look up a graphics tutorial for more on homogenous coordinates. If you 
+          want to define a point in space, just fill in the x, y, and z 
+          coordinates as you would like them, and a 1.0 for w.</FONT></P>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>- 
+          Matrices</FONT></P>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>All 3D 
+          transformations and projects are performed through matrix 
+          multiplications. You should never need to define your own matrix for 
+          any reason, but for trivia's sake, a matrix is represented in Dave's 
+          3D Engine as a 4-element nested list of 4-element lists:</FONT></P><PRE> [[a, b, c, d], 
+  [e, f, g, h], 
+  [i, j, k, l], 
+  [m, n, o, p]] </PRE></BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><I><B>The Basic 
+        Details</B></I></FONT></P>
+        <BLOCKQUOTE>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>Since Dave's 3D 
+          Engine is loosely modeled after OpenGL, it uses the same coordinate 
+          system conventions. That is, a right-handed coordinate system where 
+          the default location for the "camera" is at the origin looking down 
+          the negative Z axis. All your transformations start from 
+          there.</FONT></P></BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><I><B>The Two Matrix 
+        Stacks</B></I></FONT></P>
+        <BLOCKQUOTE>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>There are two 
+          flavors of matrices in Dave's 3D Engine: the <B>ModelView</B> matrix 
+          and the <B>Projection</B> matrix. The modelview matrix is the matrix 
+          which, when multiplied with a given point, translates, rotates, and 
+          scales the point to the appropriate place in 3D space after the 
+          desired transformations are performed. The projection matrix is the 
+          matrix which maps the resulting 3D transformed point onto a 2D plane 
+          so it may be positioned on your 2D screen. More on this 
+          later.</FONT></P>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>Though you 
+          probably will never need to directly access them explicitly, the 
+          current images of the matrices are always available through the global 
+          variables <FONT face="Courier New, Courier, mono">mModelView</FONT> 
+          and <FONT 
+          face="Courier New, Courier, mono">mProjection</FONT>.</FONT></P>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>Each of these two 
+          types has a <B>stack</B> available. Think of it this way -- both of 
+          the current ModelView and Projection matrices, at any time, are only 
+          the visible tips of an iceberg -- or in this case a stack. You can 
+          push a current matrix onto the stack in order to remember it for 
+          later. When you push a matrix onto the stack, Dave's 3D Engine makes a 
+          copy of the current matrix and places it on the stack. When you pop a 
+          matrix off the stack, the current matrix becomes whatever was on the 
+          top of the stack previously. This allows for things like inverse 
+          kinematics. For more information on this, look at the function call 
+          description of the matrix stack operations below. Though you should 
+          never need to directly access them explicitly, the two matrix stacks 
+          are saved in the <FONT 
+          face="Courier New, Courier, mono">mModelViewStack</FONT> and <FONT 
+          face="Courier New, Courier, mono">mProjectionStack</FONT> global 
+          variables.</FONT></P></BLOCKQUOTE></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>The Global 
+      Variables You May Want To Directly Access</B></FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>Right now, there are 
+      only five global variables you may want to directly access. All global 
+      variables are initially declared and initialized in the beginning of the 
+      "3D Engine" cast member.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=2><B>sortSprites</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>When you create a 
+        script which uses a bunch of 3DSprite objects to represent a model, you 
+        will find that the easiest way to place the 3DSprites in the score is to 
+        simply allocate a range of sprites, one for every 3DSprite object. As 
+        these points are moved around by the 3D graphics engine, some of these 
+        sprites may, mathematically, be closer to the camera than others. 
+        However, if a sprite which is mathematically closer to the virtual 
+        camera is sitting in a lower-numbered sprite channel, it will appear to 
+        be behind sprites in higher- numbered sprite channels that may be 
+        mathematically further away. This can cause things to look weird. 
+        </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>There is technology 
+        in place in the 3DEngine to allow you to write a quick piece of code to 
+        re-sort sprites at every frame so that the sprites closer to the virtual 
+        camera will take up the higher-numbered sprite channels. I created 
+        sortSprites as a flag that you can catch yourself (setting to 1 or 0, 
+        depending) during the portion of your code which actually draws the 
+        object you are wishing to draw. If it is set to 1, you can include a 
+        piece of code which calls the QuickSort function included within the 3D 
+        Engine to sort the sprites appropriately, assigning them locZ 
+        properties. For more information on how to write this code, look in the 
+        <I>EXAMPLES:Sorting Sprites</I> section below. Defaults to 
+        TRUE.</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=2><B>use3DWatcher</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>When set to TRUE, 
+        this activates the 3DWatcher object to do its thing. Defaults to FALSE. 
+        Try making sure your code works first, and then set this to TRUE to see 
+        if anything breaks or not.</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=2><B>cullBackfaces</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>When set to TRUE, 
+        the 3D engine will cull backfacing polygons. Polygons are defined as 
+        having backfaces by defining the vertices of the polygon in a clockwise 
+        fasion. When defining the vertices of a polygon, imagine it facing you, 
+        and then define the vertices in a clockwise fasion. When this global is 
+        set to TRUE, if the polygon is not facing the camera, it will not be 
+        drawn. This results in generally smoother looking 3D, since sometimes 
+        the z-sorting algorithm flakes out on large polygons. It takes more CPU 
+        time to cull backfaces. Defaults to TRUE.</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+      size=2><B>cullBackfaces_cw</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>When set to TRUE, 
+        the 3D Engine assumes that front-facing polygons are defined by 
+        clockwise-defined polygons. When set to FALSE, counter-clockwise 
+        polygons are assumed to have the front face. This is useful for looking 
+        inside models, such as the inside of a virtual room. Defaults to 
+        TRUE.</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" 
+size=2><B>debug</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>If debug is set to 
+        1, tons of debugging information about what the graphics engine is 
+        doing, the various states of various matrices, etc. will be dumped to 
+        the message window. Defaults to FALSE.</FONT></P></BLOCKQUOTE>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>3DE7 
+      Handlers</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>This section will list 
+      all the functions available to you along with a brief explanation of what 
+      each function does. Many of these functions are loosely modeled after 
+      OpenGL calls, if you want super-detailed descriptions of what these 
+      functions do and the 3D graphics theory behind them, consult an OpenGL 
+      programming guide near you.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>Matrix 
+      Operations<BR></B></FONT><FONT face="Arial, Helvetica, sans-serif" 
+      size=2>Nearly everything that involves popular representation of 3D 
+      graphics involves matrices. These handlers provide you the ability to 
+      manipulate the matrices you work with.</FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>mSelectMatrix(matrixType)</B><BR>This chooses which matrix is 
+        the current matrix that all future matrix-related operations are 
+        performed upon. The two arguments possible are "Projection" and 
+        "ModelView". If you wish to do something like rotate a point, you would 
+        want to make sure you called mSelectMatrix("ModelView") sometime before 
+        the call to xRotate*(). If you wanted to change the viewing projection, 
+        you would call mSelectMatrix("Projection") some time before calling 
+        pFrustum() or pOrtho(). Keep an eye on which matrix is the currently 
+        selected matrix before you start calling 3D functions, or things may 
+        turn out screwy. Compare this to OpenGL's glSelectMatrix().</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>mPush()</B><BR>Pushes the current matrix onto a stack. There 
+        are separate stacks for the ModelView matrix and the Projection matrix. 
+        This function allows you to save old matrices for future use. For 
+        further information on this, consult the examples section. Compare this 
+        to OpenGL's glPushMatrix() </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>mPop()</B><BR>Pops the current matrix off the stack and sets 
+        the current matrix to it. This is used to recall previously saved 
+        transformation matrices. Compare this to OpenGL's 
+        glPopMatrix()</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>mLoadIdentity() 
+        </B><BR>Loads the identity matrix into the current matrix. This call is 
+        equivalent to telling the current ModelView matrix to perform no 
+        transformations at all (i.e. the object is located at the origin, 
+        unrotated, unscaled.) Compare this to OpenGL's 
+        glLoadIdentity()</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>ModelView 
+      Transformations</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>These 
+        transformations apply themselves to the current matrix by multiplying 
+        themselves against the current matrix to yield the new current matrix. 
+        This means that their effects are cumulative (i.e. if you call a handler 
+        to rotate 60 degrees, the result is equivalent to calling the rotate 
+        handler to rotate 30 degrees twice). To undo the effects of previous 
+        transformations, either save and restore old transformation matrices 
+        using mPush() and mPop(), or call mLoadIdentity() to return the current 
+        matrix to the origin. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>A Quick Note On 
+        Order Of Operations: Be Careful in what order you call these functions. 
+        They affect each other. If, for instance, you translate an object to a 
+        position and then rotate it, it will appear to orbit the origin. If you 
+        rotate it first, however, then translate it, it will appear to change 
+        its orientation while remaining at a fixed point in space. If you 
+        translate 10 units down the X axis, then call xScale(0.5, 1.0, 1.0), the 
+        object will appear 5 units down the X axis; however if you call xScale 
+        first and then translate, the object will appear 10 units down the X 
+        axis and be half its original width along the X axis. Furthermore, 
+        always call viewing transformations before Model transformations. The 
+        theory behind this stuff is thick and available on the web. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>Model 
+        Transformations</B></FONT><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><BR>These transformations work to position the models in space 
+        relative to the last applied transformation.</FONT></P>
+        <BLOCKQUOTE>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>xTranslate(x, 
+          y, z)</B><BR>xTranslate translates the local coordinate system of the 
+          object to be drawn by x, y, and z within the world coordinate system. 
+          This transformation is relative to any previous translations 
+          performed. </FONT></P>
+          <P><FONT face="Arial, Helvetica, sans-serif" 
+          size=2><B>xRotateX(angleInRadians)</B><BR>xRotateX rotates the local 
+          coordinate system of the object to be drawn by angleInRadians radians 
+          counter- clockwise around the X axis. This transformation is relative 
+          to any previous transformations. </FONT></P>
+          <P><FONT face="Arial, Helvetica, sans-serif" 
+          size=2><B>xRotateY(angleInRadians)</B><BR>xRotateY rotates the local 
+          coordinate system of the object to be drawn by angleInRadians radians 
+          counter clockwise around the Y axis. This transformation is relative 
+          to any previous transformations.</FONT></P>
+          <P><FONT face="Arial, Helvetica, sans-serif" 
+          size=2><B>xRotateZ(angleInRadians)</B><BR>xRotateZ rotates the local 
+          coordinate system of the object to be drawn by angleInRadians radians 
+          counter- clockwise around the Z axis. This transformation is relative 
+          to any previous transformations.</FONT></P>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>xScale(x, y, 
+          z)</B><BR>xScale scales the local coordinate system of the object to 
+          be drawn relative to the world coordinate system. You may 
+          independently scale an object on its own x, y, and z axis. To 
+          uniformly scale an object, make x = y = z.</FONT></P></BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>Viewing 
+        Transformations</B></FONT></P>
+        <BLOCKQUOTE>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>These 
+          transformations essentially use the above transformation handlers to 
+          position the virtual "camera" in space. The camera defaults to 
+          pointing down the -Z axis from the origin. To be honest, the camera 
+          never moves from this point either. When you call a handler, say, to 
+          position the camera at (3, 3, 3), it is essentially translating all of 
+          the objects away from the origin by (-3, -3, -3), to give the 
+          appearance of camera movement. It is ESSENTIAL that these functions 
+          below be called BEFORE any of the Model transformations listed above. 
+          </FONT></P>
+          <BLOCKQUOTE>
+            <P><FONT face="Arial, Helvetica, sans-serif" 
+            size=2><B>pilotView(plane_x, plane_y, plane_z, roll, pitch, 
+            heading)</B><BR>pilotView uses the analogy of a plane to position 
+            the camera, with the runway at the origin and the plane at 
+            coordinates (plane_x, plane_y, plane_z), with a roll, pitch, and 
+            heading (in all in degrees) </FONT></P>
+            <P><FONT face="Arial, Helvetica, sans-serif" 
+            size=2><B>polarView(distance, twist, elevation, azimuth) 
+            </B><BR>polarView uses the analogy of a camera orbiting around an 
+            object that's centered at the origin, constantly pointing at the 
+            origin. Distance defines the radius of the orbit, azimuth describes 
+            the angle of rotation of the camera around the object on the x-y 
+            plane, measured from the positive y-axis. Elevation measures the 
+            angle of rotation of the camera in the y-z plane, measured from the 
+            positive z-axis. Twist represents the rotation of the viewing volume 
+            around its line of 
+sight.</FONT></P></BLOCKQUOTE></BLOCKQUOTE></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>Projection 
+      Transformation Handlers</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Inevitably, the 3D 
+        coordinate must be transformed into a 2D coordinate so it can be 
+        displayed on the screen. To do this you must project these points toward 
+        some focal point and project them onto a 2D plane. There are two primary 
+        ways to do this -- do a perspective projection (pFrustum()), or do an 
+        orthagonal projection (pOrtho()). A perspective projection simulates a 
+        camera, where lines converge as they approach an infinite distance away 
+        from the camera. You can define different fields of view with this 
+        projection, simulating different lens lengths. An orthographic 
+        projection projects all rays at the camera such that they are parallel. 
+        This is useful for presenting "East" "West" "Top" "Bottom" viewing 
+        windows on an object for things like CAD, Modeling software, 
+        etc.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>For a good picture 
+        tutorial of what the hell I'm talking about, check out <A 
+        href="http://www.cac.psu.edu/dept/cac/publications/web/publications/cacguide/viz/sem_notes/3d_fundamentals/html/viewing_3d.html">This 
+        Link</A>.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>The following two 
+        handlers allow you to define your preferred projection:</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>pFrustum(left, 
+        right, bottom, top, near, far) </B><BR>pFrustum creates a perspective 
+        projection matrix with the viewing frustum volume described by the 
+        arguments and multiplies it to the current projection matrix. It is 
+        recommended you call mLoadIdentity before calling this, since its 
+        effects are cumulative. (left, bottom, -near) and (right, top, -near) 
+        specify the (x, y, z) coordinates of the lower-left and upper-right 
+        corners of the near clipping plane; near and far give the distances from 
+        the viewpoint to the near and far clipping planes. near &amp; far should 
+        be positive. Any point that ends up lying outside of the resulting 
+        viewing volume is clipped, meaning it is not drawn on the screen because 
+        it mathematically should not be seen. If you find objects are 
+        disappearing on you when they get too far from the camera, try assigning 
+        "far" a higher value. If you think objects are not small enough as they 
+        fade into the background, try moving the far clipping closer -- the 
+        sprites scale proportional to their proximity to the far clipping 
+        plane.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>pOrtho(left, 
+        right, bottom, top, near, far) </B><BR>pOrtho creates an orthagonal 
+        projection matrix with the parallel viewing volume described by the 
+        given arguments and multiplies it to the current projection matrix. It 
+        is recommended you call mLoadIdentity before calling this, since its 
+        effects are cumulative. (left, bottom, -near) and (right, top, -near) 
+        are mapped to the lower-left and upper-right corners of the viewport 
+        window in the near clipping plane. (left, bottom, -far) and (right, top, 
+        -far) are mapped to the lower-left and upper-right corners of the far 
+        clipping plane which are also mapped to the same corners of the viewport 
+        window. Both near and far can be positive or negative. Any point that 
+        ends up lying outside of the resulting viewing volume is clipped, 
+        meaning it is not drawn on the screen because it mathematically should 
+        not be seen. If you find objects are disappearing on you when they get 
+        too far from the camera, try assigning "far" a higher value.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>*Note: Be sure you 
+        call mSelectMatrix("Projection") before you call either of these 
+        functions, and call mSelectMatrix("ModelView") after you're done! 
+        Otherwise you could be multiplying the projection matrices on the wrong 
+        stack, causing some notable strangeness. </FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>The ViewPort 
+      Handler</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>-Now that you've 
+        defined a viewing frustum, you need to map the coordinates from those 
+        projected on the near clipping plane to the actual screen itself. That's 
+        where the ViewPort function comes in.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>pViewPort(x, y, 
+        width, height) </B><BR>x and y represent the upper lefthand pixel 
+        coordinate location of the viewport window within the stage. In many 
+        cases this will be 0, 0 -- but it doesn't have to be. Width and Height 
+        represent the dimensions of the viewport window.</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>The XFormPoint 
+      Handler </B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>-This handler, using 
+        all the data you've given the 3D engine through all the calls listed 
+        above, transforms a 3D point from its local coordinate system to its 
+        appropriate position in the world coordinate system, then projects it 
+        into a 2D point on the screen, and returns to you those coordinates so 
+        the point may be drawn on the screen in the appropriate place. By using 
+        the Transform() function of a 3DSprite, you are inadvertently calling 
+        this handler. You shouldn't ever need to call it directly but it's good 
+        to know its there since it is the core of the engine.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>xFormPoint(p) 
+        </B><BR>p is a Point datatype, consisting of a 4-element list 
+        representing a point in 3-D homogeneous space. xFormPoint returns a 
+        3-element list representing [H, V, Z] -- the locH of the transformed 
+        point on the stage, the locV of the transformed point on the stage, and 
+        the Z location (ranging from -1, completely behind the virtual camera as 
+        far as possible, to 1, representing a point as far in front of the 
+        camera as possible, just at the point inside of the far clipping plane. 
+        This Z location information can be used to sort sprites in their 
+        channels as well as do other things like scaling sprites to look like 
+        they're farther away, etc. xFormPoint() returns 0 (not a list!) if a 
+        point has been clipped because it is out of the viewing volume. Make 
+        sure you check this if you write any code that tries to dereference what 
+        xFormPoint() returns as a list.</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=3><B>Other Useful 
+      Handlers</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>zSort(list)</B><BR>zSort takes a list of pre-transformed 
+        3DSprites and/or 3DQuads, analyses their z-position, and assigns them 
+        locZ values so that they appear correctly on the screen. Refer to the 
+        demo models to see how this works.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>There are also some 
+        math and vector handlers in Dave's 3D engine -- you're welcome to use 
+        these but you do not need to access them directly. Refer to the comments 
+        above the handlers themselves for descriptions of what they do. 
+        </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>acos(x)<BR>asin(x)<BR>scaleRect(oldrect, 
+        scalar)<BR>positionRect(oldrect, locH, locV) </B></FONT></P>
+        <P><B><FONT face="Arial, Helvetica, sans-serif" 
+        size=2>vAdd(v,w)<BR>vSubtract(v,w)<BR>vMagnitude(v)<BR>vNormalize(v)<BR>vScalarMult(v,scalar) 
+        <BR>vDotProduct(v,w)<BR>vCrossProduct(v,w)<BR>vNormal(v1,v2,v3)<BR>vGetLightingVector(light,normalTail)<BR>vGetReflectionVector(n,l)<BR>vGetH(l,v) 
+        </FONT></B></P></BLOCKQUOTE>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>A Quick Note on Order 
+      of Operations</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>One of the easiest 
+      areas to screw up in 3D graphics is the order in which you specify your 3D 
+      transformations. They affect each other in different ways when called in 
+      different orders. The basic rule of thumb goes as follows for most (but 
+      not all) cases: </FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>- Viewing 
+        transformations first.</FONT><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><BR>- Model transformations next: </FONT></P>
+        <BLOCKQUOTE>
+          <P><FONT face="Arial, Helvetica, sans-serif" size=2>-xScale() first 
+          <BR>-xRotateXYZ() next <BR>-xTranslate() last 
+      </FONT></P></BLOCKQUOTE></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>The reason you have to 
+      pay attention to order is that each transformation multiplies itself to 
+      the current Matrix. Order, in matrix multiplication, matters. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>The reason you 
+      typically want to scale first is that if you do something like translate 
+      10 units on the X scale first, then scale by 0.5 along the X axis, you've 
+      only really translate 5 units. The reason you want to rotate before 
+      translating is because typically your intentions are to orient an object 
+      in a particular manner and then move it to the right position; when 
+      rotating, the rotation always occurs around the world coordinate system 
+      origin. By rotating 1st, you're simply spinning the object in its place, 
+      then translating it to the right place. If you were to translate first, 
+      then rotate, the object would appear to orbit around the origin by 
+      whatever angle you specified for the rotation. For more information on 
+      this, refer to <A 
+      href="http://www.cac.psu.edu/dept/cac/publications/web/publications/cacguide/viz/sem_notes/3d_fundamentals/html/transformations.html">This 
+      Link</A>.</FONT></P>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>The 3DModel 
+      Object</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>The 3DModel is the 
+      most user-friendly and simple way to introduce a 3D graphic element to 
+      your 3D world. Each 3DModel you create in turn creates a series of 3DQuad 
+      objects and/or 3DSprite objects to represent your model. A model, by 
+      definition, is a set of vertices defined in its own local coordinate 
+      system. These vertices can either be used to position a set of 3DSprites 
+      relative to each other, or are used to define vertices in sets of polygons 
+      (a.k.a. 3DQuads). </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>The 3DModel object 
+      allows you to import from the following model formats:</FONT></P>
+      <UL>
+        <LI><FONT face="Arial, Helvetica, sans-serif" size=2>Alias/Wavefront 
+        .OBJ files</FONT> 
+        <LI><FONT face="Arial, Helvetica, sans-serif" size=2>My own proprietary 
+        .D3D polygonal model format</FONT> 
+        <LI><FONT face="Arial, Helvetica, sans-serif" size=2>My own proprietary 
+        .P3D 3DSprite model format</FONT> </LI></UL>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>These can either exist 
+      as internal fields or external files. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>The .D3D 
+      Format:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>This format is used 
+        to define polygonal 3D Models, represented by 3DQuad objects. The format 
+        exists as a text file (either a field or an external .TXT) and consists 
+        of the following elements:</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>The 
+        Comment</B></FONT><BR><FONT face="Courier New, Courier, mono" size=2>-- 
+        Any line that begins with "--" will be considered a comment and 
+        ignored.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>The 
+        Face</B><BR>To define a face, you are defining a four vertex polygon, 
+        its position in a coordinate system local to the model, and that 
+        surface's properties, such as blend value and bitmap member. The format 
+        of a face is defined as follows:</FONT></P>
+        <P><FONT face="Courier New, Courier, mono" size=2>NEWFACE &lt;ink#&gt; 
+        &lt;blendValue&gt; &lt;booleanBlendDepthCues&gt; 
+        &lt;memberName&gt;<BR>&lt;v1_x&gt;, &lt;v1_y&gt;, 
+        &lt;v1_z&gt;<BR>&lt;v2_x&gt;, &lt;v2_y&gt;, 
+        &lt;v2_z&gt;<BR>&lt;v3_x&gt;, &lt;v3_y&gt;, 
+        &lt;v3_z&gt;<BR>&lt;v4_x&gt;, &lt;v4_y&gt;, &lt;v4_z&gt;</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Where the four 
+        vertices are defined in a clockwise manner so that the 3D engine 
+        understands which side of the face is front facing in order for backface 
+        culling to work. Right now, it is assumed that visibly clockwise defined 
+        vertices imply that the front face of the polygon is facing the viewer. 
+        If you don't plan on using backface culling, turn it off and don't worry 
+        about it.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>e.g.</B> (A 
+        definition of "half" of a cube, it's front, back, and right 
+        faces)</FONT></P>
+        <BLOCKQUOTE>
+          <P><FONT face="Courier New, Courier, mono" size=2>-- HalfCube<BR>-- 
+          Front face <BR>NEWFACE 36 100 0 c_1 <BR>-5.0, 5.0, 4.9 <BR>5.0, 5.0, 
+          4.9 <BR>5.0,-5.0, 4.9 <BR>-5.0,-5.0, 4.9 <BR><BR>-- Back face 
+          <BR>NEWFACE 36 100 0 c_1 <BR>5.0, 5.0,-4.9 <BR>-5.0, 5.0,-4.9 
+          <BR>-5.0,-5.0,-4.9 <BR>5.0,-5.0,-4.9 <BR><BR>-- Right face <BR>NEWFACE 
+          36 100 0 c_2 <BR>4.9, 5.0, 5.0 <BR>4.9, 5.0, -5.0 <BR>4.9, -5.0, -5.0 
+          <BR>4.9, -5.0, 5.0</FONT></P></BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>For a more complete 
+        example, examine any of the .D3D fields in the example movie. 
+      </FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>The .P3D 
+      Format:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>This format is used 
+        to define point-based polygonal models, using 3DSprite objects. The 
+        format is text-based, and can either reside within a field or a external 
+        .TXT file. It is defined as such:</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>The 
+        Comment</B><BR><FONT face="Courier New, Courier, mono">-- Any line which 
+        begins with a "--" is a comment and is ignored by the 
+        parser.</FONT></FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>The 
+        Vertex</B><BR>All that is required to define an element of a P3D model 
+        is a single vertex, and its attributes. A vertex is defined as follows 
+        (intended to be written on one line!):</FONT></P>
+        <P><FONT face="Courier New, Courier, mono" size=2>VERTEX &lt;xPos&gt; 
+        &lt;yPos&gt; &lt;zPos&gt; &lt;memberName&gt; &lt;ink#&gt; 
+        &lt;blendValue&gt; &lt;booleanDepthCue_scale&gt; 
+        &lt;booleanDepthCue_blend&gt; &lt;booleanDepthCue_memberChange&gt; 
+        &lt;memChange_lowMem&gt; &lt;memChange_highMem&gt; </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Repeat these 
+        definitions for as many vertices in a given model as you like. X, Y, and 
+        Z pos are the positions of the vertex in the model's local coordinate 
+        system. memberName is the member of the vertex's sprite. Ink# and 
+        BlendValue determine the ink and blend of the sprite. The next three 
+        boolean values determine whether the sprite is scaled, blended to 0, 
+        and/or has its members change from the spectrum of 
+        &lt;memChange_lowMem&gt; to &lt;memChange_highMem&gt; depending on its 
+        distance from the virtual camera. Blending and Member Changing depth 
+        cues override the default ink, blend, and memberName parameters. 
+        </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>e.g. </B>(The 
+        eight vertices of a cube, each represented by the member "It", with 
+        blending and scaling depth cues enabled):</FONT></P>
+        <BLOCKQUOTE>
+          <P><FONT face="Courier New, Courier, mono" size=2>--Box<BR>VERTEX 5.0 
+          5.0 5.0 It 36 100 1 1 0 0 0 <BR>VERTEX 5.0 5.0 -5.0 It 36 100 1 1 0 0 
+          0 <BR>VERTEX 5.0 -5.0 5.0 It 36 100 1 1 0 0 0 <BR>VERTEX 5.0 -5.0 -5.0 
+          It 36 100 1 1 0 0 0 <BR>VERTEX -5.0 5.0 5.0 It 36 100 1 1 0 0 0 
+          <BR>VERTEX -5.0 5.0 -5.0 It 36 100 1 1 0 0 0 <BR>VERTEX -5.0 -5.0 5.0 
+          It 36 100 1 1 0 0 0 <BR>VERTEX -5.0 -5.0 -5.0 It 36 100 1 1 0 0 
+          0</FONT></P></BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>For a more complete 
+        example, examine any of the .P3D fields in the example movie. 
+      </FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Instantiating a 
+      3DModel:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>When you instantiate 
+        a 3DModel, you are introducing a new 3D Model into the world coordinate 
+        system. Its position and orientation will default to the center of the 
+        3D universe, oriented facing the viewer. This does not mean that it is 
+        actually drawn. You must explicitly call member functions of the 3DModel 
+        to translate, rotate, and stretch the model into the appropriate place 
+        in the 3D universe, as well as explicitly call a function which draws 
+        the object from frame to frame. This is how you instantiate a 3DModel 
+        (intended to be on one line):</FONT></P>
+        <P><FONT face="Courier New, Courier, mono" size=2>set 
+        &lt;objectHandle&gt; = new (script "3DModel", &lt;ModelFormat#&gt;, 
+        &lt;ModelPath&gt;, &lt;lowSprite&gt;, &lt;highSprite&gt;, [ink, blend, 
+        bitmapMemberName])</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Where 
+        &lt;objectHandle&gt; is the pointer to the new object (you need to keep 
+        this info around to be able to do anything with the model), 
+        &lt;ModelFormat#&gt; defines what kind of model format you're reading, 
+        be it .OBJ, .P3D, or .D3D, or whatever. &lt;ModelPath&gt; is either the 
+        field member name of the model definition or the full pathname of the 
+        external file. &lt;lowSprite&gt; determines what sprite channel the 
+        model begins allocating sprites at, and &lt;highSprite&gt; determines 
+        where it stops allocating sprite channels. If there are more elements of 
+        the model than there are sprite channels, those elements are not 
+        considered.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>The last argument is 
+        optional. It is a 3 element list only used for importing .OBJ files. 
+        Right now my code that imports this format only imports the 
+        vertex/polygon data and not any of the texture data. So, the ink, blend, 
+        and the bitmap member for every polygon in the model is set by this 3 
+        element list. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>The ModelFormat#'s 
+        supported so far are:</FONT></P>
+        <P><FONT face="Courier New, Courier, mono" size=2>0 - No Model Format. 
+        An empty shell of a 3DModel is created.<BR>1 - D3D Model, Field 
+        Based<BR>2 - D3D Model, External File Based<BR>3 - P3D Model, Field 
+        Based<BR>4 - P3D Model, External File Based<BR>5 - .OBJ Model, Field 
+        Based<BR>6 - .OBJ Model, External File Based</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Once the 3DModel is 
+        created, the sprites are allocated for use and the model sits waiting 
+        for you to make function calls to manipulate it.</FONT></P>
+        <P>&nbsp;</P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Working with a 
+      3DModel:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>3DModels contain a 
+        few useful variables to remember some important information pertaining 
+        to themselves. For one, they can save a copy of a ModelView matrix 
+        inside themselves to be used later, effectively remembering their 
+        position in space. Also, intrinsically, the 3DSprites and 3DQuads that a 
+        3DModel is made from remember their last transformed vertices, so you 
+        can </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>The 3DModel offers 
+        the following member functions:</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>Transform()</B><BR>This function applies the current ModelView 
+        matrix to the model, transforming it from its default origin position to 
+        wherever in the universe. This does not draw the model, only tells the 
+        model where it is after being transformed. More specifically, it sets 
+        the transformed vertices of all the component 3DSprite/3DQuads of the 
+        model to their newest transformed positions without telling them to 
+        update their visual status on the screen. If you change the ModelView 
+        matrix after calling this handler, the model will not be affected by 
+        these new changes unless "Transform()" is called again. Ideally, this 
+        should be called once per frame refresh - if you know your model is not 
+        going to be updated every frame, you can opt to do it whenever you elect 
+        to - however if you have the 3DWatcher enabled, even if a call is made 
+        to retransform the model when it hasn't changed since the last sprite, 
+        no useless computation will be performed.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>drawMe()</B><BR>This function actually draws the model in its 
+        presently transformed state. Ideally, this should be called once per 
+        frame refresh - if you know your model is not going to be updated every 
+        frame, you can opt to do it whenever you elect to - however if you have 
+        the 3DWatcher enabled, even if a call is made to retransform the model 
+        when it hasn't changed since the last sprite, no useless computation 
+        will be performed. 3DModel automatically performs z sorting and backface 
+        culling if their global variables are respectively enabled.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>saveMatrix()</B><BR>This handler saves the current ModelView 
+        matrix to a local variable within the object. This is useful for letting 
+        the object remember where it was transformed to. It does not actually 
+        transform the object, it only saves a local copy of the ModelView matrix 
+        at that moment.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>imposeMatrix()</B><BR>This handler sets ModelView matrix equal 
+        to the contents of the object's locally saved matrix. It is useful for 
+        restoring the position/orientation/scaling of a model without having to 
+        rely on outside variables to remember things. This does not actually 
+        transform the object, it only changes the current ModelView 
+        matrix.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>affectModelViewMatrix()</B><BR>This handler multiplies the 
+        object's locally saved matrix against the current ModelView matrix. This 
+        further applies the locally saved transformations to the existing 
+        transformations saved within the ModelView matrix, and saves the result 
+        to the current ModelView matrix. It does not actually transform the 
+        object, it only changes the current ModelView matrix.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>affectLocalMatrix()</B><BR>This handler multiplies the current 
+        ModelView matrix against its locally saved matrix. This applies further 
+        transformations from the ModelView matrix after the existing 
+        transformations saved locally. This does not actually transform the 
+        object, it only changes the locally saved matrix data. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>setMouseWithin(mouseWithinScriptField)<BR>setMouseLeave(mouseLeaveScriptField)<BR>setMouseDown(mouseDownScriptField)<BR>setMouseUp(mouseUpScriptField)</B><BR>These 
+        handlers enable mouse events on a given model. When an event happens, 
+        the text of the supplied field is executed as lingo.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>kill()</B><BR>This handler destroys the 3DModel object, as 
+        well as its component 3DSprite or 3DQuad objects, freeing up the memory 
+        and the sprite channels.</FONT></P>
+        <P>&nbsp;</P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Further 
+      Examples:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>The general pattern 
+        of calls to instantiate, transform, and draw a 3DModel object is as 
+        such:</FONT></P>
+        <P><FONT face="Courier New, Courier, mono" size=2>-- Create an instance 
+        of the 3DModel, load it in from a D3D field<BR>model = new (script 
+        "3DModel", 1, "cube.D3D", 2, 
+        8)<BR>model.setMouseUp("someCodeInAField")<BR></FONT><FONT 
+        face="Courier New, Courier, mono" size=2><BR>-- Perform Transformations 
+        on the ModelView matrix<BR>xRotateY(1.23)<BR>xTranslate(3.2, -1.3, 
+        -40.0)<BR>xScaleY(1.02)<BR><BR>-- Transform the vertices of the model 
+        <BR>model.Transform()<BR><BR>-- Draw the 
+        Model<BR>model.drawMe()</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>The first block of 
+        code creates the model. The next block applies some transformations to 
+        the ModelView matrix, the third block of code applies the ModelView 
+        matrix to the model, and the last block actually draws the model on the 
+        screen. Often, I create a container parent script for each 3D model, 
+        which allows me to put the first chunk of the above code in the new() 
+        handler of that parent script, and then I put the remaining 3 chunks of 
+        code in either a stepFrame() or exitFrame() handler within the parent 
+        script. This isn't always necessary but for many purposes its a useful 
+        way to arrange one's code. For more detailed examples, refer to the 
+        "Cube" and "Box" members of the example movie.</FONT></P>
+        <P>&nbsp;</P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>The 3DQuad 
+      Object</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>The 3DQuad is the 
+      lower-level object that makes polygonal 3D within the 3DE7 possible. Any 
+      polygonal models created with the 3DModel object use a collection of 
+      3DQuads. You don't have to directly define and manipulate 3DQuads, but if 
+      you desire a more precise level of finesse, or perhaps don't wish all your 
+      models to be entirely static, you can roll up your sleves and get your 
+      hands dirty with 3DQuads. Both 3DQuads and 3DSprite have similar 
+      interfaces to the 3DModel, but offer more precise functionality and 
+      control. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Instantating a 
+      3DQuad:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>To instantiate a 
+        3DQuad, a call is made in the following format (intended to be on one 
+        line):</FONT></P>
+        <P><FONT face="Courier New, Courier, mono" size=2>&lt;objectHandle&gt; = 
+        new(script "3DQuad", &lt;vertexList&gt;, &lt;spriteNum&gt;, 
+        &lt;ink#&gt;, &lt;blendValue&gt;, &lt;booleanBlendDepthCue&gt;, 
+        &lt;memberName&gt;)</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Where 
+        &lt;objectHandle&gt; keeps a pointer to the object (necessary if you are 
+        going to do anything with your 3DQuad), &lt;vertexList&gt; is a 4 
+        element list (an element for each vertex) in which each element is also 
+        a 4 element list (each vertex uses the [x, y, z, w] format), 
+        &lt;spriteNum&gt; is the sprite channel that the 3DQuad will occupy, 
+        &lt;ink#&gt; is the ink that the sprite will use, &lt;blendValue&gt; is 
+        the blend value of the sprite, &lt;booleanBlendDepthCue&gt; if set to 
+        TRUE will set the quad to blend ink, and lower the blend value the 
+        further the Quad gets from the viewer, &lt;memberName&gt; is the name of 
+        the #bitmap member that acts as a "texture" to the 
+      Quad.</FONT></P></BLOCKQUOTE>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Working with a 
+      3DQuad:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Each 3DQuad object 
+        has local variables which remember the last transformed positions of its 
+        component vertices (defined by the last Transform()) call. But you 
+        shouldn't need to access any of these variables directly. Here's a list 
+        of the 3DQuad's member functions:</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>Transform()</B><BR>This function applies the current ModelView 
+        matrix to the 3DQuad, transforming it from its default origin position 
+        to wherever in the universe. This does not draw the 3DQuad, only tells 
+        it where it is after being transformed. More specifically, it sets its 
+        local variable that holds its transformed vertices to their newest 
+        transformed positions without telling them to update their visual status 
+        on the screen. If you change the ModelView matrix after calling this 
+        handler, the model will not be affected by these new changes unless 
+        "Transform()" is called again. Ideally, this should be called once per 
+        frame refresh - if you know your model is not going to be updated every 
+        frame, you can opt to do it whenever you elect to - however if you have 
+        the 3DWatcher enabled, even if a call is made to retransform the model 
+        when it hasn't changed since the last sprite, no useless computation 
+        will be performed.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>drawMe()</B><BR>This function actually draws the 3DQuad in its 
+        presently transformed state. Ideally, this should be called once per 
+        frame refresh - if you know your model is not going to be updated every 
+        frame, you can opt to do it whenever you elect to - however if you have 
+        the 3DWatcher enabled, even if a call is made to retransform the model 
+        when it hasn't changed since the last sprite, no useless computation 
+        will be performed. Z Sorting is not automatically performed by this 
+        function. In order to z-sort several 3DQuads, arrange their object 
+        handles into a list, and perform the following call after all the 
+        3DQuads have been Transform()'ed but not drawMe()'ed:</FONT></P><PRE> if sortSprites then
+    zSort(listOfObjectHandles) 
+ end if</PRE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>setVertex(where, 
+        vertex)</B><BR>Set one element of the local coordinate vertex list to 
+        the supplied argument at place "where". where = integer from 1 to 4, 
+        vertex = [x,y,z,w] w typically would equal 1.0. This is useful for 
+        working with dynamic geometries.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>setVertices(vertexList)</B><BR>set the entire local coordinate 
+        vertex list to the supplied argument. vertexList = 
+        [[x,y,z,w],[x,y,z,w],[x,y,z,w],[x,y,z,w]] w typically equals 1.0. This 
+        is usefor for working with dynamic geometries.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>setInk(inkNumber)</B><BR>Sets the ink of the Quad to 
+        inkNumber</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>setBlend(blendNumber)</B><BR>Sets the blend of the Quad to 
+        blendNumber</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>setMember(memName)</B><BR>Sets the member of the Quad to 
+        memName</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>setSprite(spriteNum)</B><BR>Moves the Quad to 
+        spriteNum</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>getPos()</B><BR>Returns the current vertex list 
+        (untransformed)</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>getVPos()</B><BR>Returns the current transformed vertex 
+        list</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>SetBlendChange(booleanBlendDepthCue)</B><BR>If given a TRUE, 
+        blending depth cues are enabled. Otherwise they are disabled.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>setMouseWithin(mouseWithinScriptField)<BR>setMouseLeave(mouseLeaveScriptField)<BR>setMouseDown(mouseDownScriptField)<BR>setMouseUp(mouseUpScriptField)</B><BR>These 
+        handlers enable mouse events on a given 3DQuad. When an event happens, 
+        the text of the supplied field is executed as lingo.</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>kill()</B><BR>This handler destroys the 3DQuad object, as well 
+        as freeing up the memory and the sprite channel.</FONT></P>
+        <P>&nbsp;</P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Further 
+      Examples:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>The general pattern 
+        of calls to instantiate, transform, and draw a 3DQuadl object is as 
+        such:</FONT></P>
+        <P><FONT face="Courier New, Courier, mono" size=2>-- Create an instance 
+        of the 3DModel, load it in from a D3D field<BR></FONT><FONT 
+        face="Courier New, Courier, mono" size=2>vertexList = [[5.0, 5.0, 5.0, 
+        1.0], [5.0, 5.0, -5.0, 1.0], [5.0, -5.0, 5.0, 1.0], [5.0, -5.0, 
+        -5.0]]<BR>Obj = new (script "3DQuad", vertexList, 1, 36, 100, 0, 
+        "Buddha")<BR>Obj.setMouseUp("someCodeInAField")<BR></FONT><FONT 
+        face="Courier New, Courier, mono" size=2><BR>-- Perform Transformations 
+        on the ModelView matrix<BR>xRotateY(1.23)<BR>xTranslate(3.2, -1.3, 
+        -40.0)<BR>xScaleY(1.02)<BR><BR>-- Transform the vertices of the model 
+        <BR>Obj.Transform()<BR><BR>-- Draw the Model<BR>Obj.drawMe()</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>The first block of 
+        code creates the model. The next block applies some transformations to 
+        the ModelView matrix, the third block of code applies the ModelView 
+        matrix to the model, and the last block actually draws the model on the 
+        screen. Often, I create a container parent script for each 3D model, 
+        which allows me to put the first chunk of the above code in the new() 
+        handler of that parent script, and then I put the remaining 3 chunks of 
+        code in either a stepFrame() or exitFrame() handler within the parent 
+        script. This isn't always necessary but for many purposes its a useful 
+        way to arrange one's code. For more detailed examples, refer to the 
+        "Cube" and "Box" members of the example movie.</FONT></P>
+        <P>&nbsp;</P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>The 3DSprite 
+      Object</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>The 3DSprite Object is 
+      pretty much identical to the older versions of Dave's 3D Engine, with a 
+      few minor changes to work within the infrastructure of the 3DE7. The idea 
+      of a 3DSprite is to invite a normal sprite to act as if it existed in 3 
+      dimensions instead of two. Sprites can be scaled, blended, or have the 
+      member of the sprite change based on the Z-depth of the sprite. You don't 
+      have to directly instantiate a 3DSprite if you don't want to - you can use 
+      the 3DModel object with a .P3D format file if you wish. Working directly 
+      with 3DSprites does offer you a bit more control, though.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Instantiating a 
+      3DSprite:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>To instantiate a 
+        3DSprite, a call is made in the following format (intended to be on one 
+        line):</FONT></P>
+        <P><FONT face="Courier New, Courier, mono" size=2>&lt;objectHandle&gt; = 
+        new(script "3DSprite", &lt;LCS_X_Location&gt;, &lt;LCS_Y_Location&gt;, 
+        &lt;LCS_Z_Location&gt;, &lt;Member_Name&gt;, &lt;spriteNum&gt;, 
+        &lt;ink#&gt;, &lt;Initial_Blend_Amount&gt;, &lt;DepthCue_Scaling&gt;, 
+        &lt;DepthCue_Blending&gt;, &lt;DepthCue_MemberChanging&gt;, 
+        &lt;Lowest_Member_Num&gt;, &lt;Highest_Member_Num&gt;)</FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>- <B>The first 3 
+        arguments</B> define the initial position of the 3DSprite in its own 
+        LOCAL COORDINATE SYSTEM. In many cases, these coordinates will never 
+        change, you'll simply be performing transformations on these static 
+        points. Remember: Every object you wish to define has its own local 
+        coordinate system, this entire coordinate system is what is 
+        rotated/translated/scaled by the 3D graphics engine with respect to the 
+        3D Engine's WORLD COORDINATE SYSTEM. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>- <B>Member_Name</B> 
+        is the member name that the 3DSprite is to use for a member. If you do 
+        not select "8" as part of the Depth_Flags, the 3DSprite will always use 
+        this member to represent itself. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>- <B>spriteNum</B> 
+        is the starting sprite channel position for this 3DSprite. You must 
+        already have some sort of cast member in that channel, since director 
+        flips out when you try to assign a sprite to a channel with lingo when 
+        there isn't already a sprite there. It doesn't matter what sprite is 
+        already in the channel, it will be replaced when the 3DSprite is 
+        instantiated. I recommend just putting a small sprite out there and 
+        setting it offscreen. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>-<B>ink#</B> is the 
+        default numerical representation for the ink effect the sprite is to 
+        use. (36 is background-transparent, 32 is blend, etc...) </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2>-<B>Initial_Blend_Amount</B> is the default blend value for that 
+        3DSprite. In most cases, this will be 100. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>-<B>DepthCue 
+        Flags</B> are 3 flags that determine what kind of depth cues the 
+        3DSprite is to display as it varies in Z distance away from the virtual 
+        camera. It can shrink or grow, become dim or bright using blend, or 
+        change cast members. </FONT></P>
+        <BLOCKQUOTE>
+          <P><FONT face="Arial, Helvetica, sans-serif" 
+          size=2><B>DepthCue_Scaling</B> - when set to 1, turns on scaling depth 
+          cues for the 3DSprite, set to 0 to turn off. 
+          <BR><B>DepthCue_Blending</B> - when set to 1, turns on blending depth 
+          cues, set to 0 to turn it off. <BR><B>DepthCue_MemberChanging</B> - 
+          when set to 1, turns member changing on, set to 0 to turn it 
+          off.</FONT></P></BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>- For 
+        <B>Lowest_Member_Num</B> and <B>Highest_Member_Num</B>, put in the 
+        numerical range of cast members you wish to alternate through if you 
+        have flag 8 set on Depth_Flags. You HAVE to put some value in these 
+        fields, even if you don't use flag 8. If you don't use flag 8, these can 
+        be any value.</FONT></P>
+        <P>&nbsp;</P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Working with a 
+      3DSprite:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>There are quite a 
+        few handlers you have available to you to work with 3DSprites, I'll 
+        expain them in order of importance. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Transform() 
+        <BR>drawMe() </B><BR>These two handlers are the two key calls in 
+        rendering a 3D sprite through the graphics engine. Transform() applies 
+        all the transformations you have defined (i.e. the current ModelView 
+        matrix) to the 3DSprites local coordinate system coordinates and stores 
+        the newly transformed world coordinates in the 3DSprite's memory. Once a 
+        3DSprite has been transformed it is ready to be drawn. This is done by 
+        calling drawMe(). drawMe() is what actually draws the 3DSprite on the 
+        screen. It is important to note at this point that 3DSprites are not 
+        added to the actorList -- if you want something to occur that involves 
+        this sprite at every frame, you should create another object that is a 
+        member of the actorList that can manage several 3DSprites, and do your 
+        work there. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Let's show a typical 
+        call involving these two functions. Lets imagine I've already 
+        instantiated 8 3DSprites with the vertices of the four corners of a 
+        cube. I'll write a quick stepFrame handler, much like the one in the 
+        "Box" object in the example code included with the 3D Engine, that spins 
+        this cube and draws all the 3D sprites at every frame. </FONT></P>
+        <BLOCKQUOTE><PRE><FONT face="Courier New, Courier, mono" size=2>property rotation, spriteList
+on stepFrame me 
+   -- do a quick rotation/translation transformation 
+   mLoadIdentity() 
+   set rotation = rotation + 0.1 
+   xRotateY(rotation) 
+   xTranslate(0.0, 0.0, -20.0) 
+             
+   repeat with i = 1 to numPoints 
+      Transform(getAt(spriteList, i)) 
+      drawMe(getAt(spriteList, i)) 
+   end repeat 
+end </FONT></PRE></BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>This routine, could 
+        be made significantly more complicated if you wanted to sort sprites so 
+        that the 3DSprites that have nearer Z values take the higher numbered 
+        sprite channels. Look down in the EXAMPLES:Sorting Sprites section for 
+        details on how to do this. For more of a background on how to define a 
+        cube &amp; rotate it, refer to the EXAMPLES:A Basic Example section. 
+        </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>You could also set 
+        up one transformation orientation, apply the transformations by calling 
+        Transform(), set up different transformations and apply those new ones 
+        to different 3DSprites by calling Transform() on them, and then finally 
+        calling drawMe() on all the sprites in order to control multiple 
+        autonomous 3DSprite groups in different ways. An example: </FONT></P>
+        <BLOCKQUOTE><PRE><FONT face="Courier New, Courier, mono" size=2>property rotation, spriteList 
+on stepFrame me 
+   -- do a quick rotation/translation transformation 
+   mLoadIdentity() 
+   set rotation = rotation + 0.1 
+   xRotateY(rotation) 
+   xTranslate(0.0, 0.0, -20.0) 
+             
+   repeat with i = 1 to (numPoints - 5) 
+      spriteList[i].Transform()
+   end repeat 
+             
+   mLoadIdentity() 
+   xTranslate(-5.0, 0.0, -45.3) 
+   xRotateX(rotation-3) 
+             
+   repeat with i = (numPoints - 4) to numPoints - 5 
+      spriteList[i].Transform()
+   end repeat 
+
+   zSort(spriteList)            
+ 
+   repeat with i = 1 to numPoints
+      spriteList[i].drawMe() 
+   end repeat 
+end </FONT></PRE></BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>getPos()</B><BR>This handler returns the LOCAL COORDINATE 
+        SYSTEM position of the 3DSprite as a 4 member list. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>getVPos() 
+        </B><BR>This handler returns the last known WORLD COORDINATE SYSTEM z 
+        position of the 3DSprite, after its local coordinates have been 
+        transformed into world coordinates (after rotation, translation, etc.) 
+        </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>getZPos() 
+        </B><BR>This handler returns the last known WORLD COORDINATE SYSTEM z 
+        position of the 3DSprite. This is useful for attaining miscellaneous 
+        depth information. This coordinate should range between -1 and 1. 
+        </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>setMouseWithin(fieldName) <BR>setMouseLeave(fieldName) 
+        <BR>setMouseDown(fieldName) <BR>setMouseUp(fieldName)</B><BR>You may 
+        want certain events to occur when a particular 3DSprite is rolled over, 
+        clicked on, etc. You can make custom scripts for each 3DSprite without 
+        having to modify the 3DSprite code by calling these handlers. You simply 
+        have to type the lingo you wish to have occur when any of these events 
+        occur into a field, and it will be executed on their respective events. 
+        You can assume that the lingo you type into the field has the same scope 
+        as the 3DSprite itself (i.e. you can access properties like mySprite, 
+        the spritenum of me, etc.). </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" 
+        size=2><B>setSizeChange(ONOFF) <BR>setBlendChange(ONOFF) 
+        <BR>setMemberChange(ONOFF) </B><BR>These may be called at any time to 
+        toggle the various Z-depth cues the 3DSprite is to give. The ONOFF 
+        argument should be either a 0 or a 1, and they will appropriately toggle 
+        Size, Blend, and MemberChange depth cues. </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>setPos(x, y, z) 
+        <BR>setPosW(x, y, z, w) </B><BR>These handlers can be used to change the 
+        position of the 3DSprite in its own LOCAL COORDINATE SYSTEM. The first 
+        handler, setPos(), assumes that the w coordinate is 1.0. If you wish to 
+        explicitly specify the w coordinate for the 3DSprite, use setPosW(). 
+        </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>setHeight(height) 
+        <BR>setWidth(width) <BR>setInk(inkNumber) <BR>setBlend(blendAmount) 
+        <BR>setSprite(spriteChannelNumber) </B><BR>These handlers can be used to 
+        change any of the various properties of the 3DSprite at will. They're 
+        all fairly self-explanatory. Some of these properties may be overridden 
+        by other handlers relating to the 3DSprite, such as depth cue flags, 
+        sprite sorting routines, etc.</FONT></P>
+        <P>&nbsp;</P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Further 
+      Examples:</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>For further examples 
+        of how to work with 3DSprites, look at the "Box" and "Spiral" members of 
+        the demo movie.</FONT></P>
+        <P>&nbsp;</P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>Examples</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>Below are some 
+      snippets of example code of some of the more important points relating to 
+      the use of Dave's 3D Engine. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Initializing the 
+      Graphics Engine </B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>The first things you 
+        need to do in order to set up the graphics engine for use is define your 
+        projection matrix, set up your viewport, and set the ModelView matrix to 
+        the Identity Matrix so that you can start with a clear palette. This 
+        block of code is one example of how to do this.</FONT></P>
+        <P><FONT face="Courier New, Courier, mono" size=2>-- initialize 3DEngine 
+        <BR>mSelectMatrix("Projection") <BR>mLoadIdentity() <BR>pFrustum(-2, 2, 
+        1.3, -1.3, 1.5, 200.0) <BR>pViewPort(0, 0, 640, 480) 
+        <BR><BR>mSelectMatrix("ModelView") <BR>mLoadIdentity() </FONT></P>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>This block of code 
+        defines an average viewing frustum, slightly wider than it is high to 
+        account for the fact that we're projecting this onto a 640/480 screen. 
+        It then defines a viewport taking up a whole 640 by 480 stage. It then 
+        sets the current matrix to change back to ModelView and initializes it. 
+        </FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Basic Examples in 
+      the Demo Movie Code</B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Refer to the "Cube," 
+        "SeeThruCube," "Box," and "Tornado" cast members for basic examples of 
+        how to implement the code. Far more complex arrangements are possible. 
+        Whole virutal worlds could be made. It's just a matter of time and 
+        imagination!</FONT></P></BLOCKQUOTE>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Using Matrix Stacks 
+      </B></FONT></P>
+      <BLOCKQUOTE>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Matrix stacks come 
+        in very useful for numerous tasks. One of these tasks is inverse 
+        kinematics. Imagine an example where you have three objects - a car, a 
+        person, and an arm. Now, you want to always make sure 2 people are 
+        sitting in the right place in the car and that they're always wearing 
+        their arms. Each object is defined in their own local coordinate systems 
+        (around their own origins). If the car moves, the people have to move 
+        with the car, as do their appendages. Matrix stacks make it very easy to 
+        position all these objects correctly. Examine this code: 
+        </FONT></P><FONT face="Courier New, Courier, mono" size=2>property 
+        car3DSprite, person3DSprite, arm3DSprite <BR>property car_X, car_Y, 
+        car_Z <BR>on drawEverything <BR>set car_X = car_X + 1.0 -- move car a 
+        bit further every frame <BR>mSelectMatrix("ModelView") -- make sure 
+        we're in the right matrix <BR>mLoadIdentity() -- go to the World 
+        Coordinate System's origin <BR>mTranslate(car_X, car_Y, car_Z) -- 
+        translate the car to the right spot Transform(car3DSprite) 
+        <BR>drawMe(car3DSprite) <BR>mPush() -- save the car position for later 
+        <BR><BR>-----draw person #1 <BR>mTranslate(-0.3, -0.2, -0.7) -- 
+        translate from the car's position to a <BR>-- position suitable for 
+        drawing the person in -- the car. <BR>Transform(person13DSprite) 
+        <BR>drawMe(person13DSprite) <BR>mPush() -- push the person's position 
+        onto the stack <BR>mTranslate(-0.1, 0.0, 0.1) -- translate from the 
+        person's position to a <BR>-- position suitable for putting the persons 
+        left arm on <BR>Transform(arm3DSprite) <BR>drawMe(arm3DSprite) -- draw 
+        arm 1 <BR>mPop() -- Pop a matrix -- current matrix now is equal to 
+        <BR>-- the position of the person's body <BR>mTranslate(0.1, 0.0, 0.1) 
+        -- translate from the person's position to a <BR>-- position suitable 
+        for putting their right arm on <BR>Transform(arm3DSprite) 
+        <BR>drawMe(arm3DSprite) -- draw arm 2 <BR>mPop() -- Go back to car 
+        position <BR><BR>---------------------------- draw person #2 
+        <BR>mTranslate(-0.5, -0.2, -0.7) -- translate from car's position to a 
+        position <BR>-- suitable for putting person #2 in the car. 
+        <BR>Transform(person13DSprite) <BR>drawMe(person13DSprite) -- draw 
+        person <BR>mPush() -- push the person's position onto the stack 
+        <BR>mTranslate(-0.1, 0.0, 0.1) -- translate from the person's position 
+        to a <BR>-- position suitable for putting the persons left arm on 
+        <BR>Transform(arm3DSprite) <BR>drawMe(arm3DSprite) -- draw arm 1 
+        <BR>mPop() -- Pop a matrix -- current matrix now is equal to <BR>-- the 
+        position of the person's body <BR>mTranslate(0.1, 0.0, 0.1) -- translate 
+        from the person's position to a <BR>-- position suitable for putting 
+        their right arm on <BR>Transform(arm3DSprite) <BR>drawMe(arm3DSprite) -- 
+        draw arm 2 <BR><BR>end </FONT>
+        <P><FONT face="Arial, Helvetica, sans-serif" size=2>Now, no matter where 
+        car_X, car_Y, and car_Z go, the people will always be placed in the 
+        right place, and so will their arms. All thanks to our friend, the 
+        matrix stack. </FONT></P></BLOCKQUOTE>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><FONT 
+      size=5>Miscellaneous Issues</FONT></FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>You will notice that 
+      when a 3DQuad begins to touch the edge of the viewport, that it 
+      disappears. Right now I haven't found an easy way to clip things when they 
+      get "just offscreen" - once I come up with a solution to this this problem 
+      will be solved.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>You will notice that 
+      in some models, at some distance from the camera, gaps appear between the 
+      polygon sections. This is an artifact from the way Director 7 renders 
+      Quads. I don't have control over this issue. There are two ways to 
+      overcome this problem - define your model such that the edges of your 
+      geometries slightly overlap (you'll notice that the Cube .D3D does this), 
+      or I have heard that setting useFastQuads = TRUE helps.</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>If you wish for a 
+      minor speed boost at the cost of some distortion of the bitmaps that 
+      represent each Quad, set the useFastQuads = TRUE. It defaults to FALSE 
+      presently.</FONT></P>
+      <P>&nbsp;</P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=5>Contacting 
+      Dave</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>As stated before, I'm 
+      not going to answer tons of technical questions like, "why won't this 
+      work?" or give a lesson on interactive 3D graphics theory. This project is 
+      not my bread and butter, I'm only one person working two jobs and writing 
+      independent software, and I don't have time to be a support staff for your 
+      programming projects. I don't mean to sound rude but that's just how it 
+      is. However, if you desire my freelance services as a professional 
+      consultant on this and other 3D or Director issues, feel free to contact 
+      me. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>I would also love to 
+      hear from you if you've made impressive modifications or additions to this 
+      code (lighting algorithm anyone?) -- I'm always interested in exploration 
+      of 3D graphics and new tips and tricks. If you have done something notable 
+      with this graphics engine, I would love to see it. If it is good enough I 
+      would be happy to package it with future distributions of Dave's 3D 
+      Engine. If this is the case, feel free to contact me at:</FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B><A 
+      href="mailto:dcole@sigma6.com">dcole@sigma6.com</A> </B></FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>Furthermore, keep an 
+      eye on my homepage for updates and new examples of how to innovatively use 
+      Dave's 3D Engine. </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B><A 
+      href="http://www.dubbus.com/devnull/3D">http://www.dubbus.com/devnull/3D</A></B></FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>And as always, if you 
+      use this software frequently, or plan on commercial gain from this, please 
+      send a $20 shareware fee to: </FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><B>Dave 
+      Cole<BR></B></FONT><B><FONT face="Arial, Helvetica, sans-serif" size=2>216 
+      Packard <BR>Ann Arbor, MI 48104</FONT></B></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2><I>Support fellow 
+      director developers!</I></FONT></P>
+      <P><FONT face="Arial, Helvetica, sans-serif" size=2>Good luck &amp; enjoy! 
+      <BR>-Dave</FONT></P></TD>
+    <TD width="6%">&nbsp;</TD></TR></TBODY></TABLE>
+<P>&nbsp;</P></BODY></HTML>

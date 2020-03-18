@@ -1,0 +1,6 @@
+20-Sep-1999 ver 1.5
+	- Authorware support.	
+
+09-Apr-1999 ver 1.4
+	- Shockwave 7 support.
+

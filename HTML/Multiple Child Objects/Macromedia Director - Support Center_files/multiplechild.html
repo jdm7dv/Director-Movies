@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0070)http://www.macromedia.com/support/director/how/show/multiplechild.html -->
+<HTML><HEAD><TITLE>Macromedia - Director Show Me: Multiple Child Objects</TITLE>
+<META content="David Benman" name=AUTHOR>
+<META content="October 31, 1997" name=DATEMODIFIED>
+<META 
+content="data structure, data array, lists, database lists, record list, linear&#10;list, complex list, property list" 
+name=KEYWORDS>
+<META content="text/html; charset=iso-8859-1" http-equiv=Content-Type>
+<META content="October 31, 1997" name=DATECREATED>
+<META content="Windows, Macintosh" name=PLATFORM>
+<META content="Director " name=PRODUCT>
+<META content=6 name=VERSIONS>
+<META content=6 name=VERFROM>
+<META content=99 name=VERTO>
+<META content="Beginning, Intermediate" name=LEVEL>
+<META content="Multimedia, Code Example" name=KIND>
+<META content=2 name=IMPORTANCE>
+<META content=06845 name=DOCID>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY aLink=#000000 bgColor=#ffffff link=#333399 vLink=#660033>
+<TABLE border=0 cellPadding=0 cellSpacing=0>
+  <TBODY>
+  <TR>
+    <TD nowrap vAlign=bottom><IMG border=0 height=17 
+      src="multiplechild_files/pixel.gif" width=18><A 
+      href="http://www.macromedia.com/" target=_top><IMG alt=macromedia border=0 
+      height=12 src="multiplechild_files/crumb_macromedia_blue.gif" 
+      width=99></A><IMG alt=: border=0 height=12 
+      src="multiplechild_files/crumb_colon.gif" width=15><A 
+      href="http://www.macromedia.com/software/" target=_top><IMG alt=products 
+      border=0 height=12 src="multiplechild_files/crumb_products_blue.gif" 
+      width=69></A><IMG alt=: border=0 height=12 
+      src="multiplechild_files/crumb_colon.gif" width=15><A 
+      href="http://www.macromedia.com/software/director/" target=_top><IMG 
+      alt=director border=0 height=12 
+      src="multiplechild_files/crumb_director_blue.gif" width=63></A><IMG alt=: 
+      border=0 height=12 src="multiplechild_files/crumb_colon.gif" width=15><A 
+      href="http://www.macromedia.com/support/director/contents.html" 
+      target=main><IMG alt=support border=0 height=12 
+      src="multiplechild_files/crumb_support_blue.gif" width=61></A><IMG alt=: 
+      border=0 height=12 src="multiplechild_files/crumb_colon.gif" width=15><A 
+      href="http://www.macromedia.com/support/director/lingo.html" 
+      target=main><IMG alt="lingo, behaviors, and parent scripts" border=0 
+      height=12 src="multiplechild_files/crumb_lingobehave_blue.gif" 
+      width=282></A></TD></TR></TBODY></TABLE><IMG border=0 height=30 
+src="E:\Director\Tutor\Multiple Child Objects\Macromedia Director - Support Center_files\multiplechild_files\pixel(1).gif" 
+width=2>
+<TABLE border=0 cellPadding=0 cellSpacing=0 width="95%">
+  <TBODY>
+  <TR>
+    <TD align=right vAlign=top width="10%"><IMG border=0 height=60 
+      src="multiplechild_files/director_logo.gif" width=72> <IMG border=0 
+      height=2 
+      src="E:\Director\Tutor\Multiple Child Objects\Macromedia Director - Support Center_files\multiplechild_files\pixel(1).gif" 
+      width=120> </TD>
+    <TD vAlign=top width="90%" halign="left"><IMG 
+      alt="director lingo, behaviors, and parent scripts" border=0 height=34 
+      src="multiplechild_files/head_lingo.gif" width=385> 
+      <HR SIZE=1>
+
+      <P><FONT face="Arial, Helvetica, sans-serif" size=4><B>Multiple child 
+      objects</B></FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>The movie, 
+      "Simple Child Object," is an example of how to create a child object from 
+      a parent script. In normal use, you would not use a parent script to 
+      create just one child object. You can download and examine a copy of this 
+      movie from the links below. See Chapter 12, "Parent Scripts and Child 
+      Objects" in the Learning Lingo manual for more details about parent 
+      scripts and child objects.</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B>The 
+      advantage of parent scripts and child objects comes from their capability 
+      to:</B></FONT>
+      <P>
+      <TABLE cellPadding=4>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="multiplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Create many child objects on demand as the movie plays. You 
+            create a child object each time you issue a 
+            </FONT><CODE>new</CODE><FONT 
+            face="Geneva,  Arial, Helvetica, sans-serif" size=2> 
+            statement.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="multiplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Share behaviors among related child objects.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="multiplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Maintain individual and independent property variables for 
+            each child object.</FONT></TD></TR></TBODY></TABLE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>The movie, "Multiple 
+      Child Objects" shown below, uses Lingo to create similar sets of objects 
+      from different parent scripts.</FONT>
+      <P><EMBED height=240 palette=background 
+      pluginspage=http://www.macromedia.com/shockwave/ 
+      src=multiplechild.dcr width=320>
+        </EMBED> 
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Click New 
+      B&amp;W or New Color to make a new ball appear. Click different places on 
+      the stage to move the blue paddle and bounce the ball.<BR>
+      <P>Unlike the "Simple Child Object" movie, the "Multiple Child Objects" 
+      movie creates more than one child object. Each child object has 
+      independent behaviors because it maintains its own property variables. The 
+      similarities in the balls motion and shape come from an ancestor script 
+      that is shared by all the balls. The difference between the balls color, 
+      in this case comes from the parent script for each related set of 
+      balls:</FONT>
+      <P>
+      <TABLE cellPadding=4>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="multiplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>All balls follow the same rules for motion because this 
+            characteristic is inherited from the ancestor.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="multiplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Each ball can have a different velocity, direction, and 
+            sprite number because these are property variables. These variables 
+            are declared in the ancestor script.</FONT></TD></TR>
+        <TR>
+          <TD vAlign=top width=14><IMG height=10 
+            src="multiplechild_files/tri.gif" vspace=2 width=14></TD>
+          <TD vAlign=top><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>The balls are either color or grayscale, depending on which 
+            parent script they have.</FONT></TD></TR></TBODY></TABLE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>See "Creating multiple 
+      child objects" of Chapter 12, "Parent Scripts and Child Objects" in the 
+      Learning Lingo manual for more details about the scripts in "Multiple 
+      Child Objects."</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><A 
+      href="http://download.macromedia.com/pub/director/showme/win/mtcobjs.zip">Download 
+      the Windows source file for this piece</A> (32K)<BR><A 
+      href="http://download.macromedia.com/pub/director/showme/mac/mtcobjs.dir.sea.hqx">Download 
+      the Macintosh source file for this piece</A> (96K)</FONT>
+      <P>
+      <P><BR>
+      <TABLE border=1 cellPadding=5 cellSpacing=1>
+        <TBODY>
+        <TR>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><B>Last 
+            Updated: </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>March 
+            1, 1998</FONT></TD></TR>
+        <TR>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2><B>Creator: </B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>Macromedia</FONT></TD></TR></TBODY></TABLE><BR>
+      <P></P></TD></TR>
+  <TR>
+    <TD align=right vAlign=bottom width="10%"><A 
+      href="http://www.macromedia.com/buy/" target=_top><IMG alt=buy border=0 
+      height=21 src="multiplechild_files/buy.gif" width=67></A><BR><A 
+      href="http://www.macromedia.com/support/search/powersearch.html"><IMG 
+      alt="power search" border=0 height=21 src="multiplechild_files/search.gif" 
+      width=90></A><BR></TD>
+    <TD>
+      <CENTER>
+      <HR noshade SIZE=1 width="100%">
+      <BR><FONT face="Arial, Helvetica" size=-1>[<A 
+      href="http://www.macromedia.com/" target=_top>home</A>] [<A 
+      href="http://www.macromedia.com/software/" target=_top>products</A>] [<A 
+      href="http://www.macromedia.com/support/" target=_top>support</A>] [<A 
+      href="http://www.macromedia.com/downloads/" target=_top>downloads</A>] [<A 
+      href="http://www.macromedia.com/macromedia/" target=_top>about us</A>] [<A 
+      href="http://www.macromedia.com/OUTGOING/http://www.shockwave.com/" 
+      target=mm_window>shockwave.com</A>] [<A 
+      href="http://www.macromedia.com/help/" target=_top>help</A>] <BR><FONT 
+      size=-2><A href="http://www.macromedia.com/help/copyright.html">Trademarks 
+      Copyright</A> ©1995-1999 Macromedia, Inc. All rights reserved. <A 
+      href="http://www.macromedia.com/help/privacy.html">Privacy policy</A>. 
+      </FONT><BR></FONT></CENTER></TD></TR></TBODY></TABLE>
+<P><BR></P></BODY></HTML>

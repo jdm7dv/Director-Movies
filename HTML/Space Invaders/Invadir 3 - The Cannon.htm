@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0042)http://brennan.young.net/Edu/Invadir3.html -->
+<HTML><HEAD><TITLE>Invadir 3 - The Cannon</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir2.html">Back to Lesson 
+2</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir4.html">Forward to Lesson 
+4</A></H6>
+<P><B>Lesson 3 - The Cannon</B></P>
+<P>Drag the cannon graphic onto the stage and place it in an appropriate place 
+near the bottom. Have a look in the score and make sure that it looks something 
+like this.</P>
+<P align=center><IMG align=bottom border=1 height=166 
+src="Invadir 3 - The Cannon_files/score1.gif" width=189></P>
+<P>The cannon should be in sprite 1, frame 1 and the loop script you wrote 
+should be in the framescript of frame 1. The sprite should be one frame long. If 
+it's longer than one frame, it doesn't really matter, but it's pretty easy to 
+just drag it to one frame or set the sprite <B>end</B> in the score or sprite 
+inspector to 1.</P>
+<P>Sprites and cast members are <B>Objects</B>, that is, virtual or simulated 
+software 'things'. The cool thing about software Objects is that you do not need 
+to know how they are implemented, or how they work inside. The whole point is 
+that you perceive it as a discrete entity that can often be dragged and dropped, 
+copied and pasted and so on. More technically, it is a well-wrapped bundle of 
+computer code and data which the system allows you to manipulate all at 
+once.</P>
+<P>If an object has an essential characteristic, that characteristic is called a 
+<B>property</B> of the object. Spiders have eight legs, and those legs are a 
+defining characteristic. A Director movie has a main window called <B>the 
+stage</B> which has a default background colour. Earlier we modified the<TT> 
+stagecolor </TT>property of the <B>Movie</B> object, yes even the movie is an 
+object! Let's look at some of the other properties of a movie:</P>
+<P>Every movie is built up of <B>frames</B>, each frame consists of 120 sprite 
+channels (this number is different in other versions of Director). If you drag a 
+cast <B>member</B> from the <B>cast</B> onto the <B>stage</B> or into any sprite 
+<B>channel</B>, you create a <B>sprite</B>. The sprite then contains a reference 
+to the cast member.</P>
+<P>This means that <B>objects can have references to other objects as their 
+properties</B>.</P>
+<P>A sprite must contain a cast member, but a cast member need not be placed in 
+a sprite. This means that <B>a cast member is a property of a sprite</B>, not 
+the other way round. You might want to think of the sprite as a container with 
+(a reference to) the cast member inside it. Sprites have other properties too, 
+like a stage location for example. It does not make sense for a cast member to 
+have a location on the stage because a cast member is just a bunch of stored 
+(not necessarily visual) data.</P>
+<P>Another sprite property which is rather important is its <B>ink</B>.</P>
+<P>You will probably notice that the cannon sprite has a solid white rectangle 
+around it. This is because the ink of the sprite is set to Copy. Copy means that 
+the sprite will simply copy the pixels from the cast member onto the screen 
+without removing any background colour or otherwise processing the bitmap 
+data.</P>
+<P>To hide that white rectangle, you can set the ink to <B>Background 
+Transparent</B> in the score or sprite inspector. Make sure the sprite is 
+selected and find the popup ink menu, then select Background Transparent. Now 
+the white rectangle around the sprite will disappear.</P>
+<P>
+<TABLE border=1 cellPadding=0 cellSpacing=2 width="90%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#000000 width="50%"><IMG align=bottom border=0 height=23 
+      src="Invadir 3 - The Cannon_files/cannoncopy.gif" width=45><FONT 
+      color=#ffffff>Copy ink</FONT></TD>
+    <TD bgColor=#000000 width="50%"><I><IMG align=bottom border=0 height=23 
+      src="Invadir 3 - The Cannon_files/Cannon.gif" width=45></I><FONT 
+      color=#ffffff>Background Transparent 
+ink</FONT><I>rand</I></TD></TR></TBODY></TABLE></P>
+<P>The <B>ink</B> property of a sprite dictates how the individual pixel data 
+from the cast member gets 'blitted' onto the screen. There are several other 
+inks which affect this process in various ways. Background transparent will draw 
+whatever is 'underneath' any pixels with the background colour (which can be 
+seen and set in the bottom right hand corner of the tool palette when the sprite 
+is selected.)</P>
+<P>Now we are ready to start writing some Lingo for the cannon.</P>
+<P>CTRL-Click on the cannon sprite in the score or the stage and select 
+<B>Script...</B></P>
+<P>-or-</P>
+<P>Select the cannon sprite and choose <B>New Script</B> from the script popup 
+menu in the score or sprite inspector.</P>
+<P>Now you should see a new score script window with the following words</P><PRE>on mouseup
+
+end</PRE>
+<P>We're not interested in the mouse button right now. You can delete these 
+entirely and replace them with the following</P><PRE>on exitFrame me
+  set mySprite to the spritenum of me 
+  set the locH of sprite mySprite to the mouseH
+end</PRE>
+<P>When you've done this, click on the little lightning bolt button at the top 
+off the script window.</P>
+<P align=center><IMG align=bottom height=22 
+src="Invadir 3 - The Cannon_files/recompile.gif" width=24></P>
+<P>This button translates ("compiles") your Lingo into a code which the computer 
+can read and execute much faster. You should get into a habit of clicking this 
+button every time you finish editing a script. If there are obvious errors in 
+your script, recompiling will let you know about them. Don't expect recompiling 
+to reveal all errors however!</P>
+<P>Give your script a name; "The Cannon". <BR>Now you can run the movie. Notice 
+what happens to the cannon sprite when you move the mouse left and right.</P>
+<P>This script has been prepared to handle an</P><PRE>exitFrame</PRE>
+<P>message, similar to the previous script. Handlers for particular objects are 
+usually followed by the parameter <B>me</B>, which is how objects refer to 
+themselves. On the next lines come the body of the handler; what will actually 
+happen when the message is received. Finally, the word <B>end</B> means that 
+everything for the procedure has been described.</P>
+<P>IMPORTANT: Please be careful that you are making a <B>score script</B> (a 
+behavior) and <B>not a cast member script</B>. This is an easy mistake to make. 
+Try and avoid making cast member scripts in as they are bound to the media and 
+this makes them inflexible, especially if you decide to change the media at some 
+point.</P>
+<P>Cast member scripts do have their uses; Some people who use Director to make 
+traditional multimedia use nothing else. They can also be used as parent scripts 
+for more advanced and abstract programming designs. For sprite based 
+object-oriented design with maximum flexibility, it is better to avoid cast 
+member scripts altogether.</P>
+<P>In the instruction part of the handler we are using a very important Lingo 
+statement, knows as an <B>assignment</B> statement. When you 'assign' a value to 
+something, that thing 'contains' or refers to the value. This is usually 
+achieved in the following way:</P><PRE>set <FONT color=#ff0000>variable</FONT> to <FONT color=#ff0000>value</FONT></PRE>
+<P>...or...</P><PRE>set <FONT color=#ff0000>variable</FONT> = <FONT color=#ff0000>value</FONT></PRE>
+<P>...or for those of you using Director7, you might find it easier or quicker 
+to use the new syntax...</P><PRE><FONT color=#ff0000>variable</FONT> = <FONT color=#ff0000>value</FONT></PRE>
+<P>A <B>variable</B> is similar to something you might remember from 
+mathematics. It is a convenient label that we can use for something which might 
+change its value, or whose value is unknown. There are many situations when we 
+just don't know what the value of something will be, we only know that there 
+will be a value, so it's very convenient for values to have names and then we 
+can create systems and procedures for managing them without all those procedures 
+becoming obsolete the moment the values change.</P>
+<P>This is a very intuitive idea which is built into human language. Some 'human 
+language' variables are</P>
+<P>the weather<BR>the time<BR>today<BR>me<BR>now<BR>here <BR>the poor</P>
+<P>...and so on. Sometimes variables 'belong' to things, they are then known as 
+<B>properties</B> of those things. Here are some examples of variable human 
+properties:</P>
+<P>my age<BR>your shoesize<BR>Bill Gates' bank balance<BR>the color of my 
+girlfirend's hair<BR>the wisdom of our forefathers<BR><BR>Notice how properties 
+of objects in human language often use the genitive or posessive gramatical form 
+to specify who or what the property belongs to. Lingo's 'genitive' syntax takes 
+the following form:</P><PRE>the <FONT color=#ff0000>property</FONT> of <FONT color=#ff0000>object</FONT></PRE>
+<P>and for those with Director7 who might prefer a more 'traditional' 
+programming syntax common in the C and Pascal families of computer 
+languages...</P><PRE><FONT color=#ff0000>object</FONT>.<FONT color=#ff0000>property</FONT></PRE>
+<P><TT>the spritenum of me </TT>is a special Lingo reference which effectively 
+means "the sprite where this script is attached". This handler takes the 
+particular sprite channel that is using the script and stores it in a variable 
+called <B>mySprite</B>. I will explain the<TT> me </TT>reference in more detail 
+later on.</P>
+<P>Instead of <B>mysprite</B> I could just have used the traditional algebraic 
+X, but <B>mysprite</B> is more descriptive. It's a very good idea to give all 
+your variables descriptive names. A variable is like a little box where you can 
+store some information. Every time you refer to it in your code, the computer 
+"sees" only the contents of the box. This has several major advantages:</P>
+<UL>
+  <LI>Your code can contain more words and fewer numbers, making it easier to 
+  read.<BR>
+  <LI>Your code can be more flexible, and work in contexts where the variables 
+  store different values.<BR>
+  <LI>You can make modifications much more quickly, instead of replacing every 
+  occurence of a number, you just change the value the variable is set to. 
+</LI></UL>
+<P>If you are not a native English speaker, you might even want to use your 
+mother tongue for custom properties, variables and messages. This actually puts 
+you at an advantage over native English speakers because you will be able to 
+instantly see what is Lingo and what are your own chosen names. Whatever names 
+you use, be aware that some names are already in use by Lingo itself!</P>
+<P>The next line sets one of the properties of the sprite,<TT> the locH </TT>, 
+to one of the properties of the movie; <TT>the mouseH</TT>.</P>
+<P><TT>locH </TT>means <B>Horizontal Location</B> and<TT> the mouseH </TT>is the 
+horizontal position of the mouse cursor.</P>
+<P>The overall effect is that the sprite moves horizontally to wherever the 
+mouse cursor is horizontally. If you would like to make the movement smoother, 
+you might want to stop the movie and set the frame rate of the movie to a higher 
+value in the control panel. When you are satisfied that things are running 
+smoothly, you are ready to proceed, stop the movie.</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir4.html">Forward to 
+Lesson 4</A></H5></BODY></HTML>

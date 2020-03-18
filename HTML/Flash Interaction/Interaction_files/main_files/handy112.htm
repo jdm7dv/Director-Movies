@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0074)http://www.director-online.com/howTo/handy_articles/handy112/handy112.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 112</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#770000 aLink=#ff0000 link=#ff0000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=31 src="handy112_files/handyman.gif" width=213 
+      border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG height=9 
+            src="handy112_files/archiveDivLine.gif" width=440 align=bottom 
+            border=0></TD>
+          <TD vAlign=top width=55 rowSpan=2><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+            height=28 src="handy112_files/archiveDiv.gif" width=55 align=bottom 
+            border=0></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <P><B><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Dear 
+            Multimedia Handyman</FONT></B> 
+</P></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD><BR>
+      <P>Could you tell me the simple way to join between Flash and Director 
+      using button/icon?
+      <P>Let's say I'm doing some animation with Flash and save it in shockwave 
+      format (*.swf) and then put it in the Director cast. What is the script so 
+      that when I click in certain area in that Shockwave Flash then it will go 
+      to certain frame or movie.
+      <P><A href="mailto:asyraq@mimos.my">Asyraq</A>
+      <P>Dear Asyraq,
+      <P>There are several easy steps involved in getting Flash to work with 
+      Lingo. Step one is accomplished in the process of creating your Flash 
+      movie. Create a Flash movie which is just big enough for your purposes. 
+      For this example, I'll use the VCR buttons which are in Flash's button 
+      library. I drag them onto the stage and space them evenly.
+      <P><IMG height=298 alt="" src="handy112_files/flashScreen1.gif" width=341 
+      border=0>
+      <P>Next we need to assign an action to each of the buttons. Remember, 
+      we're still working in the Flash application. Right click (or on the Mac, 
+      control-click) one of the buttons and select Properties...
+      <P><IMG height=265 alt="" src="handy112_files/flashScreen2.gif" width=500 
+      border=0>
+      <P>Click on the Actions tab, and then select GetURL from the pulldown 
+      menu. (I don't know why they chose this term; it's not very intuitive, but 
+      that's the way it works.) Now we have some choices to make about what to 
+      enter as the GetURL parameter.
+      <P>There are three different ways that we can send a message from the 
+      Flash movie to Director:
+      <P>
+      <OL>
+        <LI>pass a string
+        <LI>specify an event (call a Lingo handler)
+        <LI>make a Lingo statement directly</LI></OL>
+      <P>The simplest way is to enter a word or phrase which Director will 
+      accept as a string of characters. You could use the name of a frame or 
+      movie, or in this example I used the name of the button. Just for clarity, 
+      I used "buttonPlay" as the name of the button, rather than just "play" 
+      because "play" is a Lingo keyword. It would actually be OK to use "play" 
+      as a string -- it wouldn't confuse Lingo, but it might confuse me.
+      <P>Assign GetURL actions to each of the other buttons, specifying the 
+      respective button names, then export the single frame Flash movie as a 
+      *.swf file. Now switch over to Director.
+      <P>In Director, import the *.swf file into the cast. It will create a 
+      single cast member which can be scaled, rotated, etc. And since Flash uses 
+      vectors, this cast member will be tiny... only 6K for the entire set of 
+      VCR controls, irrespective of the size on the stage. Drag the Flash member 
+      onto the stage and adjust the size and position as needed. In this case, I 
+      applied Background Transparent ink, but it's actually better for 
+      performance if you can use Copy Ink. So, you might want to match the 
+      background color before saving the movie in Flash.
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=320 height=120><PARAM NAME="SRC" VALUE="vcrButtons.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed 
+      src="vcrButtons.dcr"pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="120" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>Sample movies (and the necessary Flash files) are available for 
+      download in <A 
+      href="http://www.director-online.com/howTo/handy_articles/handy112/handy112Files.hqx">Mac</A> 
+      or <A 
+      href="http://www.director-online.com/howTo/handy_articles/handy112/handy112Files.zip">PC</A> 
+      format. These are D7 movies.
+      <P>The buttons in the Flash member will send a string message when they're 
+      pressed. But we need a Lingo behavior to accept and process that message. 
+      Remember that the message coming from the Flash member is a "getURL" 
+      message? That's the name of the handler we'll need to write in Lingo. 
+      Here's the behavior to attach to the VCR buttons sprite.
+      <P><PRE><FONT color=#cc0000>
+on getURL me, flashString   
+  -- do whatever with the flashString  
+  member("display").text = flashString
+end getURL
+</FONT></PRE>
+      <P>There's only one handler in the behavior: getURL. The button's name 
+      gets passed to the handler as a parameter which I've called flashString. 
+      Inside the getURL handler you can do anything you want with the string. In 
+      this case, I simply put the string into a field member called "display". 
+      As another example, let's say that you want the button to take you to a 
+      specific frame of the movie. In the Flash movie, you'd enter the name of 
+      the frame as the getURL parameter. Then, in the Director getURL behavior, 
+      you'd do this:
+      <P><PRE><FONT color=#cc0000>
+on getURL me, flashString   
+  go to frame flashString
+end getURL
+</FONT></PRE>
+      <H4><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Other 
+      Options</FONT></H4>
+      <P>I mentioned above that there are two other ways to pass a message in 
+      the getURL Action. Let's look at those now. 
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=320 height=240><PARAM NAME="SRC" VALUE="flashLingo.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed 
+      src="flashLingo.dcr"pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="240" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>In this example, I created a separate Flash movie for each of the Flash 
+      buttons which are moving you from frame to frame in the Director movie. 
+      There are no behaviors on the Flash sprites at all. Instead, all of the 
+      Lingo has been entered when the Flash movie was created. In Flash, when 
+      you select a button and open the Properties menu, select GetURL for the 
+      action and specify that you're making a Lingo statement. Enter something 
+      like the following:
+      <P><PRE><FONT color=#cc0000>
+	lingo: go to frame "pageTwo"
+</FONT></PRE>
+      <P><IMG height=265 alt="" src="handy112_files/flashScreen3.gif" width=500 
+      border=0>
+      <P>Now, all of the Lingo intelligence is preprogrammed in Flash. You 
+      simply import the flash movies and drag them to the stage. Sound like the 
+      easiest way, right? Well, it's easy but I don't really favor this method. 
+      The problem is that you don't have control when you're in Director. What 
+      if you change the names of the frames you're going to? Using this 
+      approach, you'd have to go back to the Flash application and change the 
+      Lingo <I>there</I>. Plus, Flash doesn't have a syntax checker for your 
+      Lingo. In general, I think it's a bad idea to script your Lingo in Flash.
+      <P>Now let's look at the third approach, which is kind of a compromise 
+      between the first two we've examined. This approach is called "specifying 
+      an event"... which simply means calling a Lingo handler and providing 
+      parameter data. It will require a custom behavior on the sprite in 
+      Director, which will receive the handler call and process the data.
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=360 height=180><PARAM NAME="SRC" VALUE="colorButtons.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed 
+      src="colorButtons.dcr"pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="360" height="180" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>In this example, I created a single Flash movie with the three color 
+      buttons. Like before, I assign a GetURL action to each button. But in this 
+      example, I enter:
+      <P><PRE><FONT color=#cc0000>
+	event: processColor "red"
+</FONT></PRE>
+      <P><IMG height=265 alt="" src="handy112_files/flashScreen4.gif" width=500 
+      border=0>
+      <P>When I import the color buttons as a single Flash cast member in 
+      Director (only 2.7K), I place it on the stage and attach the following 
+      behavior.
+      <P><PRE><FONT color=#cc0000><B>
+on processColor me, whichColor</B> 
+  case whichColor of    
+	"red": newColor = rgb(255,0,0)    
+	"yellow": newColor = rgb(255,204,0)    
+	"green": newColor = rgb(0,153,0)  
+  end case    
+  sprite(2).color = newColor  
+end processColor
+</FONT></PRE>
+      <P>This behavior receives the call to the processColor handler and 
+      converts the color name from a string to the rgb value. I've set it up to 
+      display the color in sprite channel 2. You can see how you could create 
+      custom handlers to do anything when triggered by a Flash member.
+      <H4><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Don't 
+      Forget</FONT></H4>
+      <P>Flash members can add a lot of style to your Director movie, while 
+      economizing on the file size. Using the three methods demonstrated above, 
+      you'll be able to make the Flash members interact fluently with Lingo. But 
+      don't forget... if you're distributing your movie as a projector, you'll 
+      need to include the Flash Asset Xtra with the program. (This isn't 
+      necessary for Shockwave.)
+      <P>Good luck with your program.
+      <P><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A target=display 
+      href="http://www.director-online.com/help_central/Display.html">Help 
+      Central</A> section of DOUG.</FONT></P></TD></TR></TBODY></TABLE></BODY></HTML>

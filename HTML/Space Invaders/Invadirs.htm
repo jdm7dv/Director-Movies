@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0041)http://brennan.young.net/Edu/Lingvad.html -->
+<HTML><HEAD><TITLE>Invadirs</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H1 align=center>&nbsp;</H1>
+<H1 align=center><FONT color=#333333 size=+4>INVADIRS</FONT></H1>
+<H1 align=center>
+<TABLE border=1 cellPadding=2 cellSpacing=2 width=65>
+  <TBODY>
+  <TR>
+    <TD bgColor=#000000 width="100%"><MAP name=Inv1><AREA coords=0,0,62,41 
+        href="http://brennan.young.net/Edu/Invadir1.html" shape=RECT></MAP><IMG 
+      align=bottom alt="invader image" border=0 height=41 isMap 
+      src="Invadirs_files/inv2.gif" useMap=#Inv1 
+width=62></TD></TR></TBODY></TABLE></H1>
+<P>This tutorial is designed to introduce the core concepts of <A 
+href="http://brennan.young.net/Edu/OOThink.html">Object Oriented Lingo</A> 
+through the gradual development of a simple "Space Invaders" type game. It is 
+ideal for eager beginners and intermediate users who have a basic understanding 
+of the score, the stage and the cast.</P>
+<P>I also expect users of this tutorial to be familiar with modern computer 
+interfaces such as the MacOS or Windows 95. You should understand how to use a 
+mouse, how to double click, how to drag and drop, copy, cut and paste, how 
+windows, menus and scrollbars work etc.</P>
+<P>Finally, it is important that users of this tutorial are familiar with a 
+version of a 'Space Invaders' game. Anyone who does not know this ubiquitous 
+game in one of its many forms must have been living in a hole for the last 
+twenty years and probably needs to learn some other stuff before getting into 
+multimedia design. For a recap of the original arcade space monsters, you might 
+want to try <A 
+href="http://www.davesclassics.com/">http://www.davesclassics.com/</A> which 
+seems to have moved <A href="http://davesclassics.warzone.com/">here</A>.</P>
+<P align=center><A 
+href="http://brennan.young.net/Edu/Lingvad.html#LessonTOC"><B>OK, let me 
+start!</B></A></P>
+<P>
+<HR align=left>
+
+<P></P>
+<P><B>Show Off Your Invaders</B></P>
+<P>If you work through this tutorial and end up with a shockwave invaders game 
+that you would like to show off, please let me know and I will list them as 
+links here.</P>
+<P align=center>
+<TABLE align=center border=0 cellPadding=0 cellSpacing=2 height=41 
+  width="90%"><TBODY>
+  <TR>
+    <TD height=17 width="33%">James Newton</TD>
+    <TD width="33%"><A href="http://perso.planetb.fr/newton/brennan.dir">Link 
+      to Game</A></TD>
+    <TD width="34%"><A href="http://perso.planetb.fr/newton/">Director Case 
+      Studies</A></TD></TR>
+  <TR>
+    <TD height=17 width="33%">Dave Vanderkloot</TD>
+    <TD width="33%"><A href="http://www.soulsoft.com/invaders">Soul 
+      Invaders</A></TD>
+    <TD width="34%"><A href="http://www.soulsoft.com/">Soulsoft</A></TD></TR>
+  <TR>
+    <TD height=17 width="33%">Mark Daggett</TD>
+    <TD width="33%"><A 
+      href="http://www.flavoredthunder.com/mcdomination/">McDomination</A></TD>
+    <TD width="34%"><A href="http://www.flavoredthunder.com/">Flavored 
+      thunder</A></TD></TR>
+  <TR>
+    <TD height=17 width="33%">Dale Crowley</TD>
+    <TD width="33%"><A 
+      href="http://www.thevirge.com/dale/StarrWars.htm">StarrWars</A></TD>
+    <TD width="34%">N/A</TD></TR>
+  <TR>
+    <TD height=17 width="33%">Jesper Skoog</TD>
+    <TD width="33%"><A href="http://www.users.one.se/~duffe/ai_beta.htm">Alien 
+      invaders</A></TD>
+    <TD width="34%"><A href="http://www.users.one.se/~duffe/">Jesper Skoog 
+      Homepage</A></TD></TR>
+  <TR>
+    <TD height=17 width="33%">Ronald Jaramillo</TD>
+    <TD height=17 width="33%"><A 
+      href="http://home6.inet.tele.dk/ronaldx/multimedia/multimedia.html">Raining 
+      Cats and Dogs</A></TD>
+    <TD height=17 width="34%"><A 
+      href="http://home6.inet.tele.dk/ronaldx/index.htm">Homepage</A></TD></TR></TBODY></TABLE></P>
+<P><B><BR>Pedagogical information. Educators take note.</B></P>
+<P>I have been using 'Invadirs' as a teaching example with absolute beginners at 
+Danmarks Designskole in Copenhagen with considerable success. It is very common 
+to teach Director starting with linear animation and buttons, gradually 
+introducing Lingo and leaving object-oriented programming to the very end. 
+Unfortunately most courses are too short to get on to the OO stuff, and the 
+other stuff throws up so many distractions and complications (mostly to do with 
+making the paradigm shift away from the movie metaphor) that by the very end, 
+everybody is sick, jaded and confused.</P>
+<P>I have found that students who were exposed to the OO material early on 
+gained a far greater understanding of Director, and produced higher quality work 
+much more rapidly than when I followed the more conventional multimedia teaching 
+approach.</P>
+<P>I used to believe that it was important that every student have a computer to 
+herself. Although I still believe that there are problems when there are too 
+many people fighting over the mouse, I have discovered that when there are two 
+or three at the same machine, there is a greater willingness to exchange 
+suggestions and try stuff out without the same fear of failure that arises in a 
+student working alone. If it goes wrong, it's easier to share the blame or just 
+laugh, if it works out, miniature celebrations and whoops of pleasure can be 
+enjoyed by everyone involved.</P>
+<P>If you would like to use this material in a teaching environment, please feel 
+free to do so. You may print out and duplicate the text and distribute it for 
+educational puposes in a public institution. I only ask you to <A 
+href="mailto:brennan@young.net">email me</A> with some feedback about how it 
+went, perhaps some links to finished student work based on this material and so 
+on. I'd also be very interested in any other suggestions you might have about 
+the pedagogical aspects.</P>
+<P>&nbsp;</P>
+<P><B>How this Tutorial Came About, What it's REALLY for and all that.</B></P>
+<P>I'm constantly surprised that the quality of educational material for 
+Director is so poor. There have been a couple of good books, Peter Small's '<A 
+href="http://www.avatarnets.com/Overview/lingsorc.htm">Lingo Sorcery</A>' was 
+unique for a long time in covering the most important issues, although it also 
+dips frequently into esoterica. Right now <A 
+href="http://www.zeusprod.com/nutshell/">Bruce Epstein's</A> 'Lingo In a 
+Nutshell' and 'Director In a Nutshell' stand head and shoulders above the rest. 
+Other recommended writers are <A 
+href="http://clevermedia.com/rosenz/index.html">Gary Rosenzweig</A> and Tab 
+Julius. Most books out there are truly dreadful. The only 'official' <A 
+href="http://www.macromedia.com/">Macromedia</A> book I would recommend is the 
+Lingo Dictionary, which comes when you buy the software (kind of expensive).</P>
+<P>Don't forget that there is always a risk that 'authorized' books are just 
+thinly disguised marketing material. In the case of one official Macromedia 
+'Lingo' book which covers XRes in absurd detail (another Macromedia product used 
+by almost nobody), this is quite blatant. The other thing is that the official 
+books will never tell you all the gotchas, smart little tips and tricks and 
+workarounds for bugs. In the official mindset there are <B>no</B> bugs or 
+shortcomings so there is no point mentioning them. If you want to pay extra for 
+companies to promote their products, go ahead, just don't expect to learn much. 
+To be fair to Macromedia, this goes for all software companies, some are better, 
+some worse.</P>
+<P>It therefore took some courage for me to start teaching the way I actually 
+use Director in the classroom, feeling a bit crazy because no-one else seemed to 
+do it that way. Ironically it was a decision at the school to make the courses 
+harder and encourage dropouts (too many students, not enough resources) that 
+made me go for space invaders seriously as a teaching example.</P>
+<P>It had the opposite effect. Not only did I have zero dropouts, two 
+'stowaways' sat in on the course until the very end! The work produced was 
+dynamic, witty and unique. No one produced a slide show. Instead of everybody 
+solving different problems in the same way, the students found themselves 
+dealing with the same problems in different ways. This was a victory for 
+creativity.</P>
+<P>With such success I became curious about whether the material would work on 
+the web, or as text, hence this site.</P>
+<P>My master plan is to get a more people into using Director in a similar way 
+to me so that they will be able to hassle Macromedia into improving the tool to 
+suit my own needs! Naturally I believe my approach is the right one, so I want 
+to see it served better by the tool. It's no good people <A 
+href="http://brennan.young.net/Comp/Dwishes.html">sending wishlists to 
+Macromedia</A> if they still swallow the movie metaphor uncritically.</P>
+<P>I have already made suggestions about improvements at odd places during the 
+lessons. Towards the end of the tutorial I will expose some of the more serious 
+weaknesses of Director and expressly encourage readers to make informed wishes 
+for these things to be improved in future versions. This way we will all get a 
+better product.</P>
+<P>Some people have asked me whether I will make tutorials for other games, or 
+whether I have any plans to make a book about Shockwave games. This was not my 
+original intention, although I can see now that there is a need for such a book 
+especially now that Macromedia is focussing on this kind of content.</P>
+<P>It is unlikely that I will make similar tutorials for other games, I hope 
+that the techniques described for space invaders can be applied to other kinds 
+of interactivity. This is why I chose space invaders as my first proper 
+object-oriented Director project when I was teaching myself Lingo with Director 
+5.</P>
+<P>If there is continued interest in a book on Shockwave games I will strongly 
+consider it. Please <A href="mailto:brennan@young.net">email me</A> with any 
+comments about this or any other suggestions and questions you may have.</P>
+<P>...AND BEFORE YOU SEND ME ANY ATTACHMENTS... <BR>I'd rather you didn't. I can 
+usually advise on stubborn errors if you describe your observations, which 
+lesson you are on and so on. Enough people have sent me large files asking 
+"Please check my code" for me to request now that you ASK before sending 
+unsolicted attachments. If you send me large files without asking, you can 
+expect a disgruntled reply at best.</P>
+<P>All email contact will result in you being personally informed of any 
+enhancements/revisions of the content presented here. I promise I will not sell 
+your email address to unscrupulous capitalist spam scum.</P>
+<P>
+<HR align=left>
+
+<P></P>
+<H2 align=center><A name=LessonTOC></A><FONT color=#333333>Tutorial 
+Lessons</FONT></H2>
+<P align=center><TT><FONT size=-1>I have made all the Lingo examples inside 
+&lt;PRE&gt; tags, so that they can be more easily copied and pasted from html 
+browser to script window. If you have trouble copy/pasting text and scripts from 
+your browser, it is recommended that you save the pages as text (.txt on 
+Windows) and import them straight into Director.</FONT></TT></P>
+<P align=center>
+<TABLE align=center border=0 cellPadding=0 cellSpacing=2 width=320>
+  <TBODY>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir1.html">Lesson 1</A></B></TD>
+    <TD align=right width="70%">Getting Started</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir2.html">Lesson 2</A></B></TD>
+    <TD align=right width="70%">The Playback Head and the Frame</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir3.html">Lesson 3</A></B></TD>
+    <TD align=right width="70%">The Cannon</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir4.html">Lesson 4</A></B></TD>
+    <TD align=right width="70%">Tests and Truth</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir5.html">Lesson 5</A></B></TD>
+    <TD align=right width="70%">The Invader</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir6.html">Lesson 6</A></B></TD>
+    <TD align=right width="70%">Messages to the Bullet</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir7.html">Lesson 7</A></B></TD>
+    <TD align=right width="70%">Messages between Objects</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir8.html">Lesson 8</A></B></TD>
+    <TD align=right width="70%">Repetition</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir9.html">Lesson 9</A></B></TD>
+    <TD align=right width="70%">Lists</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir10.html">Lesson 10</A></B></TD>
+    <TD align=right width="70%">Adding Sound</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir11.html">Lesson 11</A></B></TD>
+    <TD align=right width="70%">Displaying the Score</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir12.html">Lesson 12</A></B></TD>
+    <TD align=right width="70%">STOP!</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir13.html">Lesson 13</A></B></TD>
+    <TD align=right width="70%">Caught in the Crossfire</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir14.html">Lesson 14</A></B></TD>
+    <TD align=right width="70%">Did I shoot six bullets or only five?</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir15.html">Lesson 15</A></B></TD>
+    <TD align=right width="70%">Sharing Data for Fun and Profit</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir16.html">Lesson 16</A></B></TD>
+    <TD align=right width="70%">Getting Connected</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir17.html">Lesson 17</A></B></TD>
+    <TD align=right width="70%">Getting in a State</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir18.html">Lesson 18</A></B></TD>
+    <TD align=right width="70%">Packaging a Script for easy Reuse</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir19.html">Lesson 19</A></B></TD>
+    <TD align=right width="70%">New Improved Invaders</TD></TR>
+  <TR>
+    <TD width=90><B><A 
+      href="http://brennan.young.net/Edu/Invadir20.html">Lesson 20</A></B></TD>
+    <TD align=right width="70%">Lives and Levels</TD></TR></TBODY></TABLE></P>
+<P align=right>Future lessons are planned.</P>
+<H6 align=center><FONT color=#333333>Copyright Information.</FONT><BR>The 
+material in this tutorial is Copyright ©1999 Brennan Young<BR>You may print and 
+copy this tutorial freely for educational use within a public 
+institution.<BR>You are permitted to make a single printed copy for personal 
+private study.<BR>It is expressly prohibited to make copies or duplication of 
+any material in this tutorial <BR>for financial profit or for commercial use 
+without permission.<BR>This tutorial or parts of it may not be distributed 
+digitally without permission.<BR>All duplications of this tutorial must include 
+this copyright notice.</H6>
+<P align=right>
+<HR align=right>
+
+<P></P>
+<P><!-- BEGIN MAILBANK COUNTER CODE --><IMG align=bottom 
+src="Invadirs_files/c.jpeg"> <!-- END MAILBANK COUNTER CODE -->Visits here since 
+Monday 11th January 1999 </P></BODY></HTML>

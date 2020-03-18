@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir18.html -->
+<HTML><HEAD><TITLE>Invadir 18 - Packaging a script for easy reuse</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir18.html">Back to Lesson 
+17</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir19.html">Forward to Lesson 
+19</A></H6>
+<P><B>Invadir 18 - Packaging a script for easy reuse</B></P>
+<P>One of the most often-mentioned advantages of object-oriented design is that 
+classes are <B>reuseable</B>. If you design a button behavior which is general 
+enough for all the buttons in one project, the chances are good that you can use 
+the same button class in several other projects. You may even have used a 
+premade behavior for a button. If you were really brave, you might even have had 
+a look at the script and been shocked at the complexity of something as 
+seemingly innocuous as a button. Writing scripts for buttons is a drag. You can 
+be glad that there are several publically available behaviors to do this 
+essential task. On the other hand, you REALLY learn about logic when you have to 
+consider all the possible permutations that a button can have in relation to the 
+mouse, especially in combination with other user interface controls.</P>
+<P>A more sober and honest view is that many / most programmers do <B>not</B> 
+automatically consider reuse when they make their object designs, especially if 
+it 'seems likely' that the object is a one-off. It is possible to make 
+completely non-reuseable objects just as it possible to use a non OO programming 
+language to make something completely reuseable. Nevertheless, there are other 
+advantages to an OO approach, not least because the amount of complexity in any 
+system can be reduced to manageable proportions by the magic of 
+encapsulation.</P>
+<P>Let's assume we <B>do</B> want a script to be reuseable, though. Reuseablity 
+is an important advantage afforded by <B>careful</B> OO design. You can save 
+yourself literally days of work by having a reliable library of behaviors. Sure, 
+you are likely to need to make modifications as special cases arise, but you 
+should always look upon these as opportunities to make the classes even more 
+general, rather than hacking a quick hard-coded fix into your carefully 
+constructed code. Even if you think that you are making something completely 
+unique, this is almost always a delusion. You'll end up kicking yourself for not 
+considering reuse when the midnight oil starts burning and you're trying to 
+disentangle classes from a previous project which are behaving like a day-old 
+plate of spaghetti.</P>
+<P>I can't imagine that making a completely reuseable 'invader' object is going 
+to be a very smart idea, you can only make space invaders so many times before 
+the market gets saturated. After this tutorial goes out, 'space invader' 
+shockwaves are going to be two a penny! The fact that we've got this far 
+illustrates the fact that OO has other advantages over reuseability.</P>
+<P>On the other hand, we just made a script which could be useful in any number 
+of different projects, the <B>temporary loop</B> script which was added in the 
+previous lesson. This has the added advantage (for illustrational purposes) of 
+being small and relatively unrelated to the complexity which is emerging in 
+other scripts. The other scripts are already too complicated for my liking. If 
+they were split into two or three seperate parts, each part responsible for a 
+subset of the activities those scripts are currently responsible for, maybe they 
+too could become reuseable...</P>
+<P>So. Consider a reuseable temporary loop script. It's no good hardcoding the 
+destination into the script like this. This would mean we would need to make a 
+different script for each destination, and maybe even for each delay value (max) 
+too. What we <B>really</B> want is to be able to configure the destination 
+independently of the script itself. Then we can use the script to loop for a 
+while in any frame we like and then jump to any frame we like.</P>
+<P>Lingo provides a superb way for us to do exactly this, a special handler 
+which must be constructed to return a kind of list which describes the 
+properties which are to be configured from the outside. It is the closest Lingo 
+comes to an 'interface' description, or declaration of publicly available 
+structure. I mentioned it earlier, and in this case it would look like this:</P><PRE><FONT size=-1>--temporary loop script</FONT>
+
+<FONT size=-1>property destination, max, counter</FONT>
+
+<FONT size=-1>on beginsprite me</FONT>
+
+<FONT size=-1>   set max to 50</FONT>
+<FONT size=-1>   set counter to 0</FONT>
+
+<FONT size=-1>end</FONT>
+
+<FONT size=-1>on exitframe me</FONT>
+
+<FONT size=-1>   if counter &lt; max then
+</FONT>
+<FONT size=-1>      set counter to counter + 1</FONT>
+<FONT size=-1>      go to the frame
+</FONT>
+<FONT size=-1>   else
+</FONT>
+<FONT size=-1>      go to destination
+</FONT>
+<FONT size=-1>   end if</FONT>
+
+<FONT size=-1>end</FONT>
+<B></B>
+<FONT size=-1>on getPropertyDescriptionList me</FONT>
+
+<FONT size=-1>   <B>return [#destination:[#comment:"Destination frame", #format:#marker, #default: the framelabel]]</B></FONT>
+<B></B>
+<FONT size=-1>end</FONT></PRE>
+<P>If you see a dialog box appearing when you click the recompile button telling 
+you that some properties have changed, just click on "Keep Current".</P>
+<P>Now this script is in the framescript channel of frame 3. Open the behavior 
+inspector, click on the the framescript channel of frame 3, then click on the 
+blue diamond button at the top of the behavior inspector. <BR><IMG align=bottom 
+alt="parameters button" height=22 
+src="Invadir 18 - Packaging a script for easy reuse_files/params.gif" 
+width=24></P>
+<P>When you do this, a dialog box will appear asking you to choose a destination 
+frame from a popup list. Notice that the framelabels you added to the score 
+appear here. This is described by the format, being of type<TT> 
+#marker</TT>.</P>
+<P>You may well have seen a dialog box like like this if you have used any of 
+the behaviors supplied with Director, or downloaded some from the internet, but 
+it's still magic when you make it happen yourself. Try and see the relationship 
+between the handler and the dialog box.</P>
+<P>getPropertyDescriptionList is a <B>function</B>, meaning it is a handler 
+which <B>returns a value</B>. A getPropertyDescriptionList handler should always 
+return a list, and it should always be a <B>property list</B>. Remember that a 
+property list is a list where each item in that list has a 'label' (or 
+<B>property</B>), usually designated by a symbol value.</P>
+<P>If you change your mind about the settings of a behavior, you can open the 
+behavior inspector, click on the sprite or framescript with the behavior and 
+then click on the blue diamond button at the top of the behavior inspector. This 
+will open the property dialog box again.</P>
+<P>Notice that the assignment statement which previously set the destination in 
+the beginsprite handler is now gone. It is no longer needed because the value is 
+set by the property dialog box.</P>
+<P>For the sake of demonstration (and reuseability), lets extend this a bit 
+further:</P><PRE><FONT size=-1>--temporary loop script</FONT>
+
+<FONT size=-1>property destination, max, counter</FONT>
+
+<FONT size=-1>on beginsprite me</FONT>
+
+<FONT size=-1>   set counter to 0</FONT>
+
+<FONT size=-1>end</FONT>
+
+<FONT size=-1>on exitframe me</FONT>
+
+<FONT size=-1>   if counter &lt; max then
+</FONT>
+<FONT size=-1>      set counter to counter + 1
+</FONT>
+<FONT size=-1>      go to the frame
+</FONT>
+<FONT size=-1>   else
+</FONT>
+<FONT size=-1>      go to destination
+</FONT>
+<FONT size=-1>   end if</FONT>
+
+<FONT size=-1>end</FONT>
+<B></B>
+<FONT size=-1>on getPropertyDescriptionList me</FONT>
+<B></B>
+<FONT size=-1>   set pdlist to [:]</FONT>
+<FONT size=-1>   addProp pdlist, #destination, [#comment:"Destination frame", #format:#marker, #default: the framelabel]</FONT>
+<FONT size=-1>   addProp pdlist, #max, [#comment:"Delay for how many frames?", #format:#integer, #default:30, #range:[#min:0,#max:999]]</FONT>
+<FONT size=-1>   return pdlist</FONT>
+<B></B>
+<FONT size=-1>end</FONT></PRE>
+<P>Now you can see that there have been <B>two</B> properties added to the 
+dialog box. To make the function a bit tidier and easier to type, I have 
+constructed a local variable, pdlist, to store the data structure as it is being 
+put together. The<TT> addprop </TT>instruction is a special Lingo instuction 
+which adds items to property lists. The list is first constructed empty 
+<B>[:]</B> and then filled with the two property lists which describe how the 
+property is going to appear in the dialog box. The property <TT>#range</TT>, 
+when used with data of type <TT>#integer </TT>can be constructed to describe an 
+integer slider with yet another property list describing the minimum and maximum 
+values. Try it and see!</P>
+<P>The <TT>#range </TT>property is optional. <TT>#comment</TT>, <TT>#format</TT> 
+and <TT>#default</TT> are mandatory. An error will occur if you leave one of 
+them out.</P>
+<P>There are a couple of other remarkeable things that can be added to the 
+getPropertyDescriptionList function. For example, properties which are either 
+true or false can be included, the format is<TT> #boolean </TT>and they appear 
+as a checkbox. This might bring about a feeling of realisation inside you about 
+the relationship between GUIs and the underlying code of any computer system you 
+work with. If you want to know more about this excellent feature, it is strongly 
+recommended that you look at<TT> getPropertyDescriptionList </TT>in the Lingo 
+Dictionary or the online help.</P>
+<P>So, you can see now that this behavior could be a very useful part of any 
+number of multimedia productions long after your experience with 'Invadirs' has 
+passed into fond memory.</P>
+<P>Now here is a version of a behavior which I carry around with me in my own 
+trusty library of reuseable scripts, and which is an enhancement of the 
+above.<BR></P><PRE><FONT size=-1>--Frame Looper--</FONT>
+<FONT size=-1>--©1998 Brennan Young--</FONT>
+<FONT size=-1>-- brennan@young.net</FONT>
+
+<FONT size=-1>property destination, max, counter</FONT>
+<FONT size=-1>property transition, trTime, trCsize, transtype</FONT>
+
+<FONT size=-1>on beginsprite me
+</FONT>
+<FONT size=-1>  set counter to 0
+</FONT>
+<FONT size=-1>end</FONT>
+
+<FONT size=-1>on exitFrame me</FONT>
+
+<FONT size=-1>  if counter &lt; max then</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>    set counter to counter + 1</FONT>
+<FONT size=-1>    go to the frame
+</FONT>
+<FONT size=-1>  else
+</FONT>
+<FONT size=-1>    if transtype &lt;&gt; "None" then
+</FONT>
+<FONT size=-1>      puppettransition transition, trtime, trCsize, (transtype = "Full Screen")
+</FONT>
+<FONT size=-1>    end if
+</FONT>
+<FONT size=-1>    go to frame destination
+</FONT>
+<FONT size=-1>  end if</FONT>
+
+<FONT size=-1>end</FONT>
+
+<FONT size=-1>on getPropertyDescriptionList me
+</FONT>
+<FONT size=-1>  set pdlist to [:]</FONT>
+<FONT size=-1>  addprop pdlist, #destination, [#comment:"Destination frame", #format:#marker, #default:the framelabel]</FONT>
+<FONT size=-1>  addprop pdlist, #max, [#comment:"Delay in frames", #format:#integer, #default:30, #range:[#min:0,#max:999]]</FONT>
+<FONT size=-1>  set tr to ["None", "Changing area only", "Full Screen"]</FONT>
+<FONT size=-1>  addprop pdlist, #transtype, [#comment:"Transition type", #format:#string, #default:"None", #range:tr]</FONT>
+<FONT size=-1>  addprop pdlist, #transition, [#comment:"Transition", #format:#transition, #default:1]</FONT>
+<FONT size=-1>  addprop pdlist, #trTime, [#comment:"Transitionduration", #format:#integer, #default:1, #range:[#min:0,#max:120]]</FONT>
+<FONT size=-1>  addprop pdlist, #trCsize, [#comment:"Transitionchunk size", #format:#integer, #default:1, #range:[#min:1,#max:128]]</FONT>
+<FONT size=-1>  return pdlist</FONT>
+<FONT size=-1>end getPropertyDescriptionList</FONT>
+
+<FONT size=-1>on getBehaviorDescription me</FONT>
+
+<FONT size=-1>  set t to ""</FONT>
+<FONT size=-1>  set t to t&amp;"· Frame Looper ·"&amp;return</FONT>
+<FONT size=-1>  set t to t&amp;"This will make the playback head loop in the current frame "</FONT>
+<FONT size=-1>  set t to t&amp;"until a specified number of frames"
+  set t to t&amp;"have passed, then it will jump to the specified frame"
+  set t to t&amp;" with an optional transition."&amp;return</FONT>
+<FONT size=-1>  return t</FONT>
+<FONT size=-1>end</FONT></PRE>
+<P>
+<HR align=left>
+
+<P></P>
+<P>Just a few comments here. This behavior also affords the opportunity of a 
+<B>transition</B> as the playback head moves from one frame to another. You may 
+have used the transition channel in the score, and I wouldn't be surprised if 
+you found it didn't work to your liking.</P>
+<P>The<TT> puppettransition </TT>instruction will ensure that when you start to 
+play the game again, there will be a screen effect. If you're going to use 
+transitions at all, make them fast and use them sparingly because they dominate 
+the computer's processor completely. You should certainly not expect there to be 
+any interactivity during a transition. It is also much better to use the lingo 
+instruction<TT> puppettransition </TT>than to use the transition channel in the 
+score because it gives you precise control over when a transition occurs.</P>
+<P>It is recommended that you look in the Lingo Dictionary or in the online help 
+for complete information about the parameters you can pass to<TT> 
+puppettransition </TT>.</P>
+<P>You will notice also that the range given in the line describing transtype is 
+a linear (not property) list. Supplying a linear list as the range, produces a 
+<B>popup list</B> of the values found in the list.</P>
+<P>Finally, an extra function has been added,<TT> getBehaviorDescription</TT>, 
+which forms the 'human' part of the behaviors' interface. The string (text) 
+returned by this function appears in the lower part of the behavior inspector. 
+This is where you describe what the behavior does, what messages it understands, 
+how to use it and anything else which you think is relevant. It is bad manners 
+to distribute a behavior publicly without including this handler, constructed 
+properly of course. Etiquette aside, you can not expect people to use your 
+wonderful reuseable behavior if they do not know what it does or how to use 
+it.</P>
+<P><B>Something about strings</B>;</P>
+<P>Strings are sequences of keyboard characters (text). They contain <B>no</B> 
+font or formatting information (Times Bold etc.) and are denoted with the 
+double-quote " character at the beginning and end. An empty string, therefore, 
+is described as "". Lingo has a very powerful and complete library of string 
+processing functions and properties.</P>
+<P>The<TT> &amp; </TT>character 'chains' string values together, a process 
+called <B>concatenation</B>.</P>
+<P>Note that the keyword<TT> return </TT>is used in two different ways, as an 
+instruction to leave the handler with the return value, and as a string constant 
+denoting the keyboard carriage return. It is the context which specifies the 
+meaning.</P>
+<P><B>Encapsulation for Reuse</B></P>
+<P>These two handlers are one of Director's strongest features as an authoring 
+environent. They make reuse and encapsulation a pleasure. The only drag is 
+typing the handlers properly, but don't despair, there are several utilities 
+around on the net to facilitate the construction of the 
+getPropertyDescriptionList handler. You might try my own, "GPDL Tool", available 
+from <A href="http://www.planet.dk/planet_98/common/share/share_main.html">The 
+Planet website</A>.</P>
+<P>Often you will spend some time at the beginning of the production phase 
+creating behaviors, then you can finish off simply configuring them with dialog 
+boxes in particular contexts. Better still, you can pass out finished behaviors 
+to others who might be working on the same project. Without touching a line of 
+your code, they can easily configure the behaviors for the various circumstances 
+in the project. It is therefore well worth understanding these handlers, 
+especially getPropertyDescriptionList. If you do have any confusion, run over 
+this lesson again and check the Lingo dictionary. You might also want to look at 
+some <A href="http://www.behaviors.com/lbd/">publicly available behaviors</A> to 
+see just how many different kinds of dialog boxes can be configured using this 
+basic interface description standard.</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir19.html">Forward to 
+Lesson 19</A></H5></BODY></HTML>

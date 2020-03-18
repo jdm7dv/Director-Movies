@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0042)http://brennan.young.net/Edu/Invadir2.html -->
+<HTML><HEAD><TITLE>Invadir 2 - The Playback Head and the frame</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir1.html">Back to Lesson 
+1</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir3.html">Forward to Lesson 
+3</A></H6>
+<P><B>Lesson 2 - The Playback Head and</B></P><PRE>the frame</PRE>
+<P>You'll probably have noticed that when you run a movie in Director, the 
+playback head (the vertical red line in the score) moves horizontally to the 
+right 'reading' and displaying the sprites in each frame on the stage. This is 
+fine for linear animations, although you can get much better results authoring 
+linear animation with <A 
+href="http://www.adobe.com/prodindex/aftereffects/main.html">Adobe After 
+Effects</A> or <A href="http://www.macromedia.com/software/flash/">Macromedia 
+Flash</A>. If you want to do something more flexible and interactive you are 
+probably going to need to create a stable state where the playback head is not 
+rushing off somewhere else all the time.</P>
+<P>The first Lingo anyone should ever learn, therefore, is that which tells the 
+playback head to loop continuously in the same frame. you can use a looping 
+playback head to drive the interactivity like a motor.</P>
+<P>There are <A 
+href="http://www.macromedia.com/support/director/ts/documents/simple_timebased_delay.htm">other 
+techniques</A> that some people find useful which involve stopping the playback 
+head altogether and creating your own tight loop, but this has now been 
+officially discouraged by Macromedia so I'm not going to cover those here. Tight 
+loops also have a tendency to dominate all the processor time. Too bad if you 
+happen to be downloading a file in the background. Here's how to make a simple 
+frame loop then:</P>
+<P>Have a look in the score. On the left you will see a column of numbers, each 
+referring to a sprite channel, the 'layers' of the visual part of your movie. At 
+the top of them, above a little popup menu is another channel with a little icon 
+of a script instead of a number. This is the <B>framescript</B> channel and it 
+is where you will put scripts which will apply to particular frames. 
+Double-click in the framescript channel in the score window and fill in the 
+script as follows...</P><PRE>on exitFrame
+  go to the frame
+end</PRE>
+<P>When you do this, you will create and attach a new score script (or behavior) 
+cast member. The script cast member is therefore attached to the frame where you 
+double-clicked. You can attach the same script to other frames by dragging the 
+cast member into the framescript channel and you can delete the attachment by 
+selecting it in the score and using the normal keyboard backspace / delete 
+key.</P>
+<P>If you delete an attached script from the score, the script cast member 
+remains in the cast. Watch out, because if you delete the cast member, the 
+framescript channel keeps a reference to the slot in the cast where the cast 
+member <B>used to be</B>, which might cause complications later.</P>
+<P>Whenever the playback head leaves a frame, Director takes care that an</P><PRE>exitframe</PRE>
+<P>message is sent to all scripts attached in that frame.</P><PRE>on exitframe</PRE>
+<P>means "when the<TT> exitframe </TT>message is received here, do the following 
+things..."</P>
+<P><TT>go </TT>is a lingo instruction to the playback head to go to a particular 
+frame. The<TT> to </TT>is optional, but it is essential that you specify 
+<B>which</B> frame you want the playback head to go to.</P>
+<P><TT>the frame</TT> stands in for a whole number, which is always the current 
+frame number. This is always exactly the same as the number you can see 
+displayed in the control panel.</P>
+<P><TT>end</TT> means "I've finished describing what should happen when the 
+message is received here".</P>
+<P>You have just completed a <B>handler</B>. All handlers have the following 
+skeletal structure:</P><PRE>on <B><FONT color=#ff0000>message</FONT></B>
+  <B><FONT color=#ff0000>instructions</FONT></B>
+end</PRE>
+<P>...and there can be any number of instructions, though each one must occupy a 
+line to itself. This script therefore instructs the playback head to go back to 
+the same frame it is just leaving. This is perhaps the most fundamental Lingo 
+script of all, so you really ought to get to know it by heart. It is rare to 
+make a Director presentation which does not include a script like this.</P>
+<P>Incidentally, because we want to loop in frame 1, we could just as well have 
+written...</P><PRE>on exitFrame
+  go to 1
+end</PRE>
+<P>...but then we would be obliged to keep this script and all the action in 
+frame 1. If we later decided to make an animated introduction for the game in 
+frames 1-20, we would have to modify and move the script. If we wanted to have 
+loops in several different frames, we would be obliged to make several versions 
+of the same script. By using</P><PRE>the frame</PRE>
+<P>...it doesn't matter which frame we use, and we can reuse the same 
+script.</P>
+<P>This illustrates a general principle which will come up again and again. 
+Basically it's smart to write your scripts once, and then refine them for reuse 
+instead of writing hundreds of new and unique scripts which do essentially the 
+same job. There are several very good reasons for this and I will return to the 
+principle and highlight those reasons later in this tutorial.</P><PRE>the frame</PRE>
+<P>is a lingo <B>property</B>, a term which will be described later. All you 
+need to know for now is it refers to the particular frame the playback head is 
+at. If you open the Director control panel, you will see</P><PRE>the frame</PRE>
+<P>displayed there. Notice the way it changes as you click in different frames 
+in the score.</P>
+<P>If you run your movie you will notice that the playback head seems to stop 
+where the script is. Try dragging the attached script to another frame, rewind 
+and play the movie. Notice the way the playback head plays normally until it 
+reaches the script. When you're happy with that, drag it back to frame 1.</P>
+<P>Actually, the playback head does not stop at all, although it might seem like 
+it. It keeps moving, but because it stays in the same frame it looks stationary. 
+Those</P><PRE>exitframe</PRE>
+<P>messages that are keeping it in one place are going to be very useful...</P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir3.html">Forward to 
+Lesson 3</A></H5></BODY></HTML>

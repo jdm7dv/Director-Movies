@@ -1,0 +1,215 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir13.html -->
+<HTML><HEAD><TITLE>Invadir 13 - Caught in the Crossfire</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir12.html">Back to Lesson 
+12</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir14.html">Forward to Lesson 
+14</A></H6>
+<P><B>Invadir 13 - Caught in the Crossfire</B></P>
+<P align=center>
+<TABLE border=0 cellPadding=0 cellSpacing=2 width=450>
+  <TBODY>
+  <TR>
+    <TD bgColor=#ff9999 width="100%">
+      <P align=center><B>IF YOU HAVE NOT TIDIED UP YOUR SCRIPTS AND MADE 
+      PREPARATIONS FOR THE NEXT STEPS AS SUGGESTED IN THE PREVIOUS LESSON, 
+      PLEASE GO <A href="http://brennan.young.net/Edu/Invadir12.html">BACK</A> 
+      AND DO SO NOW!</B></P></TD></TR></TBODY></TABLE></P>
+<P>Sorry to shout, but we're about to introduce some extra complexity into the 
+game and if you are to retain your sanity and sense of self worth it is 
+important that as many loose ends are tied up as possible before the new stuff 
+throws the whole thing out of control.</P>
+<P>The next step is to refine the bullet script so that it can be fired from 
+both the cannon and the invaders. We'd also like to have more than one bullet. 
+It has taken me some time to put my thoughts in order about presenting this next 
+part of the tutorial. Those of you who have watched the tutorial appear lesson 
+by lesson may already have attempted to implement multiple bullets yourself in 
+the interim. You will probably have found it quite complicated.</P>
+<P><B>Do not be afraid of complexity.</B><BR><BR>One of the main reasons for 
+choosing an object-oriented approach is that it formalises the process of 
+managing complex systems. You have already seen this in action with the 
+invaders. Before you started this tutorial you might have imagined that a space 
+invader game would require long complicated handlers which 'keep track of' all 
+the necessary information, the speed and direction of each invader for example. 
+As it happens we've let Director's existing abstraction of multiple sprite 
+channels (a list) deal with that so that we only need to think about one invader 
+to program all of them.</P>
+<P>Encapsulation removes 'keeping track' from the equation, indeed if you are 
+having trouble keeping track of what is going on, you have probably not 
+encapsulated things optimally.</P>
+<P>Now, we know that the bullet will need to be moving in two directions, 
+depending on which sprite shoots it. What we'll do is vary the bullet's new 
+vdirection property, then use a parameter to specify where the bullet is coming 
+from, thus:</P><PRE><FONT size=-1>-- new shoot handler for the bullet script</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>on shoot me, whosShooting</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>  if shooting then</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>    return</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>  end if</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>  set shooting to true</FONT>
+<FONT size=-1>  set the loc of sprite mysprite to the loc of sprite whosShooting</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>  if whosShooting = cannon then</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>    set vdirection to -1 -- shooting upwards</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>  else</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>    set vdirection to 1 -- shooting downwards</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>  end if</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>  puppetsound soundChan, shootsound</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>end</FONT></PRE>
+<P>Notice the<TT> whosShooting </TT>parameter which is expected along with 
+the<TT> shoot </TT>message. This provides the starting location for the bullet 
+and also specifies the direction.then when it comes to testing for collisions, 
+it will be necessary to test different sprite channels depending on the 
+direction. In the previous lesson I mysteriously changed the property name 
+'<TT>possibleTargets</TT>' to '<TT>invaders</TT>' and added an extra line to the 
+exitframe handler to set the local variable <TT>possibleTargets</TT> to the 
+<TT>invaders</TT> list. Now you are going to see why I did that. Look at 
+this;</P><PRE><FONT size=-1>-- new exitframe handler for the bullet script</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>on exitFrame me</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>  if not shooting then</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>    return</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>  end if</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>  set myV to the locV of</FONT><FONT size=-1> </FONT><FONT color=#333333 size=-1>sprite mySprite</FONT></PRE>
+<P><FONT size=-1></FONT>&nbsp;</P><PRE><FONT color=#333333 size=-1>  </FONT><B><FONT color=#000000 size=-1>if myV &lt; 0 or myv &gt; the height of the rect of the stage then</FONT></B>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>    set shooting to false</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>    set the locV of sprite mysprite to offstage</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>    return</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>  end if</FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>  <B>if vdirection = 1 then</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>    <B>set possibleTargets to [cannon]</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>  <B>else</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>    <B>set possibleTargets to invaders</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>  <B>end if</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>  repeat with target in possibleTargets</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>    if sprite mysprite</FONT><FONT size=-1> </FONT><FONT color=#333333 size=-1>intersects target then</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>      hit sprite target</FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>      <B>if</B></FONT><FONT size=-1> </FONT><B><FONT color=#000000 size=-1>target = cannon then</FONT></B>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>        <B>-- End of life</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>      <B>else</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>        <B>deleteOne invaders, target</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>        <B>if</B></FONT><FONT size=-1> </FONT><B><FONT color=#000000 size=-1>invaders = [] then</FONT></B>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>        <B>-- End of level</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>        <B>end if</B></FONT>
+<FONT size=-1></FONT>
+<FONT color=#000000 size=-1>      <B>end</B></FONT><FONT size=-1> </FONT><B><FONT color=#000000 size=-1>if</FONT></B>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>      set</FONT><FONT size=-1> </FONT><FONT color=#333333 size=-1>shooting to false</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>      set the locV of sprite mysprite to offstage</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>      return</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>    end if</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>  end repeat</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>  set the locV of sprite</FONT><FONT size=-1> </FONT><FONT color=#333333 size=-1>mySprite to myV + (vdirection * speed)</FONT>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>end</FONT></PRE>
+<P>So now, it is important to specify where the bullets are coming from. Go back 
+to your cannon script and provide the extra parameter:</P><PRE><FONT size=-1>  if the shiftDown then</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>    shoot sprite bullet, mysprite -- sends own sprite channel as extra parameter</FONT>
+<FONT size=-1></FONT>
+<FONT size=-1>  end if</FONT></PRE>
+<P>If you run the movie now you should find that everything works exactly as 
+before. This might be a bit disheartening after all our efforts, but I also hope 
+you are beginning to see why we took the trouble to tidy up. Don't worry, we'll 
+soon reap a rich harvest from all this.</P>
+<P>For some immediate lollipops, we can get the invaders to shoot downwards 
+without too much trouble. This is a quick fix for those impatient souls who want 
+to see something new happening after this difficult and slightly anal exercise 
+in order:</P>
+<P>In true 'quick and dirty' style I'm going to use hardcoded values for this. 
+I'll clean up in the next lesson:</P><PRE><FONT size=-1>-- very temporary exitframe handler for the invader</FONT> <FONT size=-1>script</FONT>
+
+<FONT color=#333333 size=-1>on exitFrame me</FONT>
+
+<FONT color=#333333 size=-1>  if not alive then</FONT>
+
+<FONT color=#333333 size=-1>    return -- leave here, do nothing</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  set myH to the locH of</FONT> <FONT color=#333333 size=-1>sprite mySprite -- current horizontal pos</FONT>
+
+<FONT color=#333333 size=-1>  if myH &lt; 0 then -- hit</FONT> <FONT color=#333333 size=-1>left edge</FONT>
+
+<FONT color=#333333 size=-1>    set hdirection to 1</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  if myH &gt; stagewidth</FONT> <FONT color=#333333 size=-1>then -- hit right edge</FONT>
+
+<FONT color=#333333 size=-1>    set hdirection to -1</FONT>
+
+<FONT color=#333333 size=-1>  end if</FONT>
+
+<FONT color=#333333 size=-1>  set the locH of sprite</FONT> <FONT color=#333333 size=-1>mySprite to myH + (hdirection * speed) -- move sprite</FONT>
+<FONT color=#000000 size=-1>  <B>set cannonLeft to the</B></FONT> <B><FONT color=#000000 size=-1>left of sprite 1 -- YIKES! HARDCODED!</FONT></B>
+<FONT color=#000000 size=-1>  <B>set cannonRight to the right of sprite 1 -- WORSE, THE SAME</B></FONT> <B><FONT color=#000000 size=-1>VALUE AGAIN!</FONT></B>
+
+<FONT color=#000000 size=-1>  <B>if myH &gt; cannonLeft</B></FONT> <B><FONT color=#000000 size=-1>and myH &lt; cannonRight then -- directly above cannon</FONT></B>
+
+<FONT color=#000000 size=-1>    <B>shoot sprite 2, mysprite -- Urrgh. But it works!</B></FONT>
+
+<FONT color=#000000 size=-1>  <B>end if</B></FONT>
+
+<FONT color=#333333 size=-1>end</FONT></PRE>
+<P>This should ensure that the bullet drops down from the invader when it is in 
+line with the cannon. If you're lucky, you can 'steal' the bullet if you are 
+lucky by holding down the shift key. When a baddies bullet hits the cannon there 
+will be an error message:</P>
+<P>
+<TABLE border=1 cellPadding=2 cellSpacing=0 width=246>
+  <TBODY>
+  <TR>
+    <TD bgColor=#e6e6e6 width="100%"><PRE>Script Error: Handler not defined
+
+  hit sprite target
+
+#hit</PRE></TD></TR></TBODY></TABLE></P>
+<P>This is a nerdy way of telling you that everything is going ok. The cannon 
+does not understand the<TT> #hit </TT>message, but at least it has recieved it. 
+</P>
+<P>I hope that is gratifying enough to feel like we have not been totally 
+wasting our time! Now read on...</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir14.html">Forward to 
+Lesson 14</A></H5></BODY></HTML>

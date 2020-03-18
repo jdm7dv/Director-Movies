@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir11.html -->
+<HTML><HEAD><TITLE>Invadir 11 - Displaying the Score</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir10.html">Back to Lesson 
+10</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir12.html">Forward to Lesson 
+12</A></H6>
+<P><B>Lesson 11 - Displaying the Score</B></P>
+<P>Further to the discussion of puppets in the previous lesson, we now move onto 
+scripting another kind of Director object 'from the outside', a field cast 
+member. For displaying text. Director relies on two cast member types, 
+<B>fields</B> and <B>richtext</B>. Director 7 has superceded richtext cast 
+members with <B>text</B> cast members. So that those with Director 6 can 
+benefit, and to avoid obsolete information I have chosen to use fields to 
+display the players score and lives.</P>
+<P>Fields are basically texts stored in cast members. They also contain some 
+font and style information but they are most useful as low bandwidth storage for 
+text and data in ASCII form. In Director 6 and earlier, fields are essential for 
+user input, editable text, hypertext and text which should be generated or 
+manipulated at runtime by Lingo. Fields use fonts installed on the system, so 
+you'd be wise to choose a standard system font like Arial/Helvetica. The 
+standard system fonts are automatically mapped over to equivalent fonts on the 
+other platform. In Director7, text cast members are editable at runtime and can 
+be rendered with antialiased edges. Director7 can also include embedded 
+fonts.</P>
+<P>We are going to want to have some kind of scoring system so that when the 
+bullet hits an invader, the score increases. Additionally, we will probably want 
+to give the user several chances at getting onto the next level, so we will want 
+to display how many lives there are left and indeed which level we have 
+reached.</P>
+<P>Starting with the score, to keep it simple, we will need a new field cast 
+member. This can be created in various ways:</P>
+<OL>
+  <LI>Select Field from the window menu 
+  <LI>Select Field from the tool palette and click on the stage 
+  <LI>Select Field from the Insert-&gt;Control menu 
+  <LI>Type<BR><TT>new #field<BR></TT>in the message window and press return. 
+  </LI></OL>
+<P>In every case a new field cast member will be created in the cast. Give it 
+the name "Score Display". If you did not create the field on the stage with the 
+tool palette, drag the field onto the stage. Make sure the field is in sprite 
+channel 20. Move the field to the top or the bottom of the stage, or wherever 
+you would like it to be, then make a new script for the sprite.</P>
+<P>A new score script will open which says</P><PRE>on mouseUp
+
+end</PRE>
+<P>As before. We are not interested in mouse messages here so you can delete 
+this and replace it with the following.</P><PRE>property displayField, score
+
+on beginsprite me
+
+  set displayField to the member of sprite the spritenum of me
+
+end</PRE>
+<P>Now you should notice a difference here from what we have been doing before. 
+Previously we have been wanting to manipulate sprite properties (locH, locV 
+etc.) so we stored the value of<TT> the spritenum of me </TT>as a property in 
+our sprite scripts. Here we want to manipulate the contents of a field cast 
+member, so we are storing a reference to that cast member in the property<TT> 
+displayField</TT>. Once again, this is just for convenience so that we do not 
+have to refer to<TT> the member of sprite the spritenum of me </TT>continuously 
+throughout the script. It is a perfectly adequate object reference, but would 
+you as a human being feel secure that you would always type it accurately?</P>
+<P>Let's think about the kind of messages we would like to send to the score 
+display. We want it to display the score, sure, but once it is on screen it is 
+doing that already. We want to increase the score, and we want to reset the 
+score to 0 at the beginning of a new game. Fields do not get reset automatically 
+when you rewind a movie. This is true of any modifications you might make to 
+your cast members with lingo.</P>
+<P>So our score display script might look like this:</P><PRE>property displayField, val
+
+on beginsprite me
+
+   set displayField to the member of sprite the spritenum of me
+   reset me
+
+end
+
+on reset me
+
+   set val to 0
+   update me
+
+end
+
+on update me
+
+   put val into field displayField
+
+end
+
+on inc me, amount
+
+   set val to val + amount
+   update me
+
+end</PRE>
+<P>The<TT> put </TT>command is often used with the message window because the 
+default output of<TT> put </TT><B>is</B> the message window. If you specify the 
+destination of your<TT> put </TT>as</P><PRE>put abc into field xyz</PRE>
+<P>...the abc value you are referring to will appear in the field xyz. Here, the 
+latest score will be put into the "Score Display" field cast member which, being 
+on stage as a sprite will be visible to the user immediately. It is recommended 
+that readers check the manuals or online help for a full description of the many 
+ways that the<TT> put </TT>command can be used. (It can even be used instead 
+of<TT> set</TT>, though I would discourage this.)</P>
+<P>The word <B>inc</B> is often used in programming, right down to the machine 
+code level. It is short for <B>increment</B>, and incrementation is something 
+you do an awful lot when you write programs. Here, the<TT> inc </TT>handler 
+increments the score by the amount passed to the<TT> amount </TT>parameter. 
+Obviously if this value is negative, the<TT> val </TT>property will 
+decrease.</P>
+<P>Now we have a script designed for field sprites. Because I have taken some 
+care to make it reuseable. We can use the same script for lives and level 
+display! Right now, when you run the movie, the score will display 0 no matter 
+what. Before we proceed and get it working better, lets take another brief 
+theoretical detour...<BR><BR><B>Public and Private</B></P>
+<P>Notice the way the handlers <TT>beginsprite</TT>, <TT>reset</TT> and 
+<TT>inc</TT> call the <TT>update</TT> handler. A procedure which is only called 
+internally is referred to as <B>private</B>. As you go on to create scripts of 
+your own you will realise that your handlers and properties can be seperated 
+into two conceptual groups, <B>public</B> (also known as 'exported') and 
+<B>private</B>, used only by the script itself.</P>
+<P><B>Public</B> handlers and properties are those which are designed to be 
+exported or made available outside the object. Those that are essential to the 
+inner workings of the object but are not to be messed around with are 
+<B>private</B>.</P>
+<P>In Lingo there is no integrated way of distinguishing public from private, it 
+is more of a conceptual distinction. There are some special functions, 
+getPropertyDescriptionList and getBehaviorDescription which go some of the way, 
+but they are not implemented automatically and rely a great deal on the good 
+will of the programmer to encapsulate their code. We will look at these later. 
+Nevertheless, the distinction between public and private is a very important one 
+which can make your thinking about your object designs much clearer.</P>
+<P>Now in order to get the score to increase when an invader gets killed, we 
+need to send an appropriate message from the<TT> hit </TT>handler of the 
+<B>invader</B>:</P><PRE>on hit me
+
+   set alive to false
+   set the locH of sprite mySprite to -999
+   puppetsound 1, "explosion"
+   inc sprite 20, 10
+
+end</PRE>
+<P>This means that the score will increase by 10 when the invader gets hit. If 
+you replace the 10 with a different value, the score will increase more with 
+each hit.</P>
+<P>&nbsp;</P>
+<P><B>Public and Private (reprise)</B></P>
+<P>Let's assume that we wanted each invader to have a different score. Maybe 
+some of them are worth 10 points and some are worth 50. We might even want to 
+relate the score to their speed. Perhaps different invaders should explode with 
+different sounds. None of this should affect the scripting, it's just a matter 
+of different values for the properties.</P>
+<P>If we add a <TT>points</TT> property to the invader script this would be 
+quite easy. Then if <TT>points</TT> were <B>public</B>, appearing in a authoring 
+dialog box alongside <TT>speed </TT>and<TT> explosionSound </TT>for example, it 
+would be easy to assign different amounts of points to each invader without 
+touching the script. Keep that thought in mind. We will be implementing it 
+later...</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir12.html">Forward to 
+Lesson 12</A></H5></BODY></HTML>

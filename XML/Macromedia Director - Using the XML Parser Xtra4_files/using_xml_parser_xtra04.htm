@@ -1,0 +1,533 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0102)http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra04.html -->
+<HTML><HEAD><TITLE>Macromedia Director - Using the XML Parser Xtra: Using XML document nodes</TITLE><!-- #BeginTemplate "/Templates/Support.dwt" -->
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META http-equiv=Content-Language content=en-US><!-- mmV=7 --><!-- #BeginEditable "doctitle" -->
+<SCRIPT language=Javascript>
+
+function swapImage(imgName,newImg){
+  if ((navigator.appName == 'Netscape' && parseFloat(navigator.appVersion) >= 3) || (parseFloat(navigator.appVersion) >= 4)){		
+		eval('document.' + imgName + '.src = "' + newImg + '"');
+	}
+}
+
+</SCRIPT>
+
+<SCRIPT language=javascript>
+var previous = "end";
+var next = "end";
+</SCRIPT>
+<!-- #EndEditable -->
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+var MM2K_loaded = false;
+//-->
+</SCRIPT>
+<LINK href="using_xml_parser_xtra04_files/mmbasic.css" rel=stylesheet>
+<META content="MSHTML 5.50.4134.600" name=GENERATOR></HEAD>
+<BODY vLink=#660033 aLink=#000000 link=#333399 bgColor=#ffffff leftMargin=0 
+topMargin=0 onload="if (MM2K_loaded) {MM2K_onLoad()}" marginheight="0" 
+marginwidth="0"><!-- #BeginEditable "navtop" -->
+<SCRIPT language=Javascript src="using_xml_parser_xtra04_files/nav.js" 
+type=text/javascript></SCRIPT>
+
+<TABLE height=61 cellSpacing=0 cellPadding=0 width="100%" border=0 
+summary="Navigation container">
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#eeeeee>
+    <TD width=750>
+      <TABLE cellSpacing=0 cellPadding=0 width="1%" bgColor=#eeeeee border=0 
+      summary="Logo and site navigation links">
+        <TBODY>
+        <TR vAlign=bottom bgColor=#eeeeee>
+          <TD vAlign=bottom align=left width=442><IMG height=40 
+            alt="Macromedia - what the web can be." 
+            src="using_xml_parser_xtra04_files/logo.gif" width=482 
+            useMap=#logoMap border=0 name=logo><MAP name=logoMap><AREA 
+              title="Macromedia - what the web can be." shape=RECT target=_top 
+              alt="Macromedia - what the web can be." coords=11,5,238,38 
+              href="http://www.macromedia.com/"></MAP></TD>
+          <TD vAlign=bottom align=left width=67>
+            <TABLE cellSpacing=0 cellPadding=0 border=0>
+              <TBODY>
+              <TR>
+                <TD colSpan=2><IMG height=22 alt=" " 
+                  src="using_xml_parser_xtra04_files/pixel.gif" width=2 
+                border=0></TD></TR>
+              <TR>
+                <TD>
+                  <TABLE cellSpacing=0 cellPadding=0 border=0>
+                    <TBODY>
+                    <TR vAlign=top>
+                      <TD><A 
+                        onmouseover="MM_swapImage('up_store','','/uber/nav/images/over_store.gif',0)" 
+                        onmouseout=MM_swapImgRestore() target=_top 
+                        href="http://store.macromedia.com/"><IMG height=18 
+                        alt=Store 
+                        src="using_xml_parser_xtra04_files/up_store.gif" 
+                        width=63 border=0 name=up_store></A></TD>
+                      <TD><IMG height=18 alt=| 
+                        src="using_xml_parser_xtra04_files/tick_upper.gif" 
+                        width=1 border=0></TD>
+                      <TD colSpan=3><A 
+                        onmouseover="MM_swapImage('up_download','','/uber/nav/images/over_download.gif',0)" 
+                        onmouseout=MM_swapImgRestore() target=_top 
+                        href="http://www.macromedia.com/software/downloads/"><IMG 
+                        height=18 alt=Downloads 
+                        src="using_xml_parser_xtra04_files/up_download.gif" 
+                        width=93 border=0 name=up_download></A></TD>
+                      <TD><IMG height=18 alt=| 
+                        src="using_xml_parser_xtra04_files/tick_upper.gif" 
+                        width=1 border=0></TD>
+                      <TD colSpan=3><A 
+                        onmouseover="MM_swapImage('up_membership','','/uber/nav/images/over_membership.gif',0)" 
+                        onmouseout=MM_swapImgRestore() target=_top 
+                        href="http://www.macromedia.com/membership/"><IMG 
+                        height=18 alt=Membership 
+                        src="using_xml_parser_xtra04_files/up_membership.gif" 
+                        width=102 border=0 
+                  name=up_membership></A></TD></TR></TBODY></TABLE></TD>
+                <TD><IMG height=2 alt=" " 
+                  src="using_xml_parser_xtra04_files/pixel.gif" width=8 
+                border=0></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE></TD></TR>
+  <TR vAlign=top bgColor=#cccccc>
+    <TD align=left><IMG height=3 alt=- 
+      src="using_xml_parser_xtra04_files/pixel.gif" width=750 border=0></TD></TR>
+  <TR vAlign=top align=left bgColor=#adadad>
+    <TD width=750 background=using_xml_parser_xtra04_files/tile_lower.gif>
+      <TABLE cellSpacing=0 cellPadding=0 width="1%" border=0 
+      summary="Site navigation links">
+        <TBODY>
+        <TR vAlign=top>
+          <TD width=10 bgColor=#999999><A 
+            onmouseover="MM2K_showHideLayers('support_unt','','hide','products_unt','','hide')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra04.html#"><IMG 
+            height=18 alt=" " src="using_xml_parser_xtra04_files/tile_lower.gif" 
+            width=5 border=0 name=un_tile></A></TD>
+          <TD align=left width=84 bgColor=#999999><A 
+            onmouseover="MM_swapImage('un_tile','','/uber/nav/images/tile_lower_over.gif','up_products','','/uber/nav/images/over_products.gif',0);MM2K_overButton('MM2K_showHideLayers(\'support_unt\',\'\',\'hide\',\'products_unt\',\'\',\'show\')')" 
+            onmouseout="MM_swapImgRestore(); MM2K_outLayer(); MM2K_outButton()" 
+            target=_top href="http://www.macromedia.com/software/"><IMG 
+            height=18 alt=Products 
+            src="using_xml_parser_xtra04_files/up_products.gif" width=89 
+            border=0 name=up_products></A></TD>
+          <TD width=1><A 
+            onmouseover="MM2K_showHideLayers('support_unt','','hide','products_unt','','hide')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra04.html#"><IMG 
+            height=18 alt=| src="using_xml_parser_xtra04_files/tick_lower.gif" 
+            width=1 border=0></A></TD>
+          <TD align=left width=91 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_support','','/uber/nav/images/over_support.gif',0);MM2K_overButton('MM2K_showHideLayers(\'products_unt\',\'\',\'hide\',\'support_unt\',\'\',\'show\')')" 
+            onmouseout="MM_swapImgRestore(); MM2K_outLayer(); MM2K_outButton()" 
+            target=_top href="http://www.macromedia.com/support/"><IMG height=18 
+            alt=Support src="using_xml_parser_xtra04_files/up_support.gif" 
+            width=91 border=0 name=up_support></A></TD>
+          <TD width=1><A 
+            onmouseover="MM2K_showHideLayers('support_unt','','hide','products_unt','','hide')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra04.html#"><IMG 
+            height=18 alt=| src="using_xml_parser_xtra04_files/tick_lower.gif" 
+            width=1 border=0></A></TD>
+          <TD align=left width=100 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_solution','','/uber/nav/images/over_solutions.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/solutions/"><IMG height=18 
+            alt=Solutions src="using_xml_parser_xtra04_files/up_solutions.gif" 
+            width=100 border=0 name=up_solution></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra04_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=96 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_partners','','/uber/nav/images/over_partners.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/partners/"><IMG height=18 
+            alt=Partners src="using_xml_parser_xtra04_files/up_partners.gif" 
+            width=96 border=0 name=up_partners></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra04_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=96 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_services','','/uber/nav/images/over_services.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/services/"><IMG height=18 
+            alt=Services src="using_xml_parser_xtra04_files/up_services.gif" 
+            width=96 border=0 name=up_services></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra04_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=100 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_showcase','','/uber/nav/images/over_showcase.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/showcase/"><IMG height=18 
+            alt=Showcase src="using_xml_parser_xtra04_files/up_showcase.gif" 
+            width=100 border=0 name=up_showcase></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra04_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=92 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_company','','/uber/nav/images/over_company.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/macromedia/"><IMG height=18 
+            alt=Company src="using_xml_parser_xtra04_files/up_company.gif" 
+            width=92 border=0 name=up_company></A></TD>
+          <TD width=1><IMG height=18 alt=| 
+            src="using_xml_parser_xtra04_files/tick_lower.gif" width=1 
+          border=0></TD>
+          <TD align=left width=74 bgColor=#999999><A 
+            onmouseover="MM_swapImage('up_jobs','','/uber/nav/images/over_jobs.gif',0)" 
+            onmouseout=MM_swapImgRestore() target=_top 
+            href="http://www.macromedia.com/macromedia/hr/"><IMG height=18 
+            alt=Jobs src="using_xml_parser_xtra04_files/up_jobs.gif" width=74 
+            border=0 name=up_jobs></A></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>
+<SCRIPT language=JavaScript type=text/javascript>
+<!--
+if (typeof do_drop == 'boolean' && do_drop) {
+        document.write('<scri' + 'pt src="/uber/nav/dropdown.js" type="text/javascript" language="JavaScript"></scri' + 'pt>');
+}
+//-->
+</SCRIPT>
+<!-- #EndEditable -->
+<TABLE cellSpacing=0 cellPadding=0 width=750 border=0 
+summary="contents of page except for top navigation">
+  <TBODY>
+  <TR>
+    <TD width="1%" colSpan=3><IMG height=8 alt=" " 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra4_files\using_xml_parser_xtra04_files\pixel(1).gif" 
+      width=15></TD></TR>
+  <TR>
+    <TD width="1%"><IMG height=2 alt=" " 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra4_files\using_xml_parser_xtra04_files\pixel(1).gif" 
+      width=15></TD>
+    <TD width="98%"><!-- #BeginEditable "nav" --><!-- MakeNav args="
+	header_text=Macromedia Director on the internet
+	product_color=FF6600
+"--><!-- #EndEditable --><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=+1><B><I><SPAN 
+      class=tophead><!-- #BeginEditable "header" --><FONT 
+      color=#ff6600>Macromedia Director on the internet</FONT><!-- #EndEditable --></SPAN></I></B></FONT><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" color=#999999 size=1><SPAN 
+      class=crumbtrail><BR><!-- #BeginEditable "crumbtrail" --><A target=_top 
+      href="http://www.macromedia.com/"><FONT color=#999999>Home</FONT></A> &gt; 
+      <A target=_top href="http://www.macromedia.com/software/"><FONT 
+      color=#999999>Products</FONT></A> &gt; <A target=_top 
+      href="http://www.macromedia.com/software/director/"><FONT 
+      color=#999999>Director</FONT></A> &gt; <A target=_top 
+      href="http://www.macromedia.com/support/director/"><FONT 
+      color=#999999>Support</FONT></A> &gt; <A 
+      href="http://www.macromedia.com/support/director/internet.html"><FONT 
+      color=#999999>On the internet</FONT></A> 
+      <!-- #EndEditable --></SPAN></FONT></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=1 cellPadding=0 width="98%" border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top 3><IMG height=12 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra4_files\using_xml_parser_xtra04_files\pixel(1).gif" 
+      width=1></TD></TR>
+  <TR>
+    <TD vAlign=top width="1%"><IMG height=1 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra4_files\using_xml_parser_xtra04_files\pixel(1).gif" 
+      width=15></TD>
+    <TD vAlign=top width="99%"><!-- #BeginEditable "content" --><FONT 
+      face="Arial, Helvetica, sans-serif" size=4><B>Using XML document 
+      nodes</B></FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>The XML 
+      document itself can contain different types of nodes. Each node can 
+      contain different kinds of data, depending on the node type. You should 
+      check the node type before accessing its data so you know what type of 
+      data to expect. Nodes are read-only, so you can retrieve the type, but you 
+      cannot set it.</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>You use Lingo 
+      to access the nodes of an XML document. The following table shows the 
+      Lingo terms used to refer to nodes and their properties:
+      <P>
+      <TABLE cellSpacing=0 cellPadding=6 width="97%" border=0>
+        <TBODY>
+        <TR vAlign=top bgColor=#ff6600>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#ffffff 
+            size=2><B>Node Lingo</B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#ffffff 
+            size=2><B>Return value if an element</B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#ffffff 
+            size=2><B>Return value if text</B></FONT></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" color=#ffffff 
+            size=2><B>Return value if Processing Instruction</B></FONT></TD></TR>
+        <TR vAlign=top bgColor=#eeeeee>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>type</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>#element</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>#text</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>#procInst</FONT>
+            <P></P></TD></TR>
+        <TR vAlign=top>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>name</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>String 
+            representing the name of the element</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>String 
+            representing the name of the processing instruction</FONT>
+            <P></P></TD></TR>
+        <TR vAlign=top bgColor=#eeeeee>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>child[N]</FONT>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>(N is an 
+            integer)</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>The Nth 
+            child node of the node; </FONT>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>VOID is 
+            returned if no Nth child exists or there is a script error</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD></TR>
+        <TR vAlign=top>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>attributeName[N]</FONT>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>(N is an 
+            integer)</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>String 
+            representing the name of the Nth attribute; </FONT>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>VOID is 
+            returned if no Nth attribute exists or there is a script 
+error</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD></TR>
+        <TR vAlign=top bgColor=#eeeeee>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>attributeValue[N]</FONT>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>(N is an 
+            integer)</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>String 
+            representing the value of the Nth attribute; </FONT>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>VOID is 
+            returned if no Nth attribute exists or there is a script 
+error</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD></TR>
+        <TR vAlign=top>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>attributeValue[N]</FONT>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>(N is a 
+            string)</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>String 
+            representing the value of the attribute with the name N;</FONT>
+            <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>VOID is 
+            returned if the node does not have an attribute named N or there is 
+            a script error</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD></TR>
+        <TR vAlign=top bgColor=#eeeeee>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>text</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+            size=2>VOID</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>String 
+            representing the character data contained in this node</FONT>
+            <P></P></TD>
+          <TD><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>String 
+            representing the data section of the processing instruction</FONT>
+            <P></P></TD></TR></TBODY></TABLE>
+      <P><BR><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2><FONT 
+      color=#666666><B>Note: </B></FONT>The subfield 
+      </FONT><CODE>count</CODE><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2> exists for any field accessible with bracket access. Thus, you can 
+      specify </FONT><CODE>whichNode.child.count</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> to find out how many 
+      children the specified node has.</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Using this XML 
+      document as a starting point, the following examples demonstrate how to 
+      use these Lingo terms to access the data within various node levels of the 
+      XML structure.</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>The XML looks 
+      like this:</FONT>
+      <P><PRE>&lt;?xml version="1.0"?&gt;
+	&lt;e1&gt;
+		&lt;tagName attr1="val1" attr2="val2"/&gt;
+		&lt;e2&gt;	element 2&lt;/e2&gt;
+		&lt;e3&gt;element 3&lt;/e3&gt;
+		Here is some text
+	&lt;/e1&gt;
+</PRE>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>This Lingo 
+      returns the name of the first XML tag:</FONT>
+      <P><PRE>put gParserObject.child[1].name
+-- "e1"
+</PRE>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>The variable 
+      </FONT><CODE>gParserObject</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> contains the parsed 
+      XML. When used in the preceding Lingo, it refers to the root node of the 
+      XML document. The Lingo term </FONT><CODE>child[1]</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> refers to the first 
+      level of nested tag, which is the tag </FONT><CODE>&lt;e1&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>. </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>To find out 
+      what kind of node the first tag is, use the </FONT><CODE>type</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> function.</FONT>
+      <P><PRE>put gParserObject.child[1].type
+-- #element
+</PRE>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>To refer to 
+      nodes that are nested more than one level deep, use more than one level of 
+      child reference. This Lingo returns the name of the first tag that is 
+      nested within the tag </FONT><CODE>&lt;e1&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>:</FONT>
+      <P><PRE>put gParserObject.child[1].child[1].name
+-- "tagName"
+</PRE>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>This Lingo 
+      returns the name of the second tag that is nested within the tag 
+      </FONT><CODE>&lt;e1&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>:</FONT>
+      <P><PRE>put gParserObject.child[1].child[2].name
+-- "e2"
+</PRE>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>To refer to 
+      text data that occurs within a particular tag, use the 
+      </FONT><CODE>text</CODE><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2> property. The text itself is a child node of the tag that contains 
+      it, so an additional level of child reference is needed. This Lingo 
+      returns the string that appears inside the tag 
+      </FONT><CODE>&lt;e2&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> from the preceding XML 
+      example:</FONT>
+      <P><PRE>put gParserObject.child[1].child[2].child[1].text
+-- "element 2"
+</PRE>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>In this 
+      example, the variable </FONT><CODE>gParserObject</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> refers to the root 
+      node of the XML. The </FONT><CODE>child[1]</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> refers to the tag 
+      </FONT><CODE>&lt;e1&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>, which occupies the 
+      first level down in the XML's nested structure. The 
+      </FONT><CODE>child[2]</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> refers to the second 
+      tag within the </FONT><CODE>&lt;e1&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> tag, which is the tag 
+      </FONT><CODE>&lt;e2&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>. The last 
+      </FONT><CODE>child[1]</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> refers to the text 
+      within the tag </FONT><CODE>&lt;e2&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>, which is 
+      </FONT><CODE>element 2</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>. Finally, the 
+      </FONT><CODE>text</CODE><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2> property is specified, so that Lingo returns the text of the node 
+      rather than any other property of the node.</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>The fourth 
+      child of the tag </FONT><CODE>&lt;e1&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> is a line of text that 
+      reads </FONT><CODE>here is some text</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>. This text is a child 
+      just like the XML tags that precede it. You can get the type of this child 
+      the same way you would other children. </FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>This Lingo 
+      returns the type of the fourth child of the tag 
+      </FONT><CODE>&lt;e1&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>:</FONT>
+      <P><PRE>put gParserObject.child[1].child[4].type
+-- #text
+</PRE>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>This Lingo 
+      returns the text of the fourth child of the tag 
+      </FONT><CODE>&lt;e1&gt;</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2>:</FONT>
+      <P><PRE>put gParserObject.child[1].child[4].text
+-- "
+		here is some text
+	"
+</PRE>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>Note that the 
+      text element includes the white space for RETURN, SPACE, and TAB 
+      characters as well as the string "</FONT><CODE>here is some 
+      text</CODE><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2>".</FONT>
+      <P><FONT face="Geneva, Arial, Helvetica, sans-serif" size=2>You can use 
+      the Lingo </FONT><CODE>count</CODE><FONT 
+      face="Geneva, Arial, Helvetica, sans-serif" size=2> function to determine 
+      the number of children that exist at a particular level if the XML 
+      structure. This Lingo returns the number of children at the 2nd level in 
+      the preceding XML sample:</FONT>
+      <P><PRE>put gparser.child[1].child.count
+-- 4
+</PRE>
+      <P>
+      <TABLE border=0>
+        <TBODY>
+        <TR>
+          <TD><A 
+            onmouseover="swapImage('back','/images/contentsover.gif'); window.status='To Table of Contents';return true" 
+            onmouseout="swapImage('back','/images/contents.gif')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra.html"><IMG 
+            alt="To Table of Contents" 
+            src="using_xml_parser_xtra04_files/contents.gif" vspace=1 border=0 
+            name=back></A></TD>
+          <TD><A 
+            onmouseover="swapImage('prev','/images/prevover.gif'); window.status='Back to previous document';return true" 
+            onmouseout="swapImage('prev','/images/prev.gif')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra03.html"><IMG 
+            alt="Back to Previous document" 
+            src="using_xml_parser_xtra04_files/prev.gif" vspace=1 border=0 
+            name=prev></A></TD>
+          <TD><A 
+            onmouseover="swapImage('next','/images/nextover.gif'); window.status='Forward to next document';return true" 
+            onmouseout="swapImage('next','/images/next.gif')" 
+            href="http://www.macromedia.com/support/director/internet/using_xml_parser_xtra/using_xml_parser_xtra05.html"><IMG 
+            alt="Forward to next document" 
+            src="using_xml_parser_xtra04_files/next.gif" vspace=1 border=0 
+            name=next></A></TD></TR></TBODY></TABLE></P></FONT></TD></TR></TBODY></TABLE><!-- #EndEditable -->
+<TABLE cellSpacing=0 cellPadding=0 width="98%" border=0 
+summary="Bottom of page">
+  <TBODY>
+  <TR>
+    <TD width="1%"><IMG height=2 alt=" " 
+      src="E:\Macromedia\Director\Learning\3rd Party\XML\Macromedia Director - Using the XML Parser Xtra4_files\using_xml_parser_xtra04_files\pixel(1).gif" 
+      width=15></TD>
+    <TD width="98%"><FONT face="Geneva, Arial, Helvetica, sans-serif" 
+      size=2><BR>
+      <CENTER>
+      <HR noShade SIZE=1>
+      <FONT face="Geneva, Arial, Helvetica, sans-serif" size=-2><FONT 
+      color=#333333>Copyright ©1995-2000 Macromedia, Inc. All rights 
+      reserved.</FONT><BR><A 
+      href="http://www.macromedia.com/help/copyright.html"><FONT 
+      color=#999999>Copyright, trademarks, and disclaimers</FONT></A> | <A 
+      href="http://www.macromedia.com/help/privacy.html"><FONT 
+      color=#999999>Privacy 
+  policy</FONT></A><BR>&nbsp;</FONT></CENTER></FONT></TD></TR></TBODY></TABLE><!-- #EndTemplate --></BODY></HTML>

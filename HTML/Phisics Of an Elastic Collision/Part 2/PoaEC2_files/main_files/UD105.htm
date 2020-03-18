@@ -1,0 +1,427 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0065)http://www.director-online.com/howTo/UD_articles/UD105/UD105.html -->
+<HTML><HEAD><TITLE>Using Director Number 105</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#770000 aLink=#ff0000 link=#ff0000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>
+      <P><IMG height=28 src="UD105_files/UD.gif" width=129 border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG height=9 
+            src="UD105_files/archiveDivLine.gif" width=440 border=0></TD>
+          <TD vAlign=top width=55 rowSpan=2><A 
+            href="http://www.director-online.com/archive.cfm?pSection=Using%20Director"><IMG 
+            height=28 src="UD105_files/archiveDiv.gif" width=55 align=bottom 
+            border=0></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440>
+            <H3><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>The 
+            Physics of an Elastic Collision (Part 2)</FONT></H3>
+            <P><FONT size=-1>by <A href="mailto:pfaff@explorescience.com">Raman 
+            Pfaff</A></FONT> </P></TD></TR></TBODY></TABLE></P></TD></TR></TBODY></TABLE>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><BR>
+      <P>Predicting the future has always been a valued commodity ranging from 
+      foreseeing when a drought would occur in agrarian times, to when a stock 
+      price will skyrocket in the digital age. Physics is a fascinating science 
+      since it lets us do more than just predict the future, we can actually 
+      determine the future. In <A 
+      href="http://www.director-online.com/howTo/UD_articles/UD96.html">Part 1 
+      of this article</A> we learned how to determine the future of two masses 
+      moving toward each other. If we know the masses and velocities of two 
+      blocks, we used an equation to solve for the velocities in the future 
+      (after the collision). Before going any further, I strongly urge you read 
+      Part 1 of this article where we learned about many things, including 
+      vectors, momentum, and conservation of momentum. 
+      <H4><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>The 2D 
+      World</FONT></H4>
+      <P>Part 1 of this article taught us the fundamentals of elastic 
+      collisions, but as I pointed out, there were a few things that we still 
+      need to learn about. One of the most important issues is dealing with the 
+      collision angle. The collision angle is the angle made by drawing a line 
+      between the center of the two colliding objects (we'll only deal with 
+      round things in this article). In a head-on collision the line connecting 
+      two objects is horizontal, so that corresponds to an angle of zero 
+      degrees. That is rarely the case in the real world. Three cases of 
+      colliding objects are shown in the simulation below (think of the 
+      simulation as viewing billiard balls from above the table, with the red 
+      line showing the current angle between the objects). In Case 1 the blue 
+      ball will barely graze the green one, in Case 2 the blue one will strike a 
+      bit more cleanly, and in Case 3 you have a head on collision. Before 
+      starting each simulation, can you guess what the result might be? Thinking 
+      about what happens when playing pool can lead to great insight. 
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=224 height=280><PARAM NAME="SRC" VALUE="UD105.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed src="UD105.dcr"
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="224" height="280" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>Were your guesses correct? If not, you probably haven't played enough 
+      pool :) With our code from the last article, all three cases would have 
+      yielded results identical to Case 3, since we never took the angle of the 
+      collision into account (did you notice the varying angles of the red line 
+      at the time of the collisions). 
+      <H4><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Enough 
+      concepts, show me the code!</FONT></H4>
+      <P>We'll start out with the same code we used in Part 1 of the article, 
+      but as we have just seen the angle between the two particles must be taken 
+      into account when trying to determine the final velocities. To calculate 
+      that angle we will use the position information of each particle, so two 
+      lines are added to the reportInformation handler of the collision 
+      behavior: 
+      <P><PRE><FONT color=#cc0000>add tempList, x
+add tempList, y
+</FONT></PRE>
+      <P>Since this information is then passed along to the dealWithCollision 
+      handler (the handler that determines the final velocities) I add several 
+      lines to pull the new information out of the list 
+      <P><PRE><FONT color=#cc0000>set x1 = getat(infoList1,4)
+set y1 = getat(infoList1,5)
+set x2 = getat(infoList2,4)
+set y2 = getat(infoList2,5)
+</FONT></PRE>
+      <P>and then proceed to find the collision angle (often called phi) using 
+      the arc tangent function 
+      <P><PRE><FONT color=#cc0000>set dx = x2-x1
+set dy = y2-y1
+if dx = 0. then
+  set phi = pi()/2.
+else
+  set phi = atan(dy/dx)
+end if
+</FONT></PRE>
+      <P>Since pictures are often worth a thousand words I present Figure 1 
+      which shows two particles at the time of collision. The angle names used 
+      in the Lingo are show in terms of the Greek symbols used in the figure. 
+      <P><IMG height=253 alt="" src="UD105_files/figure1.gif" width=431 
+      border=0> 
+      <P>At this point, we have the x- and y- velocity components of each puck, 
+      but we will also need the magnitude of the velocity of each puck (shown as 
+      the velocity vectors in Figure 1), and the angle of motion (relative to 
+      the standard x-y axes) for each puck. I add several more lines of code to 
+      the dealWithCollision handler to calculate these values: 
+      <P><PRE><FONT color=#cc0000>set term = pi()/180. 
+-- used for angle to radian conversions
+set v1i = sqrt(v1ix*v1ix+v1iy*v1iy)
+set v2i = sqrt(v2ix*v2ix+v2iy*v2iy)
+set ang1 = findAnAngle(v1ix,v1iy)*term
+set ang2 = findAnAngle(v2ix,v2iy)*term
+</FONT></PRE>
+      <P>where the findAnAngle handler returns the angle (in degrees) by using 
+      the x and y velocity values: 
+      <P><PRE><FONT color=#cc0000><B>on findAnAngle xthing,ything</B>
+
+  -- very basic angle finder..returns value in degrees
+  -- my mind likes degrees, Director likes radians
+  
+  set term = pi()/180.
+  
+  if xthing &lt; 0. then
+    set t = 180.+ atan(ything/xthing)/term
+  else if xthing &gt; 0. and ything &gt;= 0. then
+    set t = atan(ything/xthing)/term
+  else if xthing &gt; 0. and ything &lt; 0. then
+    set t = 360.+atan(ything/xthing)/term
+  else if xthing = 0. and ything = 0. then
+    set t=0.
+  else if xthing = 0. and ything &gt;= 0. then
+    set t = 90.
+  else
+    set t = 270.
+  end if
+  
+  return t
+  
+end
+</FONT></PRE>
+      <H4><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Angles, 
+      angles, everywhere....</FONT></H4>
+      <P>Why have we started finding all these angles? When I sat down to write 
+      my first collision code I was a bit confused as to how to calculate the 
+      velocities after the collision. 1D is relatively simple (after years of 
+      graduate school), but textbooks seemed to gloss over the 2D material, and 
+      most problems provided so much additional information that going through 
+      the full algebraic solution was never required. I finally found the answer 
+      in a used textbook which I picked up for a dime. In 1954 Robert Becker 
+      <SUP>1</SUP> said, "Newton's Rule (i.e. the conservation of momentum) 
+      applies to the components of velocity resolved along the common normal 
+      surfaces of the colliding bodies at the point of contact. In the case of 
+      the two spheres the velocity components involved are the components 
+      resolved along the line of centers during the contact. Consequently, the 
+      components of velocity perpendicular to the line of centers will be 
+      unchanged during the impact." 
+      <P>That statement was the best thing I had seen since sliced bread 
+      (although you can see why many consider physics a tad dreary)! Here is my 
+      translation: If you view the collision along the line between the two 
+      spheres, the velocities along that line will undergo momentum conservation 
+      (the same way we calculated the x-components in Part 1), and the 
+      velocities perpendicular to that line won't change. Although my words may 
+      seem as confusing as Becker's, I have the power of multimedia to show you 
+      what I mean, along with the snippets of code (from the dealWithCollision 
+      handler) applicable to each picture. 
+      <P>We first want to change our mind set from the standard x-y reference 
+      frame, to the new reference frame where the x-axis lies along the 
+      collision line, and the y-axis is perpendicular to that. The figure shows 
+      the new vector components, 
+      <P><IMG height=158 alt="" src="UD105_files/step1.gif" width=406 border=0> 
+      <P>and the corresponding code is given by: 
+      <P><PRE><FONT color=#cc0000>-- find the velocities in the new coordinate system
+set v1xr = v1i*cos((ang1-phi))
+set v1yr = v1i*sin((ang1-phi))
+set v2xr = v2i*cos((ang2-phi))
+set v2yr = v2i*sin((ang2-phi))
+</FONT></PRE>
+      <P>We now use the conservation of momentum to determine the new x 
+      velocities in our new reference frame, and the y-components do not change. 
+      The figure shows the 'flip-flop' of the x-velocities, 
+      <P><IMG height=165 alt="" src="UD105_files/step2.gif" width=425 border=0> 
+      <P>and you can see that the code sets the final y velocities equal to the 
+      initial values after calculating the final x velocities. 
+      <P><PRE><FONT color=#cc0000>-- find the final velocities in the normal reference frame
+-- the x velocities will obey the rules for a 1-D collision
+set v1fxr = ((m1-m2)*v1xr+(m2+m2)*v2xr)/(m1+m2)
+set v2fxr = ((m1+m1)*v1xr+(m2-m1)*v2xr)/(m1+m2)
+-- the y velocities will not be changed
+set v1fyr = v1yr
+set v2fyr = v2yr
+</FONT></PRE>
+      <P>We now have the 'after collision' velocities, but we have to transform 
+      the components back to the standard x-y reference frame. In this 
+      particular case, the velocity of the red puck was entirely in the standard 
+      y-direction (so our x-velocity in the standard reference frame is zero). 
+      <P><IMG height=226 alt="" src="UD105_files/step3.gif" width=422 border=0> 
+      <P>The relevant code (once again) is very dependent on angles! 
+      <P><PRE><FONT color=#cc0000>-- convert back to the standard x,y coordinates
+set v1fx = cos(phi)*v1fxr+cos(phi+pi()/2)*v1fyr
+set v1fy = sin(phi)*v1fxr+sin(phi+pi()/2)*v1fyr
+set v2fx = cos(phi)*v2fxr+cos(phi+pi()/2)*v2fyr
+set v2fy = sin(phi)*v2fxr+sin(phi+pi()/2)*v2fyr
+</FONT></PRE>
+      <P>We've now found the velocity of each particle after a collision has 
+      occurred! As you could see, angles (along with sines and cosines of many 
+      angles) played an important role in the calculation (for learning more 
+      about angles stop by ExploreMath.com). With our new and improved collision 
+      code things are looking pretty good, but one problem still remains - that 
+      of the collision detection (i.e. when exactly should we make the call to 
+      the dealWithCollision handler). 
+      <H4><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>Collision 
+      Detection</FONT></H4>
+      <P>In the previous article we simply looked for the distance between the 
+      two objects whenever we step forward in time. That works equally well in 
+      this case, but what happens when particles are moving rather quickly or 
+      slowly? Two things often happen when just checking for the distances: 1) 
+      the particles seem to get stuck together like two things connected by a 
+      rubber band (an "internal collision"), and 2) the particles are moving 
+      rather quickly and seem to pass through each other on the screen without 
+      actually colliding. 
+      <P>The first case is due to particles which have slow velocities after a 
+      collision (in your code they are still close together after the 
+      collision), and the second case is due to the fact that you are not 
+      checking for separation distances frequently enough. I'll present two 
+      solutions that I have used, and one more which I haven't yet tried, but it 
+      should work (consider it a homework problem). 
+      <P>In order to deal with internal collisions a frame script can be used to 
+      check for collisions (by looking for the distance between two particles) 
+      on each exitFrame, deal with the collision when particles first overlap, 
+      and then keep track of which particles have not yet separated. The first 
+      line of my frame script has a list properties (I tend to avoid 
+      globals...but they could just as well be defined elsewhere via globals). 
+      <P><PRE><FONT color=#cc0000>property particleSpriteList, collidingParticleList, ¬
+  numberOfParticles
+</FONT></PRE>
+      <P>The particleSpriteList is a list that contains all the sprites that 
+      have the collision script attached to them, and the collidingParticleList 
+      will always keep track of which particles are currently in contact. The 
+      numberOfParticles property is just the total number of sprites with the 
+      collision behavior. On every exitFrame we will now run through all 
+      particles with a repeat loop to see who is touching whom. 
+      <P>I hard code my test distance here (24). You could also use the width of 
+      the sprites when you have particles of varying widths. If the two 
+      particles were in the collidingList then remove the pair. 
+      <P><PRE><FONT color=#cc0000>on exitFrame
+
+  repeat with i = 1 to numberOfParticles-1
+  
+    repeat with j = i + 1 to numberOfParticles
+    
+      set particleA = getat(particleSpriteList,i)
+      set particleB = getat(particleSpriteList,j)
+      
+      -- we now have selected two particles 
+      -- to see if they are colliding
+      
+      if distance(particleA, particleB) &gt; 24.  then
+
+        if getOne(collidingParticleList,[particleA,particleB]) ¬
+          &lt;&gt; 0 then
+          deleteAt collidingParticleList, getOne( ¬
+            collidingParticleList, [particleA,particleB])
+        end if
+        
+      else
+      
+        -- if the pair is not in the collidingList, add the 
+        -- pair and call the collision script
+        
+        if getOne(collidingParticleList,[particleA,particleB]) ¬
+          = 0 then
+          add collidingParticleList, [particleA,particleB]
+          dealWithCollision(particleA,particleB)
+        end if
+        
+      end if
+      
+    end repeat
+    
+  end repeat
+  
+  go to the frame
+  
+end
+</FONT></PRE>
+      <P>For most cases that script seems to work rather well when particles are 
+      moving with relatively slow velocities, but as things begin to move more 
+      quickly a few more lines of code are worth looking at. 
+      <P>Another method I have used (to avoid missed collisions) involves 
+      additional changes. In the collision behavior I select a very small time 
+      step (e.g. set dTime to be 0.01), and rather than just moving the particle 
+      once in the exitFrame handler of the collision behavior, I run a repeat 
+      loop over small time increments before the position is actually changed on 
+      the computer screen. The code is now written as... 
+      <P><PRE><FONT color=#cc0000>on exitFrame me
+
+  if myActivity = TRUE then
+  
+  repeat with i = 1 to 10 
+
+    checkForCollision spriteNum 
+    
+    -- this will see if I have hit any other sprites
+    
+  end repeat
+  
+    set the loc of sprite spriteNum = point(x,y)
+    
+  end if
+  
+end
+</FONT></PRE>
+      <P>The upper limit of the repat loop (10) can be changed to a higher or 
+      lower value. The higher the value the less likely you are to miss a 
+      collision, but the code starts to take far longer on the "processing" 
+      side. 
+      <P>I rewrite my frame script to a basic on exitFrame:go to the frame 
+      statement, and convert that frame script (the full one above which 
+      contained two repeat loops) to a movie handler: 
+      <P><PRE><FONT color=#cc0000><B>on checkForCollision aNum</B>
+
+  repeat with j = 1 to numberOfParticles
+  
+    set A = aNum
+    set B = getat(particleSpriteList,j)
+    particleA = min(A, B) 
+    -- need to sort these to avoid (3,2) vs (2,3) collisions
+    particleB = max(A, B)
+    
+    if particleA &lt;&gt; particleB then
+    
+      if distance(particleA, particleB) &gt; 24.  then
+      
+        if getOne(collidingParticleList,[particleA,particleB]) ¬
+          &lt;&gt; 0 then
+          deleteAt collidingParticleList, getOne( ¬
+            collidingParticleList,[particleA,particleB])
+        end if
+        
+      else
+      
+        if getOne(collidingParticleList,[particleA,particleB]) ¬
+          = 0 then
+          add collidingParticleList, [particleA,particleB]
+          dealWithCollision(particleA,particleB)
+        end if
+        
+      end if
+      
+    end if
+    
+  end repeat
+  
+end
+</FONT></PRE>
+      <P>We only have one repeat loop at this point (rather than the two in the 
+      initial script), but every sprite with the collision behavior calls this 
+      on an exitFrame. Also, with this script the particle will often seem to 
+      collide without having touched another particle, since so many 
+      calculations are performed before the stage is refreshed. Adjusting the 
+      dTime and the maximum number of the repeat loop in the collision behavior 
+      often lead to a reasonable balance depending on the initial velocities of 
+      your particles. 
+      <P>
+      <H4><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>And for 
+      homework...</FONT></H4>
+      <P>That is the end of the "tested" material that I use for a lot of my fun 
+      stuff, but one other technique (which I've never actually found enough 
+      time to test), is to solve for the time at which a collision (tc)between 
+      two particles will occur. If you run this test initially (for all 
+      particles) and find the shortest time, you could then wait until that time 
+      arrives (while particles continue to move at a constant velocity), deal 
+      with that collision and perform calculations to find the next time a 
+      collision will occur, sit around waiting for the next collision time to 
+      occur, etc. The figure shows two particles at a chosen time of t = 0, and 
+      the time when a collision would occur. 
+      <P><IMG height=184 alt="" src="UD105_files/homework.gif" width=456 
+      border=0> 
+      <P>In the figure above it is easy to look at the initial positions and 
+      velocities and realize the two particles will collide, but trying to 
+      determine that fact mathematically is a bit more difficult. The collision 
+      time for a pair of particles (with no acceleration) can be written as 
+      <P><IMG height=62 alt="" src="UD105_files/timeeq.gif" width=260 border=0> 
+      <P>where the variables are defined as, 
+      <P><IMG height=116 alt="" src="UD105_files/eqdefs.gif" width=380 border=0> 
+
+      <P>The 1 and 2 subscripts refer to each individual particle, and the 'd' 
+      term is the distance between the two particles when the collision occurs 
+      (see figure). The equation for the time of the collision only gives a real 
+      solution if 
+      <P><IMG height=43 alt="" src="UD105_files/valideq.gif" width=334 border=0> 
+
+      <P>so you can see a bit of testing is required when using this method. 
+      <H4><FONT face="Arial, Helvetica, sans-serif" color=#cc0000>The real 
+      world</FONT></H4>
+      <P>Simulating the physical world with a computer language is always a 
+      challenge, but when the final product can be used in the classroom and let 
+      that 'virtual light bulb' appear over the students, it is worth the 
+      effort. This article discussed the techniques that I routinely use, but 
+      there are many other methods that could be used for collisional coding. I 
+      also didn't discuss frictional forces acting between particles, rotational 
+      motion due to the friction, and a variety of other 'annoyances' that occur 
+      in the real world. 
+      <P>Sample movies are available for download in a <A 
+      href="http://www.director-online.com/howTo/UD_articles/UD105/UD105.hqx">Mac</A> 
+      or <A 
+      href="http://www.director-online.com/howTo/UD_articles/UD105/UD105.zip">PC</A> 
+      format. These are Director 7 files. 
+      <P><SUP>1</SUP> Robert A. Becker, Introduction to Theoretical Mechanics, 
+      McGraw-Hill Book Company, 1954. 
+      <P><FONT size=-1>Raman Pfaff earned his Ph.D. in nuclear physics, spent 
+      some time as a professor, but is now having fun as Director of Multimedia 
+      Development for 3MP in Charlottesville, VA. In a recent dream sequence he 
+      was stuck in an infinite repeat loop but decided to see a movie, grab a 
+      latte, and watch a Redwings game instead. He can be reached at <A 
+      href="mailto:pfaff@explorescience.com">pfaff@explorescience.com</A>. Feel 
+      free to learn a bit more at <A target=_blank 
+      href="http://www.explorescience.com/">http://www.explorescience.com/</A> 
+      and <A target=_blank 
+      href="http://www.exploremath.com/">http://www.exploremath.com/</A></FONT> 
+      </P></TD></TR></TBODY></TABLE></BODY></HTML>

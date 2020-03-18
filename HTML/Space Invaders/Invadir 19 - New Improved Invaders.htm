@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://brennan.young.net/Edu/Invadir19.html -->
+<HTML><HEAD><TITLE>Invadir 19 - New Improved Invaders</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY bgColor=#ffcccc>
+<H6><A href="http://brennan.young.net/Edu/Invadir18.html">Back to Lesson 
+18</A></H6>
+<H6><A href="http://brennan.young.net/Edu/Invadir20.html">Forward to Lesson 
+20</A></H6>
+<P><B>Invadir 18 - New Improved Invaders</B></P>
+<P>Things are going well, but the rain of bullets is not very encouraging, 
+especially when the invaders get to steal them all. </P>
+<P>We can fix this by getting the invaders to shoot bullets sometimes, but not 
+all the time. Director has a built in function for generating random 
+numbers:</P>
+<P><TT>random(N)</TT></P>
+<P>This function will return a random integer from 1 to N. </P>
+<P>Take a look at the end of the exitframe handler of the invader script:</P><PRE>  if myH &gt; cannonLeft and myH &lt; cannonRight then -- directly above cannon
+    
+    if bullets = [] then
+      
+      return -- no bullets are available right now so leave handler
+      
+    end if
+    
+    set bullet to getAt(bullets,1) -- first available bullet in list
+    sendsprite bullet, #shoot, mysprite -- sends own sprite channel as extra parameter
+    return -- leave handler
+    
+  end if</PRE>
+<P>If we just insert a little test in here, we can get the invaders to shoot 
+only when a random number is of a certain value:</P><PRE>    if random(11) &lt; 10 then
+      
+      return 
+      
+    end if</PRE>
+<P>We would probably want the game to get harder as it progresses so later we 
+will be using the level to dictate how often the invaders shoot. We might as 
+well prepare for this now:</P><PRE>    set level to 1 --temporary (hardcoded)--
+    set N to 10 --temporary (hardcoded)--
+
+    if random(N+level) &lt; N then
+      
+      return 
+      
+    end if</PRE>
+<P>This means that as the the variable<TT> level </TT>is increased (which will 
+happen every time the player kills all the invaders), the invaders will shoot 
+more often because it will be increasingly likely that the random value is 
+larger than the value N. We'll deal with the level stuff later.</P>
+<P>Some purists will have noticed that the invaders are all moving in 
+independent directions. The original space invaders game had the invaders all 
+change directions at the same time. One way to do this is to have it such that 
+whenever any of the invaders hits the sides, it will send a message to itself 
+and all the others to change direction:</P><PRE><FONT color=#333333>on exitFrame me
+  
+  if not alive then
+    return -- leave here, do nothing
+  end if
+  
+  set myH to the locH of sprite mySprite -- current horizontal pos
+  
+  if myH &lt; 0 then -- hit left edge
+    </FONT><B>bounceInvadersH me, 1</B><FONT color=#333333>
+  end if
+  
+  if myH &gt; stagewidth then -- hit right edge
+    </FONT><B>bounceInvadersH me, -1</B><FONT color=#333333>
+  end if</FONT></PRE>
+<P>This means that we will need the<TT> bounceInvadersH </TT>handler in the 
+invader script:</P><PRE><B>on bounceInvadersH me, newHdir
+  repeat with invader in invaders
+    sendsprite invader, #bounceH, newHdir
+  end repeat
+end</B></PRE>
+<P>...which in turn calls a new<TT> bounceH </TT>handler in all the 
+invaders:</P><PRE><B>on bounceH me, h
+  set hdirection to h
+end</B></PRE>
+<P>Notice the way the parameter is passed from the test in the exitframe handler 
+to the<TT> bounceInvadersH </TT>handler (<TT>newHdir</TT>) which broadcasts it 
+to the<TT> bounceH </TT>handler in all the invader sprites.</P>
+<P>It would also be nice to get the invaders to be a bit more menacing, i.e. not 
+just shooting but actually invading. To do this, we'll just increase the 
+vertical position of the invader every time it hits the side:</P><PRE><FONT color=#333333>on bounceH me, h</FONT>
+<FONT color=#333333>  </FONT><B>set myV to the locV of sprite mySprite -- current horizontal pos</B><FONT color=#333333></FONT>
+<FONT color=#333333>  </FONT><B>set the locV of sprite mySprite to myV + speed -- move sprite down a bit</B><FONT color=#333333>
+  set hdirection to h
+end</FONT></PRE>
+<P>While we're at it, we'll add a little extra animation so that the invaders 
+change a bit when they hit the sides:</P><PRE><FONT color=#333333>on bounceH me, h</FONT>
+<FONT color=#333333>  set myV to the locV of sprite mySprite -- current horizontal pos</FONT>
+<FONT color=#333333>  set the locV of sprite mySprite to myV + speed -- move sprite down a bit
+  set hdirection to h</FONT>
+  <B>if h = 1 then</B>
+    <B>set the member of sprite mySprite to member "inv1"</B>
+  <B>else</B>
+    <B>set the member of sprite mySprite to member "inv2"</B>
+  <B>end if
+</B><FONT color=#333333>end</FONT></PRE>
+<P>This illustrates another essential technique of sprite animation with lingo, 
+setting the cast member used by a sprite. Here's an even more elegant way to do 
+it; <B>Rename</B> the cast member <TT>"inv2"</TT> so that it is called 
+<TT>"inv-1"</TT> instead and change the above handler to this:</P><PRE><FONT color=#333333>on bounceH me, h</FONT>
+<FONT color=#333333>  set myV to the locV of sprite mySprite -- current horizontal pos</FONT>
+<FONT color=#333333>  set the locV of sprite mySprite to myV + speed -- move sprite down a bit
+  set hdirection to h</FONT>
+  <B>set newMemName to ("inv"&amp;h)</B>
+  <B>set the member of sprite mySprite to member newMemName
+</B><FONT color=#333333>end</FONT></PRE>
+<P>Sneaky trick huh? When the direction is 1, the cast member is 
+<TT>"inv1"</TT>. When the direction is -1, the cast member is <TT>"inv-1"</TT>. 
+By naming the cast members after the direction they represent, we have 
+eliminated a test from the script. </P>
+<P>You can build entire animations on the principle of cast member names. The 
+more adventurous reader might wish to try modifying the earlier versions of the 
+temporary loop script to this effect.</P>
+<P>&nbsp;</P>
+<P>Now you should have invaders which all change direction at the same time AND 
+they should all change their appearance too! Here is the entire invader 
+script:</P>
+<P>
+<HR align=left>
+
+<P></P><PRE><FONT color=#333333 size=-1>--INVADER SCRIPT--</FONT>
+<FONT color=#333333 size=-1>property mySprite -- Sprite channel
+property hdirection -- either 1 or -1
+property speed -- pixels per frame
+property stagewidth
+property alive -- Boolean (either True or False)
+property offstage -- large negative value
+property explodeSound -- sound cast member name
+property soundChan -- sound channel
+property points -- how many points the invader is worth</FONT>
+<FONT color=#333333 size=-1>property invaders -- list of invader sprite channels
+property bullets -- list of bullet sprite channels
+property cannon -- sprite channel
+property scorer -- score sprite channel</FONT>
+<FONT color=#333333 size=-1></FONT>
+<FONT color=#333333 size=-1>on beginsprite me
+  
+  set mySprite to the spritenum of me
+  set hdirection to 1
+  set speed to 8
+  set stagewidth to the width of the rect of the stage
+  set alive to true
+  set explodeSound to "explosion"
+  set offstage to -999
+  set soundChan to 1
+  set points to 10</FONT>
+<FONT color=#333333 size=-1>
+end</FONT>
+<FONT color=#333333 size=-1></FONT>
+<FONT color=#333333 size=-1>on storeShared me, gameSprites
+  
+  set invaders to the invaders of gameSprites
+  set bullets to the bullets of gameSprites
+  set cannon to the cannon of gameSprites
+  set scorer to the scorer of gameSprites
+  
+end</FONT>
+<FONT size=-1></FONT>
+<B><FONT size=-1>on bounceInvadersH me, newHdir
+  repeat with invader in invaders
+    sendsprite invader, #bounceH, newHdir
+  end repeat
+end</FONT></B>
+<B><FONT size=-1></FONT></B>
+<B><FONT size=-1>on bounceH me, h
+  set myV to the locV of sprite mySprite -- current horizontal pos
+  set the locV of sprite mySprite to myV + speed -- move sprite down a bit
+  set hdirection to h
+  set newMemName to ("inv"&amp;h)
+  set the member of sprite mySprite to member newMemName
+end</FONT></B>
+<FONT size=-1></FONT>
+<FONT color=#333333 size=-1>on exitFrame me
+  
+  if not alive then
+    return -- leave here, do nothing
+  end if
+  
+  set myH to the locH of sprite mySprite -- current horizontal pos
+  
+  if myH &lt; 0 then -- hit left edge</FONT><FONT size=-1>
+    <B>bounceInvadersH me, 1</B>
+  </FONT><FONT color=#333333 size=-1>end if
+  
+  if myH &gt; stagewidth then -- hit right edge</FONT><FONT size=-1>
+    <B>bounceInvadersH me, -1</B>
+  </FONT><FONT color=#333333 size=-1>end if
+  
+  set the locH of sprite mySprite to myH + (hdirection * speed) -- move sprite
+  set cannonLeft to the left of sprite cannon
+  set cannonRight to the right of sprite cannon
+  
+  if myH &gt; cannonLeft and myH &lt; cannonRight then -- directly above cannon</FONT><FONT size=-1>
+    
+    <B>set level to 1 --</B></FONT><B><FONT color=#ff0000 size=-1>temporary (hardcoded)</FONT><FONT size=-1>--
+</FONT></B><FONT size=-1>    <B>set N to 30 --</B></FONT><B><FONT color=#ff0000 size=-1>temporary (hardcoded)</FONT><FONT size=-1>--</FONT></B><FONT size=-1>
+    
+    <B>if random(N+level) &lt; N then</B></FONT>
+<B><FONT size=-1>
+      return</FONT></B>
+<B><FONT size=-1>
+    end if</FONT></B><FONT size=-1>
+    
+    </FONT><FONT color=#333333 size=-1>if bullets = [] then
+      
+      return -- no bullets are available right now so leave handler
+      
+    end if
+    
+    set bullet to getAt(bullets,1) -- first available bullet in list
+    sendsprite bullet, #shoot, mysprite -- sends own sprite channel as extra parameter
+    return -- leave handler
+    
+  end if
+  
+end</FONT>
+<FONT color=#333333 size=-1></FONT>
+<FONT color=#333333 size=-1>on hit me
+  
+  set alive to false   
+  set the locH of sprite mySprite to offstage   
+  puppetsound soundChan, explodeSound
+  inc sprite scorer, points
+  
+end</FONT></PRE>
+<P>
+<HR align=left>
+
+<P></P>
+<P>&nbsp;</P>
+<H5 align=right><A href="http://brennan.young.net/Edu/Invadir20.html">Forward to 
+Lesson 20</A></H5></BODY></HTML>

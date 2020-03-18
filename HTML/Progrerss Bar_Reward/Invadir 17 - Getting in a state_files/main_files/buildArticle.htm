@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0054)http://www.director-online.com/buildArticle.cfm?id=863 -->
+<HTML><HEAD><TITLE>A Director Online article</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<SCRIPT language=JavaScript>
+    <!--
+    function MM_openBrWindow(theURL,winName,features) { //v1.2
+      window.open(theURL,winName,features);
+    }
+    //-->
+</SCRIPT>
+
+<META content="MSHTML 5.50.4030.2400" name=GENERATOR></HEAD>
+<BODY text=#000000 vLink=#31427b aLink=#425294 link=#425294 bgColor=#ffffff>
+<P><BR>
+<TABLE height=25 cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#cecece>
+    <TD><A 
+      onmouseover="window.status='Get the direct URL for this article'; return true" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=863','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/generateURL.cfm?id=863"><IMG 
+      height=25 alt="Get the direct URL for this article" 
+      src="buildArticle_files/articleURL.gif" width=87 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Visit the Multimedia Handyman article archive'; return true" 
+      href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+      height=25 alt="Visit the Multimedia Handyman article archive" 
+      src="buildArticle_files/archives.gif" width=66 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Check out other articles by Pat McClellan'; return true" 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=7"><IMG 
+      height=25 alt="Check out other articles by Pat McClellan" 
+      src="buildArticle_files/author.gif" width=56 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Mail this article to a friend'; return true" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=863','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      href="http://www.director-online.com/emailArticle.cfm?id=863"><IMG 
+      height=25 alt="Mail this article to a friend" 
+      src="buildArticle_files/mailArticle.gif" width=83 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar"><IMG 
+      height=25 alt="Sign in to your myDOUG page" 
+      src="buildArticle_files/signIn.gif" width=63 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true" 
+      href="http://209.112.84.34/Forums/index.cfm?cfapp=2&amp;Thread_ID=2640"><IMG 
+      height=25 alt="Discuss this article on DOUGthreads" 
+      src="buildArticle_files/discussArticle.gif" width=105 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='What do these buttons do?'; return true" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/help.html"><IMG height=25 
+      alt="What do these buttons do?" src="buildArticle_files/help.gif" width=25 
+      border=0></A> </TD></TR></TBODY></TABLE>
+<P><FONT face="Verdana, Arial, Geneva, Helvetica, sans-serif" 
+size=+2><B>Multimedia Handyman</B></FONT><BR><FONT 
+face="Verdana, Arial, Geneva, Helvetica, sans-serif" color=#cc0000 
+size=+1><B>Progress Bar Penalty/Reward</B></FONT> 
+<P><FONT size=-1>by <A href="mailto:pat@director-online.com">Pat McClellan</A> 
+</FONT>
+<P>
+<TABLE cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top>
+      <P>Dear Multimedia Handyman, 
+      <P>I absolutely love <A 
+      href="http://www.director-online.com/buildArticle.cfm?id=433">the progress 
+      bar</A>! I'm making a game that will use this script, but I'm looking to 
+      modify the script so that when a sprite intersects another sprite (i.e. 
+      power ups, etc.) the progress bar goes up by say 15%, or whatever. Can ya' 
+      help? 
+      <P><A href="mailto:rsl@student.umass.edu">Ross Lemenille</A> 
+      <P>Dear Ross, 
+      <P>You've got the right idea: take existing scripts and modify them for 
+      your own needs. And that's a great way to learn from the work of others. 
+      Speaking of the work of others, I'll refer you to Gary Rosenzweig's great 
+      series of Lingo Lounge articles about sprite collision detection. I'll bet 
+      it'll come in handy for your game. 
+      <P>Let's take a quick look back at the progress bar behavior. The concept 
+      there is that we scale a progress bar graphic -- either horizontal or 
+      vertical -- based on the percentage of time that has elapsed. So how do we 
+      know what percentage of time has elapsed? 
+      <P>When you drop the behavior on the sprite, you specify the total time 
+      (in seconds) that the progress bar will take. Next, in the beginSprite 
+      handler, we convert this time to ticks and store it in a property called 
+      pTotalTicks. We also set pStartTicks equal to the ticks. After that, we 
+      simply check each time we enter the frame to see how many ticks have 
+      elapsed and scale the sprite accordingly. For example: 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1>timeElapsed = <FONT color=#0000c8>the</FONT> <FONT 
+      color=#008000>timer</FONT> - pStartTicks<BR>percentTime = (timeElapsed * 
+      <FONT color=#808080>1</FONT>.<FONT 
+      color=#808080>0000</FONT>/pTotalTicks)<BR>pSprite.<FONT 
+      color=#008000>width</FONT> = pWidth - (percentTime * pWidth)</FONT></P>
+      <P>Now we need to figure out where's the best place to change these 
+      calculations so that the player looses time. I think the easiest thing to 
+      do is to alter the value of pTotalTicks. And since you may want to reward 
+      the player with more time as well, we should make the changes to the 
+      behavior so that you can add or subtract time. 
+      <P>Here's a demo: 
+      <P>
+      <OBJECT 
+      codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,1,0 
+      classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=320 height=100><PARAM NAME="SRC" VALUE="howTo/other/handy132.dcr"><PARAM NAME="swRemote" VALUE="swTarget='false'"><PARAM NAME="swLiveConnect" VALUE="FALSE">
+      <embed src="howTo/other/handy132.dcr"
+      pluginspage="http://www.macromedia.com/shockwave/download/" 
+      type="application/x-director" width="320" height="100" 
+      swLiveConnect="FALSE"  swRemote="swTarget='false'"></embed> </OBJECT>
+      <P>D7 download for <A 
+      href="http://www.director-online.com/howTo/other/handy132.hqx">Mac</A> or 
+      <A 
+      href="http://www.director-online.com/howTo/other/handy132.zip">Windows</A>. 
+
+      <P>For this demo, I simply added a new handler to the previous behavior. 
+      The new handler does nothing except add (or subtract) ticks from 
+      pTotalTicks. 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><B><FONT color=#0000c8>on</FONT> changeTicks <FONT 
+      color=#0000c8>me</FONT>, deltaTicks</B><BR>&nbsp;&nbsp;pTotalTicks = 
+      pTotalTicks + deltaTicks<BR><FONT color=#0000c8>end</FONT> 
+      changeTicks</FONT></P>
+      <P>To activate it, you'll need to issue a command such as the following: 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><FONT color=#008000>sendSprite</FONT>(<FONT 
+      color=#808080>2</FONT>,<FONT color=#008000>#</FONT>changeTicks,<FONT 
+      color=#808080>300</FONT>)</FONT></P>
+      <P>In this example, the progress bar is in sprite 2, so the sendSprite() 
+      command goes to sprite 2, issues the #changeTicks command, and supplies 
+      the value of 300 (ticks) as the change value. This command would add five 
+      seconds to the pTotalTicks, so in this case, it's a reward. To penalize 
+      the player 10 seconds, the command would be... 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><FONT color=#008000>sendSprite</FONT>(<FONT 
+      color=#808080>2</FONT>,<FONT color=#008000>#</FONT>changeTicks,-<FONT 
+      color=#808080>600</FONT>)</FONT></P>
+      <P>If you want to have the penalty/reward calculated as a percentage 
+      instead of a specific number of ticks, you could change the changeTicks 
+      handler as follows: 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><B><FONT color=#0000c8>on</FONT> changeTicks <FONT 
+      color=#0000c8>me</FONT>, percentTicks</B><BR>&nbsp;&nbsp;pTotalTicks = 
+      pTotalTicks * percentTicks<BR><FONT color=#0000c8>end</FONT> 
+      changeTicks</FONT></P>
+      <P>Then, you'll need to supply the percentTicks like this: for a 10% 
+      penalty... 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><FONT color=#008000>sendSprite</FONT>(<FONT 
+      color=#808080>2</FONT>,<FONT color=#008000>#</FONT>changeTicks,.<FONT 
+      color=#808080>90</FONT>)<BR></FONT></P>
+      <P>And for a 10% reward: 
+      <P><FONT face="Verdana, Arial, Helvetica, sans-serif" color=#000000 
+      size=-1><FONT color=#008000>sendSprite</FONT>(<FONT 
+      color=#808080>2</FONT>,<FONT color=#008000>#</FONT>changeTicks,<FONT 
+      color=#808080>1</FONT>.<FONT color=#808080>10</FONT>)</FONT></P>
+      <P>It's pretty easy and you'll see that the effect is displayed 
+      immediately on the progress bar. Good luck with your program. 
+  </P></TD></TR></TBODY></TABLE>
+<P>
+<TABLE width=500>
+  <TBODY>
+  <TR>
+    <TD><FONT size=-1><FONT size=-1>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries to our messageBoard <A 
+      onmouseover="window.status='Check out DOUGthreads'; return true" 
+      href="http://209.112.84.34/Forums/index.cfm?cfapp=2">DOUGthreads</A>. 
+      </FONT></FONT></TD></TR></TBODY></TABLE>
+<P>
+<TABLE height=25 cellSpacing=0 cellPadding=0 width=500 border=0>
+  <TBODY>
+  <TR vAlign=top align=left bgColor=#cecece>
+    <TD><A 
+      onmouseover="window.status='Get the direct URL for this article'; return true" 
+      onclick="MM_openBrWindow('generateURL.cfm?id=863','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/generateURL.cfm?id=863"><IMG 
+      height=25 alt="Get the direct URL for this article" 
+      src="buildArticle_files/articleURL.gif" width=87 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Visit the Multimedia Handyman article archive'; return true" 
+      href="http://www.director-online.com/archive.cfm?pSection=Multimedia%20Handyman"><IMG 
+      height=25 alt="Visit the Multimedia Handyman article archive" 
+      src="buildArticle_files/archives.gif" width=66 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Check out other articles by Pat McClellan'; return true" 
+      href="http://www.director-online.com/buildAuthorsArticles.cfm?author=7"><IMG 
+      height=25 alt="Check out other articles by Pat McClellan" 
+      src="buildArticle_files/author.gif" width=56 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Mail this article to a friend'; return true" 
+      onclick="MM_openBrWindow('emailArticle.cfm?id=863','utility','scrollbars=yes,resizable=no,width=400,height=400'); return false" 
+      href="http://www.director-online.com/emailArticle.cfm?id=863"><IMG 
+      height=25 alt="Mail this article to a friend" 
+      src="buildArticle_files/mailArticle.gif" width=83 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Sign in to your myDOUG page'; return true" 
+      onclick="MM_openBrWindow('myDOUG/login.cfm?type=toolbar','utility','scrollbars=yes,resizable=no,width=525,height=400'); return false" 
+      href="http://www.director-online.com/myDOUG/login.cfm?type=toolbar"><IMG 
+      height=25 alt="Sign in to your myDOUG page" 
+      src="buildArticle_files/signIn.gif" width=63 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='Discuss this article on DOUGthreads'; return true" 
+      href="http://209.112.84.34/Forums/index.cfm?cfapp=2&amp;Thread_ID=2640"><IMG 
+      height=25 alt="Discuss this article on DOUGthreads" 
+      src="buildArticle_files/discussArticle.gif" width=105 border=0></A> </TD>
+    <TD><A 
+      onmouseover="window.status='What do these buttons do?'; return true" 
+      onclick="MM_openBrWindow('help.html','utility','scrollbars=yes,resizable=no,width=400,height=250'); return false" 
+      href="http://www.director-online.com/help.html"><IMG height=25 
+      alt="What do these buttons do?" src="buildArticle_files/help.gif" width=25 
+      border=0></A> </TD></TR></TBODY></TABLE>
+<P> </P></BODY></HTML>

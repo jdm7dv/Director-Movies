@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0060)http://hakatai.mcli.dist.maricopa.edu/director/tips_top.html -->
+<HTML><HEAD>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<SCRIPT language=JavaScript>
+function goTip (catName) {
+	if ( catName != "" ) {
+		if ( catName == "--" ) {
+			resetMenu();
+		} else {
+	
+  			if ( catName.substring(0,3) == "tip") {
+				parent.frames[1].location.href = catName + ".html";
+  			} else {
+  				parent.document.location.href = catName + ".html";
+  			}
+		}
+	}
+	return false;
+}
+
+function resetMenu () {
+	document.tipMenu.tipCat.selectedIndex = 0;
+}
+
+</SCRIPT>
+
+<META content="MSHTML 5.00.2614.3401" name=GENERATOR></HEAD>
+<BODY aLink=#ee0000 bgColor=#eeeeee link=#6666ff onload=" resetMenu()" 
+text=#000000 vLink=#880000><FONT size=2><B><A 
+href="http://hakatai.mcli.dist.maricopa.edu/director/index.html">Director 
+Web</A> <IMG alt="o " height=14 src="tips_top_files/yo.gif" width=23> <A 
+href="http://hakatai.mcli.dist.maricopa.edu/director/net.html">'net</A> | <A 
+href="http://hakatai.mcli.dist.maricopa.edu/director/demo.html">demos</A> | <A 
+href="http://hakatai.mcli.dist.maricopa.edu/director/digest/index.html">digest</A> 
+| <A href="http://hakatai.mcli.dist.maricopa.edu/director/apps.html">extras</A> 
+| <A 
+href="http://hakatai.mcli.dist.maricopa.edu/director/faq/index.html">faq</A> | 
+<A 
+href="http://hakatai.mcli.dist.maricopa.edu/director/javalist/dir2java.html">java</A> 
+| <A href="http://hakatai.mcli.dist.maricopa.edu/director/oops.html">oops</A> | 
+<A 
+href="http://hakatai.mcli.dist.maricopa.edu/director/shockwave.html">shock</A> | 
+tips | <A 
+href="http://hakatai.mcli.dist.maricopa.edu/director/xobj.html">xstuff</A> | 
+</B></FONT>
+<FORM method=post name=tipMenu><FONT size=+3><B>tips n' scripts</B></FONT> 
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <SELECT name=tipCat 
+onchange=goTip(this.options[this.selectedIndex].value)> <OPTION selected 
+  value="">Select a Category<OPTION value=tips_about>About these tips...<OPTION 
+  value=tips_cats>About the categories...<OPTION value=add_tip>Add your 
+  tip...<OPTION value=tips_more>More places to look...<OPTION 
+  value=-->---------<OPTION value=tips-behaviors>Behaviors<OPTION 
+  value=tips-buttons>Buttons<OPTION value=tips-cast>Cast<OPTION 
+  value=tips-cd>CD-ROM<OPTION value=tips-controls>Controls / Interface<OPTION 
+  value=tips-platform>Cross-Platform<OPTION value=demo>Demos<OPTION 
+  value=faq/index>FAQ<OPTION value=tips-fileio>FileIO<OPTION 
+  value=tips-font>Fonts<OPTION value=tips-general>General<OPTION 
+  value=tips-graphics>Graphics<OPTION value=tips-hyper>HyperText / 
+  HotSpots<OPTION value=tips-inks>Inks<OPTION value=tips-java>Java<OPTION 
+  value=tips-learning>Learning<OPTION value=tips-list>Lists<OPTION 
+  value=tips-menu>Menus<OPTION value=tips-miaw>MIAW<OPTION 
+  value=tips-netlingo>NetLingo<OPTION value=tips-mpeg>MPEG<OPTION 
+  value=tips-oops>OOPs<OPTION value=tips-projector>Projectors<OPTION 
+  value=tips-qt>QuickTime<OPTION value=tips-score>Score<OPTION 
+  value=tips-lingo>Scripts / Lingo<OPTION value=tips-shocktip>Shockwave<OPTION 
+  value=tips-sound>Sound<OPTION value=tips-sprite>Sprites<OPTION 
+  value=tips-text>Text/Fields<OPTION value=tips-xobj>XObjects / 
+Xtras</OPTION></SELECT> <INPUT onclick=goTip(this.form.tipCat.options[this.form.tipCat.selectedIndex].value) type=button value=go> 
+</FORM></BODY></HTML>

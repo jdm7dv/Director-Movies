@@ -1,0 +1,209 @@
+-- BounceThatSprite
+
+-- Bounces sprite inside an imaginary rectangle that you determine.
+-- You input the left of the box, the right of the box, the top of the box,
+-- and the bottom of the box
+-- The left should be less than the right
+-- The top should be less than the bottom.
+
+-- Check the random parameter boxes to have random distances occur for 
+-- either horizontal
+-- or vertical or both, based on the inital values inputted
+
+
+----------------------------------------------
+
+
+--properties
+
+property  pi_spriteNum         --Integer : The sprite being bounced
+property  pi_newH              --Integer : The new H increment to add
+                               --          each time         
+property  pi_newV              --Integer : The new V increment to add
+                               --          each time    
+
+--properties entered via the parameter dialog box
+
+property  pi_addH                     --Integer : The inital amount to add horizontally - 
+                                      --          can be randomized
+property  pi_addV                     --Integer : The inital amount to add
+                                      --          vertically   - can be randomized
+property  pi_stageLeft                --Integer : The left   of the "box" the
+                                      --          sprite will bounce in
+property  pi_stageRight               --Integer : The right  of the "box" the
+                                      --          sprite will bounce in
+property  pi_stageTop                 --Integer : The top    of the "box" the
+                                      --          sprite will bounce in 
+property  pi_stageBottom              --Integer : The bottom of the "box" the
+                                      --          sprite will bounce in 
+
+
+property  pb_randomH                  --boolean : Determines if horizontal
+                                      --          value should be random
+                                      --          based on horizontal value
+                                      --          entered above  (pi_addH)
+
+property  pb_randomV                  --boolean : Determines if vertical value
+                                      --          should be random
+                                      --          based on vertical value
+                                      --          entered above  (pi_addV)
+
+
+------------------------------------------------------------------------------
+----------------------------------------------
+
+on beginsprite me 
+  set pi_spritenum    = the spritenum of me
+  if pi_stageTop > pi_StageBottom then
+    alert "The top parameter for the BounceSprite behavior attached to sprite" ¬
+  & pi_spritenum & " must be less than the bottom parameter"
+    exit
+  end if
+  
+  if pi_stageLeft > pi_StageRight then
+    alert "The left parameter for the BounceSprite behavior attached to sprite" ¬ 
+ & pi_spritenum & " must be less than the right parameter"
+    exit
+  end if
+  
+  if  pb_randomH = 0 then    
+    set  pi_newH = pi_addH    
+  else    
+    set  randomH = random (abs(pi_addH))
+    if  pi_newH < 0 then set randomH = randomH * -1
+    set pi_newH = randomH
+  end if
+  
+  if  pb_randomV = 0  then    
+    set  pi_newV = pi_addV    
+  else    
+    set  randomV = random (abs(pi_addV))
+    if  pi_newV < 0 then set randomV = randomV * -1
+    set pi_newV = randomV
+  end if
+end beginsprite me
+
+------------------------------------------------------------------------------
+----------------------------------------------
+
+
+on enterframe me
+  
+  if the right   of sprite pi_spritenum >=  pi_stageRight then
+    set the locH of sprite pi_spritenum  =  pi_stageright - (the width of ¬
+sprite pi_spritenum / 2)
+    
+    set pi_newH = pi_newH * -1
+    
+    if  pb_randomH  = true then
+      set  pi_randomH = random (abs(pi_addH))
+      if  pi_newH < 0 then set pi_randomH = pi_randomH * -1
+      set pi_newH = pi_randomH
+    end if
+    
+  end if
+    
+  
+  if the left   of sprite pi_spritenum  <=  pi_stageLeft then
+    set pi_newH = pi_newH * -1
+    set the locH of sprite pi_spritenum  =  pi_stageleft + (the width of ¬
+sprite pi_spritenum / 2)
+    if  pb_randomH  = true then
+      set pi_randomH = random (abs(pi_addH))
+      if  pi_newH < 0 then set pi_randomH = pi_randomH * -1
+      set pi_newH = pi_randomH
+    end if    
+  end if
+  
+  if the bottom of sprite pi_spritenum  >=  pi_stageBottom then
+    set pi_newV = pi_newV * -1
+    set the locv of sprite pi_spritenum = pi_stagebottom - (the  height of ¬
+sprite pi_spritenum / 2) 
+    if  pb_randomV  = true then  
+      set  pi_randomV = random (abs(pi_addV))
+      if  pi_newV < 0 then set pi_randomV = pi_randomV * -1
+      set pi_newV = pi_randomV    
+    end if
+    
+  end if
+  
+  if the top   of sprite pi_spritenum   <=  pi_stageTop then
+    set pi_newV = pi_newV * -1
+    set the locV of sprite pi_spritenum = pi_stagetop + (the  height of sprite ¬
+pi_spritenum / 2) 
+    if  pb_randomV  = true then  
+      set  pi_randomV = random (abs(pi_addV))
+      if  pi_newV < 0 then set pi_randomV =pi_randomV * -1
+      set pi_newV = pi_randomV   
+    end if    
+  end if
+  
+  set the loch of sprite  pi_spritenum = the loch of sprite  pi_spritenum + ¬
+pi_newH
+  set the locv of sprite  pi_spritenum = the locv of sprite  pi_spritenum + ¬
+pi_newV
+
+end  enterframe me
+
+
+------------------------------------------------------------------------------
+----------------------------------------------
+on getPropertyDescriptionList me
+  
+  set pl_proplist = [:]
+  
+  addProp pl_proplist,#pi_stageLeft,[ #default:0,
+#format:#integer,#comment:"Input the left  of the box you want the sprite to 
+bounce in?"]
+   
+  addProp pl_proplist,#pi_stageRight,[ #default:100,
+#format:#integer,#comment:"Input the right of the box you want the sprite to 
+bounce in?"]
+  
+   
+  addProp pl_proplist,#pi_stageTop,[ #default:0,
+#format:#integer,#comment:"Input the top of the box you want the sprite to
+bounce in?"]
+    
+  addProp pl_proplist,#pi_stageBottom,[ #default:100,
+#format:#integer,#comment:"Input the bottom of the box you want the sprite to
+bounce in?"]
+  
+  addProp pl_proplist,#pi_addV,[ #default:5,
+#format:#integer,#comment:"Vertical distance you want the sprite to move each
+time ?"]
+    
+  addProp pl_proplist, #pb_randomV,[ #default:false,
+#format:#boolean,#comment:"Random vertical distances from 1 to the value
+above?"&return]
+    
+  addProp pl_proplist,#pi_addH,[ #default:5,
+#format:#integer,#comment:"Horizontal distance you want the sprite to move
+each time ?"]
+   
+  addProp pl_proplist, #pb_randomH,[ #default:false,
+#format:#boolean,#comment:"Random horizontal distances from 1 to the value
+above?"]
+  
+  return pl_proplist
+end getPropertyDescriptionList
+
+on getBehaviorDescription me
+  
+  
+  set ps_string  to "Bounces a sprite inside an imaginary rectangle that you
+determine. You input the left of the box, the right of the box, the top of the
+box, and the bottom of the box.The left should be less than the right; The top
+should be less than the bottom. Check the random parameter boxes to have
+random distances occur for either horizontal or vertical or both, based on the
+inital values input in the horizontal / vertical move box. Note that this
+movement is the distance to move on each enterframe event - not a total
+distance you want it moved; it is the distance it will move each time it
+moves."&return&" Hacked by Loren Mork. LMork@aol.com,
+LMork@accessone.com,Seattle,Washington,USA."
+  return  ps_string
+  
+end getBehaviorDescription me
+
+
+

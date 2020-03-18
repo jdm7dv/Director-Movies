@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0064)http://www.director-online.com/howTo/handy_articles/handy38.html -->
+<HTML><HEAD><TITLE>Multimedia Handyman Number 38</TITLE>
+<META content="pixelgeek design &amp; communications" name=Author>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content="MSHTML 5.50.3825.1300" name=GENERATOR></HEAD>
+<BODY vLink=#770000 aLink=#ff0000 link=#ff0000 bgColor=#ffffff>
+<TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+  <TBODY>
+  <TR>
+    <TD vAlign=top><IMG height=31 src="handy38_files/handyman.gif" width=213 
+      border=0> 
+      <TABLE cellSpacing=0 cellPadding=0 width=495 border=0>
+        <TBODY>
+        <TR>
+          <TD vAlign=top width=440><IMG height=9 
+            src="handy38_files/archiveDivLine.gif" width=440 align=bottom 
+            border=0></TD>
+          <TD vAlign=top width=55 rowSpan=2><A 
+            href="http://www.director-online.com/howTo/archive/Handyman_Archive.html"><IMG 
+            height=28 src="handy38_files/archiveDiv.gif" width=55 align=bottom 
+            border=0></A></TD></TR>
+        <TR>
+          <TD vAlign=top width=440><FONT size=2></FONT>
+            <P><FONT color=#cc0000><B><FONT 
+            face="Arial, Helvetica, sans-serif">Dear Multimedia 
+            Handyman</FONT></B></FONT> </P>
+            <P>Is there a way I can have a panorama which is larger in width 
+            than the stage, pan left or right, up or down depending on the 
+            direction and velocity of the mouse (similar to QTVR)? 
+            <P><A href="mailto:savva@savva.com.au">savva@savva.com.au</A> 
+            <P>Dear Savva, 
+            <P>Seems like it should be easy, but it's a bit complicated. I guess 
+            that's why most people simply opt for using QTVR or one of the other 
+            VR options. But, I like a challenge (when I have time to deal with 
+            it) so here goes! 
+            <P>The behavior we write should have the following attributes: 
+            <UL>
+              <LI>When you mouseDown and move the mouse, the graphic should move 
+              in the opposite direction (simulating a mouseward change in your 
+              perspective.) 
+              <LI>The further you move the mouse from your original click point, 
+              the faster the graphic should move. 
+              <LI>When you mouseUp or move the mouse off the graphic (stage), 
+              the motion should stop. Reclicking on the graphic (stage) will be 
+              necessary to restart it. (This is a necessity for Shockwave; 
+              otherwise, a mouseUp outside the stage is not sensed and the 
+              motion would continue.) 
+              <LI>Press the control key to zoom in. 
+              <LI>Press the command key to zoom out. (Note: This only works on 
+              the Mac, because the command key is seen as the control key on 
+              Windows. I'm don't know another option for Windows. I use 
+              controlDown and commandDown because they can continually be 
+              monitored. Without Brian Gray's KeyPoll xtra, there's not a good 
+              way to use standard keys.) 
+              <LI>The motion and/or zooming should stop if the image reaches the 
+              edge of the stage so you can't see beyond the graphic. (Note: in 
+              Shockwave, the left and top borders don't seem to work dependably. 
+              I suspect this has to do with the browser interferring with the 
+              stageLeft and stageTop properties. It works perfectly in a 
+              projector.) 
+              <LI>When you reach the edge of the graphic (and it stops moving) 
+              the "startPoint" for the mouse should reset so that as soon as you 
+              start moving the mouse the other way, the graphic resumes motion. 
+              </LI></UL>
+            <P>
+            <OBJECT 
+            codeBase=http://active.macromedia.com/director/cabs/sw.cab#version=6,0,0,0 
+            classid=clsid:166B1BCA-3F9C-11CF-8075-444553540000 width=320 
+            height=240><PARAM NAME="SRC" VALUE="../other/handy38.dcr">
+                                            <embed src="../other/handy38.dcr" 
+            pluginspage="http://www.macromedia.com/shockwave/download/" 
+            width="320" height="240"></embed>              </OBJECT>
+            <P>An additional feature might be to add hotspots to the graphic. 
+            However, that's considerably more complicated so I'll leave that for 
+            a future article. 
+            <P>Position can either be altered by setting locH and locV 
+            properties, or by altering the rect. Scaling can be altered by 
+            setting the height and width properties, or by altering the rect. 
+            Since both can be simultaneously set by altering the rect, I opted 
+            to use this approach. Using the rect also makes it easy to check the 
+            limits of the graphic vis a vis the stage. 
+            <P>One way to approach updating the image properties would be to do 
+            it in a repeat loop while the mouse is stillDown. Due to the often 
+            discussed problems with using repeat loops (other events are locked 
+            out), I decided to use an alternative approach: I use a flag to 
+            indicate when the mouse is down or up, and then update on each 
+            exitFrame. 
+            <P>In our beginSprite handler, we'll need to set some basic 
+            properties: our sprite number, the "speed", the mouseFlag I 
+            mentioned, an updateFlag which tells us if the new position for the 
+            rect is inside the limits of the stage, and a scale factor. These 
+            properties should become more obvious as we proceed into the rest of 
+            the code. property pSpeed, mySprite, pStartMouse, pMouseFlag, 
+            pUpdateFlag, pDeltaRect, pScaleFactor <PRE><FONT color=#cc0000>
+on beginSprite me
+  set pSpeed = 20
+  set mySprite = the spriteNum of me
+  set pMouseFlag = 0
+  set pUpdateFlag = FALSE
+  set pDeltaRect = rect(0,0,0,0)
+  set pScaleFactor = 1.00
+end
+</FONT></PRE>When the mouse is clicked (down), all that happens is 
+            that our mouseFlag is set to 1 and the initial position of the mouse 
+            is set into our pStartMouse property. On mouseUp, the mouseFlag is 
+            turned off. <PRE><FONT color=#cc0000>
+on mouseDown me
+  set pStartMouse = point(the mouseH, the mouseV)
+  set pMouseFlag = 1
+end
+
+on mouseUp me
+  set pMouseFlag = 0
+end
+</FONT></PRE>As the movie exits each frame, we'll want to first 
+            check to assure that the mouse is still over the graphic (stage). If 
+            so, then we'll proceed with calculating the position and the scale 
+            factor. I've separated these operations into distinct handlers 
+            below. Another handler "checkLimits", takes the newly calculated 
+            rect and tests to assure that it is within the limits of our stage. 
+            If so, the updateFlag is set to TRUE. Back in our exitFrame handler, 
+            if the updateFlag is TRUE, then the sprite's current rect is altered 
+            by deltaRect (the change calculated in the setPosition handler), and 
+            the resulting rect is scaled by the pScaleFactor set in the setScale 
+            handler. <PRE><FONT color=#cc0000>
+on exitFrame me
+  if rollOver(mySprite) then
+    setScale me
+    setPosition me
+    checkLimits me
+    if pUpdateFlag then
+      set currentRect = the rect of ¬
+	    sprite mySprite
+      set newRect = (currentRect + ¬
+	    pDeltaRect) * pScaleFactor
+      set the rect of sprite mySprite = newRect
+    else 
+      set pStartMouse = point(the mouseH,¬
+	    the mouseV)
+    end if
+  else
+    set pMouseFlag = 0
+  end if
+end 
+
+on setScale me
+  if the controlDown then
+    set pScaleFactor = 1.01
+  else if the commandDown then
+    set pScaleFactor = 0.99
+  else
+    set pScaleFactor = 1.00
+  end if
+end
+
+on setPosition me
+  if pMouseFlag = 1 then
+    set currentMouse = point(the mouseH, ¬
+	  the mouseV)
+    set deltaMouse = pStartMouse - currentMouse
+    set deltaH = getAt (deltaMouse,1)/pSpeed
+    set deltaV = getAt (deltaMouse,2)/pSpeed
+    set pDeltaRect = rect(deltaH,deltaV,¬
+	  deltaH, deltaV)
+  else
+    set pDeltaRect = rect(0,0,0,0)
+  end if
+end
+
+on checkLimits me
+  set currentRect = the rect of sprite mySprite
+  set testRect = (currentRect + pDeltaRect) ¬
+    * pScaleFactor
+  if (the right of testRect &gt; the stageRight) ¬
+    AND (the left of testRect &lt; the stageLeft) ¬
+	AND (the top of testRect &lt; the stageTop)¬
+        AND (the bottom of testRect &gt; the ¬
+        stageBottom) then
+    set pUpdateFlag = TRUE
+  else
+    set pUpdateFlag = FALSE
+  end if
+end
+</FONT></PRE>I hope this behavior will get you started. There are 
+            many modifications and additions which could enhance the 
+            functionality of the behavior. I might suggest changing cursors 
+            based on the direction of the mouse motion from the startMouse loc. 
+            Good luck with your program. </TD></TR></TBODY></TABLE></TD></TR>
+  <TR>
+    <TD><BR><FONT size=2>Send your questions to the <A 
+      href="mailto:handyman@director-online.com">Handyman</A>. Questions will be 
+      selected on the basis of general applicability. For prompt replies to 
+      specific questions, post your inquiries in the <A target=display 
+      href="http://www.director-online.com/help_central/Display.html">Help 
+      Central</A> section of DOUG.</FONT> </TD></TR></TBODY></TABLE></BODY></HTML>
